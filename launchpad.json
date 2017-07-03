@@ -1,0 +1,19 @@
+{
+    "project": "Skyrocket",
+    "version": "1.0.0",
+    "description": "Cross platform game development with C++14",
+    "author": "Jacob Milligan",
+    "dependencies": [],
+    "submodules": [
+        "Core",
+        "Platform"
+    ],
+    "buildCommand": "cd Build && cmake .. && make",
+    "excluded": [
+        "Build",
+        "LaunchpadModules",
+        "Tests",
+        ".gitgnore",
+        "Launchpad"
+    ]
+}

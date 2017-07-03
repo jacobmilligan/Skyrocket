@@ -1,0 +1,411 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		169092AA1EFBE43F008E77F2 /* Launchpad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 169092A81EFBE43F008E77F2 /* Launchpad.cpp */; };
+		169092AB1EFBE43F008E77F2 /* Launchpad.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 169092A91EFBE43F008E77F2 /* Launchpad.hpp */; };
+		169092B01EFBE93E008E77F2 /* Keyboard.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 169092AE1EFBE93E008E77F2 /* Keyboard.hpp */; };
+		169092B21EFBECDC008E77F2 /* MacKeyboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 169092B11EFBECDC008E77F2 /* MacKeyboard.cpp */; };
+		16A1496A1EFB9DD100B0A209 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16A149691EFB9DD100B0A209 /* main.cpp */; };
+		16A149761EFB9E5C00B0A209 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A149751EFB9E5C00B0A209 /* AppKit.framework */; };
+		16A1498A1EFBA57300B0A209 /* libLaunchpad.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 16A1495C1EFB9DBB00B0A209 /* libLaunchpad.dylib */; };
+		16CC63511EFBC9CF00670E3B /* CocoaView.h in Headers */ = {isa = PBXBuildFile; fileRef = 16CC634F1EFBC9CF00670E3B /* CocoaView.h */; };
+		16CC63521EFBC9CF00670E3B /* CocoaView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16CC63501EFBC9CF00670E3B /* CocoaView.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		16A149911EFBA77400B0A209 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16A1499D1EFBA79A00B0A209 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Launchpad;
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		169092A81EFBE43F008E77F2 /* Launchpad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Launchpad.cpp; path = Source/Launchpad/Launchpad.cpp; sourceTree = "<group>"; };
+		169092A91EFBE43F008E77F2 /* Launchpad.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Launchpad.hpp; path = Source/Launchpad/Launchpad.hpp; sourceTree = "<group>"; };
+		169092AE1EFBE93E008E77F2 /* Keyboard.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Keyboard.hpp; path = Source/Launchpad/Keyboard.hpp; sourceTree = "<group>"; };
+		169092B11EFBECDC008E77F2 /* MacKeyboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MacKeyboard.cpp; path = Source/Launchpad/macOS/MacKeyboard.cpp; sourceTree = "<group>"; };
+		16A1495C1EFB9DBB00B0A209 /* libLaunchpad.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libLaunchpad.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		16A149671EFB9DD100B0A209 /* Examples */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Examples; sourceTree = BUILT_PRODUCTS_DIR; };
+		16A149691EFB9DD100B0A209 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		16A149751EFB9E5C00B0A209 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		16CC634F1EFBC9CF00670E3B /* CocoaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CocoaView.h; path = Source/Launchpad/macOS/CocoaView.h; sourceTree = "<group>"; };
+		16CC63501EFBC9CF00670E3B /* CocoaView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CocoaView.mm; path = Source/Launchpad/macOS/CocoaView.mm; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		16A149591EFB9DBB00B0A209 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16A149761EFB9E5C00B0A209 /* AppKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16A149641EFB9DD100B0A209 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16A1498A1EFBA57300B0A209 /* libLaunchpad.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		16A149531EFB9DBB00B0A209 = {
+			isa = PBXGroup;
+			children = (
+				16CC63461EFBBC5900670E3B /* Launchpad */,
+				16A149681EFB9DD100B0A209 /* Examples */,
+				16A1495D1EFB9DBB00B0A209 /* Products */,
+				16A149741EFB9E5C00B0A209 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		16A1495D1EFB9DBB00B0A209 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				16A1495C1EFB9DBB00B0A209 /* libLaunchpad.dylib */,
+				16A149671EFB9DD100B0A209 /* Examples */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16A149681EFB9DD100B0A209 /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				16A149691EFB9DD100B0A209 /* main.cpp */,
+			);
+			path = Examples;
+			sourceTree = "<group>";
+		};
+		16A149741EFB9E5C00B0A209 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				16A149751EFB9E5C00B0A209 /* AppKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		16CC63461EFBBC5900670E3B /* Launchpad */ = {
+			isa = PBXGroup;
+			children = (
+				16CC63471EFBBC5F00670E3B /* macOS */,
+				169092A81EFBE43F008E77F2 /* Launchpad.cpp */,
+				169092A91EFBE43F008E77F2 /* Launchpad.hpp */,
+				169092AE1EFBE93E008E77F2 /* Keyboard.hpp */,
+			);
+			name = Launchpad;
+			sourceTree = "<group>";
+		};
+		16CC63471EFBBC5F00670E3B /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				169092B11EFBECDC008E77F2 /* MacKeyboard.cpp */,
+				16CC634F1EFBC9CF00670E3B /* CocoaView.h */,
+				16CC63501EFBC9CF00670E3B /* CocoaView.mm */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		16A1495A1EFB9DBB00B0A209 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				169092B01EFBE93E008E77F2 /* Keyboard.hpp in Headers */,
+				16CC63511EFBC9CF00670E3B /* CocoaView.h in Headers */,
+				169092AB1EFBE43F008E77F2 /* Launchpad.hpp in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		16A1495B1EFB9DBB00B0A209 /* Launchpad */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 16A149601EFB9DBB00B0A209 /* Build configuration list for PBXNativeTarget "Launchpad" */;
+			buildPhases = (
+				16A149581EFB9DBB00B0A209 /* Sources */,
+				16A149591EFB9DBB00B0A209 /* Frameworks */,
+				16A1495A1EFB9DBB00B0A209 /* Headers */,
+				16A1499D1EFBA79A00B0A209 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Launchpad;
+			productName = Launchpad;
+			productReference = 16A1495C1EFB9DBB00B0A209 /* libLaunchpad.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		16A149661EFB9DD100B0A209 /* Examples */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 16A1496B1EFB9DD100B0A209 /* Build configuration list for PBXNativeTarget "Examples" */;
+			buildPhases = (
+				16A149631EFB9DD100B0A209 /* Sources */,
+				16A149641EFB9DD100B0A209 /* Frameworks */,
+				16A149911EFBA77400B0A209 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Examples;
+			productName = Examples;
+			productReference = 16A149671EFB9DD100B0A209 /* Examples */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		16A149541EFB9DBB00B0A209 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "Jacob Milligan";
+				TargetAttributes = {
+					16A1495B1EFB9DBB00B0A209 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = E9TW4Z4T9L;
+						ProvisioningStyle = Automatic;
+					};
+					16A149661EFB9DD100B0A209 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = E9TW4Z4T9L;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 16A149571EFB9DBB00B0A209 /* Build configuration list for PBXProject "Launchpad" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 16A149531EFB9DBB00B0A209;
+			productRefGroup = 16A1495D1EFB9DBB00B0A209 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				16A1495B1EFB9DBB00B0A209 /* Launchpad */,
+				16A149661EFB9DD100B0A209 /* Examples */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		16A149581EFB9DBB00B0A209 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				169092B21EFBECDC008E77F2 /* MacKeyboard.cpp in Sources */,
+				169092AA1EFBE43F008E77F2 /* Launchpad.cpp in Sources */,
+				16CC63521EFBC9CF00670E3B /* CocoaView.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16A149631EFB9DD100B0A209 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16A1496A1EFB9DD100B0A209 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		16A1495E1EFB9DBB00B0A209 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		16A1495F1EFB9DBB00B0A209 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		16A149611EFB9DBB00B0A209 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = E9TW4Z4T9L;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = "${SRCROOT}/Source";
+				MACH_O_TYPE = mh_dylib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = Launchpad;
+			};
+			name = Debug;
+		};
+		16A149621EFB9DBB00B0A209 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = E9TW4Z4T9L;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = "${SRCROOT}/Source";
+				MACH_O_TYPE = mh_dylib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = Launchpad;
+			};
+			name = Release;
+		};
+		16A1496C1EFB9DD100B0A209 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				DEVELOPMENT_TEAM = E9TW4Z4T9L;
+				HEADER_SEARCH_PATHS = "${SRCROOT}/Source/**";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		16A1496D1EFB9DD100B0A209 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				DEVELOPMENT_TEAM = E9TW4Z4T9L;
+				HEADER_SEARCH_PATHS = "${SRCROOT}/Source/**";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		16A149571EFB9DBB00B0A209 /* Build configuration list for PBXProject "Launchpad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16A1495E1EFB9DBB00B0A209 /* Debug */,
+				16A1495F1EFB9DBB00B0A209 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		16A149601EFB9DBB00B0A209 /* Build configuration list for PBXNativeTarget "Launchpad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16A149611EFB9DBB00B0A209 /* Debug */,
+				16A149621EFB9DBB00B0A209 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		16A1496B1EFB9DD100B0A209 /* Build configuration list for PBXNativeTarget "Examples" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16A1496C1EFB9DD100B0A209 /* Debug */,
+				16A1496D1EFB9DD100B0A209 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 16A149541EFB9DBB00B0A209 /* Project object */;
+}

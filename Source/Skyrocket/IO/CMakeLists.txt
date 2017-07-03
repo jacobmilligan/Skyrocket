@@ -1,0 +1,2 @@
+skyrocket_add_library(SkyrocketIO STATIC)
+target_link_libraries(SkyrocketIO SkyrocketCore)
