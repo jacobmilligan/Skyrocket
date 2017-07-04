@@ -28,5 +28,15 @@ Viewport::create(const char* caption, const uint16_t width, const uint16_t heigh
     return Viewport(caption, width, height);
 }
 
+void Viewport::clear()
+{
+
+}
+
+void Viewport::refresh()
+{
+    Platform::refresh_view(handle_);
+}
+
 
 }

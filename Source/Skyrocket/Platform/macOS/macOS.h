@@ -12,6 +12,8 @@
 #pragma once
 
 #import <AppKit/AppKit.h>
+#import <Metal/Metal.h>
+#import <QuartzCore/CAMetalLayer.h>
 
 namespace sky {
     class Application;
@@ -24,6 +26,11 @@ namespace sky {
 @end
 
 @interface MetalView : NSView
-    @property (assign)sky::Application* app;
+    @property (assign, nullable)sky::Application* app;
+    @property (assign, nonatomic, nullable)id <MTLDevice> device;
+    @property (readonly, nullable)CAMetalLayer* metalLayer;
+    @property (nonatomic, strong, nullable)id<MTLCommandQueue> commandQueue;
+
+    -(void)refresh;
 @end
 

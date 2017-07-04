@@ -1,5 +1,5 @@
 //
-//  Keycodes.cpp
+//  Platform.mm
 //  Skyrocket
 //
 //  --------------------------------------------------------------
@@ -11,13 +11,10 @@
 
 #include "Skyrocket/Platform/Platform.hpp"
 #include "Skyrocket/Framework/Application.hpp"
-#include "Skyrocket/Platform/macOS/CocoaApplication.h"
+#include "Skyrocket/Platform/macOS/macOS.h"
 #include "Skyrocket/Core/Diagnostics/Error.hpp"
 
 #include <cstdint>
-
-#import <QuartzCore/QuartzCore.h>
-#import <Metal/Metal.h>
 
 //---------------------------------------------
 // Skyrocket Application and App
@@ -57,37 +54,6 @@
                                            data2:0];
     [NSApp postEvent:event atStart:YES];
     [pool drain];
-}
-
-@end
-
-//---------------------------------------------
-// Skyrocket View implementation
-//---------------------------------------------
-
-@implementation MetalView
-
--(id)initWithFrame:(NSRect)frameRect {
-    self = [super initWithFrame:frameRect];
-    
-    CAMetalLayer* mtlLayer = [[[CAMetalLayer alloc] init] autorelease];
-    
-    [self setLayer:mtlLayer];
-    
-    return self;
-}
-
--(BOOL)acceptsFirstResponder {
-    return YES;
-}
-
--(BOOL)acceptsFirstMouse:(NSEvent *)event {
-    return YES;
-}
-
--(void)keyDown:(NSEvent *)event {
-    auto keycode = [event keyCode];
-    self.app->on_key(sky::Platform::get_vk(keycode));
 }
 
 @end
@@ -245,6 +211,10 @@ void Platform::setup_keycodes()
 
 void Platform::initialize(const char* app_title)
 {
+    AssertGuard assert_guard("Initializing platform with application", app_title);
+    
+    SKY_ASSERT(app_ != nullptr, "Application is not null");
+    
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     // Create shared application and assign app delegate
     [SkyrocketApplication sharedApplication];
@@ -305,7 +275,7 @@ Platform::create_window(const char* caption, const int width, const int height)
         nsTitle = [[[NSString alloc] initWithUTF8String:"Skyrocket Application"] autorelease];
     }
     
-    // 3. Create windowrect and associated window with specified style
+    // Create windowrect and associated window with specified style
     NSRect windowRect = NSMakeRect(0, 0, width, height);
     NSUInteger windowStyle = NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask;
     NSWindow* window = [[NSWindow alloc] initWithContentRect:windowRect
@@ -321,7 +291,7 @@ Platform::create_window(const char* caption, const int width, const int height)
     [window setLevel:NSMainMenuWindowLevel];
     [window makeKeyAndOrderFront:window];
 
-    return (void*)window;
+    return (void*)view;
 }
     
     
@@ -352,6 +322,13 @@ void Platform::poll_events()
 sky::Key Platform::get_vk(const uint16_t native_key)
 {
     return keycode_table_[native_key];
+}
+    
+void Platform::refresh_view(void* view_handle)
+{
+    MetalView* mtlView = (MetalView*)view_handle;
+    
+    [mtlView refresh];
 }
 
 

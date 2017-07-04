@@ -20,13 +20,17 @@ public:
 
     void on_startup(int argc, const char** argv) override
     {
-        viewport_ = sky::Viewport::create(app_name(), 800, 600);
     }
 
     void on_update() override
     {
         if ( active_windows() <= 0 )
             shutdown();
+    }
+
+    void on_render() override
+    {
+
     }
 
     void on_key(sky::Key keycode) override
@@ -40,9 +44,6 @@ public:
     {
 
     }
-
-private:
-    sky::Viewport viewport_;
 };
 
 int main(int argc, char** argv)

@@ -39,9 +39,9 @@ if (APPLE)
     endif ()
 
     skyrocket_configure_graphics_api(graphics_api)
+    list(APPEND dependencies "${graphics_api}")
 
-    # Add Sources
-    skyrocket_add_sources(macOS/Platform.mm)
+    add_subdirectory(macOS)
 endif ()
 
 ######################################

@@ -43,6 +43,10 @@ public:
     uint16_t open_window_count();
 
     static sky::Key get_vk(const uint16_t native_key);
+
+    /// @brief Swaps the WindowHandle's back buffer with its front buffer using
+    /// platform-specific GL implementation
+    static void refresh_view(void* view_handle);
 private:
     void initialize(const char* app_title);
 
@@ -60,10 +64,6 @@ private:
     /// given viewport and can be safely used with graphics libraries
     /// @return The framebuffer size
 //    sky::Vector2i get_framebuffer_size();
-
-    /// @brief Swaps the WindowHandle's back buffer with its front buffer using
-    /// platform-specific GL implementation
-    void swap_buffers();
 
     /// @brief Requests a close event from the platform-specific window.
     /// @details A close request isn't the same as actually closing a window, it's up
@@ -107,6 +107,7 @@ private:
     static Application* app_;
     static bool initialized_;
     static sky::Key keycode_table_[static_cast<uint16_t>(Key::last)];
+//    static bool
 
     void setup_keycodes();
 };

@@ -22,8 +22,12 @@ class Viewport {
 public:
     Viewport() {}
 
-    static Viewport create(const char* caption, const uint16_t width, const uint16_t height);
+    static Viewport create(const char* caption, const uint16_t width,
+                           const uint16_t height);
 
+    void clear();
+
+    void refresh();
 private:
     Viewport(const char* caption, const uint16_t width, const uint16_t height);
 

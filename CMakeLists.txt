@@ -31,6 +31,8 @@ MESSAGE("-- Skyrocket.Framework: Building in ${SKYROCKET_BUILD_TYPE} mode")
 add_subdirectory(Source)
 add_subdirectory(Examples/Graphics)
 
+MESSAGE("-- Skyrocket.Graphics: Using the ${SKYROCKET_GRAPHICS_API} API")
+
 ###########
 ## Linking
 ###########

@@ -10,3 +10,14 @@
 //
 
 #pragma once
+
+namespace sky {
+
+
+class Keyboard {
+public:
+private:
+};
+
+
+}
