@@ -161,18 +161,28 @@ const auto target_compiler = Compiler::clang;
     #define SKYROCKET_POP_WARNING _Pragma("clang diagnostic pop")
     #define SKYROCKET_PACKED(n) __attribute__((packed, aligned(n)))
     #define SKYROCKET_FUNCTION_NAME __PRETTY_FUNCTION__
+
+    #define SKYROCKET_DEBUG_BREAK() asm("int $3")
 #elif SKYROCKET_COMPILER_GCC == 1
     #define SKYROCKET_PUSH_WARNING _Pragma( SKYROCKET_STRINGIFY(GCC diagnostic push)
     #define SKYROCKET_IGNORE_WARNING(x) _Pragma( SKYROCKET_STRINGIFY(GCC diagnostic ignored #x)
     #define SKYROCKET_POP_WARNING _Pragma( SKYROCKET_STRINGIFY(GCC diagnostic pop)
     #define SKYROCKET_PACKED(n) __attribute__((packed, aligned(n)))
 	#define SKYROCKET_FUNCTION_NAME __PRETTY_FUNCTION__
+
+    #define SKYROCKET_DEBUG_BREAK() asm("int $3")
 #elif SKYROCKET_COMPILER_MSVC == 1
     #define SKYROCKET_PUSH_WARNING _Pragma( SKYROCKET_STRINGIFY(warning( push ))
     #define SKYROCKET_IGNORE_WARNING(x) _Pragma( SKYROCKET_STRINGIFY(warning( disable: #x ))
     #define SKYROCKET_POP_WARNING _Pragma( SKYROCKET_STRINGIFY(warning( pop ))
 	#define SKYROCKET_FUNCTION_NAME __FUNCTION__
+
+    #define SKYROCKET_DEBUG_BREAK() asm { int 3 }
 #endif
+
+//////////////////////////////
+// Concurrency definitions  //
+//////////////////////////////
 
 
 

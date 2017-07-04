@@ -9,7 +9,7 @@
 //
 
 #include "Skyrocket/Core/Diagnostics/Stopwatch.hpp"
-#include "Skyrocket/Platform/Cross/Time.hpp"
+#include "Skyrocket/Platform/Time.hpp"
 
 namespace sky {
 

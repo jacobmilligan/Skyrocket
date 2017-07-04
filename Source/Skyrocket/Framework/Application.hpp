@@ -33,7 +33,7 @@ public:
 
 
     virtual void on_startup(int argc, const char** argv) = 0;
-    virtual void on_tick() = 0;
+    virtual void on_update() = 0;
     virtual void on_key(sky::Key keycode) = 0;
     virtual void on_mouse() = 0;
 protected:

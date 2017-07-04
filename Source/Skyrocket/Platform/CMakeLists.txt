@@ -1,41 +1,59 @@
 set(lib_name SkyrocketPlatform)
 
-skyrocket_add_sources(Cross/ChronoTime.cpp)
+skyrocket_add_sources(Default/ChronoTime.cpp)
 
 set(compile_flags)
+set(dependencies)
+
+###########################################
+## Add dependencies from Skyrocket
+###########################################
+
+list(APPEND dependencies SkyrocketCore)
+
+###########################################
+## Platform-specific configurations
+###########################################
+
+###### macOS ######
 
 if (APPLE)
-    add_subdirectory(macOS)
-endif ()
+    MESSAGE("-- Skyrocket.Platform: Building for macOS")
 
-skyrocket_add_library(${lib_name} STATIC)
-target_link_libraries(${lib_name} SkyrocketCore)
-
-if (APPLE)
     # Treat all files as objective-c++
     set(compile_flags ${compile_flags} "-objective-c++")
 
+    # Add library dependencies
     FIND_LIBRARY(cocoa_lib Cocoa)
     if (NOT cocoa_lib)
-        MESSAGE("-- Skyrocket: Could not find Cocoa framework")
+        MESSAGE("-- Skyrocket.Platform: Could not find Cocoa framework")
     else()
-        target_link_libraries(${lib_name} ${cocoa_lib})
+        list(APPEND dependencies ${cocoa_lib})
     endif ()
 
     FIND_LIBRARY(quartzcore_lib QuartzCore)
     if (NOT quartzcore_lib)
-        MESSAGE("-- Skyrocket: Could not find QuartzCore framework")
+        MESSAGE("-- Skyrocket.Platform: Could not find QuartzCore framework")
     else()
-        target_link_libraries(${lib_name} ${quartzcore_lib})
+        list(APPEND dependencies ${quartzcore_lib})
     endif ()
 
-    if (SKYROCKET_GRAPHICS_API STREQUAL "Metal")
-        FIND_LIBRARY(METAL_LIBRARY Metal)
-        if (METAL_LIBRARY)
-            MESSAGE("-- Skyrocket: Using the Metal API")
-            target_link_libraries(${lib_name} ${METAL_LIBRARY})
-        endif ()
-    endif ()
+    skyrocket_configure_graphics_api(graphics_api)
+
+    # Add Sources
+    skyrocket_add_sources(macOS/Platform.mm)
 endif ()
 
+######################################
+## Add library and link dependencies
+######################################
+
+skyrocket_add_library(${lib_name} STATIC)
+target_link_libraries(${lib_name} "${dependencies}")
+
+####################################
+## Set compile options
+####################################
+
 target_compile_options(${lib_name} PRIVATE "${compile_flags}")
+

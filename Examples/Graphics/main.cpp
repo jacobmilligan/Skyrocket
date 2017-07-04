@@ -10,6 +10,7 @@
 //
 
 #include <Skyrocket/Framework/Application.hpp>
+#include <Skyrocket/Core/Diagnostics/Error.hpp>
 
 class GraphicsApp : public sky::Application {
 public:
@@ -22,7 +23,7 @@ public:
         window_id_ = platform_->create_window(app_name(), 800, 600);
     }
 
-    void on_tick() override
+    void on_update() override
     {
         if ( platform_->open_window_count() <= 0 )
             shutdown();

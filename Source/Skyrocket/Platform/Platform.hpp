@@ -12,7 +12,6 @@
 #pragma once
 
 #include "Skyrocket/IO/Keycodes.hpp"
-#include "Skyrocket/Core/Math/Vector2.hpp"
 
 #include <cstdint>
 
@@ -60,7 +59,7 @@ private:
     /// framebuffer size is a more accurate way to get the relative pixel size of a
     /// given viewport and can be safely used with graphics libraries
     /// @return The framebuffer size
-    sky::Vector2i get_framebuffer_size();
+//    sky::Vector2i get_framebuffer_size();
 
     /// @brief Swaps the WindowHandle's back buffer with its front buffer using
     /// platform-specific GL implementation

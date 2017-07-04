@@ -9,7 +9,7 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Time.hpp"
+#include "Skyrocket/Platform/Time.hpp"
 
 #include <chrono>
 

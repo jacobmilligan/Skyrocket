@@ -32,7 +32,7 @@ void Application::start()
 
     while ( active_ ) {
         platform_->poll_events();
-        on_tick();
+        on_update();
     }
 }
 
