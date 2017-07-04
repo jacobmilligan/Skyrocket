@@ -11,12 +11,13 @@
 
 #pragma once
 
-#include "Skyrocket/Platform/Platform.hpp"
+#include "Skyrocket/IO/Keycodes.hpp"
 
 #include <memory>
 
 namespace sky {
 
+class Platform;
 
 class Application {
 public:
@@ -28,17 +29,17 @@ public:
         return name_;
     }
 
+    uint16_t active_windows();
+
     void start();
     void shutdown();
-
 
     virtual void on_startup(int argc, const char** argv) = 0;
     virtual void on_update() = 0;
     virtual void on_key(sky::Key keycode) = 0;
     virtual void on_mouse() = 0;
-protected:
-    std::unique_ptr<Platform> platform_;
 private:
+    std::unique_ptr<Platform> platform_;
     const char* name_;
     bool active_;
 };

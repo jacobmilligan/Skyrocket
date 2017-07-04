@@ -10,7 +10,7 @@
 //
 
 #include <Skyrocket/Framework/Application.hpp>
-#include <Skyrocket/Core/Diagnostics/Error.hpp>
+#include <Skyrocket/Framework/Viewport.hpp>
 
 class GraphicsApp : public sky::Application {
 public:
@@ -20,12 +20,12 @@ public:
 
     void on_startup(int argc, const char** argv) override
     {
-        window_id_ = platform_->create_window(app_name(), 800, 600);
+        viewport_ = sky::Viewport::create(app_name(), 800, 600);
     }
 
     void on_update() override
     {
-        if ( platform_->open_window_count() <= 0 )
+        if ( active_windows() <= 0 )
             shutdown();
     }
 
@@ -42,7 +42,7 @@ public:
     }
 
 private:
-    uint32_t window_id_;
+    sky::Viewport viewport_;
 };
 
 int main(int argc, char** argv)

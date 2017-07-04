@@ -12,6 +12,7 @@
 #include "Skyrocket/Platform/Platform.hpp"
 #include "Skyrocket/Framework/Application.hpp"
 #include "Skyrocket/Platform/macOS/CocoaApplication.h"
+#include "Skyrocket/Core/Diagnostics/Error.hpp"
 
 #include <cstdint>
 
@@ -102,9 +103,11 @@ struct PlatformHandle {
     NSWindow* window;
 };
 
-
+// Static members
 sky::Key Platform::keycode_table_[static_cast<uint16_t>(Key::last)];
 Application* Platform::app_ = nullptr;
+bool Platform::initialized_ = false;
+
 
 Platform::Platform(Application* app)
     : handle_(new PlatformHandle)
@@ -118,6 +121,7 @@ Platform::~Platform()
     if ( handle_ != nullptr ) {
         delete handle_;
     }
+    initialized_ = false;
 }
 
 void Platform::setup_keycodes()
@@ -278,15 +282,22 @@ void Platform::initialize(const char* app_title)
     }
     
     [pool drain];
-    
+
+    initialized_ = true;
+
     app_->on_startup(argc, argv);
-    
+
     [NSApp run];
+
 }
 
-uint16_t
+void*
 Platform::create_window(const char* caption, const int width, const int height)
 {
+    AssertGuard assert_guard("Creating window with caption", caption);
+    
+    SKY_ASSERT(initialized_, "Platform is uninitialized");
+    
     NSString* nsTitle;
     if ( caption ) {
         nsTitle = [[[NSString alloc] initWithUTF8String:caption] autorelease];
@@ -309,16 +320,12 @@ Platform::create_window(const char* caption, const int width, const int height)
     [window setContentView:view];
     [window setLevel:NSMainMenuWindowLevel];
     [window makeKeyAndOrderFront:window];
-    
-    handle_->window = window;
-    
-    uint16_t windowNumber = [window windowNumber];
-    
-    return windowNumber;
+
+    return (void*)window;
 }
     
     
-bool Platform::open_window_count()
+uint16_t Platform::open_window_count()
 {
     return [[NSApp windows] count];
 }

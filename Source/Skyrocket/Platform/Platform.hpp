@@ -35,12 +35,12 @@ public:
     /// @param caption The caption to assign to the windows title bar
     /// @param width The width of the window to create
     /// @param height The height of the window to create
-    uint16_t create_window(const char* caption, const int width, const int height);
+    static void* create_window(const char* caption, const int width, const int height);
 
     /// @brief Checks to see if the specified WindowHandle's platform-specific window
     /// is currently open or closed
     /// @return True if the window is open, false otherwise
-    bool open_window_count();
+    uint16_t open_window_count();
 
     static sky::Key get_vk(const uint16_t native_key);
 private:
@@ -105,6 +105,7 @@ private:
 
     PlatformHandle* handle_;
     static Application* app_;
+    static bool initialized_;
     static sky::Key keycode_table_[static_cast<uint16_t>(Key::last)];
 
     void setup_keycodes();

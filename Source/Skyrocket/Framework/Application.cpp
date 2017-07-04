@@ -10,7 +10,6 @@
 //
 
 #include "Skyrocket/Framework/Application.hpp"
-
 #include "Skyrocket/Platform/Platform.hpp"
 
 namespace sky {
@@ -39,6 +38,11 @@ void Application::start()
 void Application::shutdown()
 {
     active_ = false;
+}
+
+uint16_t Application::active_windows()
+{
+    return platform_->open_window_count();
 }
 
 
