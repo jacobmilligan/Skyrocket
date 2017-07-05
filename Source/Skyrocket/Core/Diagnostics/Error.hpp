@@ -54,6 +54,7 @@ void __sky_assert_handler(const char* function, const char* file, const int line
         if(!(expr)) {\
             sky::impl::__sky_assert_handler(SKYROCKET_FUNCTION_NAME, __FILE__, __LINE__, \
                                         #expr, msgformat, ##__VA_ARGS__);\
+            SKYROCKET_DEBUG_BREAK();\
         }\
     }
 

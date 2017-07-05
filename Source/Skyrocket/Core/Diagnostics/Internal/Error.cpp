@@ -38,8 +38,6 @@ void __sky_assert_handler(const char* function, const char* file, const int line
     vfprintf(stderr, msgformat, args);
     fprintf(stderr, "'\n\tAt File:%s:%d in Function: %s\n", file, line, function);
     va_end(args);
-
-    SKYROCKET_DEBUG_BREAK();
 }
 
 void __sky_print_error(const char* func, const char* file, const int line,
