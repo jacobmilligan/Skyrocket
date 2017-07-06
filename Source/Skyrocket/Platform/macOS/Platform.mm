@@ -324,11 +324,14 @@ sky::Key Platform::get_vk(const uint16_t native_key)
     return keycode_table_[native_key];
 }
     
-void Platform::refresh_view(void* view_handle)
+void Platform::set_view_backing_color(void* view_handle, const sky::Color& color)
 {
-    MetalView* mtlView = (MetalView*)view_handle;
+    CGFloat r = ((CGFloat)color.r) / 255.0;
+    CGFloat g = ((CGFloat)color.g) / 255.0;
+    CGFloat b = ((CGFloat)color.b) / 255.0;
+    CGFloat a = ((CGFloat)color.a) / 255.0;
     
-    [mtlView refresh];
+    [(CocoaView*)view_handle setBackingColor:r g:g b:b a:a];
 }
 
 

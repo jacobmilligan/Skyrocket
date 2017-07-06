@@ -12,9 +12,10 @@
 #pragma once
 
 #include "Skyrocket/IO/Keycodes.hpp"
-#include "Viewport.hpp"
+#include "Skyrocket/Graphics/Viewport.hpp"
 
 #include <memory>
+#include <Skyrocket/Graphics/GraphicsCore/GraphicsDriver.hpp>
 
 namespace sky {
 
@@ -38,10 +39,12 @@ public:
     virtual void on_startup(int argc, const char** argv) = 0;
     virtual void on_update() = 0;
     virtual void on_render() = 0;
-    virtual void on_key(sky::Key keycode) = 0;
+    virtual void on_keydown(sky::Key keycode) = 0;
+    virtual void on_keyup(sky::Key keycode) = 0;
     virtual void on_mouse() = 0;
 protected:
     Viewport default_view;
+    std::unique_ptr<GraphicsDriver> graphics_driver;
 private:
     std::unique_ptr<Platform> platform_;
     const char* name_;

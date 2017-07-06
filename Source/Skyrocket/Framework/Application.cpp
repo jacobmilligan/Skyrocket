@@ -28,6 +28,7 @@ void Application::start()
 {
     platform_->initialize(name_);
     default_view = Viewport::create(name_, 800, 600);
+    graphics_driver = GraphicsDriver::create(default_view);
     active_ = true;
 
     while ( active_ ) {
@@ -35,7 +36,6 @@ void Application::start()
         on_update();
         on_render();
         // TODO: only update active view
-        default_view.refresh();
     }
 }
 

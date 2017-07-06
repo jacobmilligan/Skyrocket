@@ -11,6 +11,12 @@
 
 #pragma once
 
+#include "Skyrocket/Platform/Config.hpp"
+
+#if SKY_OS_MACOS
+
+#include <cstdint>
+
 #import <AppKit/AppKit.h>
 #import <Metal/Metal.h>
 #import <QuartzCore/CAMetalLayer.h>
@@ -25,12 +31,24 @@ namespace sky {
 @interface SkyrocketApplicationDelegate : NSObject<NSApplicationDelegate>
 @end
 
-@interface MetalView : NSView
-    @property (assign, nullable)sky::Application* app;
-    @property (assign, nonatomic, nullable)id <MTLDevice> device;
-    @property (readonly, nullable)CAMetalLayer* metalLayer;
-    @property (nonatomic, strong, nullable)id<MTLCommandQueue> commandQueue;
+@interface CocoaView : NSView
 
-    -(void)refresh;
+@property (assign, nullable)sky::Application* app;
+
+-(void)setBackingColor:(CGFloat)r
+                     g:(CGFloat)g
+                     b:(CGFloat)b
+                     a:(CGFloat)a;
+
 @end
 
+@interface MetalView : CocoaView
+
+@property (readonly, nullable)CAMetalLayer* metalLayer;
+
+-(void)refresh;
+-(void)setDevice:(nonnull id<MTLDevice>)device;
+
+@end
+
+#endif

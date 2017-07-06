@@ -11,12 +11,13 @@
 #pragma once
 
 #include "Skyrocket/Core/Math/Vector2.hpp"
-#include "Skyrocket/Core/Diagnostics/SkyAssert.hpp"
 #include "Skyrocket/Core/Math/Common.hpp"
+#include "Skyrocket/Core/Diagnostics/Error.hpp"
 
 #include <string>
 #include <sstream>
 #include <cmath>
+#include <cstdint>
 
 namespace sky {
 
@@ -406,10 +407,10 @@ bool operator!=(const Vector2<T>& left, const Vector2<T> &right)
 using Vector2d = Vector2<double>;
 /// @brief Type alias for a Vector2 with elements of type float
 using Vector2f = Vector2<float>;
-/// @brief Type alias for a Vector2 with elements of type int
-using Vector2i = Vector2<int>;
-/// @brief Type alias for a Vector2 with elements of type unsigned int
-using Vector2u = Vector2<unsigned int>;
+/// @brief Type alias for a Vector2 with elements of type 32 bit int
+using Vector2i = Vector2<int32_t>;
+/// @brief Type alias for a Vector2 with elements of type 32 bit unsigned int
+using Vector2u = Vector2<uint32_t>;
 /// @brief Type alias for a Vector2 with elements of type bool
 using Vector2b = Vector2<bool>;
 

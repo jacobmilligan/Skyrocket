@@ -43,7 +43,7 @@ void __sky_assert_handler(const char* function, const char* file, const int line
 } // impl
 
 
-#if SKYROCKET_DEBUG
+#if SKY_DEBUG
 /// @brief Writes a formatted string to stderr if the assertion expr is false
 /// @param expr The boolean expression to evaluate
 /// @param msgformat The message format string to display if the assertion
@@ -52,9 +52,9 @@ void __sky_assert_handler(const char* function, const char* file, const int line
 #define SKY_ASSERT(expr, msgformat, ...)\
     {\
         if(!(expr)) {\
-            sky::impl::__sky_assert_handler(SKYROCKET_FUNCTION_NAME, __FILE__, __LINE__, \
+            sky::impl::__sky_assert_handler(SKY_FUNCTION_NAME, __FILE__, __LINE__, \
                                         #expr, msgformat, ##__VA_ARGS__);\
-            SKYROCKET_DEBUG_BREAK();\
+            SKY_DEBUG_BREAK();\
         }\
     }
 
@@ -64,7 +64,7 @@ void __sky_assert_handler(const char* function, const char* file, const int line
 
 /// @brief Prints an error message with the line and file it occurred on
 /// @param msg Error message to print
-#define SKY_ERROR(type, msg, ...) sky::impl::__sky_print_error(SKYROCKET_FUNCTION_NAME, \
+#define SKY_ERROR(type, msg, ...) sky::impl::__sky_print_error(SKY_FUNCTION_NAME, \
                                                     __FILE__, __LINE__, type, msg, ##__VA_ARGS__);
 
 class AssertGuard {

@@ -6,3 +6,4 @@ set(SRCS main.cpp)
 
 add_executable(${exe_name} "${SRCS}")
 target_link_libraries(${exe_name} Skyrocket)
+skyrocket_include_all_definitions()

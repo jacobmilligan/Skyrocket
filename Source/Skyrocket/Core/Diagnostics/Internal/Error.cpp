@@ -59,7 +59,7 @@ void __sky_print_error(const char* func, const char* file, const int line,
 }
 
 
-#if SKYROCKET_DEBUG
+#if SKY_DEBUG
 
 AssertGuard::AssertGuard(const char* action, const char* data)
 {

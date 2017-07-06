@@ -1,3 +1,5 @@
+set(CMAKE_CXX_STANDARD 14)
+
 skyrocket_add_sources(Diagnostics/Internal/Error.cpp
         Diagnostics/Internal/Stopwatch.cpp
         Diagnostics/Internal/FPSCounter.cpp)

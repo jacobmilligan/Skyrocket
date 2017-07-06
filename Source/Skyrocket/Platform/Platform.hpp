@@ -19,6 +19,7 @@ namespace sky {
 
 class Application;
 struct PlatformHandle;
+struct Color;
 
 class Platform {
 public:
@@ -44,9 +45,7 @@ public:
 
     static sky::Key get_vk(const uint16_t native_key);
 
-    /// @brief Swaps the WindowHandle's back buffer with its front buffer using
-    /// platform-specific GL implementation
-    static void refresh_view(void* view_handle);
+    static void set_view_backing_color(void* view_handle, const sky::Color& color);
 private:
     void initialize(const char* app_title);
 

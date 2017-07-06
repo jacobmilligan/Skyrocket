@@ -1,6 +1,8 @@
+set(CMAKE_CXX_STANDARD 14)
+
 set(lib_name SkyrocketPlatform)
 
-skyrocket_add_sources(Default/ChronoTime.cpp)
+skyrocket_add_sources(Generic/ChronoTime.cpp)
 
 set(compile_flags)
 set(dependencies)
@@ -15,13 +17,13 @@ list(APPEND dependencies SkyrocketCore)
 ## Platform-specific configurations
 ###########################################
 
+skyrocket_configure_platform(compile_flags)
+skyrocket_configure_graphics_api(graphics_api)
+list(APPEND dependencies "${graphics_api}")
+
 ###### macOS ######
-
-if (APPLE)
+if (${skyrocket_platform} STREQUAL "macOS")
     MESSAGE("-- Skyrocket.Platform: Building for macOS")
-
-    # Treat all files as objective-c++
-    set(compile_flags ${compile_flags} "-objective-c++")
 
     # Add library dependencies
     FIND_LIBRARY(cocoa_lib Cocoa)
@@ -37,9 +39,6 @@ if (APPLE)
     else()
         list(APPEND dependencies ${quartzcore_lib})
     endif ()
-
-    skyrocket_configure_graphics_api(graphics_api)
-    list(APPEND dependencies "${graphics_api}")
 
     add_subdirectory(macOS)
 endif ()

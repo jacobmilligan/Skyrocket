@@ -1,0 +1,20 @@
+function(skyrocket_configure_graphics_api lib_var)
+    set(lib)
+    if (APPLE)
+
+        FIND_LIBRARY(metal_lib Metal)
+        FIND_LIBRARY(opengl_lib OpenGL)
+
+        if (metal_lib)
+            set(lib "${metal_lib}")
+            set(skyrocket_graphics_api Metal CACHE INTERNAL "")
+            skyrocket_add_definitions(-DSKY_GRAPHICS_API_METAL=1)
+        else()
+            set(lib "${opengl_lib}")
+            set(skyrocket_graphics_api OpenGL CACHE INTERNAL "")
+            skyrocket_add_definitions(-DSKY_GRAPHICS_API_OPENGL=1)
+        endif ()
+
+    endif ()
+    set(${lib_var} "${lib}" PARENT_SCOPE)
+endfunction()

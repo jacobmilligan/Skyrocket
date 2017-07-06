@@ -6,23 +6,18 @@ project("Skyrocket")
 
 set(CMAKE_CXX_STANDARD 14)
 
+set(skyrocket_root_directory ${CMAKE_CURRENT_SOURCE_DIR})
+
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/skyrocket.cmake)
+
+skyrocket_init()
 
 ################################
 ## Definitions and config vars
 ################################
 
-add_definitions(-DSKYROCKET_GRAPHICS_API=${SKYROCKET_GRAPHICS_API})
+MESSAGE("-- Skyrocket.Framework: Building in ${CMAKE_BUILD_TYPE} mode")
 
-set(SKYROCKET_BUILD_TYPE)
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set(SKYROCKET_BUILD_TYPE Debug)
-    add_definitions(-DSKYROCKET_DEBUG)
-else()
-    set(SKYROCKET_BUILD_TYPE Release)
-    add_definitions(-DSKYROCKET_RELEASE)
-endif ()
-MESSAGE("-- Skyrocket.Framework: Building in ${SKYROCKET_BUILD_TYPE} mode")
 
 ###########################
 ## Project subdirectories
@@ -31,7 +26,9 @@ MESSAGE("-- Skyrocket.Framework: Building in ${SKYROCKET_BUILD_TYPE} mode")
 add_subdirectory(Source)
 add_subdirectory(Examples/Graphics)
 
-MESSAGE("-- Skyrocket.Graphics: Using the ${SKYROCKET_GRAPHICS_API} API")
+MESSAGE("-- Skyrocket.Graphics: Using the ${skyrocket_graphics_api} API")
+
+skyrocket_include_all_definitions()
 
 ###########
 ## Linking
@@ -41,7 +38,5 @@ add_library(${PROJECT_NAME} STATIC
         ${SkyrocketFramework_sources})
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 
-target_link_libraries(${PROJECT_NAME}
-        SkyrocketCore
-        SkyrocketPlatform)
+target_link_libraries(${PROJECT_NAME} ${skyrocket_libraries})
 

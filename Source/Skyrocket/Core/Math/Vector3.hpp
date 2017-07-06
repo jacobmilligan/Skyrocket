@@ -10,9 +10,9 @@
 
 #pragma once
 
-#include <string>
-
 #include "Vector2.hpp"
+
+#include <string>
 
 namespace sky {
 
@@ -443,10 +443,10 @@ bool operator!=(const Vector3<T>& left, const Vector3<T> &right)
 using Vector3d = Vector3<double>;
 /// @brief Type alias for a Vector3 with elements of type float
 using Vector3f = Vector3<float>;
-/// @brief Type alias for a Vector3 with elements of type int
-using Vector3i = Vector3<int>;
-/// @brief Type alias for a Vector3 with elements of type unsigned int
-using Vector3u = Vector3<unsigned int>;
+/// @brief Type alias for a Vector3 with elements of type 32 bit int
+using Vector3i = Vector3<int32_t>;
+/// @brief Type alias for a Vector3 with elements of type 32 bit unsigned int
+using Vector3u = Vector3<uint32_t>;
 /// @brief Type alias for a Vector3 with elements of type bool
 using Vector3b = Vector3<bool>;
 

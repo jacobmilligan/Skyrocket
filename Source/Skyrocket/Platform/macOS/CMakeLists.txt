@@ -1,5 +1,6 @@
-skyrocket_add_sources(Platform.mm)
+skyrocket_add_sources(Platform.mm
+        CocoaView.mm)
 
-if (SKYROCKET_GRAPHICS_API STREQUAL "Metal")
+if (skyrocket_graphics_api STREQUAL "Metal")
     skyrocket_add_sources(MetalView.mm)
 endif ()
