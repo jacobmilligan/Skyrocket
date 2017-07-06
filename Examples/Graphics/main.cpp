@@ -10,7 +10,6 @@
 //
 
 #include <Skyrocket/Framework/Application.hpp>
-#include <Skyrocket/Graphics/GraphicsInterface/RenderResource.hpp>
 
 class GraphicsApp : public sky::Application {
 public:
@@ -48,9 +47,6 @@ public:
     void on_keyup(sky::Key keycode) override
     {
     }
-
-private:
-    sky::VertexBuffer buf_;
 };
 
 int main(int argc, char** argv)

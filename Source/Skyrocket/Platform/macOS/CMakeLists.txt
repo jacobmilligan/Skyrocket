@@ -1,6 +1,12 @@
-skyrocket_add_sources(Platform.mm
-        CocoaView.mm)
+MESSAGE("-- Skyrocket.Platform: Building for macOS")
 
-if (skyrocket_graphics_api STREQUAL "Metal")
-    skyrocket_add_sources(MetalView.mm)
+# Add library dependencies
+FIND_LIBRARY(cocoa_lib Cocoa)
+if (NOT cocoa_lib)
+    MESSAGE("-- Skyrocket.Platform: Could not find Cocoa framework")
+else()
+    list(APPEND dependencies ${cocoa_lib})
 endif ()
+
+skyrocket_add_sources(MacPlatform.mm
+        CocoaView.mm)

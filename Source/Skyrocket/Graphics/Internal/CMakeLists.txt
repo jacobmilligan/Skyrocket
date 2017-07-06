@@ -1,2 +1,1 @@
-skyrocket_add_sources(Viewport.cpp
-        Color.cpp)
+skyrocket_add_sources(Color.cpp)

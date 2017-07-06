@@ -9,9 +9,8 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Skyrocket/Platform/Platform.hpp"
 #include "Skyrocket/Framework/Application.hpp"
-#include "Skyrocket/Platform/macOS/macOS.h"
+#include "Skyrocket/Platform/macOS/MacPlatform.h"
 #include "Skyrocket/Core/Diagnostics/Error.hpp"
 
 #include <cstdint>
@@ -209,7 +208,7 @@ void Platform::setup_keycodes()
     keycode_table_[0x7E] = sky::Key::up;
 }
 
-void Platform::initialize(const char* app_title)
+void Platform::startup(const char* app_title)
 {
     AssertGuard assert_guard("Initializing platform with application", app_title);
     
@@ -260,40 +259,6 @@ void Platform::initialize(const char* app_title)
     [NSApp run];
 
 }
-
-void*
-Platform::create_window(const char* caption, const int width, const int height)
-{
-    AssertGuard assert_guard("Creating window with caption", caption);
-    
-    SKY_ASSERT(initialized_, "Platform is uninitialized");
-    
-    NSString* nsTitle;
-    if ( caption ) {
-        nsTitle = [[[NSString alloc] initWithUTF8String:caption] autorelease];
-    } else {
-        nsTitle = [[[NSString alloc] initWithUTF8String:"Skyrocket Application"] autorelease];
-    }
-    
-    // Create windowrect and associated window with specified style
-    NSRect windowRect = NSMakeRect(0, 0, width, height);
-    NSUInteger windowStyle = NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask;
-    NSWindow* window = [[NSWindow alloc] initWithContentRect:windowRect
-                                                   styleMask:windowStyle
-                                                     backing:NSBackingStoreBuffered // double buffered rendering
-                                                       defer:NO]; // create immediately
-    [window autorelease];
-    [window setTitle:nsTitle];
-    
-    MetalView* view = [[[MetalView alloc] initWithFrame:windowRect] autorelease];
-    view.app = app_;
-    [window setContentView:view];
-    [window setLevel:NSMainMenuWindowLevel];
-    [window makeKeyAndOrderFront:window];
-
-    return (void*)view;
-}
-    
     
 uint16_t Platform::open_window_count()
 {
@@ -322,16 +287,6 @@ void Platform::poll_events()
 sky::Key Platform::get_vk(const uint16_t native_key)
 {
     return keycode_table_[native_key];
-}
-    
-void Platform::set_view_backing_color(void* view_handle, const sky::Color& color)
-{
-    CGFloat r = ((CGFloat)color.r) / 255.0;
-    CGFloat g = ((CGFloat)color.g) / 255.0;
-    CGFloat b = ((CGFloat)color.b) / 255.0;
-    CGFloat a = ((CGFloat)color.a) / 255.0;
-    
-    [(CocoaView*)view_handle setBackingColor:r g:g b:b a:a];
 }
 
 

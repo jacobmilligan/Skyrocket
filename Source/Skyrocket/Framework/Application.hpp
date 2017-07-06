@@ -15,7 +15,7 @@
 #include "Skyrocket/Graphics/Viewport.hpp"
 
 #include <memory>
-#include <Skyrocket/Graphics/GraphicsCore/GraphicsDriver.hpp>
+#include <Skyrocket/Graphics/Core/GraphicsDriver.hpp>
 
 namespace sky {
 

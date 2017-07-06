@@ -9,17 +9,12 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Skyrocket/Graphics/GraphicsCore/GraphicsDriver.hpp"
-#include "Skyrocket/Graphics/Viewport.hpp"
+#include "Skyrocket/Graphics/Core/GraphicsDriver.hpp"
 
 namespace sky {
 
 
-sky::GraphicsDriver::GraphicsDriver(Viewport& viewport)
-{
-    initialized_ = true;
-    viewport_ = &viewport;
-}
+
 
 
 }

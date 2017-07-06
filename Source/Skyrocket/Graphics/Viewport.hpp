@@ -14,10 +14,9 @@
 #include "Skyrocket/Graphics/Color.hpp"
 
 #include <cstdint>
+#include <memory>
 
 namespace sky {
-
-class Platform;
 
 class Viewport {
 public:
@@ -25,18 +24,23 @@ public:
 
     Viewport() {}
 
-    static Viewport create(const char* caption, const uint16_t width,
-                           const uint16_t height);
+    ~Viewport();
+
+    void create(const char* caption, const uint16_t width,
+                const uint16_t height);
 
     void set_backing_color(const Color& color);
 private:
-    Viewport(const char* caption, const uint16_t width, const uint16_t height);
-
     const char* caption_;
     uint16_t width_;
     uint16_t height_;
 
-    void* handle_;
+    struct NativeHandle;
+
+    NativeHandle* handle_;
+
+    void* create_handle(const char* caption, const uint16_t width,
+                        const uint16_t height);
 };
 
 

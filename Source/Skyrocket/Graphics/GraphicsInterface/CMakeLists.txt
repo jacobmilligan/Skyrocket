@@ -1,1 +1,0 @@
-skyrocket_add_sources(RenderResource.cpp)

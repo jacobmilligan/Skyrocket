@@ -26,9 +26,11 @@ Application::~Application()
 
 void Application::start()
 {
-    platform_->initialize(name_);
-    default_view = Viewport::create(name_, 800, 600);
-    graphics_driver = GraphicsDriver::create(default_view);
+    platform_->startup(name_);
+
+    graphics_driver = GraphicsDriver::create();
+    default_view.create(name_, 800, 600);
+
     active_ = true;
 
     while ( active_ ) {

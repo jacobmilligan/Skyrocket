@@ -15,9 +15,8 @@
 
 #if SKY_GRAPHICS_API_METAL
 
-#include "Skyrocket/Graphics/GraphicsCore/GraphicsDriver.hpp"
+#include "Skyrocket/Graphics/Core/GraphicsDriver.hpp"
 
-@class MetalView;
 @protocol MTLDevice;
 @protocol MTLCommandQueue;
 
@@ -25,10 +24,9 @@ namespace sky {
 
 class MetalDriver : public GraphicsDriver {
 public:
-    MetalDriver(Viewport& viewport, MetalView* view_handle);
+    MetalDriver();
 private:
     id <MTLDevice> device_;
-    MetalView* view_;
     id<MTLCommandQueue> command_queue_;
 };
 

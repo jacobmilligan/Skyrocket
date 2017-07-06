@@ -11,8 +11,8 @@
 
 #pragma once
 
-#include "Skyrocket/Graphics/GraphicsCore/Vertex.hpp"
-#include "Skyrocket/Graphics/GraphicsInterface/Definitions.hpp"
+#include "Skyrocket/Graphics/Core/Vertex.hpp"
+#include "Skyrocket/Graphics/Interface/Definitions.hpp"
 
 #include <cstdint>
 

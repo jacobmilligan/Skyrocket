@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include "Skyrocket/Platform/Config.hpp"
 #include "Skyrocket/IO/Keycodes.hpp"
 
 #include <cstdint>
@@ -23,20 +24,13 @@ struct Color;
 
 class Platform {
 public:
-    friend class Application;
+    Platform() {}
 
     Platform(Application* app);
 
     /// @brief Destroys all windows, applications etc. associated with the
     /// platform
     ~Platform();
-
-    /// @brief Initializes a WindowHandle with the specified caption, width, and height
-    /// using a platform-specific implementation.
-    /// @param caption The caption to assign to the windows title bar
-    /// @param width The width of the window to create
-    /// @param height The height of the window to create
-    static void* create_window(const char* caption, const int width, const int height);
 
     /// @brief Checks to see if the specified WindowHandle's platform-specific window
     /// is currently open or closed
@@ -45,12 +39,23 @@ public:
 
     static sky::Key get_vk(const uint16_t native_key);
 
-    static void set_view_backing_color(void* view_handle, const sky::Color& color);
-private:
-    void initialize(const char* app_title);
+    static inline bool is_initialized()
+    {
+        return initialized_;
+    }
+
+    static inline Application* application()
+    {
+        return app_;
+    }
+
+    void startup(const char* app_title);
 
     /// @brief Polls the platform-specific window for events and fills the event queue
     void poll_events();
+
+private:
+
 
     /// @brief Sets the specified WindowHandle as the current GL context to use for
     /// render calls
@@ -106,7 +111,6 @@ private:
     static Application* app_;
     static bool initialized_;
     static sky::Key keycode_table_[static_cast<uint16_t>(Key::last)];
-//    static bool
 
     void setup_keycodes();
 };

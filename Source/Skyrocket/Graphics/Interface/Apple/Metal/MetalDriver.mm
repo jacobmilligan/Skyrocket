@@ -10,8 +10,8 @@
 //
 
 #include "Skyrocket/Graphics/Viewport.hpp"
-#include "Skyrocket/Graphics/API/Metal/MetalDriver.h"
-#include "Skyrocket/Platform/macOS/macOS.h"
+#include "Skyrocket/Graphics/Interface/Apple/Metal/MetalView.h"
+#include "Skyrocket/Graphics/Interface/Apple/Metal/MetalDriver.h"
 
 #include <memory>
 
@@ -19,19 +19,15 @@
 #import <Metal/Metal.h>
 
 namespace sky {
-    
-std::unique_ptr<GraphicsDriver> GraphicsDriver::create(Viewport& viewport)
+
+std::unique_ptr<GraphicsDriver> GraphicsDriver::create()
 {
-    auto driver = std::make_unique<MetalDriver>(viewport, (MetalView*)viewport.handle_);
-    return std::move(driver);
+    return std::make_unique<MetalDriver>();
 }
     
-MetalDriver::MetalDriver(Viewport& viewport, MetalView* view_handle)
-    : GraphicsDriver(viewport)
+MetalDriver::MetalDriver()
 {
     device_ = MTLCreateSystemDefaultDevice();
-    view_ = view_handle;
-    [view_ setDevice:device_];
     command_queue_ = [device_ newCommandQueue];
 }
     

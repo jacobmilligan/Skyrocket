@@ -13,33 +13,20 @@ set(dependencies)
 
 list(APPEND dependencies SkyrocketCore)
 
+######################################
+## Add subdirectories and sources
+######################################
+
+add_subdirectory(Generic)
+
 ###########################################
 ## Platform-specific configurations
 ###########################################
 
 skyrocket_configure_platform(compile_flags)
-skyrocket_configure_graphics_api(graphics_api)
-list(APPEND dependencies "${graphics_api}")
 
 ###### macOS ######
 if (${skyrocket_platform} STREQUAL "macOS")
-    MESSAGE("-- Skyrocket.Platform: Building for macOS")
-
-    # Add library dependencies
-    FIND_LIBRARY(cocoa_lib Cocoa)
-    if (NOT cocoa_lib)
-        MESSAGE("-- Skyrocket.Platform: Could not find Cocoa framework")
-    else()
-        list(APPEND dependencies ${cocoa_lib})
-    endif ()
-
-    FIND_LIBRARY(quartzcore_lib QuartzCore)
-    if (NOT quartzcore_lib)
-        MESSAGE("-- Skyrocket.Platform: Could not find QuartzCore framework")
-    else()
-        list(APPEND dependencies ${quartzcore_lib})
-    endif ()
-
     add_subdirectory(macOS)
 endif ()
 

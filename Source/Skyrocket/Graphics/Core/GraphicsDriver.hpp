@@ -24,13 +24,9 @@ public:
         : initialized_(false)
     {}
 
-    static std::unique_ptr<GraphicsDriver> create(Viewport& viewport);
-
-protected:
-    GraphicsDriver(Viewport& viewport);
+    static std::unique_ptr<GraphicsDriver> create();
 private:
     bool initialized_;
-    Viewport* viewport_;
 };
 
 

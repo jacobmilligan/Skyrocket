@@ -9,7 +9,7 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Skyrocket/Graphics/GraphicsInterface/RenderResource.hpp"
+#include "Skyrocket/Graphics/Interface/RenderResource.hpp"
 
 namespace sky {
 
