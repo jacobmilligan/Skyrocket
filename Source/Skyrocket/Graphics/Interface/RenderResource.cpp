@@ -25,7 +25,7 @@ VertexBuffer VertexBuffer::create(const uint32_t size, const BufferUsage usage)
 
 bool VertexBuffer::set_data(Vertex* vertices)
 {
-
+    return true;
 }
 
 

@@ -15,6 +15,7 @@
 #include "Skyrocket/Graphics/Interface/Definitions.hpp"
 
 #include <cstdint>
+#include <cstdint>
 
 namespace sky {
 

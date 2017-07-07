@@ -23,10 +23,13 @@
         CGFloat bgColor[] = {0.0, 0.0, 0.0, 1.0};
         _metalLayer = [CAMetalLayer layer];
         
+        _metalLayer.masksToBounds = YES;
+        _metalLayer.presentsWithTransaction = NO;
         _metalLayer.pixelFormat = MTLPixelFormatBGRA8Unorm;
         _metalLayer.framebufferOnly = YES;
-        _metalLayer.frame = self.layer.frame;
+        _metalLayer.frame = frameRect;
         _metalLayer.backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), bgColor);
+        [_metalLayer removeAllAnimations];
         
         [self setLayer:_metalLayer];
     }

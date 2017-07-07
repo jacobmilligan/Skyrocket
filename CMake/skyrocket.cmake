@@ -1,5 +1,5 @@
-include(${skyrocket_root_directory}/CMake/Skyrocket/platform.cmake)
-include(${skyrocket_root_directory}/CMake/Skyrocket/graphics.cmake)
+include(${PROJECT_SOURCE_DIR}/CMake/Skyrocket/platform.cmake)
+include(${PROJECT_SOURCE_DIR}/CMake/Skyrocket/graphics.cmake)
 
 function(skyrocket_init)
     unset(skyrocket_sources CACHE)

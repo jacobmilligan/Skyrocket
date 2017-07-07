@@ -11,7 +11,6 @@ set(lib_name SkyrocketGraphics)
 ###########################################
 
 skyrocket_configure_graphics_api(graphics_api)
-skyrocket_configure_platform(compile_flags)
 list(APPEND dependencies "${graphics_api}")
 
 if (APPLE)
@@ -49,4 +48,6 @@ target_link_libraries(${lib_name}
         SkyrocketPlatform)
 
 target_link_libraries(${lib_name} "${dependencies}")
+
+skyrocket_configure_platform(compile_flags)
 target_compile_options(${lib_name} PRIVATE "${compile_flags}")

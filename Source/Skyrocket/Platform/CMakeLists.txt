@@ -23,8 +23,6 @@ add_subdirectory(Generic)
 ## Platform-specific configurations
 ###########################################
 
-skyrocket_configure_platform(compile_flags)
-
 ###### macOS ######
 if (${skyrocket_platform} STREQUAL "macOS")
     add_subdirectory(macOS)
@@ -40,6 +38,6 @@ target_link_libraries(${lib_name} "${dependencies}")
 ####################################
 ## Set compile options
 ####################################
-
+skyrocket_configure_platform(compile_flags)
 target_compile_options(${lib_name} PRIVATE "${compile_flags}")
 
