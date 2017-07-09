@@ -13,6 +13,7 @@
 #include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Graphics/Color.hpp"
 #include "Skyrocket/Platform/macOS/CocoaWindow.h"
+#include "Skyrocket/Platform/Platform.hpp"
 
 #if SKY_GRAPHICS_API_METAL
 
@@ -24,13 +25,7 @@ namespace sky {
 
 struct Viewport::NativeViewport {
     CocoaWindow* window;
-
-#if SKY_GRAPHICS_API_METAL
-    MetalView* view;
-#else
     CocoaView* view;
-#endif
-
 };
 
 
@@ -44,19 +39,19 @@ Viewport::~Viewport()
 void Viewport::create_native_viewport()
 {
     handle_ = new NativeViewport;
-    NSRect frame = NSMakeRect(0, 0, width_, height_);
-    CocoaWindow* window = [[CocoaWindow alloc] initWithSizeAndCaption:frame captionString:caption_];
     
-    handle_ = new NativeViewport;
+    CocoaWindow* window = (CocoaWindow*)Platform::new_native_window(caption_, width_, height_);
+    NSRect frame = [window frame];
+    CocoaView* view = [[[CocoaView alloc] initWithFrame:frame] autorelease];
     
 #if SKY_GRAPHICS_API_METAL
-    handle_->view = [[[MetalView alloc] initWithFrame:frame] autorelease];
-#else
-    handle_->view = [[[CocoaView alloc] initWithFrame:frame] autorelease];
+    view = [[[MetalView alloc] initWithFrame:frame] autorelease];
 #endif
     
-    [window setContentView:handle_->view];
+    [window setContentView:view];
     
+    handle_ = new NativeViewport;
+    handle_->view = view;
     handle_->window = window;
 }
     

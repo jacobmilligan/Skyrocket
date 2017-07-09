@@ -31,6 +31,13 @@ struct RawKeyState {
     uint32_t state_changes;
 };
 
+struct RawInputState {
+    static const uint16_t num_keys = static_cast<uint16_t>(Key::last);
+
+    RawKeyState last_key_states[num_keys];
+    RawKeyState current_key_states[num_keys];
+};
+
 class Platform {
 public:
     Platform();
@@ -46,7 +53,7 @@ public:
     /// @return True if the window is open, false otherwise
     uint16_t open_window_count();
 
-    static sky::Key get_vk(const uint16_t native_key);
+    static uint16_t translate_keycode(const uint16_t native_key);
 
     static inline bool is_initialized()
     {
@@ -58,19 +65,21 @@ public:
     /// @brief Polls the platform-specific window for events and fills the event queue
     void poll_events();
 
+    static void* new_native_window(const char* caption, const uint16_t width,
+                                   const uint16_t height);
+
+    static bool key_down(const uint16_t keycode);
+    static bool key_typed(const uint16_t keycode);
 private:
     struct PlatformHandle;
 
-    static const uint16_t num_keys_ = static_cast<uint16_t>(Key::last);
-
     PlatformHandle* handle_;
     static bool initialized_;
-    static sky::Key keycode_table_[num_keys_];
-    RawKeyState key_states_[num_keys_];
+    static sky::Key keycode_table_[RawInputState::num_keys];
+    static RawInputState input_;
 
     void setup_keycodes();
-
-
+    void native_poll_event();
 
     //    /// @brief Sets the specified WindowHandle as the current GL context to use for
 //    /// render calls

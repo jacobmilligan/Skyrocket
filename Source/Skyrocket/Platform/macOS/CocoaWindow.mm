@@ -11,12 +11,21 @@
 
 
 #include "Skyrocket/Platform/Platform.hpp"
-
 #include "Skyrocket/Platform/macOS/CocoaWindow.h"
+
+@implementation CocoaView
+
+-(void)setBackingColor:(CGFloat)r g:(CGFloat)g b:(CGFloat)b a:(CGFloat)a {
+    // Empty - handled by subclasses
+}
+
+@end
 
 @implementation CocoaWindow
 
--(instancetype)initWithSizeAndCaption:(NSRect)contentRect captionString:(const char *)caption {
+-(nonnull instancetype)initWithInputAndContent:(nonnull sky::RawInputState *)input
+                           contentRect:(NSRect)contentRect
+                         captionString:(nullable const char *)caption {
     
     NSUInteger windowStyle = NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask;
     id newWindow = [super initWithContentRect:contentRect
@@ -24,6 +33,8 @@
                                       backing:NSBackingStoreBuffered // double buffered rendering
                                         defer:NO];
     if ( newWindow ) {
+        self.input = input;
+        
         NSString* nsTitle;
         if ( caption ) {
             nsTitle = [[[NSString alloc] initWithUTF8String:caption] autorelease];
@@ -37,15 +48,20 @@
     }
     
     return newWindow;
-    
 }
 
-@end
+-(void)keyDown:(NSEvent *)event {
+    uint16_t vk_code = sky::Platform::translate_keycode([event keyCode]);
+    
+    self.input->current_key_states[vk_code].isdown = true;
+    self.input->current_key_states[vk_code].state_changes++;
+}
 
-@implementation CocoaView
-
--(void)setBackingColor:(CGFloat)r g:(CGFloat)g b:(CGFloat)b a:(CGFloat)a {
-    // Empty - handled by subclasses
+-(void)keyUp:(NSEvent *)event {
+    uint16_t vk_code = sky::Platform::translate_keycode([event keyCode]);
+    
+    self.input->current_key_states[vk_code].isdown = false;
+    self.input->current_key_states[vk_code].state_changes++;
 }
 
 @end

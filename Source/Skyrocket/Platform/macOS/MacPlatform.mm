@@ -25,7 +25,6 @@ namespace sky {
 
 struct Platform::PlatformHandle {
     SkyrocketApplicationDelegate* app_delegate;
-    NSWindow* window;
 };
 
 
@@ -213,13 +212,23 @@ void Platform::startup(const char* app_title)
     [NSApp run];
 
 }
+
+void* Platform::new_native_window(const char* caption, const uint16_t width,
+                                  const uint16_t height)
+{
+    NSRect frame = NSMakeRect(0, 0, width, height);
+    CocoaWindow* window = [[CocoaWindow alloc] initWithInputAndContent:&input_
+                                                           contentRect:frame
+                                                         captionString:caption];
+    return window;
+}
     
 uint16_t Platform::open_window_count()
 {
     return [[NSApp windows] count];
 }
     
-void Platform::poll_events()
+void Platform::native_poll_event()
 {
     NSAutoreleasePool* autoReleasePool = [[NSAutoreleasePool alloc] init];
     
@@ -238,9 +247,9 @@ void Platform::poll_events()
     [autoReleasePool drain];
 }
 
-sky::Key Platform::get_vk(const uint16_t native_key)
+uint16_t Platform::translate_keycode(const uint16_t native_key)
 {
-    return keycode_table_[native_key];
+    return static_cast<uint16_t>(keycode_table_[native_key]);
 }
 
 

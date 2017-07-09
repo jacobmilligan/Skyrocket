@@ -63,6 +63,13 @@ int main(int argc, char** argv)
 
     while ( platform->open_window_count() > 0 ) {
         platform->poll_events();
+        if ( platform->key_down(static_cast<uint16_t>(sky::Key::escape)) ) {
+            break;
+        }
+
+        if ( platform->key_typed(static_cast<uint16_t>(sky::Key::space)) ) {
+            printf("space down\n");
+        }
     }
 
     return 0;

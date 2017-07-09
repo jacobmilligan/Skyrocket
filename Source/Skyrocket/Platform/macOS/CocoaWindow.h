@@ -12,6 +12,7 @@
 #pragma once
 
 #import <AppKit/AppKit.h>
+#include <Skyrocket/Platform/Platform.hpp>
 
 namespace sky {
 
@@ -22,8 +23,11 @@ class Platform;
 
 @interface CocoaWindow : NSWindow
 
--(instancetype)initWithSizeAndCaption:(NSRect)contentRect
-                        captionString:(const char*)caption;
+@property (nonnull)sky::RawInputState* input;
+
+-(nonnull instancetype)initWithInputAndContent:(nonnull sky::RawInputState*)input
+                                   contentRect:(NSRect)contentRect
+                                 captionString:(nullable const char*)caption;
 
 @end
 
