@@ -19,10 +19,6 @@
 
 #import <AppKit/AppKit.h>
 
-namespace sky {
-    class Application;
-}
-
 @interface SkyrocketApplication : NSApplication
 @end
 

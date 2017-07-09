@@ -15,13 +15,19 @@
 
 namespace sky {
 
-class Application;
+class Platform;
 
 }
 
-@interface CocoaView : NSView
 
-@property (assign, nullable)sky::Application* app;
+@interface CocoaWindow : NSWindow
+
+-(instancetype)initWithSizeAndCaption:(NSRect)contentRect
+                        captionString:(const char*)caption;
+
+@end
+
+@interface CocoaView : NSView
 
 -(void)setBackingColor:(CGFloat)r
     g:(CGFloat)g

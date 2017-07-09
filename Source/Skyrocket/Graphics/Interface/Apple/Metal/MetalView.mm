@@ -10,6 +10,7 @@
 //
 
 #include "Skyrocket/Graphics/Viewport.hpp"
+#include "Skyrocket/Platform/macOS/CocoaWindow.h"
 #include "Skyrocket/Graphics/Interface/Apple/Metal/MetalView.h"
 
 #import <AppKit/AppKit.h>
@@ -77,15 +78,3 @@
 }
 
 @end
-
-namespace sky {
-    
-    
-void* Viewport::create_handle(const char *caption, const uint16_t width, const uint16_t height)
-{
-    NSRect frame = NSMakeRect(0, 0, width, height);
-    return [[[MetalView alloc] initWithFrame:frame] autorelease];
-}
-    
-    
-}

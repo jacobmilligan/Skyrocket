@@ -5,73 +5,62 @@
 //  --------------------------------------------------------------
 //
 //  Created by
-//  Jacob Milligan on 6/07/2017
+//  Jacob Milligan on 9/07/2017
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Skyrocket/Core/Diagnostics/Error.hpp"
+#include "Skyrocket/Platform/Config.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
-#include "Skyrocket/Platform/Platform.hpp"
+#include "Skyrocket/Graphics/Color.hpp"
+#include "Skyrocket/Platform/macOS/CocoaWindow.h"
 
-#include "Skyrocket/Platform/macOS/CocoaView.h"
+#if SKY_GRAPHICS_API_METAL
 
-#import <AppKit/AppKit.h>
+#include "Skyrocket/Graphics/Interface/Apple/Metal/MetalView.h"
+
+#endif
 
 namespace sky {
-    
-struct Viewport::NativeHandle {
-    NSWindow* window;
+
+struct Viewport::NativeViewport {
+    CocoaWindow* window;
+
+#if SKY_GRAPHICS_API_METAL
+    MetalView* view;
+#else
     CocoaView* view;
+#endif
+
 };
+
 
 Viewport::~Viewport()
 {
-    if ( handle_ )
+    if ( handle_ ) {
         delete handle_;
+    }
 }
 
-void Viewport::create(const char *caption, const uint16_t width, const uint16_t height)
+void Viewport::create_native_viewport()
 {
-    caption_ = caption;
-    width_ = width;
-    height_ = height;
-
-    AssertGuard assert_guard("Creating window with caption", caption);
+    handle_ = new NativeViewport;
+    NSRect frame = NSMakeRect(0, 0, width_, height_);
+    CocoaWindow* window = [[CocoaWindow alloc] initWithSizeAndCaption:frame captionString:caption_];
     
-    SKY_ASSERT(Platform::is_initialized(), "Platform is uninitialized");
+    handle_ = new NativeViewport;
     
-    NSString* nsTitle;
-    if ( caption ) {
-        nsTitle = [[[NSString alloc] initWithUTF8String:caption] autorelease];
-    } else {
-        nsTitle = [[[NSString alloc] initWithUTF8String:"Skyrocket Application"] autorelease];
-    }
-    
-    // Create windowrect and associated window with specified style
-    NSRect windowRect = NSMakeRect(0, 0, width, height);
-    NSUInteger windowStyle = NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask;
-    NSWindow* window = [[NSWindow alloc] initWithContentRect:windowRect
-                                                   styleMask:windowStyle
-                                                     backing:NSBackingStoreBuffered // double buffered rendering
-                                                       defer:NO]; // create immediately
-    
-    [window autorelease];
-    [window setTitle:nsTitle];
-
-    handle_ = new NativeHandle;
-    
-    handle_->view = (CocoaView*)create_handle(caption, width, height);
+#if SKY_GRAPHICS_API_METAL
+    handle_->view = [[[MetalView alloc] initWithFrame:frame] autorelease];
+#else
+    handle_->view = [[[CocoaView alloc] initWithFrame:frame] autorelease];
+#endif
     
     [window setContentView:handle_->view];
-    [window setLevel:NSMainMenuWindowLevel];
-    [window makeKeyAndOrderFront:window];
     
     handle_->window = window;
-    
-    set_backing_color(Color::gray);
 }
-
-void Viewport::set_backing_color(const Color &color)
+    
+void Viewport::set_backing_color(const sky::Color &color)
 {
     [handle_->view setBackingColor:((CGFloat)color.r) / 255.0
                                  g:((CGFloat)color.g) / 255.0

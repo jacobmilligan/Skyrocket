@@ -1,2 +1,1 @@
-skyrocket_add_sources(ChronoTime.cpp
-        GenericPlatform.cpp)
+skyrocket_add_sources(ChronoTime.cpp)

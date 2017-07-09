@@ -9,7 +9,6 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Graphics/Interface/Apple/Metal/MetalView.h"
 #include "Skyrocket/Graphics/Interface/Apple/Metal/MetalDriver.h"
 

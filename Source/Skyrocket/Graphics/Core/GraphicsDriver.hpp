@@ -16,7 +16,7 @@
 
 namespace sky {
 
-class Viewport;
+class Window;
 
 class GraphicsDriver {
 public:

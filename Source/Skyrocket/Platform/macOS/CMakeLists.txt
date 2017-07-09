@@ -9,4 +9,5 @@ else()
 endif ()
 
 skyrocket_add_sources(MacPlatform.mm
-        CocoaView.mm)
+        CocoaWindow.mm
+        MacApplication.mm)

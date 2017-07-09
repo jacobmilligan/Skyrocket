@@ -12,7 +12,6 @@
 #pragma once
 
 #include "Skyrocket/IO/Keycodes.hpp"
-#include "Skyrocket/Graphics/Viewport.hpp"
 
 #include <memory>
 #include <Skyrocket/Graphics/Core/GraphicsDriver.hpp>
@@ -43,7 +42,6 @@ public:
     virtual void on_keyup(sky::Key keycode) = 0;
     virtual void on_mouse() = 0;
 protected:
-    Viewport default_view;
     std::unique_ptr<GraphicsDriver> graphics_driver;
 private:
     std::unique_ptr<Platform> platform_;

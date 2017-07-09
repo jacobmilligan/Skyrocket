@@ -13,7 +13,7 @@
 
 #if SKY_GRAPHICS_API_METAL
 
-#include "Skyrocket/Platform/macOS/CocoaView.h"
+#include "Skyrocket/Platform/macOS/CocoaWindow.h"
 
 #import <Metal/Metal.h>
 #import <QuartzCore/CAMetalLayer.h>

@@ -17,7 +17,7 @@ namespace sky {
 
 Application::Application(const char* name)
     : name_(name),
-      platform_(std::make_unique<Platform>(this)),
+      platform_(std::make_unique<Platform>()),
       active_(false)
 {}
 
@@ -29,7 +29,6 @@ void Application::start()
     platform_->startup(name_);
 
     graphics_driver = GraphicsDriver::create();
-    default_view.create(name_, 800, 600);
 
     active_ = true;
 

@@ -10,6 +10,8 @@
 //
 
 #include <Skyrocket/Framework/Application.hpp>
+#include <Skyrocket/Platform/Platform.hpp>
+#include <Skyrocket/Graphics/Viewport.hpp>
 
 class GraphicsApp : public sky::Application {
 public:
@@ -51,7 +53,17 @@ public:
 
 int main(int argc, char** argv)
 {
-    GraphicsApp app;
-    app.start();
+//    GraphicsApp app;
+//    app.start();
+
+    auto platform = std::make_unique<sky::Platform>();
+    auto graphics = std::make_unique<sky::GraphicsDriver>();
+    platform->startup("Graphics app");
+    auto view = sky::Viewport::create("Graphics App", 800, 600);
+
+    while ( platform->open_window_count() > 0 ) {
+        platform->poll_events();
+    }
+
     return 0;
 }
