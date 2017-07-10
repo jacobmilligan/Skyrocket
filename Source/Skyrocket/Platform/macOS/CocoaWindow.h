@@ -12,22 +12,17 @@
 #pragma once
 
 #import <AppKit/AppKit.h>
-#include <Skyrocket/Platform/Platform.hpp>
 
-namespace sky {
-
-class Platform;
-
-}
+namespace sky { class NativeInputListener; }
 
 
 @interface CocoaWindow : NSWindow
 
-@property (nonnull)sky::RawInputState* input;
+@property (nonnull)sky::NativeInputListener* input;
 
--(nonnull instancetype)initWithInputAndContent:(nonnull sky::RawInputState*)input
-                                   contentRect:(NSRect)contentRect
-                                 captionString:(nullable const char*)caption;
+-(nonnull instancetype)initWithInputListener:(nonnull sky::NativeInputListener*)input
+                                 contentRect:(NSRect)contentRect
+                               captionString:(nullable const char*)caption;
 
 @end
 

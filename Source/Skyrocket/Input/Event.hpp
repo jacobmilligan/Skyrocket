@@ -10,8 +10,8 @@
 
 #pragma once
 
-#include "Skyrocket/IO/Keycodes.hpp"
-#include "Skyrocket/IO/Buttons.hpp"
+#include "Skyrocket/Input/Keycodes.hpp"
+#include "Skyrocket/Input/Buttons.hpp"
 
 namespace sky {
 

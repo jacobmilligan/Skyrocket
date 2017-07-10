@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "Skyrocket/IO/Keycodes.hpp"
+#include "Skyrocket/Input/Keycodes.hpp"
 
 #include <memory>
 #include <Skyrocket/Graphics/Core/GraphicsDriver.hpp>

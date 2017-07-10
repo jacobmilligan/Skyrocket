@@ -12,7 +12,8 @@
 #pragma once
 
 #include "Skyrocket/Platform/Config.hpp"
-#include "Skyrocket/IO/Keycodes.hpp"
+#include "Skyrocket/Input/Keycodes.hpp"
+#include "NativeInput.hpp"
 
 #include <cstdint>
 
@@ -21,22 +22,6 @@ namespace sky {
 class Application;
 class Window;
 struct Color;
-
-struct RawKeyState {
-    RawKeyState()
-        : isdown(false), state_changes(0)
-    {}
-
-    bool isdown;
-    uint32_t state_changes;
-};
-
-struct RawInputState {
-    static const uint16_t num_keys = static_cast<uint16_t>(Key::last);
-
-    RawKeyState last_key_states[num_keys];
-    RawKeyState current_key_states[num_keys];
-};
 
 class Platform {
 public:
@@ -68,15 +53,18 @@ public:
     static void* new_native_window(const char* caption, const uint16_t width,
                                    const uint16_t height);
 
-    static bool key_down(const uint16_t keycode);
-    static bool key_typed(const uint16_t keycode);
+    inline static const NativeInputListener* get_native_input_listener()
+    {
+        return &input_;
+    }
+
 private:
     struct PlatformHandle;
 
     PlatformHandle* handle_;
     static bool initialized_;
-    static sky::Key keycode_table_[RawInputState::num_keys];
-    static RawInputState input_;
+
+    static NativeInputListener input_;
 
     void setup_keycodes();
     void native_poll_event();
@@ -117,7 +105,7 @@ private:
 //    /// @brief Centers the mouse cursor within the platform-specific window
 //    void center_cursor();
 //
-//    /// @brief Checks whether or not the specified key is currently held down
+//    /// @brief Checks whether or not the specified key is currently held is_down
 //    /// @param key The Key to check input for
 //    /// @return The type of input event that represents the Keys current state
 //    bool is_key_down(const sky::Key key);

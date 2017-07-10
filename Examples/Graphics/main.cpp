@@ -11,7 +11,9 @@
 
 #include <Skyrocket/Framework/Application.hpp>
 #include <Skyrocket/Platform/Platform.hpp>
+#include <Skyrocket/Input/Keyboard.hpp>
 #include <Skyrocket/Graphics/Viewport.hpp>
+#include <chrono>
 
 class GraphicsApp : public sky::Application {
 public:
@@ -61,15 +63,18 @@ int main(int argc, char** argv)
     platform->startup("Graphics app");
     auto view = sky::Viewport::create("Graphics App", 800, 600);
 
+    sky::Keyboard keyboard;
+
     while ( platform->open_window_count() > 0 ) {
+        auto now = std::chrono::high_resolution_clock::now();
+
         platform->poll_events();
-        if ( platform->key_down(static_cast<uint16_t>(sky::Key::escape)) ) {
+        if ( keyboard.key_down(sky::Key::escape) ) {
             break;
         }
 
-        if ( platform->key_typed(static_cast<uint16_t>(sky::Key::space)) ) {
-            printf("space down\n");
-        }
+        std::chrono::duration<float, std::centi> time = std::chrono::high_resolution_clock::now() - now;
+        printf("Time: %f\n", time.count());
     }
 
     return 0;

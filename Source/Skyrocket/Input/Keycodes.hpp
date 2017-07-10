@@ -33,7 +33,7 @@ enum ModifierKey {
 
 /// @brief Enumeration of all keycodes on a US standard keyboard. The keycodes map
 /// to the ASCII standard with non-ASCII characters allocated to the 256+ range
-enum class Key {
+enum Key {
     unknown = -1,
     space = 32,
     apostrophe = 39,

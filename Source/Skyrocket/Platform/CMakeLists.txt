@@ -18,7 +18,7 @@ list(APPEND dependencies SkyrocketCore)
 ######################################
 
 add_subdirectory(Generic)
-add_subdirectory(Shared)
+add_subdirectory(Common)
 
 ###########################################
 ## Platform-specific configurations
