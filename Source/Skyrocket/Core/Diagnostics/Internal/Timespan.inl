@@ -13,23 +13,13 @@
 namespace sky {
 
 /// @brief Gets a new Time unit from a specified interval.
-/// Template specialization for Time::Interval::ticks
-/// @param duration The amount of ticks to assign to the Time unit
-/// @return The Time unit
-template <> inline
-Time get_timespan<Time::Interval::ticks>(const uint64_t duration)
-{
-    return Time(duration);
-}
-
-/// @brief Gets a new Time unit from a specified interval.
 /// Template specialization for Time::Interval::milliseconds
 /// @param duration The amount of milliseconds to assign to the Time unit
 /// @return The Time unit
 template <> inline
-Time get_timespan<Time::Interval::milliseconds>(const double duration)
+Timespan get_timespan<TimeInterval::milliseconds>(const double millis)
 {
-    return Time(static_cast<uint64_t>(Time::ticks_per_millisecond * duration));
+    return Timespan(static_cast<uint64_t>(Timespan::ticks_per_millisecond * millis));
 }
 
 /// @brief Gets a new Time unit from a specified interval.
@@ -37,9 +27,9 @@ Time get_timespan<Time::Interval::milliseconds>(const double duration)
 /// @param duration The amount of seconds to assign to the Time unit
 /// @return The Time unit
 template <> inline
-Time get_timespan<Time::Interval::seconds>(const double duration)
+Timespan get_timespan<TimeInterval::seconds>(const double secs)
 {
-    return Time(static_cast<uint64_t>(Time::ticks_per_second * duration));
+    return Timespan(static_cast<uint64_t>(Timespan::ticks_per_second * secs));
 }
 
 /// @brief Gets a new Time unit from a specified interval.
@@ -47,9 +37,9 @@ Time get_timespan<Time::Interval::seconds>(const double duration)
 /// @param duration The amount of minutes to assign to the Time unit
 /// @return The Time unit
 template <> inline
-Time get_timespan<Time::Interval::minutes>(const double duration)
+Timespan get_timespan<TimeInterval::minutes>(const double mins)
 {
-    return Time(static_cast<uint64_t>(Time::ticks_per_minute * duration));
+    return Timespan(static_cast<uint64_t>(Timespan::ticks_per_minute * mins));
 }
 
 /// @brief Gets a new Time unit from a specified interval.
@@ -57,9 +47,9 @@ Time get_timespan<Time::Interval::minutes>(const double duration)
 /// @param duration The amount of hours to assign to the Time unit
 /// @return The Time unit
 template <> inline
-Time get_timespan<Time::Interval::hours>(const double duration)
+Timespan get_timespan<TimeInterval::hours>(const double hours)
 {
-    return Time(static_cast<uint64_t>(Time::ticks_per_hour * duration));
+    return Timespan(static_cast<uint64_t>(Timespan::ticks_per_hour * hours));
 }
 
 }

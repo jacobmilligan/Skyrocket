@@ -27,8 +27,6 @@ class Platform {
 public:
     Platform();
 
-//    Platform(Application* app);
-
     /// @brief Destroys all windows, applications etc. associated with the
     /// platform
     ~Platform();
@@ -37,8 +35,6 @@ public:
     /// is currently open or closed
     /// @return True if the window is open, false otherwise
     uint16_t open_window_count();
-
-    static uint16_t translate_keycode(const uint16_t native_key);
 
     static inline bool is_initialized()
     {
@@ -58,6 +54,8 @@ public:
         return &input_;
     }
 
+    static uint64_t high_resolution_time();
+
 private:
     struct PlatformHandle;
 
@@ -66,7 +64,6 @@ private:
 
     static NativeInputListener input_;
 
-    void setup_keycodes();
     void native_poll_event();
 
     //    /// @brief Sets the specified WindowHandle as the current GL context to use for

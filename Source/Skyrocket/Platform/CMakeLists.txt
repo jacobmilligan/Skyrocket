@@ -2,7 +2,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(lib_name SkyrocketPlatform)
 
-skyrocket_add_sources(Generic/ChronoTime.cpp)
+skyrocket_add_sources(StdPlatform/StdPlatform.cpp)
 
 set(compile_flags)
 set(dependencies)
@@ -17,7 +17,6 @@ list(APPEND dependencies SkyrocketCore)
 ## Add subdirectories and sources
 ######################################
 
-add_subdirectory(Generic)
 add_subdirectory(Common)
 
 ###########################################
@@ -27,6 +26,7 @@ add_subdirectory(Common)
 ###### macOS ######
 if (${skyrocket_platform} STREQUAL "macOS")
     add_subdirectory(macOS)
+    add_subdirectory(StdPlatform)
 endif ()
 
 ######################################

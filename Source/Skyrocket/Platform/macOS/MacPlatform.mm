@@ -24,6 +24,7 @@
 namespace sky {
 
 struct Platform::PlatformHandle {
+    NSAutoreleasePool* pool;
     SkyrocketApplicationDelegate* app_delegate;
 };
 
@@ -36,6 +37,7 @@ Platform::Platform()
 Platform::~Platform()
 {
     if ( handle_ != nullptr ) {
+        [handle_->pool drain];
         delete handle_;
     }
     initialized_ = false;
@@ -43,11 +45,11 @@ Platform::~Platform()
 
 void Platform::startup(const char* app_title)
 {
-    AssertGuard assert_guard("Initializing platform with application", app_title);
+    AssertGuard assert_guard("Initializing platform", app_title);
     
 //    SKY_ASSERT(app_ != nullptr, "Application is not null");
     
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    handle_->pool = [[NSAutoreleasePool alloc] init];
     // Create shared application and assign app delegate
     [SkyrocketApplication sharedApplication];
     handle_->app_delegate = [[SkyrocketApplicationDelegate alloc] init];
@@ -55,8 +57,6 @@ void Platform::startup(const char* app_title)
     
     // Set activation policy to regular to avoid requiring .plist files in < OSX 10.7
     [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-    
-    [NSApp activateIgnoringOtherApps:YES];
     
     // Add menu bars
     id menu = [[NSMenu alloc] autorelease];
@@ -73,23 +73,20 @@ void Platform::startup(const char* app_title)
     
     [NSApp setMainMenu:menu];
 
-    NSArray* args = [[NSProcessInfo processInfo] arguments];
-    int argc = 0;
-    const char* argv[32];
-    for ( NSString* arg in args ) {
-        argv[argc++] = arg.UTF8String;
-        if ( argc == sizeof(argv) / sizeof(argv[0]) ) {
-            break;
-        }
-    }
-    
-    [pool drain];
+//    NSArray* args = [[NSProcessInfo processInfo] arguments];
+//    int argc = 0;
+//    const char* argv[32];
+//    for ( NSString* arg in args ) {
+//        argv[argc++] = arg.UTF8String;
+//        if ( argc == sizeof(argv) / sizeof(argv[0]) ) {
+//            break;
+//        }
+//    }
 
     initialized_ = true;
 
-//    app_->on_startup(argc, argv);
-
     [NSApp run];
+    [NSApp activateIgnoringOtherApps:YES]; // make skyrocket the active app
 
 }
 

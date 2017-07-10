@@ -13,7 +13,7 @@
 #include <Skyrocket/Platform/Platform.hpp>
 #include <Skyrocket/Input/Keyboard.hpp>
 #include <Skyrocket/Graphics/Viewport.hpp>
-#include <chrono>
+#include <Skyrocket/Core/Diagnostics/Timespan.hpp>
 
 class GraphicsApp : public sky::Application {
 public:
@@ -65,16 +65,19 @@ int main(int argc, char** argv)
 
     sky::Keyboard keyboard;
 
+    sky::Timespan now(sky::Platform::high_resolution_time());
+    sky::Timespan after;
+
     while ( platform->open_window_count() > 0 ) {
-        auto now = std::chrono::high_resolution_clock::now();
+        now = sky::Platform::high_resolution_time();
 
         platform->poll_events();
         if ( keyboard.key_down(sky::Key::escape) ) {
             break;
         }
 
-        std::chrono::duration<float, std::centi> time = std::chrono::high_resolution_clock::now() - now;
-        printf("Time: %f\n", time.count());
+        after = sky::Platform::high_resolution_time();
+        printf("Now: %f\n", (after - now).total_seconds());
     }
 
     return 0;

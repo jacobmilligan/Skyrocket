@@ -43,8 +43,9 @@
         }
         
         [self setTitle:nsTitle];
-        [self setLevel:NSMainMenuWindowLevel];
+        [self setAcceptsMouseMovedEvents:YES];
         [self makeKeyAndOrderFront:self];
+        [self makeFirstResponder:self];
     }
     
     return newWindow;
