@@ -8,11 +8,22 @@ function(skyrocket_init)
     unset(skyrocket_build_type CACHE)
     unset(skyrocket_graphics_api CACHE)
 
-    if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-        skyrocket_add_definitions(-DSKY_DEBUG)
+    set(skyrocket_build_type DEBUG CACHE INTERNAL "")
+
+    if(CMAKE_CONFIGURATION_TYPES)
+        # Multi-config
+        foreach(config ${CMAKE_CONFIGURATION_TYPES})
+            if(config STREQUAL "Release")
+                set(skyrocket_build_type RELEASE)
+            endif()
+        endforeach()
     else()
-        skyrocket_add_definitions(-DSKY_RELEASE)
-    endif ()
+        if (CMAKE_BUILD_TYPE STREQUAL "Release")
+            set(skyrocket_build_type RELEASE)
+        endif ()
+    endif()
+
+    skyrocket_add_definitions(-DSKY_${skyrocket_build_type})
 endfunction()
 
 # Adds source files

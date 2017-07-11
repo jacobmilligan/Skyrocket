@@ -16,7 +16,7 @@ skyrocket_init()
 ## Definitions and config vars
 ################################
 
-MESSAGE("-- Skyrocket.Framework: Building in ${CMAKE_BUILD_TYPE} mode")
+MESSAGE("-- Skyrocket.Framework: Building in ${skyrocket_build_type} mode")
 
 
 ###########################

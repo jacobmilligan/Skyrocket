@@ -1,5 +1,3 @@
-MESSAGE("-- Skyrocket.Platform: Building for macOS")
-
 # Add library dependencies
 FIND_LIBRARY(cocoa_lib Cocoa)
 if (NOT cocoa_lib)

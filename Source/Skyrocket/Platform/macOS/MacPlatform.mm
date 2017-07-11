@@ -100,11 +100,6 @@ void* Platform::new_native_window(const char* caption, const uint16_t width,
     return window;
 }
     
-uint16_t Platform::open_window_count()
-{
-    return [[NSApp windows] count];
-}
-    
 void Platform::native_poll_event()
 {
     NSAutoreleasePool* autoReleasePool = [[NSAutoreleasePool alloc] init];

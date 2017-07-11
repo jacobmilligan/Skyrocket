@@ -177,7 +177,7 @@ const auto target_compiler = Compiler::clang;
     #define SKY_POP_WARNING _Pragma( SKY_STRINGIFY(warning( pop ))
 	#define SKY_FUNCTION_NAME __FUNCTION__
 
-    #define SKY_DEBUG_BREAK() asm { int 3 }
+    #define SKY_DEBUG_BREAK() __asm { int 3 }
 #endif
 
 ///////////////////////////////

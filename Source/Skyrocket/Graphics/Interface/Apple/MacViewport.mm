@@ -29,7 +29,7 @@ struct Viewport::NativeViewport {
 };
 
 
-Viewport::~Viewport()
+Viewport::destroy_native_viewport()
 {
     if ( handle_ ) {
         delete handle_;

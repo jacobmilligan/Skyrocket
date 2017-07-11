@@ -16,22 +16,38 @@
 
 namespace sky {
 
-Viewport Viewport::create(const char* caption, const uint16_t width,
-                      const uint16_t height)
+uint16_t Viewport::open_windows_ = 0;
+
+Viewport::~Viewport()
 {
-    Viewport view;
-    view.caption_ = caption;
-    view.width_ = width;
-    view.height_ = height;
+	close();
+}
+
+void Viewport::open(const char* caption, const uint16_t width, const uint16_t height)
+{
+    caption_ = caption;
+    width_ = width;
+    height_ = height;
 
     AssertGuard assert_guard("Creating window with caption", caption);
 
     SKY_ASSERT(Platform::is_initialized(), "Platform is uninitialized");
 
-    view.create_native_viewport();
-    view.set_backing_color(Color::gray);
+    create_native_viewport();
+    set_backing_color(Color::gray);
 
-    return view;
+	++open_windows_;
+}
+
+void Viewport::close()
+{
+	destroy_native_viewport();
+	--open_windows_;
+}
+
+uint16_t Viewport::open_viewports()
+{
+	return open_windows_;
 }
 
 

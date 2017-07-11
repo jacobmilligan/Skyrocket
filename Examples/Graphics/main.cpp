@@ -61,14 +61,15 @@ int main(int argc, char** argv)
     auto platform = std::make_unique<sky::Platform>();
     auto graphics = std::make_unique<sky::GraphicsDriver>();
     platform->startup("Graphics app");
-    auto view = sky::Viewport::create("Graphics App", 800, 600);
+	sky::Viewport view;
+	view.open("Graphics App", 800, 600);
 
     sky::Keyboard keyboard;
 
     sky::Timespan now(sky::Platform::high_resolution_time());
     sky::Timespan after;
 
-    while ( platform->open_window_count() > 0 ) {
+    while ( sky::Viewport::open_viewports() > 0 ) {
         now = sky::Platform::high_resolution_time();
 
         platform->poll_events();
@@ -76,8 +77,11 @@ int main(int argc, char** argv)
             break;
         }
 
+		if ( keyboard.key_typed(sky::Key::space) ) {
+			printf("Open windows: %d\n", sky::Viewport::open_viewports());
+		}
+
         after = sky::Platform::high_resolution_time();
-        printf("Now: %f\n", (after - now).total_seconds());
     }
 
     return 0;
