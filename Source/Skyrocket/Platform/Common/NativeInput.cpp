@@ -9,6 +9,7 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
+#include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Core/Diagnostics/Error.hpp"
 #include "Skyrocket/Platform/Platform.hpp"
 
@@ -31,6 +32,20 @@ void NativeInputListener::reset_state()
 {
     last_frame_mask_ = this_frame_mask_;
     this_frame_mask_ = 0;
+
+	if ( !window_events_.empty() ) {
+		window_events_.clear();
+	}
+}
+
+void NativeInputListener::request_window_close(Viewport* viewport)
+{
+	window_events_.push_back(WindowEvent{ viewport, EventType::window_closed });
+}
+
+void NativeInputListener::window_moved(Viewport* viewport)
+{
+	window_events_.push_back(WindowEvent{ viewport, EventType::window_moved });
 }
 
 void NativeInputListener::key_down(const uint16_t keycode)
@@ -64,6 +79,18 @@ const bool NativeInputListener::is_key_typed(const Key key) const
         && ((last_frame_mask_ >> key) & 1) == 0;
 }
 
+bool NativeInputListener::window_event_occurred(const Viewport* viewport, const EventType event) const
+{
+	if ( window_events_.empty() )
+		return false;
 
+	for ( auto& ev : window_events_ ) {
+		if ( ev.event == event && ev.viewport == viewport ) {
+			return true;
+		}
+	}
+
+	return false;
+}
 
 }

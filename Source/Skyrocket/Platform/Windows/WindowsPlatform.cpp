@@ -10,6 +10,7 @@
 
 #include "Skyrocket/Core/Diagnostics/Error.hpp"
 #include "Skyrocket/Platform/Platform.hpp"
+#include "Skyrocket/Platform/Windows/WindowsApplication.hpp"
 
 #include <windows.h>
 
@@ -29,39 +30,20 @@ int CALLBACK WinMain(
 	return main(__argc, __argv);
 }
 
-LRESULT CALLBACK global_window_callback(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
-
 struct Platform::PlatformHandle {
-	HWND window;
+	WindowsApplication app;
 };
 
 Platform::Platform()
-	: handle_(new PlatformHandle)
-{}
+{
+	handle_ = new PlatformHandle{ WindowsApplication(&input_) };
+}
 
 Platform::~Platform()
 {
 	if ( handle_ ) {
 		delete handle_;
 	}
-}
-
-struct EnumWindowsData {
-	DWORD main_process;
-	uint16_t count;
-};
-
-BOOL CALLBACK enum_windows_callback(HWND hwnd, LPARAM lparam)
-{
-	EnumWindowsData* data = reinterpret_cast<EnumWindowsData*>(lparam);
-	DWORD process_id;
-	GetWindowThreadProcessId(hwnd, &process_id);
-
-	if ( process_id == data->main_process ) {
-		data->count++;
-	}
-
-	return TRUE;
 }
 
 void Platform::startup(const char* app_title)
@@ -74,11 +56,13 @@ void Platform::startup(const char* app_title)
 
 	// unique device context per window, vertical and horizontal redaw when moving or resize
 	winclass.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
-	winclass.lpfnWndProc = global_window_callback;
+	winclass.lpfnWndProc = handle_->app.window_callback;
 	winclass.lpszClassName = SKY_WNDCLASS_NAME;
 
 	auto registered = RegisterClassA(&winclass);
 	SKY_ASSERT(registered, "WNDCLASS successfully registered");
+
+	handle_->app.initialize();
 
 	initialized_ = true;
 }
@@ -106,44 +90,9 @@ void* Platform::new_native_window(const char* caption, const uint16_t width,
 	return window;
 }
 
-LRESULT CALLBACK global_window_callback(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
-{
-	LRESULT result = 0;
-	switch ( message ) {
-		case WM_CLOSE:
-		{
-		} break;
-		default:
-		{
-			result = DefWindowProc(window, message, wparam, lparam); // default processing for anything not handled
-		} break;
-	}
-	return result;
-}
-
 void Platform::native_poll_event()
 {
-	MSG msg;
-	// Remove message from queue after processing
-	while ( PeekMessage(&msg, 0, 0, 0, PM_REMOVE) ) {
-		switch ( msg.message ) {
-			case WM_KEYUP:
-			{
-				input_.key_up(msg.wParam);
-			} break;
-
-			case WM_KEYDOWN:
-			{
-				input_.key_down(msg.wParam);
-			} break;
-
-			default:
-			{
-				TranslateMessage(&msg);
-				DispatchMessageA(&msg);
-			}
-		}
-	}
+	handle_->app.pump_messages();
 }
 
 

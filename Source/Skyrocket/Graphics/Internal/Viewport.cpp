@@ -45,6 +45,11 @@ void Viewport::close()
 	--open_windows_;
 }
 
+bool Viewport::close_requested()
+{
+	return Platform::get_native_input_listener()->window_event_occurred(this, EventType::window_closed);
+}
+
 uint16_t Viewport::open_viewports()
 {
 	return open_windows_;

@@ -22,7 +22,6 @@ struct Color;
 class Viewport : public Noncopyable {
 public:
     friend class GraphicsDriver;
-	friend class Platform;
 
     Viewport() {}
 
@@ -35,6 +34,8 @@ public:
 	static uint16_t open_viewports();
 
     void set_backing_color(const Color& color);
+
+	bool close_requested();
 private:
 	static uint16_t open_windows_;
 

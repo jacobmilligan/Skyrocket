@@ -31,7 +31,8 @@ void Viewport::destroy_native_viewport()
 void Viewport::create_native_viewport()
 {
 	handle_ = new NativeViewport;
-	handle_->window = (HWND)Platform::new_native_window(caption_, width_, height_);
+	handle_->window = static_cast<HWND>(Platform::new_native_window(caption_, width_, height_));
+	SetPropW(handle_->window, L"SKY_VIEWPORT", this);
 }
 
 void Viewport::set_backing_color(const sky::Color &color)

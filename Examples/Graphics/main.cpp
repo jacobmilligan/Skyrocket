@@ -73,7 +73,7 @@ int main(int argc, char** argv)
         now = sky::Platform::high_resolution_time();
 
         platform->poll_events();
-        if ( keyboard.key_down(sky::Key::escape) ) {
+        if ( keyboard.key_down(sky::Key::escape) || view.close_requested() ) {
             break;
         }
 
