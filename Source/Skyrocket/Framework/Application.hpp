@@ -18,7 +18,7 @@
 
 namespace sky {
 
-class Platform;
+//class Platform;
 
 class Application {
 public:
@@ -29,8 +29,6 @@ public:
     {
         return name_;
     }
-
-    uint16_t active_windows();
 
     void start();
     void shutdown();
@@ -44,7 +42,7 @@ public:
 protected:
     std::unique_ptr<GraphicsDriver> graphics_driver;
 private:
-    std::unique_ptr<Platform> platform_;
+    //std::unique_ptr<Platform> platform_;
     const char* name_;
     bool active_;
 

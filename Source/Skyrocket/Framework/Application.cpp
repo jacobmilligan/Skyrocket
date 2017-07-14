@@ -17,7 +17,6 @@ namespace sky {
 
 Application::Application(const char* name)
     : name_(name),
-      platform_(std::make_unique<Platform>()),
       active_(false)
 {}
 
@@ -26,14 +25,14 @@ Application::~Application()
 
 void Application::start()
 {
-    platform_->startup(name_);
+    //platform_->startup(name_);
 
     graphics_driver = GraphicsDriver::create();
 
     active_ = true;
 
     while ( active_ ) {
-        platform_->poll_events();
+        //platform_->poll_events();
         on_update();
         on_render();
         // TODO: only update active view
@@ -43,11 +42,6 @@ void Application::start()
 void Application::shutdown()
 {
     active_ = false;
-}
-
-uint16_t Application::active_windows()
-{
-    return platform_->open_window_count();
 }
 
 

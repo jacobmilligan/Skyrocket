@@ -17,7 +17,7 @@ list(APPEND dependencies SkyrocketCore)
 ## Add subdirectories and sources
 ######################################
 
-add_subdirectory(Common)
+add_subdirectory(Internal)
 
 ###########################################
 ## Platform-specific configurations

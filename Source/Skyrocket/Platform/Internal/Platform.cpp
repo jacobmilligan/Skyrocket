@@ -9,18 +9,29 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
+#include "Skyrocket/Core/Diagnostics/Error.hpp"
 #include "Skyrocket/Platform/Platform.hpp"
+
 
 namespace sky {
 
-NativeInputListener Platform::input_;
 bool Platform::initialized_ = false;
+PlatformEvents Platform::events_;
+
+void Platform::launch(const char* app_title)
+{
+	app_title_ = app_title;
+	native_init();
+	initialized_ = true;
+}
 
 void Platform::poll_events()
 {
-    input_.reset_state();
-    native_poll_event();
+	events_.reset_keyboard_state();
+	native_poll_events();
 }
+
+
 
 
 }

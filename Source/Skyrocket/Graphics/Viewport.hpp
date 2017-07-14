@@ -11,13 +11,16 @@
 
 #pragma once
 
+#include "Skyrocket/Platform/Platform.hpp"
 #include "Skyrocket/Core/Memory/Noncopyable.hpp"
 
 #include <cstdint>
+#include <memory>
 
 namespace sky {
 
 struct Color;
+struct PlatformWindow;
 
 class Viewport : public Noncopyable {
 public:
@@ -25,7 +28,10 @@ public:
 
     Viewport() {}
 
-    ~Viewport();
+	~Viewport()
+	{
+		close();
+	}
 
     void open(const char* caption, const uint16_t width, const uint16_t height);
 
@@ -46,6 +52,7 @@ private:
     struct NativeViewport;
 
     NativeViewport* handle_;
+	WindowData window_data_;
 
 	void create_native_viewport();
 	void destroy_native_viewport();

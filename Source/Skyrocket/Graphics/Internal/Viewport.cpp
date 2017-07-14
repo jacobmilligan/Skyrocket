@@ -10,18 +10,12 @@
 //
 
 #include "Skyrocket/Core/Diagnostics/Error.hpp"
-#include "Skyrocket/Platform/Platform.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Graphics/Color.hpp"
 
 namespace sky {
 
 uint16_t Viewport::open_windows_ = 0;
-
-Viewport::~Viewport()
-{
-	close();
-}
 
 void Viewport::open(const char* caption, const uint16_t width, const uint16_t height)
 {
@@ -31,7 +25,7 @@ void Viewport::open(const char* caption, const uint16_t width, const uint16_t he
 
     AssertGuard assert_guard("Creating window with caption", caption);
 
-    SKY_ASSERT(Platform::is_initialized(), "Platform is uninitialized");
+    //SKY_ASSERT(Platform::is_initialized(), "Platform is uninitialized");
 
     create_native_viewport();
     set_backing_color(Color::gray);
@@ -45,14 +39,14 @@ void Viewport::close()
 	--open_windows_;
 }
 
-bool Viewport::close_requested()
-{
-	return Platform::get_native_input_listener()->window_event_occurred(this, EventType::window_closed);
-}
-
 uint16_t Viewport::open_viewports()
 {
 	return open_windows_;
+}
+
+bool Viewport::close_requested()
+{
+	return window_data_.close_requested;
 }
 
 

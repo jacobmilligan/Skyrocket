@@ -11,9 +11,9 @@
 
 #include <Skyrocket/Framework/Application.hpp>
 #include <Skyrocket/Platform/Platform.hpp>
-#include <Skyrocket/Input/Keyboard.hpp>
 #include <Skyrocket/Graphics/Viewport.hpp>
 #include <Skyrocket/Core/Diagnostics/Timespan.hpp>
+#include <Skyrocket/Input/Keyboard.hpp>
 
 class GraphicsApp : public sky::Application {
 public:
@@ -27,8 +27,7 @@ public:
 
     void on_update() override
     {
-        if ( active_windows() <= 0 )
-            shutdown();
+
     }
 
     void on_render() override
@@ -57,31 +56,36 @@ int main(int argc, char** argv)
 {
 //    GraphicsApp app;
 //    app.start();
-
-    auto platform = std::make_unique<sky::Platform>();
+	sky::Platform plat;
+	plat.launch("Graphics app");
+	//auto platform = sky::launch_platform("Graphics App");
     auto graphics = std::make_unique<sky::GraphicsDriver>();
-    platform->startup("Graphics app");
 	sky::Viewport view;
 	view.open("Graphics App", 800, 600);
 
-    sky::Keyboard keyboard;
-
-    sky::Timespan now(sky::Platform::high_resolution_time());
+    sky::Timespan now(plat.high_resolution_time());
     sky::Timespan after;
 
-    while ( sky::Viewport::open_viewports() > 0 ) {
-        now = sky::Platform::high_resolution_time();
+	sky::Keyboard keyboard;
 
-        platform->poll_events();
-        if ( keyboard.key_down(sky::Key::escape) || view.close_requested() ) {
+    while ( sky::Viewport::open_viewports() > 0 ) {
+        now = plat.high_resolution_time();
+
+		//sky::poll_events(platform.get());
+		plat.poll_events();
+        /*if ( platform->keyboard_state.key_states[sky::Key::escape].is_down || view.close_requested() ) {
             break;
-        }
+        }*/
+
+		if ( keyboard.key_down(sky::Key::escape) || view.close_requested() ) {
+			break;
+		}
 
 		if ( keyboard.key_typed(sky::Key::space) ) {
 			printf("Open windows: %d\n", sky::Viewport::open_viewports());
 		}
 
-        after = sky::Platform::high_resolution_time();
+		after = plat.high_resolution_time();
     }
 
     return 0;

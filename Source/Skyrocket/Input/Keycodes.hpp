@@ -11,6 +11,8 @@
 
 #pragma once
 
+#include <cstdint>
+
 namespace sky {
 
 
@@ -18,7 +20,7 @@ namespace sky {
 /// A modifier is different to a Key code in that modifiers are considered as
 /// a part of the same event as a Key, modifying them, whereas a Key event can only
 /// have one keyboard key at any given time
-enum ModifierKey {
+enum class ModifierKey {
     /// @brief The left/right shift key modifier
     shift = 0x0001,
     /// @brief The left/right control key modifier
@@ -33,7 +35,7 @@ enum ModifierKey {
 
 /// @brief Enumeration of all keycodes on a US standard keyboard. The keycodes map
 /// to the ASCII standard with non-ASCII characters allocated to the 256+ range
-enum Key {
+enum class Key {
     unknown = -1,
     space = 32,
     apostrophe = 39,
@@ -159,6 +161,5 @@ enum Key {
     menu,
     last = static_cast<int>(menu)
 };
-
 
 }

@@ -10,7 +10,7 @@
 
 #include "Skyrocket/Core/Diagnostics/Error.hpp"
 #include "Skyrocket/Platform/Platform.hpp"
-#include "Skyrocket/Platform/Windows/WindowsApplication.hpp"
+#include "Skyrocket/Graphics/Viewport.hpp"
 
 #include <windows.h>
 
@@ -30,59 +30,24 @@ int CALLBACK WinMain(
 	return main(__argc, __argv);
 }
 
-struct Platform::PlatformHandle {
-	WindowsApplication app;
-};
+LRESULT CALLBACK window_callback(HWND window, UINT message, WPARAM wparam, LPARAM lparam);
 
-Platform::Platform()
-{
-	handle_ = new PlatformHandle{ WindowsApplication(&input_) };
-}
-
-Platform::~Platform()
-{
-	if ( handle_ ) {
-		delete handle_;
-	}
-}
-
-void Platform::startup(const char* app_title)
-{
-	AssertGuard assert_guard("Initializing platform for new application", app_title);
-
-	WNDCLASS winclass = {};
-
-	// 1. Setup the winclass with style, classname and callback
-
-	// unique device context per window, vertical and horizontal redaw when moving or resize
-	winclass.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
-	winclass.lpfnWndProc = handle_->app.window_callback;
-	winclass.lpszClassName = SKY_WNDCLASS_NAME;
-
-	auto registered = RegisterClassA(&winclass);
-	SKY_ASSERT(registered, "WNDCLASS successfully registered");
-
-	handle_->app.initialize();
-
-	initialized_ = true;
-}
-
-void* Platform::new_native_window(const char* caption, const uint16_t width,
-								  const uint16_t height)
+void* Platform::create_native_window(const char* caption, const uint16_t width,
+									  const uint16_t height)
 {
 	AssertGuard guard("Creating a new skyrocket HWND instance", SKY_WNDCLASS_NAME);
 
 	auto app_module = GetModuleHandle(nullptr);
 	SKY_ASSERT(app_module != NULL, "Handle to the apps Win32 module is found");
 
-	HWND window = CreateWindowEx(0, 
-								 SKY_WNDCLASS_NAME, 
-								 caption, 
-								 WS_OVERLAPPEDWINDOW | WS_VISIBLE, 
-								 0, 0, 
-								 width, height, 
-								 nullptr, nullptr, 
-								 app_module, 
+	HWND window = CreateWindowEx(0,
+								 SKY_WNDCLASS_NAME,
+								 caption,
+								 WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+								 0, 0,
+								 width, height,
+								 nullptr, nullptr,
+								 app_module,
 								 nullptr);
 
 	SKY_ASSERT(window != NULL, "HWND successfully was created with caption %s", caption);
@@ -90,9 +55,67 @@ void* Platform::new_native_window(const char* caption, const uint16_t width,
 	return window;
 }
 
-void Platform::native_poll_event()
+void Platform::native_init()
 {
-	handle_->app.pump_messages();
+	AssertGuard assert_guard("Creating Win32 application", nullptr);
+	WNDCLASS winclass = {};
+
+	// 1. Setup the winclass with style, classname and callback
+	// unique device context per window, vertical and horizontal redaw when moving or resize
+	winclass.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
+	winclass.lpfnWndProc = window_callback;
+	winclass.lpszClassName = SKY_WNDCLASS_NAME;
+
+	auto registered = RegisterClassA(&winclass);
+	SKY_ASSERT(registered, "WNDCLASS successfully registered");
+}
+
+LRESULT CALLBACK window_callback(HWND window, UINT message, WPARAM wparam, LPARAM lparam)
+{
+	auto data = reinterpret_cast<WindowData*>(GetPropW(window, L"SKY_WINDOW"));
+	LRESULT result = 0;
+	switch ( message ) {
+		case WM_CLOSE:
+		{
+			data->close_requested = true;
+		} break;
+
+		case WM_MOVE:
+		{
+
+		} break;
+
+		default:
+		{
+			result = DefWindowProc(window, message, wparam, lparam); // default processing for anything not handled
+		} break;
+	}
+	return result;
+}
+
+void Platform::native_poll_events()
+{
+	MSG msg;
+	// Remove message from queue after processing
+	while ( PeekMessage(&msg, 0, 0, 0, PM_REMOVE) ) {
+		switch ( msg.message ) {
+			case WM_KEYUP:
+			{
+				events_.key_up(msg.wParam);
+			} break;
+
+			case WM_KEYDOWN:
+			{
+				events_.key_down(msg.wParam);
+			} break;
+
+			default:
+			{
+				TranslateMessage(&msg);
+				DispatchMessageA(&msg);
+			}
+		}
+	}
 }
 
 

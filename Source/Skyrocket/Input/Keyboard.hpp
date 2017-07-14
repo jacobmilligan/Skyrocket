@@ -5,7 +5,7 @@
 //  --------------------------------------------------------------
 //
 //  Created by
-//  Jacob Milligan on 10/07/2017
+//  Jacob Milligan on 14/07/2017
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
@@ -15,16 +15,17 @@
 
 namespace sky {
 
-class NativeInputListener;
 
 class Keyboard {
 public:
-    Keyboard();
-    bool key_down(const Key key);
+	Keyboard()
+	{
 
-    bool key_typed(const Key key);
+	}
+
+	bool key_down(const Key key);
+	bool key_typed(const Key key);
 private:
-    const NativeInputListener* native_listener_;
 };
 
 
