@@ -1,20 +1,22 @@
 //
-//  GraphicsDriver.cpp
+//  Time.hpp
 //  Skyrocket
 //
 //  --------------------------------------------------------------
 //
 //  Created by
-//  Jacob Milligan on 6/07/2017
+//  Jacob Milligan on 15/07/2017
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Skyrocket/Graphics/Core/GraphicsDriver.hpp"
+#pragma once
+
+#include <cstdint>
 
 namespace sky {
 
 
-
+uint64_t high_resolution_time();
 
 
 }

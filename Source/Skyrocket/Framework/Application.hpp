@@ -14,7 +14,7 @@
 #include "Skyrocket/Input/Keycodes.hpp"
 
 #include <memory>
-#include <Skyrocket/Graphics/Core/GraphicsDriver.hpp>
+#include <Skyrocket/Graphics/GDI/GDI.hpp>
 
 namespace sky {
 
@@ -40,7 +40,7 @@ public:
     virtual void on_keyup(sky::Key keycode) = 0;
     virtual void on_mouse() = 0;
 protected:
-    std::unique_ptr<GraphicsDriver> graphics_driver;
+    std::unique_ptr<GDI> graphics_driver;
 private:
     //std::unique_ptr<Platform> platform_;
     const char* name_;

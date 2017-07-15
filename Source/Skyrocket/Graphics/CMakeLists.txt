@@ -35,7 +35,7 @@ endif ()
 ######################################
 
 add_subdirectory(Internal)
-add_subdirectory(Interface)
+add_subdirectory(GDI)
 add_subdirectory(Core)
 
 ######################################

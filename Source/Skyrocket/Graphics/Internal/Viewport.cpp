@@ -35,8 +35,8 @@ void Viewport::open(const char* caption, const uint16_t width, const uint16_t he
 
 void Viewport::close()
 {
-	destroy_native_viewport();
-	--open_windows_;
+    destroy_native_viewport();
+    --open_windows_;
 }
 
 uint16_t Viewport::open_viewports()

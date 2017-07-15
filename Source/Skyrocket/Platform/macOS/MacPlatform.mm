@@ -9,7 +9,6 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Skyrocket/Platform/NativeInput.hpp"
 #include "Skyrocket/Platform/Platform.hpp"
 #include "Skyrocket/Platform/macOS/MacApplication.h"
 #include "Skyrocket/Platform/macOS/CocoaWindow.h"
@@ -23,37 +22,15 @@
 
 namespace sky {
 
-struct Platform::PlatformHandle {
-    NSAutoreleasePool* pool;
-    SkyrocketApplicationDelegate* app_delegate;
-};
-
-
-Platform::Platform()
-    : handle_(new PlatformHandle)
+void Platform::native_init()
 {
-}
-    
-Platform::~Platform()
-{
-    if ( handle_ != nullptr ) {
-        [handle_->pool drain];
-        delete handle_;
-    }
-    initialized_ = false;
-}
-
-void Platform::startup(const char* app_title)
-{
-    AssertGuard assert_guard("Initializing platform", app_title);
+    AssertGuard assert_guard("Initializing platform", app_title_);
     
 //    SKY_ASSERT(app_ != nullptr, "Application is not null");
     
-    handle_->pool = [[NSAutoreleasePool alloc] init];
     // Create shared application and assign app delegate
     [SkyrocketApplication sharedApplication];
-    handle_->app_delegate = [[SkyrocketApplicationDelegate alloc] init];
-    [NSApp setDelegate:handle_->app_delegate];
+    [NSApp setDelegate:[[SkyrocketApplicationDelegate alloc] init]];
     
     // Set activation policy to regular to avoid requiring .plist files in < OSX 10.7
     [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
@@ -90,17 +67,17 @@ void Platform::startup(const char* app_title)
 
 }
 
-void* Platform::new_native_window(const char* caption, const uint16_t width,
+void* Platform::create_native_window(const char* caption, const uint16_t width,
                                   const uint16_t height)
 {
     NSRect frame = NSMakeRect(0, 0, width, height);
-    CocoaWindow* window = [[CocoaWindow alloc] initWithInputListener:&input_
-                                                         contentRect:frame
-                                                       captionString:caption];
+    CocoaWindow* window = [[CocoaWindow alloc] initWithEventsAndContent:&events_
+                                                            contentRect:frame
+                                                          captionString:caption];
     return window;
 }
     
-void Platform::native_poll_event()
+void Platform::native_poll_events()
 {
     NSAutoreleasePool* autoReleasePool = [[NSAutoreleasePool alloc] init];
     

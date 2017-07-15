@@ -13,16 +13,16 @@
 
 #import <AppKit/AppKit.h>
 
-namespace sky { class NativeInputListener; }
+namespace sky { class PlatformEvents; }
 
 
 @interface CocoaWindow : NSWindow
 
-@property (nonnull)sky::NativeInputListener* input;
+@property (nonnull)sky::PlatformEvents* events;
 
--(nonnull instancetype)initWithInputListener:(nonnull sky::NativeInputListener*)input
-                                 contentRect:(NSRect)contentRect
-                               captionString:(nullable const char*)caption;
+-(nonnull instancetype)initWithEventsAndContent:(nonnull sky::PlatformEvents*)events
+                                    contentRect:(NSRect)contentRect
+                                  captionString:(nullable const char*)caption;
 
 @end
 

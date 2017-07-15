@@ -11,6 +11,9 @@
 
 #pragma once
 
+// Include platform headers
+#include "Skyrocket/Platform/Time.hpp"
+
 #include "Skyrocket/Platform/Internal/PlatformEvents.hpp"
 #include "Skyrocket/Platform/Config.hpp"
 #include "Skyrocket/Input/Keycodes.hpp"
@@ -28,13 +31,11 @@ public:
 	void launch(const char* app_title);
 
 	static void* create_native_window(const char* caption, const uint16_t width,
-									  const uint16_t height);
-
-	uint64_t high_resolution_time();
+                                      const uint16_t height);
 
 	void poll_events();
 
-	static bool initialized()
+	bool initialized()
 	{
 		return initialized_;
 	}
@@ -45,7 +46,7 @@ public:
 	}
 
 private:
-	static bool initialized_;
+	bool initialized_;
 	static PlatformEvents events_;
 
 	const char* app_title_;

@@ -17,7 +17,7 @@
 
 #if SKY_GRAPHICS_API_METAL
 
-#include "Skyrocket/Graphics/Interface/Apple/Metal/MetalView.h"
+#include "Skyrocket/Graphics/Internal/Apple/MetalView.h"
 
 #endif
 
@@ -29,18 +29,19 @@ struct Viewport::NativeViewport {
 };
 
 
-Viewport::destroy_native_viewport()
+Viewport::Viewport()
+{}
+
+Viewport::~Viewport()
 {
-    if ( handle_ ) {
-        delete handle_;
-    }
+    close();
 }
 
 void Viewport::create_native_viewport()
 {
-    handle_ = new NativeViewport;
+    handle_ = std::make_unique<NativeViewport>();
     
-    CocoaWindow* window = (CocoaWindow*)Platform::new_native_window(caption_, width_, height_);
+    CocoaWindow* window = (CocoaWindow*)Platform::create_native_window(caption_, width_, height_);
     NSRect frame = [window frame];
     CocoaView* view = [[[CocoaView alloc] initWithFrame:frame] autorelease];
     
@@ -50,9 +51,13 @@ void Viewport::create_native_viewport()
     
     [window setContentView:view];
     
-    handle_ = new NativeViewport;
     handle_->view = view;
     handle_->window = window;
+}
+
+void Viewport::destroy_native_viewport()
+{
+
 }
     
 void Viewport::set_backing_color(const sky::Color &color)

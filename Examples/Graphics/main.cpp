@@ -56,26 +56,22 @@ int main(int argc, char** argv)
 {
 //    GraphicsApp app;
 //    app.start();
-	sky::Platform plat;
-	plat.launch("Graphics app");
-	//auto platform = sky::launch_platform("Graphics App");
-    auto graphics = std::make_unique<sky::GraphicsDriver>();
+    sky::Platform platform;
+	platform.launch("Graphics app");
+    sky::GDI graphics;
+    graphics.initialize();
 	sky::Viewport view;
 	view.open("Graphics App", 800, 600);
 
-    sky::Timespan now(plat.high_resolution_time());
+    sky::Timespan now(sky::high_resolution_time());
     sky::Timespan after;
 
 	sky::Keyboard keyboard;
 
     while ( sky::Viewport::open_viewports() > 0 ) {
-        now = plat.high_resolution_time();
+        now = sky::high_resolution_time();
 
-		//sky::poll_events(platform.get());
-		plat.poll_events();
-        /*if ( platform->keyboard_state.key_states[sky::Key::escape].is_down || view.close_requested() ) {
-            break;
-        }*/
+		platform.poll_events();
 
 		if ( keyboard.key_down(sky::Key::escape) || view.close_requested() ) {
 			break;
@@ -85,7 +81,7 @@ int main(int argc, char** argv)
 			printf("Open windows: %d\n", sky::Viewport::open_viewports());
 		}
 
-		after = plat.high_resolution_time();
+		after = sky::high_resolution_time();
     }
 
     return 0;

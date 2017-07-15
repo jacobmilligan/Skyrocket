@@ -15,23 +15,26 @@
 
 namespace sky {
 
-bool Platform::initialized_ = false;
+
 PlatformEvents Platform::events_;
 
 void Platform::launch(const char* app_title)
 {
-	app_title_ = app_title;
-	native_init();
-	initialized_ = true;
+	if ( !initialized_ ) {
+        app_title_ = app_title;
+        native_init();
+        initialized_ = true;
+	}
 }
 
 void Platform::poll_events()
 {
+    AssertGuard guard("Polling events", nullptr);
+    SKY_ASSERT(initialized_, "Platform is initialized before polling events");
+
 	events_.reset_keyboard_state();
 	native_poll_events();
 }
-
-
 
 
 }

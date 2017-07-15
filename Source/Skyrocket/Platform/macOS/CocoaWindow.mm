@@ -10,7 +10,7 @@
 //
 
 
-#include "Skyrocket/Platform/NativeInput.hpp"
+#include "Skyrocket/Platform/Internal/PlatformEvents.hpp"
 #include "Skyrocket/Platform/macOS/CocoaWindow.h"
 
 @implementation CocoaView
@@ -23,9 +23,9 @@
 
 @implementation CocoaWindow
 
--(nonnull instancetype)initWithInputListener:(sky::NativeInputListener *)input
-                                 contentRect:(NSRect)contentRect
-                               captionString:(const char *)caption {
+-(nonnull instancetype)initWithEventsAndContent:(sky::PlatformEvents *)events
+                                    contentRect:(NSRect)contentRect
+                                  captionString:(const char *)caption {
     
     NSUInteger windowStyle = NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask;
     id newWindow = [super initWithContentRect:contentRect
@@ -33,7 +33,7 @@
                                       backing:NSBackingStoreBuffered // double buffered rendering
                                         defer:NO];
     if ( newWindow ) {
-        self.input = input;
+        self.events = events;
         
         NSString* nsTitle;
         if ( caption ) {
@@ -52,11 +52,11 @@
 }
 
 -(void)keyDown:(NSEvent *)event {
-    _input->key_down([event keyCode]);
+    _events->key_down([event keyCode]);
 }
 
 -(void)keyUp:(NSEvent *)event {
-    _input->key_up([event keyCode]);
+    _events->key_up([event keyCode]);
 }
 
 @end

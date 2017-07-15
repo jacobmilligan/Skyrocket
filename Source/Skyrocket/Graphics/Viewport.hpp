@@ -24,14 +24,9 @@ struct PlatformWindow;
 
 class Viewport : public Noncopyable {
 public:
-    friend class GraphicsDriver;
+    Viewport();
 
-    Viewport() {}
-
-	~Viewport()
-	{
-		close();
-	}
+	~Viewport();
 
     void open(const char* caption, const uint16_t width, const uint16_t height);
 
@@ -51,7 +46,7 @@ private:
 
     struct NativeViewport;
 
-    NativeViewport* handle_;
+    std::unique_ptr<NativeViewport> handle_;
 	WindowData window_data_;
 
 	void create_native_viewport();

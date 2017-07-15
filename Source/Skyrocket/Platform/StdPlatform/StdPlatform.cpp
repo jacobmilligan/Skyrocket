@@ -16,7 +16,7 @@
 namespace sky {
 
 
-uint64_t Platform::high_resolution_time()
+uint64_t high_resolution_time()
 {
     auto count = std::chrono::duration_cast<std::chrono::nanoseconds>(
         std::chrono::high_resolution_clock::now().time_since_epoch()

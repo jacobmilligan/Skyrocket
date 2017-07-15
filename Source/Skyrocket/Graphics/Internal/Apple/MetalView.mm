@@ -11,7 +11,7 @@
 
 #include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Platform/macOS/CocoaWindow.h"
-#include "Skyrocket/Graphics/Interface/Apple/Metal/MetalView.h"
+#include "Skyrocket/Graphics/Internal/Apple/MetalView.h"
 
 #import <AppKit/AppKit.h>
 
@@ -20,10 +20,10 @@
 -(id)initWithFrame:(NSRect)frameRect {
     if ( (self = [super initWithFrame:frameRect]) ) {
         [self setWantsLayer:YES];
-        
+
         CGFloat bgColor[] = {0.0, 0.0, 0.0, 1.0};
         _metalLayer = [CAMetalLayer layer];
-        
+
         _metalLayer.masksToBounds = YES;
         _metalLayer.presentsWithTransaction = NO;
         _metalLayer.pixelFormat = MTLPixelFormatBGRA8Unorm;
@@ -31,10 +31,10 @@
         _metalLayer.frame = frameRect;
         _metalLayer.backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), bgColor);
         [_metalLayer removeAllAnimations];
-        
+
         [self setLayer:_metalLayer];
     }
-    
+
     return self;
 }
 

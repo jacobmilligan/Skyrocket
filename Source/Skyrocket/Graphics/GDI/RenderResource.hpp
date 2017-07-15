@@ -12,7 +12,7 @@
 #pragma once
 
 #include "Skyrocket/Graphics/Core/Vertex.hpp"
-#include "Skyrocket/Graphics/Interface/Definitions.hpp"
+#include "Skyrocket/Graphics/GDI/Definitions.hpp"
 
 #include <cstdint>
 #include <cstdint>
