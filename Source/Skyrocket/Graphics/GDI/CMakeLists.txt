@@ -3,5 +3,3 @@ if (skyrocket_graphics_api STREQUAL "Metal")
 elseif(WIN32)
     add_subdirectory(Windows)
 endif ()
-
-skyrocket_add_sources(RenderResource.cpp)

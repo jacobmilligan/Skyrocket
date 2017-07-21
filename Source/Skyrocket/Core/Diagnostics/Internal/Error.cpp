@@ -34,16 +34,16 @@ void __sky_assert_handler(const char* function, const char* file, const int line
 
     va_list args;
     va_start(args, msgformat);
-    fprintf(stderr, "\tAssertion failed: (%s): '", expr);
+    fprintf(stderr, "\tAssertion failed: (%s): ", expr);
     vfprintf(stderr, msgformat, args);
-    fprintf(stderr, "'\n\tAt File:%s:%d in Function: %s\n", file, line, function);
+    fprintf(stderr, "\n\tAt File:%s:%d in Function: %s\n", file, line, function);
     va_end(args);
 }
 
 void __sky_print_error(const char* func, const char* file, const int line,
                  const char* type, const char* msgformat, ...)
 {
-    fprintf(stderr, "--- Skyrocket ---\n%s error: '", type);
+    fprintf(stderr, "--- Skyrocket ---\n%s error: ", type);
 
     va_list args;
     va_start(args, msgformat);
@@ -52,7 +52,7 @@ void __sky_print_error(const char* func, const char* file, const int line,
 
     va_end(args);
 
-    fprintf(stderr, "'\nAt: %s:%d in: %s\n", file, line, func);
+    fprintf(stderr, "\nAt: %s:%d in: %s\n", file, line, func);
 }
 
     

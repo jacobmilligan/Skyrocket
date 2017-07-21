@@ -14,6 +14,9 @@
 #include <Skyrocket/Graphics/Viewport.hpp>
 #include <Skyrocket/Core/Diagnostics/Timespan.hpp>
 #include <Skyrocket/Input/Keyboard.hpp>
+#include <Skyrocket/Core/Containers/HandleTable.hpp>
+
+#include <cinttypes>
 
 class GraphicsApp : public sky::Application {
 public:
@@ -58,8 +61,8 @@ int main(int argc, char** argv)
 //    app.start();
     sky::Platform platform;
 	platform.launch("Graphics app");
-    sky::GDI graphics;
-    graphics.initialize();
+    auto graphics = sky::create_graphics_device_interface();
+    graphics->initialize();
 	sky::Viewport view;
 	view.open("Graphics App", 800, 600);
 
@@ -67,6 +70,15 @@ int main(int argc, char** argv)
     sky::Timespan after;
 
 	sky::Keyboard keyboard;
+
+    sky::HandleTable<int, 23> handles;
+    auto id = handles.create(10);
+    auto id2 = handles.create(20);
+    auto id3 = handles.create(30);
+    handles.destroy(id2);
+    handles.destroy(id3);
+
+    printf("%d\n", *handles.lookup(id));
 
     while ( sky::Viewport::open_viewports() > 0 ) {
         now = sky::high_resolution_time();

@@ -9,40 +9,70 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
+#include "Skyrocket/Core/Containers/HandleTable.hpp"
 #include "Skyrocket/Graphics/GDI/GDI.hpp"
-#include "Skyrocket/Graphics/Internal/Apple/MetalView.h"
 
-#include <memory>
+#include <array>
 
 #import <AppKit/AppKit.h>
 #import <Metal/Metal.h>
 
 namespace sky {
-    
-    
-struct GDI::Context {
-    id<MTLDevice> device;
-    id<MTLCommandQueue> command_queue;
 
-    void create()
+template <uint16_t Size>
+struct MetalBuffer {
+    MetalBuffer()
+        : current_(0)
+    {}
+
+    void swap()
     {
-        device = MTLCreateSystemDefaultDevice();
-        command_queue = [device newCommandQueue];
+        ++current_;
+        if ( current_ >= Size )
+            current_ = 0;
     }
+
+    id<MTLBuffer>& current()
+    {
+        return buffers_[current_];
+    }
+
+private:
+    id<MTLBuffer> buffers_[Size];
+    uint16_t current_;
 };
 
-GDI::GDI()
-    : context_(nullptr)
-{}
+class MetalGDI : public GDI {
+public:
+    MetalGDI()
+    {}
 
-GDI::~GDI()
-{}
-    
-void GDI::initialize()
+    ~MetalGDI()
+    {
+
+    }
+
+    bool initialize() override
+    {
+        device = MTLCreateSystemDefaultDevice();
+//        command_queue = [device newCommandQueue];
+        return true;
+    }
+
+    VertexBufferHandle
+    create_vertex_buffer(const uint32_t size, const BufferUsage usage,
+                         const MemoryBlock& initial_data) override
+    {
+    }
+
+private:
+    id<MTLDevice> device;
+    MetalBuffer<2> vertex_buffers_[vertex_buffer_max];
+};
+
+std::unique_ptr<GDI> create_graphics_device_interface()
 {
-    context_ = std::make_unique<Context>();
-    context_->create();
+    return std::make_unique<MetalGDI>();
 }
-    
     
 }

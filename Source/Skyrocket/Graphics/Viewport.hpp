@@ -12,7 +12,7 @@
 #pragma once
 
 #include "Skyrocket/Platform/Platform.hpp"
-#include "Skyrocket/Core/Memory/Noncopyable.hpp"
+#include "Skyrocket/Core/Memory.hpp"
 
 #include <cstdint>
 #include <memory>
