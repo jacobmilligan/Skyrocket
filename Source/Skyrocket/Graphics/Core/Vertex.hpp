@@ -18,8 +18,8 @@
 namespace sky {
 
 struct Vertex {
-    Vector4i position;
-    Vector4i color;
+    Vector4f position;
+    Vector4f color;
 };
 
 /// A normal vector packed to fit into a 32bit value

@@ -9,14 +9,15 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include <Skyrocket/Framework/Application.hpp>
-#include <Skyrocket/Platform/Platform.hpp>
-#include <Skyrocket/Graphics/Viewport.hpp>
-#include <Skyrocket/Core/Diagnostics/Timespan.hpp>
-#include <Skyrocket/Input/Keyboard.hpp>
 #include <Skyrocket/Core/Containers/HandleTable.hpp>
+#include <Skyrocket/Core/Diagnostics/Timespan.hpp>
+#include <Skyrocket/Framework/Application.hpp>
+#include <Skyrocket/Graphics/Viewport.hpp>
+#include <Skyrocket/Input/Keyboard.hpp>
+#include <Skyrocket/Platform/Platform.hpp>
 
-#include <cinttypes>
+#include <Skyrocket/Graphics/Core/Vertex.hpp>
+#include <Skyrocket/Platform/Filesystem.hpp>
 
 class GraphicsApp : public sky::Application {
 public:
@@ -55,30 +56,42 @@ public:
     }
 };
 
+int sum(int a)
+{
+    return a;
+}
+
 int main(int argc, char** argv)
 {
 //    GraphicsApp app;
 //    app.start();
+    auto bin = sky::Path::executable_path();
+    printf("%s\n", bin.filename());
+
     sky::Platform platform;
 	platform.launch("Graphics app");
-    auto graphics = sky::create_graphics_device_interface();
-    graphics->initialize();
 	sky::Viewport view;
 	view.open("Graphics App", 800, 600);
+    auto graphics = sky::create_graphics_device_interface();
+    graphics->initialize();
+    graphics->set_viewport(&view);
 
     sky::Timespan now(sky::high_resolution_time());
     sky::Timespan after;
 
 	sky::Keyboard keyboard;
 
-    sky::HandleTable<int, 23> handles;
-    auto id = handles.create(10);
-    auto id2 = handles.create(20);
-    auto id3 = handles.create(30);
-    handles.destroy(id2);
-    handles.destroy(id3);
+    sky::Vertex vertices[3];
+    vertices[0].position = sky::Vector4f(0.0f, 1.0f, 0.0f);
+    vertices[1].position = sky::Vector4f(-1.0f, -1.0f, 0.0f);
+    vertices[2].position = sky::Vector4f(1.0f, 1.0f, 0.0f);
 
-    printf("%d\n", *handles.lookup(id));
+    sky::MemoryBlock mem = {};
+    mem.size = sizeof(sky::Vertex) * 3;
+    mem.data = malloc(mem.size);
+    memcpy(mem.data, static_cast<void*>(vertices), static_cast<size_t>(mem.size));
+
+    auto vbuf_id = graphics->create_vertex_buffer(mem, sky::BufferUsage::staticbuf);
 
     while ( sky::Viewport::open_viewports() > 0 ) {
         now = sky::high_resolution_time();
@@ -95,6 +108,8 @@ int main(int argc, char** argv)
 
 		after = sky::high_resolution_time();
     }
+
+    free(mem.data);
 
     return 0;
 }

@@ -10,10 +10,9 @@
 //
 
 #include "Skyrocket/Platform/Config.hpp"
-#include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Graphics/Color.hpp"
-#include "Skyrocket/Platform/macOS/CocoaWindow.h"
-#include "Skyrocket/Platform/Platform.hpp"
+#include "Skyrocket/Graphics/GDI/GDI.hpp"
+#include "Skyrocket/Graphics/Internal/Apple/MacViewport.h"
 
 #if SKY_GRAPHICS_API_METAL
 
@@ -22,11 +21,6 @@
 #endif
 
 namespace sky {
-
-struct Viewport::NativeViewport {
-    CocoaWindow* window;
-    CocoaView* view;
-};
 
 
 Viewport::Viewport()
@@ -66,6 +60,11 @@ void Viewport::set_backing_color(const sky::Color &color)
                                  g:((CGFloat)color.g) / 255.0
                                  b:((CGFloat)color.b) / 255.0
                                  a:((CGFloat)color.a) / 255.0];
+}
+
+NativeViewport* Viewport::get_native_viewport()
+{
+    return handle_.get();
 }
     
     

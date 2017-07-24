@@ -11,8 +11,8 @@
 
 #pragma once
 
-#include "Skyrocket/Platform/Platform.hpp"
 #include "Skyrocket/Core/Memory.hpp"
+#include "Skyrocket/Platform/Platform.hpp"
 
 #include <cstdint>
 #include <memory>
@@ -21,10 +21,15 @@ namespace sky {
 
 struct Color;
 struct PlatformWindow;
+struct NativeViewport;
+class GDI;
 
-class Viewport : public Noncopyable {
+class Viewport {
 public:
     Viewport();
+
+	Viewport(const Viewport& other) = delete;
+	Viewport& operator=(const Viewport& other) = delete;
 
 	~Viewport();
 
@@ -37,14 +42,14 @@ public:
     void set_backing_color(const Color& color);
 
 	bool close_requested();
+
+    NativeViewport* get_native_viewport();
 private:
 	static uint16_t open_windows_;
 
     const char* caption_;
     uint16_t width_;
     uint16_t height_;
-
-    struct NativeViewport;
 
     std::unique_ptr<NativeViewport> handle_;
 	WindowData window_data_;
@@ -54,4 +59,4 @@ private:
 };
 
 
-}
+}  // namespace sky

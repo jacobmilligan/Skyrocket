@@ -75,6 +75,24 @@ public:
         return handles_[index].id;
     }
 
+    uint32_t create()
+    {
+        if ( count_ + 1 >= Capacity || count_ + 1 == invalid_id ) {
+            SKY_ERROR("HandleTable", "Trying to create a new handle while capacity is reached");
+            return invalid_id;
+        }
+
+        auto index = count_;
+        indicies_[next_id_] = index;
+
+        handles_[index].id = next_id_;
+
+        next_id_++;
+        count_++;
+
+        return handles_[index].id;
+    }
+
     void destroy(const uint32_t id)
     {
         if ( !valid(id) ) {

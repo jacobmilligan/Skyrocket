@@ -9,66 +9,62 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Skyrocket/Core/Containers/HandleTable.hpp"
-#include "Skyrocket/Graphics/GDI/GDI.hpp"
+#include "Skyrocket/Graphics/GDI/Metal/MetalDriver.h"
+#include "Skyrocket/Graphics/Internal/Apple/MacViewport.h"
+#include "Skyrocket/Graphics/Internal/Apple/MetalView.h"
 
 #include <array>
 
-#import <AppKit/AppKit.h>
-#import <Metal/Metal.h>
+
 
 namespace sky {
 
-template <uint16_t Size>
-struct MetalBuffer {
-    MetalBuffer()
-        : current_(0)
-    {}
+MetalGDI::MetalGDI()
+    : GDI()
+{}
 
-    void swap()
-    {
-        ++current_;
-        if ( current_ >= Size )
-            current_ = 0;
+MetalGDI::~MetalGDI()
+{}
+
+bool MetalGDI::initialize()
+{
+    device_ = MTLCreateSystemDefaultDevice();
+    command_queue_ = [device_ newCommandQueue];
+    
+    MTLRenderPipelineDescriptor* pipeline_descriptor = [MTLRenderPipelineDescriptor new];
+    pipeline_descriptor.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm;
+
+    return true;
+}
+
+void MetalGDI::set_viewport(Viewport* viewport)
+{
+    MetalView* mtl_view = (MetalView*)viewport->get_native_viewport()->view;
+    mtl_view.metalLayer.device = device_;
+    mtl_layer_ = mtl_view.metalLayer;
+}
+
+uint32_t
+MetalGDI::create_vertex_buffer(const MemoryBlock& initial_data, const BufferUsage usage)
+{
+    auto vbuf_id = vertex_buffers_.create();
+    vertex_buffers_.lookup(vbuf_id)->init(device_, initial_data.data, initial_data.size, usage);
+    return vbuf_id;
+}
+
+void MetalGDI::present()
+{
+    id<CAMetalDrawable> drawable = [mtl_layer_ nextDrawable];
+    if ( drawable ) {
+        
     }
+}
 
-    id<MTLBuffer>& current()
-    {
-        return buffers_[current_];
-    }
-
-private:
-    id<MTLBuffer> buffers_[Size];
-    uint16_t current_;
-};
-
-class MetalGDI : public GDI {
-public:
-    MetalGDI()
-    {}
-
-    ~MetalGDI()
-    {
-
-    }
-
-    bool initialize() override
-    {
-        device = MTLCreateSystemDefaultDevice();
-//        command_queue = [device newCommandQueue];
-        return true;
-    }
-
-    VertexBufferHandle
-    create_vertex_buffer(const uint32_t size, const BufferUsage usage,
-                         const MemoryBlock& initial_data) override
-    {
-    }
-
-private:
-    id<MTLDevice> device;
-    MetalBuffer<2> vertex_buffers_[vertex_buffer_max];
-};
+uint32_t MetalGDI::create_shader()
+{
+//    MTLLibrary
+    return GDI::create_shader();
+}
 
 std::unique_ptr<GDI> create_graphics_device_interface()
 {

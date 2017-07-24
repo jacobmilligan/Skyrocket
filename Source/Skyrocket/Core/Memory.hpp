@@ -21,13 +21,5 @@ struct MemoryBlock {
     void* data;
 };
 
-class Noncopyable {
-protected:
-    Noncopyable() {};
-private:
-    Noncopyable(const Noncopyable&) = delete;
-    Noncopyable& operator=(const Noncopyable&) = delete;
-};
 
-
-}
+} // namespace sky

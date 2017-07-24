@@ -1,2 +1,3 @@
 skyrocket_add_sources(Platform.cpp
-        PlatformEvents.cpp)
+        PlatformEvents.cpp
+        Filesystem.cpp)

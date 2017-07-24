@@ -40,7 +40,7 @@ void __sky_print_error(const char* func, const char* file, const int line,
 void __sky_assert_handler(const char* function, const char* file, const int line,
                       const char* expr, const char* msgformat, ...);
 
-} // impl
+}  // namespace impl
 
 
 #if SKY_DEBUG
@@ -66,6 +66,7 @@ void __sky_assert_handler(const char* function, const char* file, const int line
 #define SKY_ERROR(type, msg, ...) sky::impl::__sky_print_error(SKY_FUNCTION_NAME, \
                                                     __FILE__, __LINE__, type, msg, ##__VA_ARGS__);
 
+
 class AssertGuard {
 public:
     AssertGuard(const char* action, const char* data);
@@ -73,4 +74,4 @@ public:
 };
 
 
-}
+} // namespace sky
