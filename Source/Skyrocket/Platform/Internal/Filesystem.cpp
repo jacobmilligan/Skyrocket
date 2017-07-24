@@ -10,9 +10,11 @@
 //
 
 #include "Skyrocket/Platform/Filesystem.hpp"
+#include "Skyrocket/Core/Diagnostics/Error.hpp"
 
 #include <cstdio>
-#include <cstring>
+#include <fstream>
+#include <sstream>
 
 namespace sky {
 
@@ -28,6 +30,7 @@ Path::Path(const char* path)
     make_null_terminated();
     if ( exists() ) {
         make_real();
+        make_null_terminated();
     }
 }
 
@@ -37,6 +40,7 @@ Path::Path(const Path& other)
     make_null_terminated();
     if ( exists() ) {
         make_real();
+        make_null_terminated();
     }
 }
 
@@ -106,6 +110,13 @@ const char* Path::str() const
     return path_.data();
 }
 
+Path Path::relative_path(const char* str)
+{
+    auto rel = *this;
+    rel.append(str);
+    return rel;
+}
+
 uint32_t Path::size() const
 {
     return static_cast<uint32_t>(path_.size());
@@ -129,6 +140,29 @@ void Path::make_null_terminated()
         path_.push_back('\0');
     }
 }
+
+
+namespace fs {
+
+
+const char* slurp_file(const Path& path)
+{
+    std::ifstream file(path.str());
+
+    if ( !file ) {
+        SKY_ERROR("Slurping file", "No such file found with the specified name");
+        return "";
+    }
+
+    std::stringstream ss;
+    ss << file.rdbuf();
+    file.close();
+
+    return ss.str().c_str();
+}
+
+
+} // namespace fs
 
 
 } // namespace sky

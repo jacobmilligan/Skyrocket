@@ -56,20 +56,10 @@ public:
     }
 };
 
-int sum(int a)
-{
-    return a;
-}
-
 int main(int argc, char** argv)
 {
 //    GraphicsApp app;
 //    app.start();
-    auto resources = sky::Path(sky::Path::executable_path().parent());
-    resources.append("../../..");
-    resources.append("Resources");
-    printf("%s\n", resources.str());
-
     sky::Platform platform;
 	platform.launch("Graphics app");
 	sky::Viewport view;
@@ -94,6 +84,9 @@ int main(int argc, char** argv)
     memcpy(mem.data, static_cast<void*>(vertices), static_cast<size_t>(mem.size));
 
     auto vbuf_id = graphics->create_vertex_buffer(mem, sky::BufferUsage::staticbuf);
+    printf("%s\n", sky::Path::executable_path().str());
+    auto vert_id = graphics->create_shader("basic_vertex");
+    auto frag_id = graphics->create_shader("basic_fragment");
 
     while ( sky::Viewport::open_viewports() > 0 ) {
         now = sky::high_resolution_time();

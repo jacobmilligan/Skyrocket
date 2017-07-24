@@ -33,7 +33,9 @@ public:
     const char* filename() const;
     const char* parent() const;
 
+    Path relative_path(const char* str);
     const char* str() const;
+
     uint32_t size() const;
 
     bool operator==(const Path& other) const;
@@ -47,6 +49,14 @@ private:
     void make_null_terminated();
     int32_t last_slash_pos() const;
 };
+
+namespace fs {
+
+
+const char* slurp_file(const Path& filepath);
+
+
+} // namespace fs
 
 
 }  // namespace sky

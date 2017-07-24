@@ -18,6 +18,11 @@ skyrocket_init()
 
 MESSAGE("-- Skyrocket.Framework: Building in ${skyrocket_build_type} mode")
 
+if (NOT DEFINED SKY_RESOURCE_DIRECTORY)
+    set(SKY_RESOURCE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+endif ()
+
+ADD_DEFINITIONS(-DSKY_RESOURCE_DIRECTORY="${CMAKE_CURRENT_SOURCE_DIR}/${SKY_RESOURCE_DIRECTORY}")
 
 ###########################
 ## Project subdirectories

@@ -20,5 +20,14 @@ enum class BufferUsage {
     dynamic
 };
 
+struct RenderCommand {
+    enum class Type {
+        set_shader
+    };
 
-}
+    Type type;
+    uint32_t id;
+};
+
+
+}  // namespace sky

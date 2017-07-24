@@ -13,19 +13,16 @@
 
 #include "Skyrocket/Core/Diagnostics/Error.hpp"
 
-#include <cstdint>
 #include <cinttypes>
+#include <cstdint>
+#include <algorithm>
 
 namespace sky {
 
 template <typename T>
 struct Handle {
-    Handle()
-        : id(UINT32_MAX), data(T())
-    {}
-
-    uint32_t id;
-    T data;
+    uint32_t id { UINT32_MAX };
+    T data { T() };
 };
 
 template <typename T, uint32_t Capacity>
@@ -34,7 +31,7 @@ public:
     static constexpr uint32_t invalid_id = UINT32_MAX;
 
     HandleTable()
-        : count_(0), next_id_(0)
+        : indicies_()
     {
         for ( uint32_t i = 0; i < Capacity; ++i ) {
             indicies_[i] = i;
@@ -128,11 +125,11 @@ public:
     }
 
 private:
-    uint32_t count_;
-    uint32_t next_id_;
+    uint32_t count_ { 0 };
+    uint32_t next_id_ { 0 };
     Handle<T> handles_[Capacity];
     uint32_t indicies_[Capacity];
 };
 
 
-}
+} // namespace sky

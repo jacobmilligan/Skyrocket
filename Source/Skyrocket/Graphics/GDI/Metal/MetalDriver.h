@@ -57,7 +57,7 @@ class MetalGDI : public GDI {
 public:
     MetalGDI();
 
-    ~MetalGDI();
+    ~MetalGDI() override;
 
     bool initialize() override;
 
@@ -65,7 +65,9 @@ public:
 
     uint32_t
     create_vertex_buffer(const MemoryBlock& initial_data, const BufferUsage usage) override;
-    uint32_t create_shader(const char* path) override;
+    uint32_t create_shader(const char* name) override;
+
+    bool set_shader(const uint32_t vertex_id, const uint32_t fragment_id) override;
 
     void present() override;
 
@@ -73,10 +75,12 @@ private:
     id<MTLDevice> device_;
     id<MTLCommandQueue> command_queue_;
     id<MTLRenderPipelineState> render_pipeline_;
+    id<MTLLibrary> library_;
+
     CAMetalLayer* mtl_layer_;
 
     HandleTable<MetalBuffer<2>, vertex_buffer_max> vertex_buffers_;
-    HandleTable<id<MTLLibrary>, shader_max> shaders_;
+    HandleTable<id<MTLFunction>, shader_max> shaders_;
 };
 
 

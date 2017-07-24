@@ -16,9 +16,18 @@
 #include "Skyrocket/Graphics/Viewport.hpp"
 
 #include <memory>
+#include <queue>
 
 namespace sky {
 
+class Path;
+
+class ShaderProgram {
+public:
+
+private:
+
+};
 
 class GDI {
 public:
@@ -36,20 +45,28 @@ public:
         return false;
     }
 
-    virtual void set_viewport(Viewport*  /*viewport*/) {};
+    virtual void set_viewport(Viewport*  viewport) = delete;
 
-    virtual uint32_t create_vertex_buffer(const MemoryBlock&  /*initial_data*/,
-                                          const BufferUsage  /*usage*/)
+    virtual uint32_t create_vertex_buffer(const MemoryBlock& initial_data,
+                                          const BufferUsage usage)
     {
         return invalid_handle;
     }
 
-    virtual uint32_t create_shader(const char*  /*path*/)
+    virtual uint32_t create_shader(const char* name)
     {
         return invalid_handle;
     };
 
+    virtual bool set_shader(const uint32_t vertex_id, const uint32_t fragment_id)
+    {
+        return false;
+    }
+
     virtual void present() {}
+
+private:
+    std::queue<RenderCommand> commands_;
 };
 
 std::unique_ptr<GDI> create_graphics_device_interface();
