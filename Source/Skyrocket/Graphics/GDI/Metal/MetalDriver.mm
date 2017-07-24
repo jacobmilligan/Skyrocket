@@ -60,10 +60,10 @@ void MetalGDI::present()
     }
 }
 
-uint32_t MetalGDI::create_shader()
+uint32_t MetalGDI::create_shader(const char* path)
 {
 //    MTLLibrary
-    return GDI::create_shader();
+    return shaders_.invalid_id;
 }
 
 std::unique_ptr<GDI> create_graphics_device_interface()

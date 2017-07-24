@@ -44,7 +44,7 @@ public:
         return invalid_handle;
     }
 
-    virtual uint32_t create_shader()
+    virtual uint32_t create_shader(const char*  /*path*/)
     {
         return invalid_handle;
     };

@@ -65,8 +65,10 @@ int main(int argc, char** argv)
 {
 //    GraphicsApp app;
 //    app.start();
-    auto bin = sky::Path::executable_path();
-    printf("%s\n", bin.filename());
+    auto resources = sky::Path(sky::Path::executable_path().parent());
+    resources.append("../../..");
+    resources.append("Resources");
+    printf("%s\n", resources.str());
 
     sky::Platform platform;
 	platform.launch("Graphics app");

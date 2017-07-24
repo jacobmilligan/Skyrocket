@@ -39,12 +39,14 @@ Path Path::executable_path()
 
 void Path::make_real()
 {
-    auto ptr = realpath(static_cast<const char*>(path_.data()), nullptr);
+    auto ptr = realpath(path_.data(), nullptr);
 
     if ( ptr == nullptr ) {
         SKY_ERROR("Path", "Trying to make real pathname: %s", std::strerror(errno));
         return;
     }
+
+    path_ = std::vector<char>(ptr, ptr + strlen(ptr));
 
     free(ptr);
 }

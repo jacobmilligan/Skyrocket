@@ -65,7 +65,7 @@ public:
 
     uint32_t
     create_vertex_buffer(const MemoryBlock& initial_data, const BufferUsage usage) override;
-    uint32_t create_shader() override;
+    uint32_t create_shader(const char* path) override;
 
     void present() override;
 

@@ -34,6 +34,7 @@ Path::Path(const char* path)
 Path::Path(const Path& other)
     : path_(other.path_)
 {
+    make_null_terminated();
     if ( exists() ) {
         make_real();
     }
@@ -58,6 +59,10 @@ void Path::append(const char* str)
     path_.insert(path_.end(), str, &str[strlen(str)]);
 
     make_null_terminated();
+    if ( exists() ) {
+        make_real();
+        make_null_terminated();
+    }
 }
 
 const char* Path::filename() const
