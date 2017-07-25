@@ -17,20 +17,20 @@
 namespace sky {
 
 
-Renderer::Renderer(const bool multithreaded)
+Renderer::Renderer(const ThreadSupport threading)
     : gdi_(create_graphics_device_interface()),
       next_vbuf_id_(1),
       next_ibuf_id_(1),
       next_shader_id_(1),
       notified_(false),
       active_(false),
-      multithreaded_(multithreaded),
+      threading_(threading),
       rendering_(false)
 {}
 
 Renderer::~Renderer()
 {
-    if ( multithreaded_ ) {
+    if ( threading_ == ThreadSupport::multithreaded ) {
         active_ = false;
         present();
         if ( render_thread_.joinable() ) {
@@ -44,7 +44,7 @@ bool Renderer::initialize(Viewport& view)
 //    gdi_->enqueue_command(RenderCommand(RenderCommand::Type::init));
     auto success = gdi_->initialize(&view);
 
-    if ( multithreaded_ ) {
+    if ( threading_ == ThreadSupport::multithreaded ) {
         render_thread_ = std::thread(&Renderer::frame, this);
     }
 
@@ -104,7 +104,7 @@ bool Renderer::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
 
 void Renderer::present()
 {
-    if ( multithreaded_ ) {
+    if ( threading_ == ThreadSupport::multithreaded ) {
         wait_for_render_finish();
         gdi_->swap_buffers();
         kick_render_thread();

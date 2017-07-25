@@ -63,7 +63,7 @@ int main(int argc, char** argv)
 	sky::Viewport view;
 	view.open("Graphics App", 800, 600);
 
-    sky::Renderer renderer;
+    sky::Renderer renderer(sky::Renderer::ThreadSupport::multithreaded);
 
     if ( !renderer.initialize(view) ) {
         SKY_ERROR("Graphics Example", "Couldn't initialize graphics device interface");

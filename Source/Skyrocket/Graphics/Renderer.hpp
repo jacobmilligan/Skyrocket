@@ -24,7 +24,12 @@ struct MemoryBlock;
 
 class Renderer {
 public:
-    explicit Renderer(const bool multithreaded = true);
+    enum class ThreadSupport {
+        single_thread,
+        multithreaded
+    };
+
+    explicit Renderer(const ThreadSupport threading);
     ~Renderer();
 
     bool initialize(Viewport& view);
@@ -44,7 +49,7 @@ public:
 
     void shutdown();
 private:
-    bool multithreaded_;
+    ThreadSupport threading_;
     uint32_t next_vbuf_id_;
     uint32_t next_ibuf_id_;
     uint32_t next_shader_id_;
