@@ -29,6 +29,7 @@ public:
     static constexpr uint16_t index_buffer_max = 1024;
     static constexpr uint16_t shader_max = 512;
     static constexpr uint16_t invalid_handle = 0;
+    static constexpr uint16_t max_frames_in_flight = 3;
 
     GDI() = default;
 
@@ -36,7 +37,7 @@ public:
 
     void enqueue_command(const RenderCommand& cmd)
     {
-        cmds_.push(cmd);
+        cmdbufs[next_buf].push(cmd);
     }
 
     virtual bool initialize(Viewport* viewport)
@@ -67,11 +68,18 @@ public:
         return false;
     }
 
+    void swap_buffers()
+    {
+        cur_buf = static_cast<uint16_t>(cur_buf + 1) % max_frames_in_flight;
+        next_buf = static_cast<uint16_t>(next_buf + 1) % max_frames_in_flight;
+    }
 
     virtual void present() {}
 
 protected:
-    std::queue<RenderCommand> cmds_;
+    uint16_t cur_buf {0};
+    uint16_t next_buf {1};
+    std::queue<RenderCommand> cmdbufs[max_frames_in_flight];
 };
 
 std::unique_ptr<GDI> create_graphics_device_interface();

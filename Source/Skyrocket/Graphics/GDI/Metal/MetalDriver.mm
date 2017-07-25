@@ -199,8 +199,8 @@ void MetalGDI::present()
 
     RenderCommand next_cmd(RenderCommand::Type::unknown);
 
-    while ( !cmds_.empty() ) {
-        next_cmd = cmds_.front();
+    while ( !cmdbufs[cur_buf].empty() ) {
+        next_cmd = cmdbufs[cur_buf].front();
 
         switch (next_cmd.type) {
             case RenderCommand::Type::unknown:
@@ -260,7 +260,7 @@ void MetalGDI::present()
             } break;
         }
 
-        cmds_.pop();
+        cmdbufs[cur_buf].pop();
     }
 
     [render_encoder_ endEncoding];

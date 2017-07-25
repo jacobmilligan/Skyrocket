@@ -85,6 +85,7 @@ bool Renderer::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
 void Renderer::present()
 {
     finished_ = false;
+    gdi_->swap_buffers();
     gdi_->present();
     finished_ = true;
 }
