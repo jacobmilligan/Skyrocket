@@ -12,10 +12,12 @@
 #include <Skyrocket/Core/Containers/HandleTable.hpp>
 #include <Skyrocket/Core/Diagnostics/Timespan.hpp>
 #include <Skyrocket/Framework/Application.hpp>
-#include <Skyrocket/Input/Keyboard.hpp>
 #include <Skyrocket/Graphics/Core/Vertex.hpp>
 #include <Skyrocket/Graphics/Renderer.hpp>
+#include <Skyrocket/Input/Keyboard.hpp>
 #include <Skyrocket/Platform/Filesystem.hpp>
+
+#include <vector>
 
 class GraphicsApp : public sky::Application {
 public:
@@ -58,15 +60,16 @@ int main(int argc, char** argv)
 {
 //    GraphicsApp app;
 //    app.start();
+    const char* app_name = "Skyrocket Graphics Example";
     sky::Platform platform;
-	platform.launch("Graphics app");
+	platform.launch(app_name);
 	sky::Viewport view;
-	view.open("Graphics App", 800, 600);
+	view.open(app_name, 800, 600);
 
     sky::Renderer renderer(sky::Renderer::ThreadSupport::multithreaded);
 
     if ( !renderer.initialize(view) ) {
-        SKY_ERROR("Graphics Example", "Couldn't initialize graphics device interface");
+        SKY_ERROR(app_name, "Couldn't initialize graphics device interface");
         return 0;
     }
 
@@ -75,23 +78,27 @@ int main(int argc, char** argv)
 
 	sky::Keyboard keyboard;
 
-    sky::Vertex vertices[3];
-    vertices[0].position = sky::Vector4f(0.0f, 0.5f, 0.0f, 1.0f);
-    vertices[1].position = sky::Vector4f(-0.5f, -0.5f, 0.0f, 1.0f);
-    vertices[2].position = sky::Vector4f(0.5f, -0.5f, 0.0f, 1.0f);
+    std::vector<sky::Vertex> vertices = {
+        sky::Vertex {
+            .position = sky::Vector4f(0.0f, 0.5f, 0.0f, 1.0f),
+            .color = sky::Vector4f(1.0f, 0.0f, 0.0f, 1.0f)
+        },
+        sky::Vertex {
+            .position = sky::Vector4f(-0.5f, -0.5f, 0.0f, 1.0f),
+            .color = sky::Vector4f(0.0f, 1.0f, 0.0f, 1.0f)
+        },
+        sky::Vertex {
+            .position = sky::Vector4f(0.5f, -0.5f, 0.0f, 1.0f),
+            .color = sky::Vector4f(0.0f, 0.0f, 1.0f, 1.0f)
+        }
+    };
 
-    vertices[0].color = sky::Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
-    vertices[1].color = sky::Vector4f(0.0f, 1.0f, 0.0f, 1.0f);
-    vertices[2].color = sky::Vector4f(0.0f, 0.0f, 1.0f, 1.0f);;
-
-    sky::MemoryBlock block;
-    block.data = vertices;
-    block.size = sizeof(sky::Vertex) * 3;
+    sky::MemoryBlock block = {
+        .data = vertices.data(),
+        .size = sizeof(sky::Vertex) * 3
+    };
 
     auto vbuf_id = renderer.create_vertex_buffer(block, sky::BufferUsage::staticbuf);
-
-//    auto vert_id = renderer.create_shader("basic_vertex");
-//    auto frag_id = renderer.create_shader("basic_fragment");
 
     renderer.set_shaders(0, 0);
 

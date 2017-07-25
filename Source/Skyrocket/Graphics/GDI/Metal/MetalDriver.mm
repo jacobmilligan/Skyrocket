@@ -14,10 +14,7 @@
 #include "Skyrocket/Graphics/Internal/Apple/MetalView.h"
 #include "Skyrocket/Platform/Filesystem.hpp"
 
-//TODO(Jacob): Program struct - vertex shader and fragment shader combination
-//TODO(Jacob): Shader struct - either a fragment, vertex, or geometry shader
-//TODO(Jacob): Render commands - simple POD with ids and an enum type and data* depending on the command (i.e. set_vertex_data will need a void*)
-//TODO(Jacob): Textures - <sigh>
+//TODO(Jacob): Textures
 
 namespace sky {
 
@@ -169,9 +166,6 @@ bool MetalGDI::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
     return false;
 }
 
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "ClangTidyInspection"
-#pragma ide diagnostic ignored "OCDFAInspection"
 void MetalGDI::present()
 {
     if ( mtl_layer_ == nil ) {
@@ -277,7 +271,6 @@ void MetalGDI::present()
 
     [command_buffer_ commit];
 }
-#pragma clang diagnostic pop
 
 
 }  // namespace sky
