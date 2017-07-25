@@ -31,19 +31,21 @@
 -(void)applicationDidFinishLaunching:(NSNotification *)notification {
     // Stop the default loop and break out of it with an empty event to control main loop
     [NSApp stop:nil];
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 
-    NSEvent* event = [NSEvent otherEventWithType:NSApplicationDefined
-                                        location:NSMakePoint(0, 0)
-                                   modifierFlags:0
-                                       timestamp:0
-                                    windowNumber:0
-                                         context:nil
-                                         subtype:0
-                                           data1:0
-                                           data2:0];
-    [NSApp postEvent:event atStart:YES];
-    [pool drain];
+    @autoreleasepool {
+        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+
+        NSEvent* event = [NSEvent otherEventWithType:NSApplicationDefined
+                                            location:NSMakePoint(0, 0)
+                                       modifierFlags:0
+                                           timestamp:0
+                                        windowNumber:0
+                                             context:nil
+                                             subtype:0
+                                               data1:0
+                                               data2:0];
+        [NSApp postEvent:event atStart:YES];
+    }
 }
 
 @end

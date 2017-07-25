@@ -37,7 +37,7 @@ public:
 
     void enqueue_command(const RenderCommand& cmd)
     {
-        cmdbufs[next_buf].push(cmd);
+        cmdbufs[cur_buf].push(cmd);
     }
 
     virtual bool initialize(Viewport* viewport)
@@ -70,15 +70,15 @@ public:
 
     void swap_buffers()
     {
+        prev_buf = cur_buf;
         cur_buf = static_cast<uint16_t>(cur_buf + 1) % max_frames_in_flight;
-        next_buf = static_cast<uint16_t>(next_buf + 1) % max_frames_in_flight;
     }
 
     virtual void present() {}
 
 protected:
     uint16_t cur_buf {0};
-    uint16_t next_buf {1};
+    uint16_t prev_buf {0};
     std::queue<RenderCommand> cmdbufs[max_frames_in_flight];
 };
 

@@ -79,21 +79,21 @@ void* Platform::create_native_window(const char* caption, const uint16_t width,
     
 void Platform::native_poll_events()
 {
-    NSAutoreleasePool* autoReleasePool = [[NSAutoreleasePool alloc] init];
-    
-    NSEvent* event;
-    while ( true ) {
-        event = [NSApp nextEventMatchingMask:NSAnyEventMask
-                                   untilDate:[NSDate distantPast]
-                                      inMode:NSDefaultRunLoopMode
-                                     dequeue:YES];
-        if ( event == nil )
-            break;
-        
-        [NSApp sendEvent:event];
+    @autoreleasepool {
+
+        NSEvent* event;
+        while ( true ) {
+            event = [NSApp nextEventMatchingMask:NSAnyEventMask
+                                       untilDate:[NSDate distantPast]
+                                          inMode:NSDefaultRunLoopMode
+                                         dequeue:YES];
+            if ( event == nil )
+                break;
+
+            [NSApp sendEvent:event];
+        }
+
     }
-    
-    [autoReleasePool drain];
 }
 
 

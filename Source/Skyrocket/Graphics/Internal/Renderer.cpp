@@ -12,23 +12,43 @@
 #include "Skyrocket/Graphics/GDI/GDI.hpp"
 #include "Skyrocket/Graphics/Renderer.hpp"
 
+#include <condition_variable>
+
 namespace sky {
 
 
-Renderer::Renderer()
+Renderer::Renderer(const bool multithreaded)
     : gdi_(create_graphics_device_interface()),
       next_vbuf_id_(1),
       next_ibuf_id_(1),
       next_shader_id_(1),
-      finished_(false)
+      notified_(false),
+      active_(false),
+      multithreaded_(multithreaded),
+      rendering_(false)
 {}
 
-Renderer::~Renderer() = default;
+Renderer::~Renderer()
+{
+    if ( multithreaded_ ) {
+        active_ = false;
+        present();
+        if ( render_thread_.joinable() ) {
+            render_thread_.join();
+        }
+    }
+}
 
 bool Renderer::initialize(Viewport& view)
 {
 //    gdi_->enqueue_command(RenderCommand(RenderCommand::Type::init));
-    return gdi_->initialize(&view);
+    auto success = gdi_->initialize(&view);
+
+    if ( multithreaded_ ) {
+        render_thread_ = std::thread(&Renderer::frame, this);
+    }
+
+    return success;
 }
 
 void Renderer::set_viewport(Viewport& viewport)
@@ -84,10 +104,46 @@ bool Renderer::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
 
 void Renderer::present()
 {
-    finished_ = false;
-    gdi_->swap_buffers();
-    gdi_->present();
-    finished_ = true;
+    if ( multithreaded_ ) {
+        wait_for_render_finish();
+        gdi_->swap_buffers();
+        kick_render_thread();
+    } else {
+        gdi_->swap_buffers();
+        gdi_->present();
+    }
+}
+
+void Renderer::kick_render_thread()
+{
+    notified_ = true;
+    cv_.notify_one();
+}
+
+void Renderer::frame()
+{
+    active_ = true;
+    std::mutex mut;
+
+    while ( active_ ) {
+        std::unique_lock<std::mutex> lock(mut);
+
+        cv_.wait(lock, [this]() { return notified_; });
+        notified_ = false;
+
+        rendering_ = true;
+        if ( gdi_ != nullptr ) {
+            gdi_->present();
+        }
+        rendering_ = false;
+    }
+}
+
+void Renderer::wait_for_render_finish()
+{
+    while ( rendering_ ) {
+        std::this_thread::sleep_for(std::chrono::nanoseconds(100));
+    }
 }
 
 

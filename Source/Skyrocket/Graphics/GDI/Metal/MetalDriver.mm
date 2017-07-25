@@ -169,9 +169,18 @@ bool MetalGDI::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
     return false;
 }
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "ClangTidyInspection"
+#pragma ide diagnostic ignored "OCDFAInspection"
 void MetalGDI::present()
 {
+    if ( mtl_layer_ == nil ) {
+        return;
+    }
+
     command_buffer_ = [command_queue_ commandBufferWithUnretainedReferences];
+
+@autoreleasepool {
 
     id<CAMetalDrawable> drawable = [mtl_layer_ nextDrawable];
     if ( drawable == nil ) {
@@ -193,14 +202,12 @@ void MetalGDI::present()
 
     render_encoder_ = [command_buffer_ renderCommandEncoderWithDescriptor:rpd];
 
-    [rpd release];
-
     [render_encoder_ setRenderPipelineState:render_pipeline_];
 
     RenderCommand next_cmd(RenderCommand::Type::unknown);
 
-    while ( !cmdbufs[cur_buf].empty() ) {
-        next_cmd = cmdbufs[cur_buf].front();
+    while ( !cmdbufs[prev_buf].empty() ) {
+        next_cmd = cmdbufs[prev_buf].front();
 
         switch (next_cmd.type) {
             case RenderCommand::Type::unknown:
@@ -210,7 +217,8 @@ void MetalGDI::present()
 
             case RenderCommand::Type::init:
             {
-
+                auto view = static_cast<Viewport*>(next_cmd.data);
+                initialize(view);
             } break;
 
             case RenderCommand::Type::set_viewport:
@@ -260,16 +268,16 @@ void MetalGDI::present()
             } break;
         }
 
-        cmdbufs[cur_buf].pop();
+        cmdbufs[prev_buf].pop();
     }
 
     [render_encoder_ endEncoding];
     [command_buffer_ presentDrawable:drawable];
-
-    [drawable release];
+};
 
     [command_buffer_ commit];
 }
+#pragma clang diagnostic pop
 
 
 }  // namespace sky

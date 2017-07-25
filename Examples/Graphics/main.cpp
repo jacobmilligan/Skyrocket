@@ -95,6 +95,9 @@ int main(int argc, char** argv)
 
     renderer.set_shaders(0, 0);
 
+    double total = 0.0;
+    double frames = 0.0;
+
     while ( sky::Viewport::open_viewports() > 0 ) {
         now = sky::high_resolution_time();
 
@@ -114,7 +117,11 @@ int main(int argc, char** argv)
 		dt = sky::high_resolution_time() - now.ticks();
 
         printf("%f\r", dt.total_seconds());
+        total += dt.total_seconds();
+        frames++;
     }
+
+    printf("Average: %f\n", total / frames);
 
     return 0;
 }

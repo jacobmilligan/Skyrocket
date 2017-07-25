@@ -12,21 +12,19 @@
 #pragma once
 
 #include "Skyrocket/Graphics/GDI/Definitions.hpp"
+#include "Skyrocket/Graphics/GDI/GDI.hpp"
 
 #include <memory>
 #include <thread>
 
 namespace sky {
 
-class GDI;
 class Viewport;
 struct MemoryBlock;
 
-// |
-
 class Renderer {
 public:
-    explicit Renderer();
+    explicit Renderer(const bool multithreaded = true);
     ~Renderer();
 
     bool initialize(Viewport& view);
@@ -43,15 +41,25 @@ public:
     bool set_shaders(const uint32_t vertex_id, const uint32_t fragment_id);
 
     void present();
+
+    void shutdown();
 private:
+    bool multithreaded_;
     uint32_t next_vbuf_id_;
     uint32_t next_ibuf_id_;
     uint32_t next_shader_id_;
 
     std::unique_ptr<GDI> gdi_;
 
-    bool finished_;
+    bool notified_;
+    bool active_;
+    bool rendering_;
+    std::condition_variable cv_;
     std::thread render_thread_;
+
+    void wait_for_render_finish();
+    void kick_render_thread();
+    void frame();
 };
 
 
