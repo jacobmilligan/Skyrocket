@@ -12,6 +12,7 @@
 #pragma once
 
 #include "Skyrocket/Core/Memory.hpp"
+#include "Skyrocket/Graphics/GDI/Commands.hpp"
 #include "Skyrocket/Graphics/GDI/Definitions.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
 
@@ -22,51 +23,55 @@ namespace sky {
 
 class Path;
 
-class ShaderProgram {
-public:
-
-private:
-
-};
-
 class GDI {
 public:
-    static constexpr uint32_t vertex_buffer_max = 1024;
-    static constexpr uint32_t index_buffer_max = 1024;
-    static constexpr uint32_t shader_max = 512;
-    static constexpr uint32_t invalid_handle = 0;
+    static constexpr uint16_t vertex_buffer_max = 1024;
+    static constexpr uint16_t index_buffer_max = 1024;
+    static constexpr uint16_t shader_max = 512;
+    static constexpr uint16_t invalid_handle = 0;
 
     GDI() = default;
 
     virtual ~GDI() = default;
 
-    virtual bool initialize()
+    void enqueue_command(const RenderCommand& cmd)
+    {
+        cmds_.push(cmd);
+    }
+
+    virtual bool initialize(Viewport* viewport)
     {
         return false;
     }
 
-    virtual void set_viewport(Viewport*  viewport) = delete;
+    virtual void set_viewport(Viewport* viewport) {}
 
-    virtual uint32_t create_vertex_buffer(const MemoryBlock& initial_data,
-                                          const BufferUsage usage)
+    virtual bool create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& initial_data,
+                                      const BufferUsage usage)
     {
         return invalid_handle;
     }
 
-    virtual uint32_t create_shader(const char* name)
+    virtual bool set_vertex_buffer(const uint32_t vbuf_id)
+    {
+        return false;
+    }
+
+    virtual bool create_shader(const uint32_t shader_id, const char* name)
     {
         return invalid_handle;
     };
 
-    virtual bool set_shader(const uint32_t vertex_id, const uint32_t fragment_id)
+    virtual bool set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
     {
         return false;
     }
 
+
     virtual void present() {}
 
-private:
-    std::queue<RenderCommand> commands_;
+protected:
+    std::queue<RenderCommand> cmds_;
 };
 
 std::unique_ptr<GDI> create_graphics_device_interface();

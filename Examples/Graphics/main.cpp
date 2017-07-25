@@ -12,11 +12,9 @@
 #include <Skyrocket/Core/Containers/HandleTable.hpp>
 #include <Skyrocket/Core/Diagnostics/Timespan.hpp>
 #include <Skyrocket/Framework/Application.hpp>
-#include <Skyrocket/Graphics/Viewport.hpp>
 #include <Skyrocket/Input/Keyboard.hpp>
-#include <Skyrocket/Platform/Platform.hpp>
-
 #include <Skyrocket/Graphics/Core/Vertex.hpp>
+#include <Skyrocket/Graphics/Renderer.hpp>
 #include <Skyrocket/Platform/Filesystem.hpp>
 
 class GraphicsApp : public sky::Application {
@@ -64,29 +62,38 @@ int main(int argc, char** argv)
 	platform.launch("Graphics app");
 	sky::Viewport view;
 	view.open("Graphics App", 800, 600);
-    auto graphics = sky::create_graphics_device_interface();
-    graphics->initialize();
-    graphics->set_viewport(&view);
+
+    sky::Renderer renderer;
+
+    if ( !renderer.initialize(view) ) {
+        SKY_ERROR("Graphics Example", "Couldn't initialize graphics device interface");
+        return 0;
+    }
 
     sky::Timespan now(sky::high_resolution_time());
-    sky::Timespan after;
+    sky::Timespan dt;
 
 	sky::Keyboard keyboard;
 
     sky::Vertex vertices[3];
-    vertices[0].position = sky::Vector4f(0.0f, 1.0f, 0.0f);
-    vertices[1].position = sky::Vector4f(-1.0f, -1.0f, 0.0f);
-    vertices[2].position = sky::Vector4f(1.0f, 1.0f, 0.0f);
+    vertices[0].position = sky::Vector4f(0.0f, 0.5f, 0.0f, 1.0f);
+    vertices[1].position = sky::Vector4f(-0.5f, -0.5f, 0.0f, 1.0f);
+    vertices[2].position = sky::Vector4f(0.5f, -0.5f, 0.0f, 1.0f);
 
-    sky::MemoryBlock mem = {};
-    mem.size = sizeof(sky::Vertex) * 3;
-    mem.data = malloc(mem.size);
-    memcpy(mem.data, static_cast<void*>(vertices), static_cast<size_t>(mem.size));
+    vertices[0].color = sky::Vector4f(1.0f, 0.0f, 0.0f, 1.0f);
+    vertices[1].color = sky::Vector4f(0.0f, 1.0f, 0.0f, 1.0f);
+    vertices[2].color = sky::Vector4f(0.0f, 0.0f, 1.0f, 1.0f);;
 
-    auto vbuf_id = graphics->create_vertex_buffer(mem, sky::BufferUsage::staticbuf);
-    printf("%s\n", sky::Path::executable_path().str());
-    auto vert_id = graphics->create_shader("basic_vertex");
-    auto frag_id = graphics->create_shader("basic_fragment");
+    sky::MemoryBlock block;
+    block.data = vertices;
+    block.size = sizeof(sky::Vertex) * 3;
+
+    auto vbuf_id = renderer.create_vertex_buffer(block, sky::BufferUsage::staticbuf);
+
+//    auto vert_id = renderer.create_shader("basic_vertex");
+//    auto frag_id = renderer.create_shader("basic_fragment");
+
+    renderer.set_shaders(0, 0);
 
     while ( sky::Viewport::open_viewports() > 0 ) {
         now = sky::high_resolution_time();
@@ -101,10 +108,13 @@ int main(int argc, char** argv)
 			printf("Open windows: %d\n", sky::Viewport::open_viewports());
 		}
 
-		after = sky::high_resolution_time();
-    }
+        renderer.set_vertex_buffer(vbuf_id);
+        renderer.present();
 
-    free(mem.data);
+		dt = sky::high_resolution_time() - now.ticks();
+
+        printf("%f\r", dt.total_seconds());
+    }
 
     return 0;
 }

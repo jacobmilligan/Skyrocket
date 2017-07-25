@@ -17,6 +17,7 @@
 
 namespace sky {
 
+
 struct Vertex {
     Vector4f position;
     Vector4f color;
@@ -35,6 +36,7 @@ struct Normal {
     };
 };
 
-}
+
+}  // namespace sky
 
 

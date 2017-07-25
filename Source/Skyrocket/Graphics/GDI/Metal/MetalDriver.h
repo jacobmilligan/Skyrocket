@@ -37,8 +37,9 @@ struct MetalBuffer {
     void swap()
     {
         ++current_;
-        if ( current_ >= Size )
+        if ( current_ >= Size ) {
             current_ = 0;
+        }
     }
 
     id<MTLBuffer>& current()
@@ -59,23 +60,35 @@ public:
 
     ~MetalGDI() override;
 
-    bool initialize() override;
+    bool initialize(Viewport* viewport) override;
 
     void set_viewport(Viewport* viewport) override;
 
-    uint32_t
-    create_vertex_buffer(const MemoryBlock& initial_data, const BufferUsage usage) override;
-    uint32_t create_shader(const char* name) override;
+    bool create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& initial_data,
+                              const BufferUsage usage) override;
 
-    bool set_shader(const uint32_t vertex_id, const uint32_t fragment_id) override;
+    bool set_vertex_buffer(const uint32_t vbuf_id) override;
+
+    bool create_shader(const uint32_t shader_id, const char* name) override;
+
+    bool set_shaders(const uint32_t vertex_id, const uint32_t fragment_id) override;
 
     void present() override;
 
 private:
     id<MTLDevice> device_;
     id<MTLCommandQueue> command_queue_;
+    id<MTLCommandBuffer> command_buffer_;
     id<MTLRenderPipelineState> render_pipeline_;
+
     id<MTLLibrary> library_;
+    id<MTLLibrary> default_library_;
+
+    id<MTLFunction> default_vshader_;
+    id<MTLFunction> default_fragshader_;
+
+    id<MTLRenderCommandEncoder> render_encoder_;
+    MTLRenderPassDescriptor* pass_descriptor_;
 
     CAMetalLayer* mtl_layer_;
 

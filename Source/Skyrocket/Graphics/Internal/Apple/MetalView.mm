@@ -30,6 +30,7 @@
         _metalLayer.framebufferOnly = YES;
         _metalLayer.frame = frameRect;
         _metalLayer.backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), bgColor);
+        _metalLayer.opaque = NO;
         [_metalLayer removeAllAnimations];
 
         [self setLayer:_metalLayer];
@@ -42,32 +43,6 @@
     CGFloat bgColor[] = {r, g, b, a};
     _metalLayer.backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), bgColor);
 }
-
-//-(void)refresh {
-//    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-//
-//    id<CAMetalDrawable> drawable = _metalLayer.nextDrawable;
-//    id<MTLTexture> texture = drawable.texture;
-//
-//    if ( !drawable )
-//        return;
-//
-//    MTLRenderPassDescriptor* passDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
-//    passDescriptor.colorAttachments[0].texture = texture;
-//    passDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-//    passDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
-//    passDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(1, 0, 0, 1);
-//
-//    id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
-//
-//    id<MTLRenderCommandEncoder> commandEncoder = [commandBuffer renderCommandEncoderWithDescriptor:passDescriptor];
-//    [commandEncoder endEncoding];
-//
-//    [commandBuffer presentDrawable:drawable];
-//    [commandBuffer commit];
-//
-//    [pool drain];
-//}
 
 -(BOOL)acceptsFirstResponder {
     return YES;

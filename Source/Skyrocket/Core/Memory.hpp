@@ -17,8 +17,8 @@ namespace sky {
 
 
 struct MemoryBlock {
-    uint32_t size;
-    void* data;
+    uint32_t size { 0 };
+    void* data { nullptr };
 };
 
 

@@ -28,7 +28,7 @@ void Application::start()
     //platform_->startup(name_);
 
     graphics_driver = std::make_unique<GDI>();
-    graphics_driver->initialize();
+//    graphics_driver->initialize();
 
     active_ = true;
 

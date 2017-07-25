@@ -2,13 +2,17 @@
 
 using namespace metal;
 
-vertex float4 basic_vertex(const device packed_float3* vertex_array [[buffer(0)]],
-                           unsigned int vid [[vertex_id]] )
+struct Vertex {
+    float4 position [[position]];
+    float4 color;
+};
+
+vertex Vertex basic_vertex( device Vertex* vertices [[buffer(0)]], uint vid [[vertex_id]] )
 {
-    return float4(vertex_array[vid], 1.0);
+    return vertices[vid];
 }
 
-fragment half4 basic_fragment()
+fragment float4 basic_fragment(Vertex in [[stage_in]])
 {
-    return half(1.0);
+    return in.color;
 }

@@ -5,4 +5,5 @@ elseif(WIN32)
 endif ()
 
 skyrocket_add_sources(Color.cpp
-        Viewport.cpp)
+        Viewport.cpp
+        Renderer.cpp)
