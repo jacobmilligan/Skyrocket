@@ -19,14 +19,14 @@
 namespace sky {
 
 
-std::unique_ptr<GDI> create_graphics_device_interface()
-{
-    return std::make_unique<MetalGDI>();
-}
-
 MetalGDI::MetalGDI() = default;
 
 MetalGDI::~MetalGDI() = default;
+
+std::unique_ptr<GDI> GDI::create()
+{
+    return std::make_unique<MetalGDI>();
+}
 
 bool MetalGDI::initialize(Viewport* viewport)
 {

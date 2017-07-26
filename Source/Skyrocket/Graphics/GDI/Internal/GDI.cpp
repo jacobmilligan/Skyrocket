@@ -130,5 +130,10 @@ bool GDI::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
     return false;
 }
 
+void GDI::present()
+{
+    // no op
+}
+
 
 } // namespace sky

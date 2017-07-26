@@ -11,11 +11,11 @@
 
 #pragma once
 
+#include "Skyrocket/Core/Containers/Buffer.hpp"
 #include "Skyrocket/Core/Memory.hpp"
 #include "Skyrocket/Graphics/GDI/Commands.hpp"
 #include "Skyrocket/Graphics/GDI/Definitions.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
-#include "Skyrocket/Core/Containers/Buffer.hpp"
 
 #include <memory>
 #include <queue>
@@ -36,16 +36,12 @@ public:
 
     virtual ~GDI() = default;
 
-    template <typename T>
-    void enqueue_command(T& cmd)
-    {
-        auto is_base = std::is_base_of<rc::Command, T>::value;
-        SKY_ASSERT(is_base, "Command is derived from RenderCommand");
+    static std::unique_ptr<GDI> create();
 
-        auto header = static_cast<rc::Command&>(cmd).type;
-        cmdbufs[cur_buf].write(&header);
-        cmdbufs[cur_buf].write(&cmd);
-    }
+    template <typename T>
+    void write_command(T& cmd);
+
+    void swap_buffers();
 
     virtual bool initialize(Viewport* viewport);
 
@@ -60,9 +56,7 @@ public:
 
     virtual bool set_shaders(const uint32_t vertex_id, const uint32_t fragment_id);
 
-    void swap_buffers();
-
-    virtual void present() {}
+    virtual void present();
 
 protected:
     uint16_t cur_buf {0};
@@ -72,7 +66,8 @@ protected:
     void process_commands();
 };
 
-std::unique_ptr<GDI> create_graphics_device_interface();
-
 
 } // namespace sky
+
+
+#include "Skyrocket/Graphics/GDI/Internal/GDI.inl"
