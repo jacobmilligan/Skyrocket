@@ -18,6 +18,7 @@
 #include <Skyrocket/Platform/Filesystem.hpp>
 
 #include <vector>
+#include <Skyrocket/Core/Containers/Buffer.hpp>
 
 class GraphicsApp : public sky::Application {
 public:
@@ -58,8 +59,44 @@ public:
 
 int main(int argc, char** argv)
 {
-//    GraphicsApp app;
-//    app.start();
+//    std::string name = "Jacob";
+//    std::string last = "Milligan";
+//
+//    sky::Buffer<sizeof(std::string) * 32> buf;
+//
+//    std::string str;
+//    auto running = true;
+//
+//    while ( running ) {
+//        buf.write<std::string>(&name);
+//        buf.write<std::string>(&last);
+//
+//        buf.reset();
+//
+//        while ( buf.cursor() != buf.end() ) {
+//            buf.read(&str);
+//
+//            if ( str.empty() ) {
+//                running = false;
+//            }
+//
+//            auto correct = true;
+//            auto pos = buf.cursor() / sizeof(std::string);
+//            if ( pos == 1 && str != name ) {
+//                correct = false;
+//            }
+//            if ( pos == 2 && str != last ) {
+//                correct = false;
+//            }
+//            printf("%s\r", correct ? "correct" : "incorrect" );
+//        }
+//
+//        buf.reset();
+//    }
+//
+//    return 0;
+
+
     const char* app_name = "Skyrocket Graphics Example";
     sky::Platform platform;
 	platform.launch(app_name);

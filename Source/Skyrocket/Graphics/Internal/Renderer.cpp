@@ -23,8 +23,8 @@ Renderer::Renderer(const ThreadSupport threading)
       next_ibuf_id_(1),
       next_shader_id_(1),
       notified_(false),
-      active_(false),
       threading_(threading),
+      active_(false),
       rendering_(false)
 {}
 
@@ -53,9 +53,8 @@ bool Renderer::initialize(Viewport& view)
 
 void Renderer::set_viewport(Viewport& viewport)
 {
-    RenderCommand cmd(RenderCommand::Type::set_viewport);
-    cmd.data = &viewport;
-    gdi_->enqueue_command(cmd);
+    rc::SetViewport cmd(&viewport);
+    gdi_->enqueue_command<rc::SetViewport>(cmd);
 }
 
 uint32_t Renderer::create_vertex_buffer(const MemoryBlock& initial_data, const BufferUsage usage)
@@ -63,20 +62,16 @@ uint32_t Renderer::create_vertex_buffer(const MemoryBlock& initial_data, const B
     auto id = next_vbuf_id_;
     next_vbuf_id_++;
 
-    RenderCommand cmd(RenderCommand::Type::create_vertex_buffer);
-    cmd.data = new CreateBufferData(id, initial_data, usage);
-
-    gdi_->enqueue_command(cmd);
+    rc::CreateVertexBuffer cmd(id, initial_data, usage);
+    gdi_->enqueue_command<rc::CreateVertexBuffer>(cmd);
 
     return id;
 }
 
 void Renderer::set_vertex_buffer(const uint32_t vbuf_id)
 {
-    RenderCommand cmd(RenderCommand::Type::set_vertex_buffer);
-    cmd.data = new uint32_t(vbuf_id);
-
-    gdi_->enqueue_command(cmd);
+    rc::SetVertexBuffer cmd(vbuf_id);
+    gdi_->enqueue_command<rc::SetVertexBuffer>(cmd);
 }
 
 uint32_t Renderer::create_shader(const char* name)
@@ -84,20 +79,17 @@ uint32_t Renderer::create_shader(const char* name)
     auto id = next_shader_id_;
     next_shader_id_++;
 
-    RenderCommand cmd(RenderCommand::Type::create_shader);
-    cmd.data = new uint32_t(id);
+    rc::CreateShader cmd(id, name);
 
-    gdi_->enqueue_command(cmd);
+    gdi_->enqueue_command<rc::CreateShader>(cmd);
 
     return id;
 }
 
 bool Renderer::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
 {
-    RenderCommand cmd(RenderCommand::Type::set_shaders);
-    cmd.data = new ShaderProgramData(vertex_id, fragment_id);
-
-    gdi_->enqueue_command(cmd);
+    rc::SetShaders cmd(vertex_id, fragment_id);
+    gdi_->enqueue_command<rc::SetShaders>(cmd);
 
     return true;
 }

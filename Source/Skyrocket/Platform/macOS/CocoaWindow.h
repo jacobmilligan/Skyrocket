@@ -13,7 +13,7 @@
 
 #import <AppKit/AppKit.h>
 
-namespace sky { class PlatformEvents; }
+namespace sky { struct PlatformEvents; }
 
 
 @interface CocoaWindow : NSWindow

@@ -33,8 +33,6 @@
     [NSApp stop:nil];
 
     @autoreleasepool {
-        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-
         NSEvent* event = [NSEvent otherEventWithType:NSApplicationDefined
                                             location:NSMakePoint(0, 0)
                                        modifierFlags:0

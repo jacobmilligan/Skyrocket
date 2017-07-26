@@ -46,8 +46,6 @@ public:
     bool set_shaders(const uint32_t vertex_id, const uint32_t fragment_id);
 
     void present();
-
-    void shutdown();
 private:
     ThreadSupport threading_;
     uint32_t next_vbuf_id_;

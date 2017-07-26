@@ -198,72 +198,7 @@ void MetalGDI::present()
 
     [render_encoder_ setRenderPipelineState:render_pipeline_];
 
-    RenderCommand next_cmd(RenderCommand::Type::unknown);
-
-    while ( !cmdbufs[prev_buf].empty() ) {
-        next_cmd = cmdbufs[prev_buf].front();
-
-        switch (next_cmd.type) {
-            case RenderCommand::Type::unknown:
-            {
-
-            } break;
-
-            case RenderCommand::Type::init:
-            {
-                auto view = static_cast<Viewport*>(next_cmd.data);
-                initialize(view);
-            } break;
-
-            case RenderCommand::Type::set_viewport:
-            {
-                auto* view = static_cast<Viewport*>(next_cmd.data);
-                set_viewport(view);
-            } break;
-
-            case RenderCommand::Type::create_vertex_buffer:
-            {
-                auto create_data = static_cast<CreateBufferData*>(next_cmd.data);
-                create_vertex_buffer(create_data->id, create_data->data, create_data->usage);
-            } break;
-
-            case RenderCommand::Type::set_vertex_buffer:
-            {
-                auto vbuf_id = static_cast<uint32_t*>(next_cmd.data);
-                set_vertex_buffer(*vbuf_id);
-                delete vbuf_id;
-            } break;
-
-            case RenderCommand::Type::create_index_buffer:
-            {
-
-            } break;
-
-            case RenderCommand::Type::create_shader:
-            {
-
-            } break;
-
-            case RenderCommand::Type::set_shaders:
-            {
-                auto data = static_cast<ShaderProgramData*>(next_cmd.data);
-
-                auto v_prog = data->vertex_program;
-                auto f_prog = data->fragment_program;
-
-                delete data;
-
-                if ( v_prog == shaders_.invalid_id || f_prog == shaders_.invalid_id ) {
-                    printf("hey\n");
-                } else {
-                    set_shaders(v_prog, f_prog);
-                }
-
-            } break;
-        }
-
-        cmdbufs[prev_buf].pop();
-    }
+    process_commands();
 
     [render_encoder_ endEncoding];
     [command_buffer_ presentDrawable:drawable];
