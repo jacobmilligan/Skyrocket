@@ -110,9 +110,6 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    sky::Timespan now(sky::high_resolution_time());
-    sky::Timespan dt;
-
 	sky::Keyboard keyboard;
 
     std::vector<sky::Vertex> vertices = {
@@ -140,11 +137,12 @@ int main(int argc, char** argv)
     renderer.set_shaders(0, 0);
 
     double total = 0;
+    double std_total = 0.0;
     double frames = 0.0;
 
     while ( sky::Viewport::open_viewports() > 0 ) {
-        now = sky::Timespan(sky::high_resolution_time());
-        auto std_now = std::chrono::high_resolution_clock::now();
+        auto std_before = std::chrono::high_resolution_clock::now();
+        auto before = sky::Timespan(std_before.time_since_epoch().count());
 
 		platform.poll_events();
 
@@ -160,16 +158,16 @@ int main(int argc, char** argv)
         renderer.set_vertex_buffer(vbuf_id);
         renderer.present();
 
-		dt = sky::Timespan(sky::high_resolution_time()) - now;
-        auto std_dt = std::chrono::high_resolution_clock::now() - std_now;
-        auto secs = std::chrono::duration_cast<std::chrono::duration<float>>(std_dt);
+        auto after = std::chrono::high_resolution_clock::now();
+		auto dt = sky::Timespan(after.time_since_epoch().count() - before.ticks());
+        auto std_dt = std::chrono::duration_cast<std::chrono::milliseconds>(after - std_before);
 
-        printf("%fs STD: %f\r", dt.total_seconds(), secs.count());
-        total += dt.total_seconds();
+        printf("%f STD: %" PRIu64"ms\n", dt.total_milliseconds(), std_dt.count());
+        total += dt.total_milliseconds();
         frames++;
     }
 
-//    printf("Average: %fs\n", total / frames);
+//    printf("Average: %fms STD: %fms\n", total / frames, std_total / frames);
 
     return 0;
 }

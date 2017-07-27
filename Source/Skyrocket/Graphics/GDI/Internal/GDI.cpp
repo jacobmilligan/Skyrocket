@@ -18,13 +18,13 @@ void GDI::swap_buffers()
 {
     prev_buf = cur_buf;
     cur_buf = static_cast<uint16_t>(cur_buf + 1) % max_frames_in_flight;
-    cmdbufs[prev_buf].reset();
-    cmdbufs[cur_buf].reset();
 }
 
 void GDI::process_commands()
 {
     auto cmd_buf = &cmdbufs[prev_buf];
+
+    cmd_buf->reset();
 
     rc::CmdType* next_cmd_type = nullptr;
 
@@ -82,7 +82,7 @@ void GDI::process_commands()
                 auto f_prog = cmd->fragment_program;
 
                 if ( v_prog == invalid_handle || f_prog == invalid_handle ) {
-                    printf("hey\n");
+//                    printf("invali\n");
                 } else {
                     set_shaders(v_prog, f_prog);
                 }
@@ -90,6 +90,8 @@ void GDI::process_commands()
             } break;
         }
     }
+
+    cmd_buf->reset();
 }
 
 bool GDI::initialize(Viewport*  /*viewport*/)

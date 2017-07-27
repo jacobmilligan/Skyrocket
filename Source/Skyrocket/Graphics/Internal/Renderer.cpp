@@ -97,7 +97,7 @@ bool Renderer::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
 void Renderer::present()
 {
     if ( threading_ == ThreadSupport::multithreaded ) {
-        wait_for_render_finish();
+//        wait_for_render_finish();
         gdi_->swap_buffers();
         kick_render_thread();
     } else {

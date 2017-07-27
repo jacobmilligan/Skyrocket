@@ -11,12 +11,16 @@
 
 #pragma once
 
+#include "Skyrocket/Platform/Config.hpp"
+
 #include <cstdint>
 
 namespace sky {
 
 
-uint64_t high_resolution_time();
+uint64_t high_resolution_time() noexcept;
+
+uint64_t get_ticks_per_second() noexcept;
 
 
-}
+} // namespace sky

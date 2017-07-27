@@ -32,19 +32,19 @@ enum class TimeInterval {
 struct Timespan {
 
     /// @brief The number of ticks that make a microsecond
-    static constexpr uint64_t ticks_per_microsecond = 10;
+    static const uint64_t ticks_per_microsecond;
 
     /// @brief The number of ticks that make a millisecond
-    static constexpr uint64_t ticks_per_millisecond = 10000;
+    static const uint64_t ticks_per_millisecond;
     
     /// @brief The number of ticks that make a second
-    static constexpr uint64_t ticks_per_second = 10000000;
+    static const uint64_t ticks_per_second;
     
     /// @brief The number of ticks that make a minute
-    static constexpr uint64_t ticks_per_minute = ticks_per_second * 60;
+    static const uint64_t ticks_per_minute;
     
     /// @brief The number of ticks that make an hour
-    static constexpr uint64_t ticks_per_hour = ticks_per_minute * 60;
+    static const uint64_t ticks_per_hour;
 
     Timespan() = default;
 
@@ -219,19 +219,19 @@ private:
     uint64_t ticks_{0};
 
     /// @brief The fraction of milliseconds that make up a tick
-    static constexpr double micros_per_tick_ = 1.0f / ticks_per_microsecond;
+    static const double micros_per_tick_;
 
     /// @brief The fraction of milliseconds that make up a tick
-    static constexpr double ms_per_tick_ = 1.0f / ticks_per_millisecond;
-    
+    static const double ms_per_tick_;
+
     /// @brief The fraction of seconds that make up a tick
-    static constexpr double secs_per_tick_ = 1.0f / ticks_per_second;
-    
+    static const double secs_per_tick_;
+
     /// @brief The fraction of minutes that make up a tick
-    static constexpr double mins_per_tick_ = 1.0f / ticks_per_minute;
-    
+    static const double mins_per_tick_;
+
     /// @brief The fraction of hours that make up a tick
-    static constexpr double hours_per_tick_ = 1.0f / ticks_per_hour;
+    static const double hours_per_tick_;
 };
 
 /// @brief Gets a new Time unit from a specified interval
@@ -242,6 +242,6 @@ template <TimeInterval T>
 Timespan get_timespan(const double duration);
 
 
-}
+} // namespace sky
 
 #include "Skyrocket/Core/Diagnostics/Internal/Timespan.inl"

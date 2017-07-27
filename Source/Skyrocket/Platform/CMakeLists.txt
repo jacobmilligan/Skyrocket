@@ -2,8 +2,6 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(lib_name SkyrocketPlatform)
 
-skyrocket_add_sources(StdPlatform/StdPlatform.cpp)
-
 set(compile_flags)
 set(dependencies)
 
@@ -28,10 +26,8 @@ MESSAGE("-- Skyrocket.Platform: Building for ${skyrocket_platform}")
 ###### macOS ######
 if (${skyrocket_platform} STREQUAL "macOS")
     add_subdirectory(macOS)
-    add_subdirectory(StdPlatform)
 elseif(${skyrocket_platform} STREQUAL "Windows")
     add_subdirectory(Windows)
-    add_subdirectory(StdPlatform)
 endif ()
 
 ######################################
