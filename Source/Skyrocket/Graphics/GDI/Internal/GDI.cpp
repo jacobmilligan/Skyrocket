@@ -28,7 +28,7 @@ void GDI::process_commands()
 
     rc::CmdType* next_cmd_type = nullptr;
 
-    while ( cmd_buf->cursor_pos() != cmd_buf->end() ) {
+    while ( cmd_buf->cursor_pos() <= cmd_buf->end() ) {
 
         next_cmd_type = cmd_buf->read<rc::CmdType>();
 

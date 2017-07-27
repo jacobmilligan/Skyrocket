@@ -50,7 +50,7 @@ public:
 
     bool contains(const uint32_t id)
     {
-        return indicies_[id] < count_;
+        return id < Capacity && indicies_[id] < count_;
     }
 
     void create(const uint32_t id, const T& data)
@@ -65,7 +65,7 @@ public:
             return;
         }
 
-        if ( id == invalid_id ) {
+        if ( id == invalid_id || id >= Capacity ) {
             SKY_ERROR("HandleTable", "Creating new handle with invalid ID (%" PRIu32 ")", id);
             return;
         }

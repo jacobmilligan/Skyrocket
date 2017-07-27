@@ -40,7 +40,6 @@ bool MetalGDI::initialize(Viewport* viewport)
     set_viewport(viewport);
     
     command_queue_ = [device_ newCommandQueue];
-    command_buffer_ = [command_queue_ commandBufferWithUnretainedReferences];
 
     //--------------------------------
     //  Load library and shader path
@@ -86,8 +85,8 @@ fragment float4 basic_fragment(Vertex in [[stage_in]])
     
     default_library_ = [device_ newLibraryWithSource:nssrc options:nil error:&err];
     if ( default_library_ == nil ) {
-        SKY_ERROR("Graphics Device Interface", "Couldn't load default metal library: NSError: %s",
-                  lib_path.str(), [[err localizedDescription] UTF8String]);
+        SKY_ASSERT(default_library_ != nil, "Default Metal Library loads correctly (see NSError: %s)",
+                   [[err localizedDescription] UTF8String]);
         return false;
     }
 
@@ -125,13 +124,27 @@ bool MetalGDI::create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& i
                                     const BufferUsage usage)
 {
     vertex_buffers_.create(vbuf_id);
-    vertex_buffers_.lookup(vbuf_id)->init(device_, initial_data.data, initial_data.size, usage);
+
+    auto vbuf = vertex_buffers_.lookup(vbuf_id);
+
+    if ( vbuf == nullptr ) {
+        return false;
+    }
+
+    vbuf->init(device_, initial_data.data, initial_data.size, usage);
+
     return true;
 }
 
 bool MetalGDI::set_vertex_buffer(const uint32_t vbuf_id)
 {
-    [render_encoder_ setVertexBuffer:vertex_buffers_.lookup(vbuf_id)->current()
+    auto vbuf = vertex_buffers_.lookup(vbuf_id);
+
+    if ( vbuf == nullptr ) {
+        return false;
+    }
+
+    [render_encoder_ setVertexBuffer:vbuf->current()
                                offset:0
                               atIndex:0];
     [render_encoder_ drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:3];
@@ -172,9 +185,7 @@ void MetalGDI::present()
         return;
     }
 
-    command_buffer_ = [command_queue_ commandBufferWithUnretainedReferences];
-
-@autoreleasepool {
+    command_buffer_[prev_buf] = [command_queue_ commandBufferWithUnretainedReferences];
 
     id<CAMetalDrawable> drawable = [mtl_layer_ nextDrawable];
     if ( drawable == nil ) {
@@ -194,17 +205,22 @@ void MetalGDI::present()
     rpd.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 0.0);
     rpd.colorAttachments[0].storeAction = MTLStoreActionStore;
 
-    render_encoder_ = [command_buffer_ renderCommandEncoderWithDescriptor:rpd];
+    render_encoder_ = [command_buffer_[prev_buf] renderCommandEncoderWithDescriptor:rpd];
+
+    [rpd release];
 
     [render_encoder_ setRenderPipelineState:render_pipeline_];
 
     process_commands();
 
     [render_encoder_ endEncoding];
-    [command_buffer_ presentDrawable:drawable];
-};
 
-    [command_buffer_ commit];
+    [command_buffer_[prev_buf] presentDrawable:drawable];
+
+    [command_buffer_[prev_buf] commit];
+
+    [render_encoder_ release];
+    [drawable release];
 }
 
 

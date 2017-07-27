@@ -37,8 +37,14 @@ public:
     template <typename T>
     T* read()
     {
+        auto size = sizeof(T);
+
+        SKY_ASSERT(cursor_ + size < Size,
+                   "sizeof T (%lu) is small enough to prevent reading past end of buffer",
+                   size);
+
         auto mem = static_cast<void*>(&buffer_[cursor_]);
-        cursor_ += sizeof(T);
+        cursor_ += size;
         return static_cast<T*>(mem);
     }
 

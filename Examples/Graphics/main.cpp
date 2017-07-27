@@ -103,7 +103,7 @@ int main(int argc, char** argv)
 	sky::Viewport view;
 	view.open(app_name, 800, 600);
 
-    sky::Renderer renderer(sky::Renderer::ThreadSupport::multithreaded);
+    sky::Renderer renderer(sky::Renderer::ThreadSupport::single_thread);
 
     if ( !renderer.initialize(view) ) {
         SKY_ERROR(app_name, "Couldn't initialize graphics device interface");
@@ -141,8 +141,7 @@ int main(int argc, char** argv)
     double frames = 0.0;
 
     while ( sky::Viewport::open_viewports() > 0 ) {
-        auto std_before = std::chrono::high_resolution_clock::now();
-        auto before = sky::Timespan(std_before.time_since_epoch().count());
+        auto before = sky::high_resolution_time();
 
 		platform.poll_events();
 
@@ -158,11 +157,9 @@ int main(int argc, char** argv)
         renderer.set_vertex_buffer(vbuf_id);
         renderer.present();
 
-        auto after = std::chrono::high_resolution_clock::now();
-		auto dt = sky::Timespan(after.time_since_epoch().count() - before.ticks());
-        auto std_dt = std::chrono::duration_cast<std::chrono::milliseconds>(after - std_before);
+		auto dt = sky::Timespan(sky::high_resolution_time() - before);
 
-        printf("%f STD: %" PRIu64"ms\n", dt.total_milliseconds(), std_dt.count());
+        printf("%f\n", dt.total_milliseconds());
         total += dt.total_milliseconds();
         frames++;
     }

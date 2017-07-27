@@ -54,7 +54,7 @@ bool Renderer::initialize(Viewport& view)
 void Renderer::set_viewport(Viewport& viewport)
 {
     rc::SetViewport cmd(&viewport);
-    gdi_->write_command<rc::SetViewport>(cmd);
+    gdi_->write_command<rc::SetViewport>(&cmd);
 }
 
 uint32_t Renderer::create_vertex_buffer(const MemoryBlock& initial_data, const BufferUsage usage)
@@ -63,7 +63,7 @@ uint32_t Renderer::create_vertex_buffer(const MemoryBlock& initial_data, const B
     next_vbuf_id_++;
 
     rc::CreateVertexBuffer cmd(id, initial_data, usage);
-    gdi_->write_command<rc::CreateVertexBuffer>(cmd);
+    gdi_->write_command<rc::CreateVertexBuffer>(&cmd);
 
     return id;
 }
@@ -71,7 +71,7 @@ uint32_t Renderer::create_vertex_buffer(const MemoryBlock& initial_data, const B
 void Renderer::set_vertex_buffer(const uint32_t vbuf_id)
 {
     rc::SetVertexBuffer cmd(vbuf_id);
-    gdi_->write_command<rc::SetVertexBuffer>(cmd);
+    gdi_->write_command<rc::SetVertexBuffer>(&cmd);
 }
 
 uint32_t Renderer::create_shader(const char* name)
@@ -81,7 +81,7 @@ uint32_t Renderer::create_shader(const char* name)
 
     rc::CreateShader cmd(id, name);
 
-    gdi_->write_command<rc::CreateShader>(cmd);
+    gdi_->write_command<rc::CreateShader>(&cmd);
 
     return id;
 }
@@ -89,7 +89,7 @@ uint32_t Renderer::create_shader(const char* name)
 bool Renderer::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
 {
     rc::SetShaders cmd(vertex_id, fragment_id);
-    gdi_->write_command<rc::SetShaders>(cmd);
+    gdi_->write_command<rc::SetShaders>(&cmd);
 
     return true;
 }
@@ -97,8 +97,6 @@ bool Renderer::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
 void Renderer::present()
 {
     if ( threading_ == ThreadSupport::multithreaded ) {
-//        wait_for_render_finish();
-        gdi_->swap_buffers();
         kick_render_thread();
     } else {
         gdi_->swap_buffers();
@@ -125,6 +123,7 @@ void Renderer::frame()
 
         rendering_ = true;
         if ( gdi_ != nullptr ) {
+            gdi_->swap_buffers();
             gdi_->present();
         }
         rendering_ = false;

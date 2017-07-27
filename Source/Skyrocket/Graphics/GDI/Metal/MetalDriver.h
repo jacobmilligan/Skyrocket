@@ -78,8 +78,9 @@ public:
 private:
     id<MTLDevice> device_;
     id<MTLCommandQueue> command_queue_;
-    id<MTLCommandBuffer> command_buffer_;
     id<MTLRenderPipelineState> render_pipeline_;
+
+    id<MTLCommandBuffer> command_buffer_[max_frames_in_flight];
 
     id<MTLLibrary> library_;
     id<MTLLibrary> default_library_;

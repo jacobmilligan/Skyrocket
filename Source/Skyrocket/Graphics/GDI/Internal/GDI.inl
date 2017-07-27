@@ -15,14 +15,14 @@ namespace sky {
 
 
 template <typename T>
-void GDI::write_command(T& cmd)
+void GDI::write_command(T* cmd)
 {
     auto is_base = std::is_base_of<rc::Command, T>::value;
     SKY_ASSERT(is_base, "Command is derived from RenderCommand");
 
-    auto header = static_cast<rc::Command&>(cmd).type;
+    auto header = static_cast<rc::Command*>(cmd)->type;
     cmdbufs[cur_buf].write(&header);
-    cmdbufs[cur_buf].write(&cmd);
+    cmdbufs[cur_buf].write(cmd);
 }
 
 

@@ -39,7 +39,7 @@ public:
     static std::unique_ptr<GDI> create();
 
     template <typename T>
-    void write_command(T& cmd);
+    void write_command(T* cmd);
 
     void swap_buffers();
 

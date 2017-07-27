@@ -30,7 +30,7 @@
         _metalLayer.framebufferOnly = YES;
         _metalLayer.frame = frameRect;
         _metalLayer.backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), bgColor);
-        _metalLayer.opaque = NO;
+
         [_metalLayer removeAllAnimations];
 
         [self setLayer:_metalLayer];
