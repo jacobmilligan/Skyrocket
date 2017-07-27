@@ -73,22 +73,22 @@ int main(int argc, char** argv)
 //
 //        buf.reset();
 //
-//        while ( buf.cursor() != buf.end() ) {
-//            buf.read(&str);
+//        while ( buf.cursor_pos() != buf.end() ) {
+//            auto str = buf.read<std::string>();
 //
-//            if ( str.empty() ) {
+//            if ( str->empty() ) {
 //                running = false;
 //            }
 //
 //            auto correct = true;
-//            auto pos = buf.cursor() / sizeof(std::string);
-//            if ( pos == 1 && str != name ) {
+//            auto pos = buf.cursor_pos() / sizeof(std::string);
+//            if ( pos == 1 && *str != name ) {
 //                correct = false;
 //            }
-//            if ( pos == 2 && str != last ) {
+//            if ( pos == 2 && *str != last ) {
 //                correct = false;
 //            }
-//            printf("%s\r", correct ? "correct" : "incorrect" );
+//            printf("%s\r", str->c_str() );
 //        }
 //
 //        buf.reset();
@@ -139,11 +139,12 @@ int main(int argc, char** argv)
 
     renderer.set_shaders(0, 0);
 
-    double total = 0.0;
+    double total = 0;
     double frames = 0.0;
 
     while ( sky::Viewport::open_viewports() > 0 ) {
-        now = sky::high_resolution_time();
+        now = sky::Timespan(sky::high_resolution_time());
+        auto std_now = std::chrono::high_resolution_clock::now();
 
 		platform.poll_events();
 
@@ -155,17 +156,20 @@ int main(int argc, char** argv)
 			printf("Open windows: %d\n", sky::Viewport::open_viewports());
 		}
 
+
         renderer.set_vertex_buffer(vbuf_id);
         renderer.present();
 
-		dt = sky::high_resolution_time() - now.ticks();
+		dt = sky::Timespan(sky::high_resolution_time()) - now;
+        auto std_dt = std::chrono::high_resolution_clock::now() - std_now;
+        auto secs = std::chrono::duration_cast<std::chrono::duration<float>>(std_dt);
 
-        printf("%f\r", dt.total_seconds());
+        printf("%fs STD: %f\r", dt.total_seconds(), secs.count());
         total += dt.total_seconds();
         frames++;
     }
 
-    printf("Average: %f\n", total / frames);
+//    printf("Average: %fs\n", total / frames);
 
     return 0;
 }

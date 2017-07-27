@@ -24,14 +24,15 @@ void GDI::swap_buffers()
 
 void GDI::process_commands()
 {
-    rc::CmdType next_cmd_type = rc::CmdType::unknown;
-
     auto cmd_buf = &cmdbufs[prev_buf];
 
-    while ( cmd_buf->cursor() != cmd_buf->end() ) {
-        cmd_buf->read<rc::CmdType>(&next_cmd_type);
+    rc::CmdType* next_cmd_type = nullptr;
 
-        switch (next_cmd_type) {
+    while ( cmd_buf->cursor_pos() != cmd_buf->end() ) {
+
+        next_cmd_type = cmd_buf->read<rc::CmdType>();
+
+        switch (*next_cmd_type) {
             case rc::CmdType::unknown:
             {
 
@@ -46,24 +47,21 @@ void GDI::process_commands()
 
             case rc::CmdType::set_viewport:
             {
-                rc::SetViewport cmd(nullptr);
-                cmd_buf->read(&cmd);
-                auto view = cmd.viewport;
+                auto cmd = cmd_buf->read<rc::SetViewport>();
+                auto view = cmd->viewport;
                 set_viewport(view);
             } break;
 
             case rc::CmdType::create_vertex_buffer:
             {
-                rc::CreateVertexBuffer cmd(0, MemoryBlock(), BufferUsage::none);
-                cmd_buf->read(&cmd);
-                create_vertex_buffer(cmd.buf_id, cmd.data, cmd.buf_usage);
+                auto cmd = cmd_buf->read<rc::CreateVertexBuffer>();
+                create_vertex_buffer(cmd->buf_id, cmd->data, cmd->buf_usage);
             } break;
 
             case rc::CmdType::set_vertex_buffer:
             {
-                rc::SetVertexBuffer cmd(0);
-                cmd_buf->read(&cmd);
-                set_vertex_buffer(cmd.buf_id);
+                auto cmd = cmd_buf->read<rc::SetVertexBuffer>();
+                set_vertex_buffer(cmd->buf_id);
             } break;
 
             case rc::CmdType::create_index_buffer:
@@ -78,11 +76,10 @@ void GDI::process_commands()
 
             case rc::CmdType::set_shaders:
             {
-                rc::SetShaders cmd(0, 0);
-                cmd_buf->read(&cmd);
+                auto cmd = cmd_buf->read<rc::SetShaders>();
 
-                auto v_prog = cmd.vertex_program;
-                auto f_prog = cmd.fragment_program;
+                auto v_prog = cmd->vertex_program;
+                auto f_prog = cmd->fragment_program;
 
                 if ( v_prog == invalid_handle || f_prog == invalid_handle ) {
                     printf("hey\n");
@@ -95,36 +92,36 @@ void GDI::process_commands()
     }
 }
 
-bool GDI::initialize(Viewport* viewport)
+bool GDI::initialize(Viewport*  /*viewport*/)
 {
     return false;
 }
 
-void GDI::set_viewport(Viewport* viewport)
+void GDI::set_viewport(Viewport*  /*viewport*/)
 {
     // no op
 }
 
-bool GDI::create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& initial_data,
-                                       const BufferUsage usage)
-{
-    // no op
-    return false;
-}
-
-bool GDI::set_vertex_buffer(const uint32_t vbuf_id)
+bool GDI::create_vertex_buffer(const uint32_t  /*vbuf_id*/, const MemoryBlock&  /*initial_data*/,
+                               const BufferUsage  /*usage*/)
 {
     // no op
     return false;
 }
 
-bool GDI::create_shader(const uint32_t shader_id, const char* name)
+bool GDI::set_vertex_buffer(const uint32_t  /*vbuf_id*/)
+{
+    // no op
+    return false;
+}
+
+bool GDI::create_shader(const uint32_t  /*shader_id*/, const char*  /*name*/)
 {
     // no op
     return false;
 };
 
-bool GDI::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
+bool GDI::set_shaders(const uint32_t  /*vertex_id*/, const uint32_t  /*fragment_id*/)
 {
     // no op
     return false;

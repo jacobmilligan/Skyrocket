@@ -35,7 +35,15 @@ public:
     }
 
     template <typename T>
-    void read(T* out_data)
+    T* read()
+    {
+        auto mem = static_cast<void*>(&buffer_[cursor_]);
+        cursor_ += sizeof(T);
+        return static_cast<T*>(mem);
+    }
+
+    template <typename T>
+    void read_copy(T* out_data)
     {
         auto size = sizeof(T);
         SKY_ASSERT(cursor_ + size < Size,
@@ -56,7 +64,7 @@ public:
         return end_;
     }
 
-    const uint32_t& cursor() const
+    const uint32_t& cursor_pos() const
     {
         return cursor_;
     }

@@ -46,13 +46,11 @@ struct Timespan {
     /// @brief The number of ticks that make an hour
     static constexpr uint64_t ticks_per_hour = ticks_per_minute * 60;
 
-    Timespan()
-        : ticks_(0)
-    {}
+    Timespan() = default;
 
     /// @brief Initializes the time structure using the specified number of ticks
     /// @param ticks Number of ticks in the time unit
-    Timespan(const uint64_t ticks)
+    explicit Timespan(const uint64_t ticks)
         : ticks_(ticks)
     {}
     
@@ -218,7 +216,7 @@ struct Timespan {
     
 private:
     /// @brief The time units ticks value used in all conversions
-    uint64_t ticks_;
+    uint64_t ticks_{0};
 
     /// @brief The fraction of milliseconds that make up a tick
     static constexpr double micros_per_tick_ = 1.0f / ticks_per_microsecond;
