@@ -15,7 +15,9 @@
 
 namespace sky {
 
-
+/*!
+ * @brief Contains a block of memory and its size
+*/
 struct MemoryBlock {
     uint32_t size { 0 };
     void* data { nullptr };
