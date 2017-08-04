@@ -1,0 +1,415 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsky_1_1_rectangle" kind="struct" language="C++" prot="public">
+    <compoundname>sky::Rectangle</compoundname>
+    <includes refid="_rectangle_8hpp" local="no">Rectangle.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename</type>
+        <declname>T</declname>
+        <defname>T</defname>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsky_1_1_rectangle_1a4f505507e88ee255ec306632cd75b0c8" prot="public" static="no" mutable="no">
+        <type><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt;</type>
+        <definition>Vector2&lt;T&gt; sky::Rectangle&lt; T &gt;::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <briefdescription>
+<para>The rectangles world-based position in pixels. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="48" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsky_1_1_rectangle_1a7abf762eff1bc5cb2a32487acf9d198a" prot="public" static="no" mutable="no">
+        <type>T</type>
+        <definition>T sky::Rectangle&lt; T &gt;::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <briefdescription>
+<para>The rectangles width in pixels. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="50" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsky_1_1_rectangle_1a61fc0384cc0ea26fd0592bf760bd1afb" prot="public" static="no" mutable="no">
+        <type>T</type>
+        <definition>T sky::Rectangle&lt; T &gt;::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <briefdescription>
+<para>The rectangles height in pixels. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="52" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structsky_1_1_rectangle_1a89b599cd4b5703eca369e60b03832d66" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::Rectangle&lt; T &gt;::Rectangle</definition>
+        <argsstring>()</argsstring>
+        <name>Rectangle</name>
+        <briefdescription>
+<para>Initializes a new, zero-sized <ref refid="structsky_1_1_rectangle" kindref="compound">Rectangle</ref> at position {0,0}. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="24" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="24" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_rectangle_1acda6f4d563cf004b999d35b8fe2fd5dc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::Rectangle&lt; T &gt;::Rectangle</definition>
+        <argsstring>(const Vector2&lt; T &gt; pos, const Vector2&lt; T &gt; size)</argsstring>
+        <name>Rectangle</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt;</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt;</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="27" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="27" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_rectangle_1a873ce253ef4d646f0bc3aef05f6b2ede" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::Rectangle&lt; T &gt;::Rectangle</definition>
+        <argsstring>(const Vector2&lt; T &gt; &amp;rect_pos, const T rect_width, const T rect_height)</argsstring>
+        <name>Rectangle</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+          <declname>rect_pos</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>rect_width</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>rect_height</declname>
+        </param>
+        <briefdescription>
+<para>Initializes a new <ref refid="structsky_1_1_rectangle" kindref="compound">Rectangle</ref> with the specified position, width, and height. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rpos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The rectangles world-based position </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rwidth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The rectangles width </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rheight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The rectangles height </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="35" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="35" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_rectangle_1a89a47052868b892d6e9e323b95c0e6d0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::Rectangle&lt; T &gt;::Rectangle</definition>
+        <argsstring>(const T x, const T y, const T rect_width, const T rect_height)</argsstring>
+        <name>Rectangle</name>
+        <param>
+          <type>const T</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>rect_width</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>rect_height</declname>
+        </param>
+        <briefdescription>
+<para>Initializes a new <ref refid="structsky_1_1_rectangle" kindref="compound">Rectangle</ref> with the specified x and y position with the specified width and height. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The rectangles x coordinate </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The rectangles y coordinate </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rwidth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The rectangles width </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rheight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The rectangles height </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="44" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="44" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_rectangle_1ae1e95184f993f66e25ff0fb3873c7648" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T</type>
+        <definition>T sky::Rectangle&lt; T &gt;::top</definition>
+        <argsstring>() const</argsstring>
+        <name>top</name>
+        <briefdescription>
+<para>Gets the Y coordinate of the Rectangles top-most edge. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The top coordinate </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="56" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_rectangle_1a113b0066b6161ab17b2d456c2f48589a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T</type>
+        <definition>T sky::Rectangle&lt; T &gt;::right</definition>
+        <argsstring>() const</argsstring>
+        <name>right</name>
+        <briefdescription>
+<para>Gets the X coordinate of the Rectangles right-most edge. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The right coordinate </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="63" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="63" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_rectangle_1a7b48f9748332675eb9212ac8d2ff2830" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T</type>
+        <definition>T sky::Rectangle&lt; T &gt;::bottom</definition>
+        <argsstring>() const</argsstring>
+        <name>bottom</name>
+        <briefdescription>
+<para>Gets the Y coordinate of the Rectangles bottom-most edge. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The bottom coordinate </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="70" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="70" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_rectangle_1a5c0c54477a1b7a565bf5ea1ac6902916" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T</type>
+        <definition>T sky::Rectangle&lt; T &gt;::left</definition>
+        <argsstring>() const</argsstring>
+        <name>left</name>
+        <briefdescription>
+<para>Gets the X coordinate of the Rectangles left-most edge. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The left coordinate </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="77" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="77" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_rectangle_1a0f7082d667098f807efecd4311870772" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="group__vec2aliases_1ga31dcab80e3a246245eca19c52dbc7df1" kindref="member">Vector2f</ref></type>
+        <definition>Vector2f sky::Rectangle&lt; T &gt;::center</definition>
+        <argsstring>() const</argsstring>
+        <name>center</name>
+        <briefdescription>
+<para>Gets a vector representing the Rectangles center point. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The rectangles center point </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="84" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="84" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_rectangle_1a159702fa91d27b2c7ddfac86f603d90b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool sky::Rectangle&lt; T &gt;::contains</definition>
+        <argsstring>(const Rectangle&lt; T &gt; &amp;rect) const</argsstring>
+        <name>contains</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_rectangle" kindref="compound">Rectangle</ref>&lt; T &gt; &amp;</type>
+          <declname>rect</declname>
+        </param>
+        <briefdescription>
+<para>Checks to see if a particular <ref refid="structsky_1_1_rectangle" kindref="compound">Rectangle</ref> is contained within this Rectangles boundaries without overflow. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rect</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The rectangle to check </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the rectangle is contained within, false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="95" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="95" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_rectangle_1a6f2f99efe7620676e0403d79c9eb20a0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool sky::Rectangle&lt; T &gt;::contains</definition>
+        <argsstring>(const Vector2f &amp;point) const</argsstring>
+        <name>contains</name>
+        <param>
+          <type>const <ref refid="group__vec2aliases_1ga31dcab80e3a246245eca19c52dbc7df1" kindref="member">Vector2f</ref> &amp;</type>
+          <declname>point</declname>
+        </param>
+        <briefdescription>
+<para>Checks to see if a particular point in world-space is contained within this Rectangles boundaries. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rect</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The point vector to check </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the point is contained within, false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="107" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="107" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_rectangle_1a4dd5a31e1e11dec0ac3763994c5d7f47" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool sky::Rectangle&lt; T &gt;::intersects</definition>
+        <argsstring>(const Rectangle&lt; T &gt; &amp;rect) const</argsstring>
+        <name>intersects</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_rectangle" kindref="compound">Rectangle</ref>&lt; T &gt; &amp;</type>
+          <declname>rect</declname>
+        </param>
+        <briefdescription>
+<para>Checks to see if a particular <ref refid="structsky_1_1_rectangle" kindref="compound">Rectangle</ref> intersects with this rectangle. An intersection is defined if any single point is found within or on the boundaries of either rectangle. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rect</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The rectangle to check </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True is the rectangle intersects this one, false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="118" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="118" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_rectangle_1a878ad958db0051c8eab7804d44342eb7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool sky::Rectangle&lt; T &gt;::operator==</definition>
+        <argsstring>(const Rectangle&lt; T &gt; &amp;other) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_rectangle" kindref="compound">Rectangle</ref>&lt; T &gt; &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="126" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="126" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_rectangle_1abb3e404167abf6d067ac9b6b7d232653" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool sky::Rectangle&lt; T &gt;::operator!=</definition>
+        <argsstring>(const Rectangle&lt; T &gt; &amp;other) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_rectangle" kindref="compound">Rectangle</ref>&lt; T &gt; &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="133" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="133" bodyend="138"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="structsky_1_1_rectangle" kindref="compound">Rectangle</ref> is a 2D rectangle type with an x, y, width, height and several helpful utility functions defined for it. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="89">
+        <label>T</label>
+      </node>
+      <node id="88">
+        <label>sky::Rectangle&lt; T &gt;</label>
+        <link refid="structsky_1_1_rectangle"/>
+        <childnode refid="89" relation="usage">
+          <edgelabel>width</edgelabel>
+          <edgelabel>height</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" line="21" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/Rectangle.hpp" bodystart="21" bodyend="140"/>
+    <listofallmembers>
+      <member refid="structsky_1_1_rectangle_1a7b48f9748332675eb9212ac8d2ff2830" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>bottom</name></member>
+      <member refid="structsky_1_1_rectangle_1a0f7082d667098f807efecd4311870772" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>center</name></member>
+      <member refid="structsky_1_1_rectangle_1a159702fa91d27b2c7ddfac86f603d90b" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>contains</name></member>
+      <member refid="structsky_1_1_rectangle_1a6f2f99efe7620676e0403d79c9eb20a0" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>contains</name></member>
+      <member refid="structsky_1_1_rectangle_1a61fc0384cc0ea26fd0592bf760bd1afb" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>height</name></member>
+      <member refid="structsky_1_1_rectangle_1a4dd5a31e1e11dec0ac3763994c5d7f47" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>intersects</name></member>
+      <member refid="structsky_1_1_rectangle_1a5c0c54477a1b7a565bf5ea1ac6902916" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>left</name></member>
+      <member refid="structsky_1_1_rectangle_1abb3e404167abf6d067ac9b6b7d232653" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>operator!=</name></member>
+      <member refid="structsky_1_1_rectangle_1a878ad958db0051c8eab7804d44342eb7" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>operator==</name></member>
+      <member refid="structsky_1_1_rectangle_1a4f505507e88ee255ec306632cd75b0c8" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>position</name></member>
+      <member refid="structsky_1_1_rectangle_1a89b599cd4b5703eca369e60b03832d66" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>Rectangle</name></member>
+      <member refid="structsky_1_1_rectangle_1acda6f4d563cf004b999d35b8fe2fd5dc" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>Rectangle</name></member>
+      <member refid="structsky_1_1_rectangle_1a873ce253ef4d646f0bc3aef05f6b2ede" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>Rectangle</name></member>
+      <member refid="structsky_1_1_rectangle_1a89a47052868b892d6e9e323b95c0e6d0" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>Rectangle</name></member>
+      <member refid="structsky_1_1_rectangle_1a113b0066b6161ab17b2d456c2f48589a" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>right</name></member>
+      <member refid="structsky_1_1_rectangle_1ae1e95184f993f66e25ff0fb3873c7648" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>top</name></member>
+      <member refid="structsky_1_1_rectangle_1a7abf762eff1bc5cb2a32487acf9d198a" prot="public" virt="non-virtual"><scope>sky::Rectangle</scope><name>width</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

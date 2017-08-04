@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_c856b55c1dc0b45212dfea0c74920d4a" kind="dir">
+    <compoundname>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry</compoundname>
+    <innerfile refid="_rectangle_8hpp">Rectangle.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry/"/>
+  </compounddef>
+</doxygen>

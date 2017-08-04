@@ -1,0 +1,703 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsky_1_1_vector3" kind="struct" language="C++" prot="public">
+    <compoundname>sky::Vector3</compoundname>
+    <includes refid="_vector3_8hpp" local="no">Vector3.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename</type>
+        <declname>T</declname>
+        <defname>T</defname>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsky_1_1_vector3_1a7c9ffb4a4e267c2e946057a509a68567" prot="public" static="no" mutable="no">
+        <type>T</type>
+        <definition>T sky::Vector3&lt; T &gt;::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <briefdescription>
+<para>The x coordinate of the <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="53" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsky_1_1_vector3_1a4887c3fa6de8e6362b2b8248e1dca7a6" prot="public" static="no" mutable="no">
+        <type>T</type>
+        <definition>T sky::Vector3&lt; T &gt;::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <briefdescription>
+<para>The y coordinate of the <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="56" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsky_1_1_vector3_1a6a1d99226653433d96c2238d5941797a" prot="public" static="no" mutable="no">
+        <type>T</type>
+        <definition>T sky::Vector3&lt; T &gt;::z</definition>
+        <argsstring></argsstring>
+        <name>z</name>
+        <briefdescription>
+<para>The z coordinate of the <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="59" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsky_1_1_vector3_1af6c040672a1b7ae7cb1fbc57a1f3d367" prot="public" static="no" mutable="no">
+        <type>union sky::Vector3::@4</type>
+        <definition>union sky::Vector3::@4 sky::Vector3&lt; T &gt;::@5</definition>
+        <argsstring></argsstring>
+        <name>@5</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="61" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structsky_1_1_vector3_1aa679dbf049be41c7f51d7c2c2868792d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::Vector3&lt; T &gt;::Vector3</definition>
+        <argsstring>(const T value)</argsstring>
+        <name>Vector3</name>
+        <param>
+          <type>const T</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Initializes a new <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> with all elements assigned the specified value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to assign to all elements </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="29" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="29" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1a629aa7d9dc0252b06fa13effdfbb0d9b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::Vector3&lt; T &gt;::Vector3</definition>
+        <argsstring>()</argsstring>
+        <name>Vector3</name>
+        <briefdescription>
+<para>Initializes a new <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> with all elements assigned a value of zero. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="33" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1aefface7af60d6adf9208e6aa54818b64" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::Vector3&lt; T &gt;::Vector3</definition>
+        <argsstring>(const T vx, const T vy, const T vz)</argsstring>
+        <name>Vector3</name>
+        <param>
+          <type>const T</type>
+          <declname>vx</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>vy</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>vz</declname>
+        </param>
+        <briefdescription>
+<para>Initializes a new <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> with each element assigned the specified value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to assign to the x element (element[0]) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to assign to the y element (element[1]) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vz</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to assign to the z element (element[2]) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="40" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="40" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1a80bbf374379b6c560caa6eae647f20ce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::Vector3&lt; T &gt;::Vector3</definition>
+        <argsstring>(const Vector2&lt; T &gt; &amp;vec2, const T vz)</argsstring>
+        <name>Vector3</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+          <declname>vec2</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>vz</declname>
+        </param>
+        <briefdescription>
+<para>Initializes a new <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> using a <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> for the x and y coordinates. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vec2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> to use for x and y coordinates </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vz</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The z coordinate value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="47" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="47" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1a68c2a5b386bf1052d08978d7b6bcc00d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string sky::Vector3&lt; T &gt;::to_string</definition>
+        <argsstring>()</argsstring>
+        <name>to_string</name>
+        <briefdescription>
+<para>Outputs a string representation of the <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> elements in the form &quot;{x, y, z}&quot;. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The string representation of the <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="66" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="66" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1abb060831146a2517d93c431d01f42b56" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T</type>
+        <definition>T sky::Vector3&lt; T &gt;::dot</definition>
+        <argsstring>(const Vector3&lt; T &gt; &amp;right) const</argsstring>
+        <name>dot</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Computes the dot product of this <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> and another, returning a value of type T. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vector to compute the dot product with </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dot product result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="77" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="77" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1aa79a2e20c669e58e934278aeffd570bf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T</type>
+        <definition>T sky::Vector3&lt; T &gt;::length</definition>
+        <argsstring>() const</argsstring>
+        <name>length</name>
+        <briefdescription>
+<para>Computes the length of the <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The vectors length </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="84" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="84" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1a260b87016d83ab517a3aee31d17117d8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T</type>
+        <definition>T sky::Vector3&lt; T &gt;::squared_length</definition>
+        <argsstring>() const</argsstring>
+        <name>squared_length</name>
+        <briefdescription>
+<para>Computes the squared length of the <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> - used for optimizing simple length comparisons when exact length value isn&apos;t required. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The vectors length squared </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="92" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="92" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1ab6dda2f918b1ef002ba15f8233520e63" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::Vector3&lt; T &gt;::normalize</definition>
+        <argsstring>()</argsstring>
+        <name>normalize</name>
+        <briefdescription>
+<para>Normalizes the <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&apos;s elements to be of length 1 but retain their direction. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="99" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="99" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1a4bb3e5637d08483b3d0099587c0d4fe3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt;</type>
+        <definition>Vector3&lt;T&gt; sky::Vector3&lt; T &gt;::get_normalized</definition>
+        <argsstring>()</argsstring>
+        <name>get_normalized</name>
+        <briefdescription>
+<para>Normalizes the <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&apos;s elements to be of length 1 but retain their direction. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The normalized version of the vector </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="112" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="112" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1ac227c37d801f897b6c72ebc3c3361b72" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::Vector3&lt; T &gt;::clamp</definition>
+        <argsstring>(const Vector3&lt; T &gt; &amp;lower, const Vector3&lt; T &gt; &amp;upper)</argsstring>
+        <name>clamp</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+          <declname>lower</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+          <declname>upper</declname>
+        </param>
+        <briefdescription>
+<para>Clamps all of the <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&apos;s elements to remain within the given upper and lower bounds. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lower</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> representing the lowest allowed values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>upper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> representing the highest allowed values </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="124" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="124" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1a307a3babea59f4d0363ad098f28162c6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::Vector3&lt; T &gt;::clamp</definition>
+        <argsstring>(const T &amp;lower, const T &amp;upper)</argsstring>
+        <name>clamp</name>
+        <param>
+          <type>const T &amp;</type>
+          <declname>lower</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>upper</declname>
+        </param>
+        <briefdescription>
+<para>Clamps all of the <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&apos;s elements to remain within the given upper and lower bounds. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lower</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>T value representing the lowest allowed value applied to each component </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>upper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>T value representing the highest allowed value applied to each component </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="135" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="135" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1a2df2649645e233ca36cdb91aa0eb984f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float sky::Vector3&lt; T &gt;::distance</definition>
+        <argsstring>(const Vector3&lt; T &gt; &amp;target) const</argsstring>
+        <name>distance</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="142" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="142" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1a9a3f94a2f719323068ff4f8967b5592c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt;</type>
+        <definition>Vector3&lt;T&gt; sky::Vector3&lt; T &gt;::cross</definition>
+        <argsstring>(const Vector3&lt; T &gt; &amp;right) const</argsstring>
+        <name>cross</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Calculates the vectors cross product with the given <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> to produce a new <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> that is perpendicular to to both operands. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right operand </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> that is perpendicular to both operands </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="156" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="156" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1a14e2596d0c914c125cf863d9b57689e9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector3&lt;T&gt;&amp; sky::Vector3&lt; T &gt;::operator+=</definition>
+        <argsstring>(const Vector3&lt; T &gt; &amp;right)</argsstring>
+        <name>operator+=</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Unary operator += overload for <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> to add </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="170" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="170" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1af9f0e99de8079ea124e279e542b83c7a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector3&lt;T&gt;&amp; sky::Vector3&lt; T &gt;::operator+=</definition>
+        <argsstring>(const T &amp;scalar)</argsstring>
+        <name>operator+=</name>
+        <param>
+          <type>const T &amp;</type>
+          <declname>scalar</declname>
+        </param>
+        <briefdescription>
+<para>Unary operator += overload for scalar value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scalar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scalar to add to all elements </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="181" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="181" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1a2ba3e0c0a16e4020a1799b4cd6c9c13b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector3&lt;T&gt;&amp; sky::Vector3&lt; T &gt;::operator-=</definition>
+        <argsstring>(const Vector3&lt; T &gt; &amp;right)</argsstring>
+        <name>operator-=</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Unary operator -= overload for <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> to subtract </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="192" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="192" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1a900f44fc43716bffc2f4829e0eb2610f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector3&lt;T&gt;&amp; sky::Vector3&lt; T &gt;::operator-=</definition>
+        <argsstring>(const T &amp;scalar)</argsstring>
+        <name>operator-=</name>
+        <param>
+          <type>const T &amp;</type>
+          <declname>scalar</declname>
+        </param>
+        <briefdescription>
+<para>Unary operator -= overload for scalar value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scalar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scalar value to subtract from all elements </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="203" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="203" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1a260d4f2a2e44b66c35be8cea9567586d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector3&lt;T&gt;&amp; sky::Vector3&lt; T &gt;::operator*=</definition>
+        <argsstring>(const Vector3&lt; T &gt; &amp;right)</argsstring>
+        <name>operator*=</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Unary operator *= overload for <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> to multiply </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="214" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="214" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1aacd42e8074a6535c95e4cd0cdd27509f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector3&lt;T&gt;&amp; sky::Vector3&lt; T &gt;::operator*=</definition>
+        <argsstring>(const T &amp;scalar)</argsstring>
+        <name>operator*=</name>
+        <param>
+          <type>const T &amp;</type>
+          <declname>scalar</declname>
+        </param>
+        <briefdescription>
+<para>Unary operator *= overload for scalar value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scalar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scalar value to multiply with all elements </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="225" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="225" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1aec37801bc9559034ba42c43bb0362715" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector3&lt;T&gt;&amp; sky::Vector3&lt; T &gt;::operator/=</definition>
+        <argsstring>(const Vector3&lt; T &gt; &amp;right)</argsstring>
+        <name>operator/=</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Unary operator /= overload for <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> to divide </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="236" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="236" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1afd0ced346a2550340a8dc0e8a542c302" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector3&lt;T&gt;&amp; sky::Vector3&lt; T &gt;::operator/=</definition>
+        <argsstring>(const T &amp;scalar)</argsstring>
+        <name>operator/=</name>
+        <param>
+          <type>const T &amp;</type>
+          <declname>scalar</declname>
+        </param>
+        <briefdescription>
+<para>Binary operator /= overload for scalar value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scalar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scalar value to divide all elements by </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="247" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="247" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1a59e8ed2dba027fe4a34d028376a6efe7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T&amp; sky::Vector3&lt; T &gt;::operator[]</definition>
+        <argsstring>(const int i)</argsstring>
+        <name>operator[]</name>
+        <param>
+          <type>const int</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+<para>Operator[] overload for element access. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The element index to access </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The element at index i </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="258" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="258" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector3_1a371875b50fdb8b2bc8640f8a373064a5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T const  &amp;</type>
+        <definition>T const&amp; sky::Vector3&lt; T &gt;::operator[]</definition>
+        <argsstring>(const int i) const</argsstring>
+        <name>operator[]</name>
+        <param>
+          <type>const int</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+<para>Operator[] overload for const element access. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The element index to access </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The element at index i </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="268" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="268" bodyend="273"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A 3 dimensional Vector structure with several linear algebra operations defined for its members. </para>    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data type to store in the vector </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" line="24" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector3.hpp" bodystart="24" bodyend="274"/>
+    <listofallmembers>
+      <member refid="structsky_1_1_vector3_1ac227c37d801f897b6c72ebc3c3361b72" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>clamp</name></member>
+      <member refid="structsky_1_1_vector3_1a307a3babea59f4d0363ad098f28162c6" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>clamp</name></member>
+      <member refid="structsky_1_1_vector3_1a9a3f94a2f719323068ff4f8967b5592c" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>cross</name></member>
+      <member refid="structsky_1_1_vector3_1a2df2649645e233ca36cdb91aa0eb984f" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>distance</name></member>
+      <member refid="structsky_1_1_vector3_1abb060831146a2517d93c431d01f42b56" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>dot</name></member>
+      <member refid="structsky_1_1_vector3_1a4bb3e5637d08483b3d0099587c0d4fe3" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>get_normalized</name></member>
+      <member refid="structsky_1_1_vector3_1aa79a2e20c669e58e934278aeffd570bf" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>length</name></member>
+      <member refid="structsky_1_1_vector3_1ab6dda2f918b1ef002ba15f8233520e63" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>normalize</name></member>
+      <member refid="structsky_1_1_vector3_1a260d4f2a2e44b66c35be8cea9567586d" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>operator*=</name></member>
+      <member refid="structsky_1_1_vector3_1aacd42e8074a6535c95e4cd0cdd27509f" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>operator*=</name></member>
+      <member refid="structsky_1_1_vector3_1a14e2596d0c914c125cf863d9b57689e9" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>operator+=</name></member>
+      <member refid="structsky_1_1_vector3_1af9f0e99de8079ea124e279e542b83c7a" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>operator+=</name></member>
+      <member refid="structsky_1_1_vector3_1a2ba3e0c0a16e4020a1799b4cd6c9c13b" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>operator-=</name></member>
+      <member refid="structsky_1_1_vector3_1a900f44fc43716bffc2f4829e0eb2610f" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>operator-=</name></member>
+      <member refid="structsky_1_1_vector3_1aec37801bc9559034ba42c43bb0362715" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>operator/=</name></member>
+      <member refid="structsky_1_1_vector3_1afd0ced346a2550340a8dc0e8a542c302" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>operator/=</name></member>
+      <member refid="structsky_1_1_vector3_1a59e8ed2dba027fe4a34d028376a6efe7" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>operator[]</name></member>
+      <member refid="structsky_1_1_vector3_1a371875b50fdb8b2bc8640f8a373064a5" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>operator[]</name></member>
+      <member refid="structsky_1_1_vector3_1a260b87016d83ab517a3aee31d17117d8" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>squared_length</name></member>
+      <member refid="structsky_1_1_vector3_1a68c2a5b386bf1052d08978d7b6bcc00d" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>to_string</name></member>
+      <member refid="structsky_1_1_vector3_1aa679dbf049be41c7f51d7c2c2868792d" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>Vector3</name></member>
+      <member refid="structsky_1_1_vector3_1a629aa7d9dc0252b06fa13effdfbb0d9b" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>Vector3</name></member>
+      <member refid="structsky_1_1_vector3_1aefface7af60d6adf9208e6aa54818b64" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>Vector3</name></member>
+      <member refid="structsky_1_1_vector3_1a80bbf374379b6c560caa6eae647f20ce" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>Vector3</name></member>
+      <member refid="structsky_1_1_vector3_1a7c9ffb4a4e267c2e946057a509a68567" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>x</name></member>
+      <member refid="structsky_1_1_vector3_1a4887c3fa6de8e6362b2b8248e1dca7a6" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>y</name></member>
+      <member refid="structsky_1_1_vector3_1a6a1d99226653433d96c2238d5941797a" prot="public" virt="non-virtual"><scope>sky::Vector3</scope><name>z</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

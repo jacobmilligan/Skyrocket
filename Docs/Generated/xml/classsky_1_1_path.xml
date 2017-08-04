@@ -1,0 +1,318 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classsky_1_1_path" kind="class" language="C++" prot="public">
+    <compoundname>sky::Path</compoundname>
+      <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classsky_1_1_path_1a5adf8718821e75c9dd7b38a00a6d3553" prot="private" static="yes" mutable="no">
+        <type>const char</type>
+        <definition>const char sky::Path::slash_</definition>
+        <argsstring></argsstring>
+        <name>slash_</name>
+        <initializer>= &apos;/&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="44" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classsky_1_1_path_1a8d33db55c38e49d1da9eaf9e7a6b1af7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; char &gt;</type>
+        <definition>std::vector&lt;char&gt; sky::Path::path_</definition>
+        <argsstring></argsstring>
+        <name>path_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="46" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsky_1_1_path_1a69c4625da1be15c3adfb2885ada1a6f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>sky::Path::Path</definition>
+        <argsstring>()</argsstring>
+        <name>Path</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="22" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Filesystem.cpp" bodystart="22" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_path_1a04ab66e7cf0fb404ca0d6fc90d2ec4b8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>sky::Path::Path</definition>
+        <argsstring>(const char *path)</argsstring>
+        <name>Path</name>
+        <param>
+          <type>const char *</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="23" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Filesystem.cpp" bodystart="27" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_path_1adb22f84ebe4a0d034e70d69e98610d57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>sky::Path::Path</definition>
+        <argsstring>(const Path &amp;other)</argsstring>
+        <name>Path</name>
+        <param>
+          <type>const <ref refid="classsky_1_1_path" kindref="compound">Path</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="24" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Filesystem.cpp" bodystart="37" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_path_1adbf85d7d233117cd97fa69342212d59b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::Path::append</definition>
+        <argsstring>(const Path &amp;other)</argsstring>
+        <name>append</name>
+        <param>
+          <type>const <ref refid="classsky_1_1_path" kindref="compound">Path</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="28" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Filesystem.cpp" bodystart="47" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_path_1a8a096596841c403ad6c07f5e173737af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::Path::append</definition>
+        <argsstring>(const char *str)</argsstring>
+        <name>append</name>
+        <param>
+          <type>const char *</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="29" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Filesystem.cpp" bodystart="52" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_path_1aad25a586c29560bbf275006cd3853869" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool sky::Path::exists</definition>
+        <argsstring>() const</argsstring>
+        <name>exists</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="31" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/macOS/MacFilesystem.mm" bodystart="54" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_path_1a4beb50a98ace5100a02f5812dbe0f877" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * sky::Path::filename</definition>
+        <argsstring>() const</argsstring>
+        <name>filename</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="33" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Filesystem.cpp" bodystart="72" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_path_1ac74e7ab2a199cc6d4b1dd0a6e4c48237" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * sky::Path::parent</definition>
+        <argsstring>() const</argsstring>
+        <name>parent</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="34" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Filesystem.cpp" bodystart="82" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_path_1a64e69009f9609521fd212028ec21b108" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsky_1_1_path" kindref="compound">Path</ref></type>
+        <definition>Path sky::Path::relative_path</definition>
+        <argsstring>(const char *str)</argsstring>
+        <name>relative_path</name>
+        <param>
+          <type>const char *</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="36" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Filesystem.cpp" bodystart="113" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_path_1a5a4221ce3a6f03c527fc627b40b34bbd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * sky::Path::str</definition>
+        <argsstring>() const</argsstring>
+        <name>str</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="37" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Filesystem.cpp" bodystart="108" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_path_1a59d7fbe31925b29dd70d37c629ad1d64" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t sky::Path::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="39" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Filesystem.cpp" bodystart="120" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_path_1ad487f65ffe604dd8d706263c3c2604a6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool sky::Path::operator==</definition>
+        <argsstring>(const Path &amp;other) const</argsstring>
+        <name>operator==</name>
+        <param>
+          <type>const <ref refid="classsky_1_1_path" kindref="compound">Path</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="41" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Filesystem.cpp" bodystart="92" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_path_1a30d5a0b5f0296bacc25005a47cbed0ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool sky::Path::operator!=</definition>
+        <argsstring>(const Path &amp;other) const</argsstring>
+        <name>operator!=</name>
+        <param>
+          <type>const <ref refid="classsky_1_1_path" kindref="compound">Path</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="42" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Filesystem.cpp" bodystart="103" bodyend="106"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classsky_1_1_path_1a815c967c55771504b0b554add899e57f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsky_1_1_path" kindref="compound">Path</ref></type>
+        <definition>Path sky::Path::executable_path</definition>
+        <argsstring>()</argsstring>
+        <name>executable_path</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="26" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/macOS/MacFilesystem.mm" bodystart="24" bodyend="38"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classsky_1_1_path_1a57a131fa42f1da95f342b2d5ac8eacde" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::Path::make_real</definition>
+        <argsstring>()</argsstring>
+        <name>make_real</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="48" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/macOS/MacFilesystem.mm" bodystart="40" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_path_1a5063d2699634d9cd993febb95deaba8c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::Path::make_null_terminated</definition>
+        <argsstring>()</argsstring>
+        <name>make_null_terminated</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="49" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Filesystem.cpp" bodystart="137" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_path_1a5aec45b1a68263af3b453c165741c823" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t sky::Path::last_slash_pos</definition>
+        <argsstring>() const</argsstring>
+        <name>last_slash_pos</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="50" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Filesystem.cpp" bodystart="125" bodyend="135"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="20" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" bodystart="20" bodyend="51"/>
+    <listofallmembers>
+      <member refid="classsky_1_1_path_1adbf85d7d233117cd97fa69342212d59b" prot="public" virt="non-virtual"><scope>sky::Path</scope><name>append</name></member>
+      <member refid="classsky_1_1_path_1a8a096596841c403ad6c07f5e173737af" prot="public" virt="non-virtual"><scope>sky::Path</scope><name>append</name></member>
+      <member refid="classsky_1_1_path_1a815c967c55771504b0b554add899e57f" prot="public" virt="non-virtual"><scope>sky::Path</scope><name>executable_path</name></member>
+      <member refid="classsky_1_1_path_1aad25a586c29560bbf275006cd3853869" prot="public" virt="non-virtual"><scope>sky::Path</scope><name>exists</name></member>
+      <member refid="classsky_1_1_path_1a4beb50a98ace5100a02f5812dbe0f877" prot="public" virt="non-virtual"><scope>sky::Path</scope><name>filename</name></member>
+      <member refid="classsky_1_1_path_1a5aec45b1a68263af3b453c165741c823" prot="private" virt="non-virtual"><scope>sky::Path</scope><name>last_slash_pos</name></member>
+      <member refid="classsky_1_1_path_1a5063d2699634d9cd993febb95deaba8c" prot="private" virt="non-virtual"><scope>sky::Path</scope><name>make_null_terminated</name></member>
+      <member refid="classsky_1_1_path_1a57a131fa42f1da95f342b2d5ac8eacde" prot="private" virt="non-virtual"><scope>sky::Path</scope><name>make_real</name></member>
+      <member refid="classsky_1_1_path_1a30d5a0b5f0296bacc25005a47cbed0ad" prot="public" virt="non-virtual"><scope>sky::Path</scope><name>operator!=</name></member>
+      <member refid="classsky_1_1_path_1ad487f65ffe604dd8d706263c3c2604a6" prot="public" virt="non-virtual"><scope>sky::Path</scope><name>operator==</name></member>
+      <member refid="classsky_1_1_path_1ac74e7ab2a199cc6d4b1dd0a6e4c48237" prot="public" virt="non-virtual"><scope>sky::Path</scope><name>parent</name></member>
+      <member refid="classsky_1_1_path_1a69c4625da1be15c3adfb2885ada1a6f0" prot="public" virt="non-virtual"><scope>sky::Path</scope><name>Path</name></member>
+      <member refid="classsky_1_1_path_1a04ab66e7cf0fb404ca0d6fc90d2ec4b8" prot="public" virt="non-virtual"><scope>sky::Path</scope><name>Path</name></member>
+      <member refid="classsky_1_1_path_1adb22f84ebe4a0d034e70d69e98610d57" prot="public" virt="non-virtual"><scope>sky::Path</scope><name>Path</name></member>
+      <member refid="classsky_1_1_path_1a8d33db55c38e49d1da9eaf9e7a6b1af7" prot="private" virt="non-virtual"><scope>sky::Path</scope><name>path_</name></member>
+      <member refid="classsky_1_1_path_1a64e69009f9609521fd212028ec21b108" prot="public" virt="non-virtual"><scope>sky::Path</scope><name>relative_path</name></member>
+      <member refid="classsky_1_1_path_1a59d7fbe31925b29dd70d37c629ad1d64" prot="public" virt="non-virtual"><scope>sky::Path</scope><name>size</name></member>
+      <member refid="classsky_1_1_path_1a5adf8718821e75c9dd7b38a00a6d3553" prot="private" virt="non-virtual"><scope>sky::Path</scope><name>slash_</name></member>
+      <member refid="classsky_1_1_path_1a5a4221ce3a6f03c527fc627b40b34bbd" prot="public" virt="non-virtual"><scope>sky::Path</scope><name>str</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

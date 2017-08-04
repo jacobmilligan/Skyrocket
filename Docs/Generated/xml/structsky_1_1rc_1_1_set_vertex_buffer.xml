@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsky_1_1rc_1_1_set_vertex_buffer" kind="struct" language="C++" prot="public">
+    <compoundname>sky::rc::SetVertexBuffer</compoundname>
+    <basecompoundref refid="structsky_1_1rc_1_1_command" prot="public" virt="non-virtual">sky::rc::Command</basecompoundref>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsky_1_1rc_1_1_set_vertex_buffer_1a0c14d63854b77f8faea05357e9ba941f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t sky::rc::SetVertexBuffer::buf_id</definition>
+        <argsstring></argsstring>
+        <name>buf_id</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" line="69" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structsky_1_1rc_1_1_set_vertex_buffer_1a147c5fd785d7fb5e0d61539b521dc4d1" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::rc::SetVertexBuffer::SetVertexBuffer</definition>
+        <argsstring>(const uint32_t id)</argsstring>
+        <name>SetVertexBuffer</name>
+        <param>
+          <type>const uint32_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" line="64" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" bodystart="64" bodyend="67"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="96">
+        <label>sky::rc::SetVertexBuffer</label>
+        <link refid="structsky_1_1rc_1_1_set_vertex_buffer"/>
+        <childnode refid="97" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="97">
+        <label>sky::rc::Command</label>
+        <link refid="structsky_1_1rc_1_1_command"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="98">
+        <label>sky::rc::SetVertexBuffer</label>
+        <link refid="structsky_1_1rc_1_1_set_vertex_buffer"/>
+        <childnode refid="99" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="99">
+        <label>sky::rc::Command</label>
+        <link refid="structsky_1_1rc_1_1_command"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" line="63" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" bodystart="63" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structsky_1_1rc_1_1_set_vertex_buffer_1a0c14d63854b77f8faea05357e9ba941f" prot="public" virt="non-virtual"><scope>sky::rc::SetVertexBuffer</scope><name>buf_id</name></member>
+      <member refid="structsky_1_1rc_1_1_command_1afa65b20f9d145f0a89cadcb069e58a41" prot="public" virt="non-virtual"><scope>sky::rc::SetVertexBuffer</scope><name>Command</name></member>
+      <member refid="structsky_1_1rc_1_1_set_vertex_buffer_1a147c5fd785d7fb5e0d61539b521dc4d1" prot="public" virt="non-virtual"><scope>sky::rc::SetVertexBuffer</scope><name>SetVertexBuffer</name></member>
+      <member refid="structsky_1_1rc_1_1_command_1ac197f02cae801cf986213a28b06d6a07" prot="public" virt="non-virtual"><scope>sky::rc::SetVertexBuffer</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

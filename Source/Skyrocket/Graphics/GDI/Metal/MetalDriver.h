@@ -81,15 +81,14 @@ private:
     id<MTLRenderPipelineState> render_pipeline_;
 
     id<MTLCommandBuffer> command_buffer_[max_frames_in_flight];
-
+    id<MTLRenderCommandEncoder> render_encoder_;
+    
     id<MTLLibrary> library_;
     id<MTLLibrary> default_library_;
-
     id<MTLFunction> default_vshader_;
     id<MTLFunction> default_fragshader_;
-
-    id<MTLRenderCommandEncoder> render_encoder_;
-    MTLRenderPassDescriptor* pass_descriptor_;
+    
+    dispatch_semaphore_t buf_sem_;
 
     CAMetalLayer* mtl_layer_;
 

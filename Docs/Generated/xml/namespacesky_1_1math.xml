@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="namespacesky_1_1math" kind="namespace" language="C++">
+    <compoundname>sky::math</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="_common_8hpp_1ad3ee86040a2812d96511d07832058fda" prot="public" static="yes" mutable="no">
+        <type>constexpr double</type>
+        <definition>constexpr double sky::math::pi</definition>
+        <argsstring></argsstring>
+        <name>pi</name>
+        <initializer>= 3.14159265358979323846</initializer>
+        <briefdescription>
+<para>Constant representing the number Pi to a precision of 20 decimal points. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Common.hpp" line="17" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Common.hpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="_common_8hpp_1afb1e2bf4c00c87057f37967b0fc81cbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T</type>
+        <definition>T sky::math::clamp</definition>
+        <argsstring>(const T &amp;value, const T &amp;low, const T &amp;high)</argsstring>
+        <name>clamp</name>
+        <param>
+          <type>const T &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>low</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>high</declname>
+        </param>
+        <briefdescription>
+<para>Clamps a value to stay within a specified minimum and maximum works on any type with defined or overloaded operator &gt; or operator &lt;. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data type of the numeric value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to clamp </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>low</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The lower bound of the clamping operation </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>high</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The upper bound of the clamping operation </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The clamped value </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Common.hpp" line="27" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Common.hpp" bodystart="27" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="_trigonometry_8hpp_1a37f4f86a8b028a12249da32980c2e085" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr double</type>
+        <definition>constexpr double sky::math::to_radians</definition>
+        <argsstring>(const double degrees)</argsstring>
+        <name>to_radians</name>
+        <param>
+          <type>const double</type>
+          <declname>degrees</declname>
+        </param>
+        <briefdescription>
+<para>Converts an angle from degrees to radians. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>angle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Angle in degrees to convert </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The angle in radians </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Trigonometry.hpp" line="21" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Trigonometry.hpp" bodystart="21" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="_trigonometry_8hpp_1a471985381ae6b358fc38376883f3fd89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr double</type>
+        <definition>constexpr double sky::math::to_degrees</definition>
+        <argsstring>(const double radians)</argsstring>
+        <name>to_degrees</name>
+        <param>
+          <type>const double</type>
+          <declname>radians</declname>
+        </param>
+        <briefdescription>
+<para>Converts an angle in radians to degrees. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>radians</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Angle to convert </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The angle in degrees </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Trigonometry.hpp" line="29" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Trigonometry.hpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Common.hpp" line="14" column="1"/>
+  </compounddef>
+</doxygen>

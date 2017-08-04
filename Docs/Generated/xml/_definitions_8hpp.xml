@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="_definitions_8hpp" kind="file" language="C++">
+    <compoundname>Definitions.hpp</compoundname>
+    <includedby refid="_commands_8hpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp</includedby>
+    <includedby refid="_g_d_i_8hpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp</includedby>
+    <includedby refid="_renderer_8hpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Renderer.hpp</includedby>
+    <invincdepgraph>
+      <node id="329">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Framework/Application.hpp</label>
+        <link refid="_application_8hpp_source"/>
+        <childnode refid="330" relation="include">
+        </childnode>
+      </node>
+      <node id="335">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Renderer.cpp</label>
+        <link refid="_renderer_8cpp_source"/>
+      </node>
+      <node id="331">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Internal/GDI.cpp</label>
+        <link refid="_g_d_i_8cpp_source"/>
+      </node>
+      <node id="333">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Metal/MetalDriver.mm</label>
+        <link refid="_metal_driver_8mm_source"/>
+      </node>
+      <node id="334">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MacViewport.mm</label>
+        <link refid="_mac_viewport_8mm_source"/>
+      </node>
+      <node id="330">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Framework/Application.cpp</label>
+        <link refid="_application_8cpp_source"/>
+      </node>
+      <node id="327">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp</label>
+        <link refid="_commands_8hpp_source"/>
+        <childnode refid="328" relation="include">
+        </childnode>
+      </node>
+      <node id="326">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Definitions.hpp</label>
+        <link refid="_definitions_8hpp"/>
+        <childnode refid="327" relation="include">
+        </childnode>
+        <childnode refid="328" relation="include">
+        </childnode>
+        <childnode refid="336" relation="include">
+        </childnode>
+      </node>
+      <node id="328">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp</label>
+        <link refid="_g_d_i_8hpp_source"/>
+        <childnode refid="329" relation="include">
+        </childnode>
+        <childnode refid="331" relation="include">
+        </childnode>
+        <childnode refid="332" relation="include">
+        </childnode>
+        <childnode refid="334" relation="include">
+        </childnode>
+        <childnode refid="335" relation="include">
+        </childnode>
+        <childnode refid="336" relation="include">
+        </childnode>
+      </node>
+      <node id="336">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Renderer.hpp</label>
+        <link refid="_renderer_8hpp_source"/>
+        <childnode refid="335" relation="include">
+        </childnode>
+      </node>
+      <node id="332">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Metal/MetalDriver.h</label>
+        <link refid="_metal_driver_8h_source"/>
+        <childnode refid="333" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacesky">sky</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Definitions.hpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Skyrocket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>--------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Created<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Jacob<sp/>Milligan<sp/>on<sp/>5/07/2017</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Copyright<sp/>(c)<sp/>2016<sp/>Jacob<sp/>Milligan.<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacesky" kindref="compound">sky</ref><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>BufferUsage<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>none<sp/>=<sp/>0x0,</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>staticbuf<sp/>=<sp/>0x1,</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>dynamic</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sky</highlight></codeline>
+    </programlisting>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Definitions.hpp"/>
+  </compounddef>
+</doxygen>

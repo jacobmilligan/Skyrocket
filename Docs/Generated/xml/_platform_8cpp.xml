@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="_platform_8cpp" kind="file" language="C++">
+    <compoundname>Platform.cpp</compoundname>
+    <includes refid="_error_8hpp" local="yes">Skyrocket/Core/Diagnostics/Error.hpp</includes>
+    <includes refid="_platform_8hpp" local="yes">Skyrocket/Platform/Platform.hpp</includes>
+    <incdepgraph>
+      <node id="757">
+        <label>cstdint</label>
+      </node>
+      <node id="756">
+        <label>Skyrocket/Platform/Time.hpp</label>
+        <link refid="_time_8hpp_source"/>
+        <childnode refid="750" relation="include">
+        </childnode>
+        <childnode refid="757" relation="include">
+        </childnode>
+      </node>
+      <node id="754">
+        <label>cstdarg</label>
+      </node>
+      <node id="759">
+        <label>Skyrocket/Input/Keycodes.hpp</label>
+        <link refid="_keycodes_8hpp_source"/>
+        <childnode refid="757" relation="include">
+        </childnode>
+      </node>
+      <node id="750">
+        <label>Skyrocket/Platform/Config.hpp</label>
+        <link refid="_config_8hpp_source"/>
+      </node>
+      <node id="749">
+        <label>Skyrocket/Core/Diagnostics/Error.hpp</label>
+        <link refid="_error_8hpp_source"/>
+        <childnode refid="750" relation="include">
+        </childnode>
+        <childnode refid="751" relation="include">
+        </childnode>
+        <childnode refid="752" relation="include">
+        </childnode>
+        <childnode refid="753" relation="include">
+        </childnode>
+        <childnode refid="754" relation="include">
+        </childnode>
+      </node>
+      <node id="752">
+        <label>cstdio</label>
+      </node>
+      <node id="751">
+        <label>vector</label>
+      </node>
+      <node id="753">
+        <label>cstdlib</label>
+      </node>
+      <node id="758">
+        <label>Skyrocket/Platform/Internal/PlatformEvents.hpp</label>
+        <link refid="_platform_events_8hpp_source"/>
+        <childnode refid="759" relation="include">
+        </childnode>
+        <childnode refid="757" relation="include">
+        </childnode>
+        <childnode refid="751" relation="include">
+        </childnode>
+      </node>
+      <node id="748">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Platform.cpp</label>
+        <link refid="_platform_8cpp"/>
+        <childnode refid="749" relation="include">
+        </childnode>
+        <childnode refid="755" relation="include">
+        </childnode>
+      </node>
+      <node id="760">
+        <label>memory</label>
+      </node>
+      <node id="755">
+        <label>Skyrocket/Platform/Platform.hpp</label>
+        <link refid="_platform_8hpp_source"/>
+        <childnode refid="756" relation="include">
+        </childnode>
+        <childnode refid="758" relation="include">
+        </childnode>
+        <childnode refid="750" relation="include">
+        </childnode>
+        <childnode refid="759" relation="include">
+        </childnode>
+        <childnode refid="757" relation="include">
+        </childnode>
+        <childnode refid="760" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacesky">sky</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Platform.cpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Skyrocket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>--------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Created<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Jacob<sp/>Milligan<sp/>on<sp/>8/07/2017</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Copyright<sp/>(c)<sp/>2016<sp/>Jacob<sp/>Milligan.<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Skyrocket/Core/Diagnostics/Error.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Skyrocket/Platform/Platform.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacesky" kindref="compound">sky</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">PlatformEvents<sp/>Platform::events_;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Platform::launch(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>app_title)</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<sp/>!initialized_<sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>app_title_<sp/>=<sp/>app_title;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>native_init();</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>initialized_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Platform::poll_events()</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>AssertGuard<sp/>guard(</highlight><highlight class="stringliteral">&quot;Polling<sp/>events&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>SKY_ASSERT(initialized_,<sp/></highlight><highlight class="stringliteral">&quot;Platform<sp/>is<sp/>initialized<sp/>before<sp/>polling<sp/>events&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>events_.reset_keyboard_state();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>native_poll_events();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Platform.cpp"/>
+  </compounddef>
+</doxygen>

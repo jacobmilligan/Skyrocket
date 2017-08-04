@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsky_1_1rc_1_1_set_shaders" kind="struct" language="C++" prot="public">
+    <compoundname>sky::rc::SetShaders</compoundname>
+    <basecompoundref refid="structsky_1_1rc_1_1_command" prot="public" virt="non-virtual">sky::rc::Command</basecompoundref>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsky_1_1rc_1_1_set_shaders_1ab47221744e91aa91241131e3f0c49259" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t sky::rc::SetShaders::vertex_program</definition>
+        <argsstring></argsstring>
+        <name>vertex_program</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" line="90" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsky_1_1rc_1_1_set_shaders_1a144e73b4e074ef01749a097895d3363e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t sky::rc::SetShaders::fragment_program</definition>
+        <argsstring></argsstring>
+        <name>fragment_program</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" line="91" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structsky_1_1rc_1_1_set_shaders_1a0b87fa3bc0b31dd6668c98eae903dc7a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::rc::SetShaders::SetShaders</definition>
+        <argsstring>(const uint32_t vert_id, const uint32_t frag_id)</argsstring>
+        <name>SetShaders</name>
+        <param>
+          <type>const uint32_t</type>
+          <declname>vert_id</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>frag_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" line="84" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" bodystart="84" bodyend="88"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="92">
+        <label>sky::rc::SetShaders</label>
+        <link refid="structsky_1_1rc_1_1_set_shaders"/>
+        <childnode refid="93" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="93">
+        <label>sky::rc::Command</label>
+        <link refid="structsky_1_1rc_1_1_command"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="94">
+        <label>sky::rc::SetShaders</label>
+        <link refid="structsky_1_1rc_1_1_set_shaders"/>
+        <childnode refid="95" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="95">
+        <label>sky::rc::Command</label>
+        <link refid="structsky_1_1rc_1_1_command"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" line="83" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" bodystart="83" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structsky_1_1rc_1_1_command_1afa65b20f9d145f0a89cadcb069e58a41" prot="public" virt="non-virtual"><scope>sky::rc::SetShaders</scope><name>Command</name></member>
+      <member refid="structsky_1_1rc_1_1_set_shaders_1a144e73b4e074ef01749a097895d3363e" prot="public" virt="non-virtual"><scope>sky::rc::SetShaders</scope><name>fragment_program</name></member>
+      <member refid="structsky_1_1rc_1_1_set_shaders_1a0b87fa3bc0b31dd6668c98eae903dc7a" prot="public" virt="non-virtual"><scope>sky::rc::SetShaders</scope><name>SetShaders</name></member>
+      <member refid="structsky_1_1rc_1_1_command_1ac197f02cae801cf986213a28b06d6a07" prot="public" virt="non-virtual"><scope>sky::rc::SetShaders</scope><name>type</name></member>
+      <member refid="structsky_1_1rc_1_1_set_shaders_1ab47221744e91aa91241131e3f0c49259" prot="public" virt="non-virtual"><scope>sky::rc::SetShaders</scope><name>vertex_program</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

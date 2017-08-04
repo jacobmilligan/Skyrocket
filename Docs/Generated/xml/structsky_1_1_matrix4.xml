@@ -1,0 +1,689 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsky_1_1_matrix4" kind="struct" language="C++" prot="public">
+    <compoundname>sky::Matrix4</compoundname>
+    <includes refid="_matrix4_8hpp" local="no">Matrix4.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename</type>
+        <declname>T</declname>
+        <defname>T</defname>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structsky_1_1_matrix4_1ad135dc6ba70bcc502ed27d1a16b92020" prot="private" static="no" mutable="no">
+        <type><ref refid="structsky_1_1_vector4" kindref="compound">Vector4</ref>&lt; T &gt;</type>
+        <definition>Vector4&lt;T&gt; sky::Matrix4&lt; T &gt;::columns_[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>columns_</name>
+        <briefdescription>
+<para>The column vector elements of the matrix. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="282" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structsky_1_1_matrix4_1afd7cd0505a00da5aae8498363d6125dc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::Matrix4&lt; T &gt;::Matrix4</definition>
+        <argsstring>()</argsstring>
+        <name>Matrix4</name>
+        <briefdescription>
+<para>Default constructor - initializes the Matrix as the identity matrix, that is the main diagonal elements are initialized to 1 with all other elements initialized to 0. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="32" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_matrix4_1aee398806b6d803144f092e2d0e3aa704" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::Matrix4&lt; T &gt;::Matrix4</definition>
+        <argsstring>(const T value)</argsstring>
+        <name>Matrix4</name>
+        <param>
+          <type>const T</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new matrix with the main diagonal elements initialized to the specified value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to initialize the matrix&apos;s main diagonal elements to </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="37" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="37" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_matrix4_1aa947e5310a496a901c20b0a6ab7b0a9f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::Matrix4&lt; T &gt;::Matrix4</definition>
+        <argsstring>(const Vector4&lt; T &gt; &amp;col1, const Vector4&lt; T &gt; &amp;col2, const Vector4&lt; T &gt; &amp;col3, const Vector4&lt; T &gt; &amp;col4)</argsstring>
+        <name>Matrix4</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector4" kindref="compound">Vector4</ref>&lt; T &gt; &amp;</type>
+          <declname>col1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector4" kindref="compound">Vector4</ref>&lt; T &gt; &amp;</type>
+          <declname>col2</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector4" kindref="compound">Vector4</ref>&lt; T &gt; &amp;</type>
+          <declname>col3</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector4" kindref="compound">Vector4</ref>&lt; T &gt; &amp;</type>
+          <declname>col4</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new matrix with the specified column vectors used to initialize the matrix&apos;s column values from left to right. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>col1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The left-most column </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>col2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The left-center column </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>col3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The right-center column </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>col4</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The right-most column </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="51" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="51" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_matrix4_1a5e21175770ec1578cdb06156f58a0af5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::Matrix4&lt; T &gt;::Matrix4</definition>
+        <argsstring>(const T x0, const T x1, const T x2, const T x3, const T y0, const T y1, const T y2, const T y3, const T z0, const T z1, const T z2, const T z3, const T w0, const T w1, const T w2, const T w3)</argsstring>
+        <name>Matrix4</name>
+        <param>
+          <type>const T</type>
+          <declname>x0</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>x1</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>x2</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>x3</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>y0</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>y1</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>y2</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>y3</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>z0</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>z1</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>z2</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>z3</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>w0</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>w1</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>w2</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>w3</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new matrix with the specified element values in column-major ordering, i.e. top to bottom, left to right. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>x0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>w0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>w1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>w2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>w3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="78" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="78" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_matrix4_1add842958ae30e2c279270e99079874d6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string sky::Matrix4&lt; T &gt;::to_string</definition>
+        <argsstring>()</argsstring>
+        <name>to_string</name>
+        <briefdescription>
+<para>Gets a string representation of the matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The matrix string </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="93" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="93" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_matrix4_1a5a4a7f69eeda2f7fe996f6bd65ce5ed5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_matrix4" kindref="compound">Matrix4</ref>&lt; T &gt;</type>
+        <definition>Matrix4&lt;T&gt; sky::Matrix4&lt; T &gt;::scale</definition>
+        <argsstring>(const Vector3&lt; T &gt; &amp;delta)</argsstring>
+        <name>scale</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+          <declname>delta</declname>
+        </param>
+        <briefdescription>
+<para>Gets a scale matrix using this matrix and a column <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> as a basis. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The column vector to scale the matrix by </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The scale matrix </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="108" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="108" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_matrix4_1a4bb14baabb567e9c45bf8a0761e8f38f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_matrix4" kindref="compound">Matrix4</ref>&lt; T &gt;</type>
+        <definition>Matrix4&lt;T&gt; sky::Matrix4&lt; T &gt;::translate</definition>
+        <argsstring>(const Vector3&lt; T &gt; &amp;delta)</argsstring>
+        <name>translate</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+          <declname>delta</declname>
+        </param>
+        <briefdescription>
+<para>Gets a translation matrix using this matrix and a column <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> as a basis. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The column vector to translate the matrix by </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The translation matrix </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="123" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="123" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_matrix4_1ab89e26868ae46b4b409856e4df367970" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_matrix4" kindref="compound">Matrix4</ref>&lt; T &gt;</type>
+        <definition>Matrix4&lt;T&gt; sky::Matrix4&lt; T &gt;::rotate</definition>
+        <argsstring>(const T angle, const Vector3&lt; T &gt; &amp;axis_vec)</argsstring>
+        <name>rotate</name>
+        <param>
+          <type>const T</type>
+          <declname>angle</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+          <declname>axis_vec</declname>
+        </param>
+        <briefdescription>
+<para>Gets a rotation matrix using this matrix and a <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref> that describes the axis to rotate around, specifying the angle in degrees to rotate with. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>angle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The angle at which to rotate </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>axis_vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vector representing an axis to rotate around </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The rotation matrix </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="137" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="137" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_matrix4_1ab222d5f8eca885d8efee7a78ad03c118" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_matrix4" kindref="compound">Matrix4</ref>&lt; T &gt;</type>
+        <definition>Matrix4&lt;T&gt; sky::Matrix4&lt; T &gt;::ortho</definition>
+        <argsstring>(const T left, const T right, const T bottom, const T top)</argsstring>
+        <name>ortho</name>
+        <param>
+          <type>const T</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>right</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>bottom</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>top</declname>
+        </param>
+        <briefdescription>
+<para>Creates a left-handed orthographic projection matrix used for projecting 2D world coordinates to 2D screen space. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The left-most point of the viewing area </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The right-most point of the viewing area </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bottom</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The bottom-most point of the viewing area </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>top</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The top-most point of the viewing area </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The orthographic projection matrix </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="172" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="172" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_matrix4_1a4855d544cd04472b3421f66de99bfdf7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_matrix4" kindref="compound">Matrix4</ref>&lt; T &gt;</type>
+        <definition>Matrix4&lt;T&gt; sky::Matrix4&lt; T &gt;::ortho</definition>
+        <argsstring>(const T left, const T right, const T bottom, const T top, const T near, const T far)</argsstring>
+        <name>ortho</name>
+        <param>
+          <type>const T</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>right</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>bottom</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>top</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>near</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>far</declname>
+        </param>
+        <briefdescription>
+<para>Creates a left-handed orthographic projection matrix used for projecting 3D world coordinates to 2D screen space. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The left-most point of the viewing area </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The right-most point of the viewing area </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bottom</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The bottom-most point of the viewing area </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>top</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The top-most point of the viewing area </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>near</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The closest point of the viewing area </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>far</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The furthest point of the viewing area </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The orthographic projection matrix </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="200" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="200" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_matrix4_1a6952be99527df558398c53d5dd197826" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_matrix4" kindref="compound">Matrix4</ref>&lt; T &gt;</type>
+        <definition>Matrix4&lt;T&gt; sky::Matrix4&lt; T &gt;::look_at</definition>
+        <argsstring>(const Vector3&lt; T &gt; &amp;eye, const Vector3&lt; T &gt; &amp;target, const Vector3&lt; T &gt; &amp;up)</argsstring>
+        <name>look_at</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+          <declname>eye</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector3" kindref="compound">Vector3</ref>&lt; T &gt; &amp;</type>
+          <declname>up</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a matrix to use as a view matrix for looking at a particular point in 3D space. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>eye</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The viewers eye point </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new point in 3D space to look at </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>up</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vector pointing upwards in 3D space relative to the eye point </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The look_at matrix </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="226" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="226" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_matrix4_1a4576fcf4850d2daa4b2d3440492d7bd9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector4" kindref="compound">Vector4</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector4&lt;T&gt;&amp; sky::Matrix4&lt; T &gt;::operator[]</definition>
+        <argsstring>(const int i)</argsstring>
+        <name>operator[]</name>
+        <param>
+          <type>const int</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+<para>Defines subscript operator for accessing the column vector elements of the matrix. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The column vector to access </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The column vector </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="266" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="266" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_matrix4_1ae6e7e83a71958ddd3c44759b7a64f245" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structsky_1_1_vector4" kindref="compound">Vector4</ref>&lt; T &gt; &amp;</type>
+        <definition>const Vector4&lt;T&gt;&amp; sky::Matrix4&lt; T &gt;::operator[]</definition>
+        <argsstring>(const int i) const</argsstring>
+        <name>operator[]</name>
+        <param>
+          <type>const int</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+<para>Defines subscript operator for accessing the column vector elements of the matrix. Definition used for const accessing. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The column vector to access </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The column vector </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="275" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="275" bodyend="278"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="structsky_1_1_matrix4" kindref="compound">Matrix4</ref> is a 4x4 matrix representation with several useful utility functions and operator overloads. Internally, it uses a column vectors and utilizes the same functions and operator overloads defined on these Vector types. </para>    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data type held within each matrix element. Supports any type that has defined all arithmetic and logical operators </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="27" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="27" bodyend="283"/>
+    <listofallmembers>
+      <member refid="structsky_1_1_matrix4_1ad135dc6ba70bcc502ed27d1a16b92020" prot="private" virt="non-virtual"><scope>sky::Matrix4</scope><name>columns_</name></member>
+      <member refid="structsky_1_1_matrix4_1a6952be99527df558398c53d5dd197826" prot="public" virt="non-virtual"><scope>sky::Matrix4</scope><name>look_at</name></member>
+      <member refid="structsky_1_1_matrix4_1afd7cd0505a00da5aae8498363d6125dc" prot="public" virt="non-virtual"><scope>sky::Matrix4</scope><name>Matrix4</name></member>
+      <member refid="structsky_1_1_matrix4_1aee398806b6d803144f092e2d0e3aa704" prot="public" virt="non-virtual"><scope>sky::Matrix4</scope><name>Matrix4</name></member>
+      <member refid="structsky_1_1_matrix4_1aa947e5310a496a901c20b0a6ab7b0a9f" prot="public" virt="non-virtual"><scope>sky::Matrix4</scope><name>Matrix4</name></member>
+      <member refid="structsky_1_1_matrix4_1a5e21175770ec1578cdb06156f58a0af5" prot="public" virt="non-virtual"><scope>sky::Matrix4</scope><name>Matrix4</name></member>
+      <member refid="structsky_1_1_matrix4_1a4576fcf4850d2daa4b2d3440492d7bd9" prot="public" virt="non-virtual"><scope>sky::Matrix4</scope><name>operator[]</name></member>
+      <member refid="structsky_1_1_matrix4_1ae6e7e83a71958ddd3c44759b7a64f245" prot="public" virt="non-virtual"><scope>sky::Matrix4</scope><name>operator[]</name></member>
+      <member refid="structsky_1_1_matrix4_1ab222d5f8eca885d8efee7a78ad03c118" prot="public" virt="non-virtual"><scope>sky::Matrix4</scope><name>ortho</name></member>
+      <member refid="structsky_1_1_matrix4_1a4855d544cd04472b3421f66de99bfdf7" prot="public" virt="non-virtual"><scope>sky::Matrix4</scope><name>ortho</name></member>
+      <member refid="structsky_1_1_matrix4_1ab89e26868ae46b4b409856e4df367970" prot="public" virt="non-virtual"><scope>sky::Matrix4</scope><name>rotate</name></member>
+      <member refid="structsky_1_1_matrix4_1a5a4a7f69eeda2f7fe996f6bd65ce5ed5" prot="public" virt="non-virtual"><scope>sky::Matrix4</scope><name>scale</name></member>
+      <member refid="structsky_1_1_matrix4_1add842958ae30e2c279270e99079874d6" prot="public" virt="non-virtual"><scope>sky::Matrix4</scope><name>to_string</name></member>
+      <member refid="structsky_1_1_matrix4_1a4bb14baabb567e9c45bf8a0761e8f38f" prot="public" virt="non-virtual"><scope>sky::Matrix4</scope><name>translate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

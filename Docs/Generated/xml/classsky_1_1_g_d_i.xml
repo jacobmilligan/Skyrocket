@@ -1,0 +1,406 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classsky_1_1_g_d_i" kind="class" language="C++" prot="public">
+    <compoundname>sky::GDI</compoundname>
+    <derivedcompoundref refid="classsky_1_1_metal_g_d_i" prot="public" virt="non-virtual">sky::MetalGDI</derivedcompoundref>
+      <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsky_1_1_g_d_i_1a966acb0c798091a0cdfb2247beefa5b9" prot="public" static="yes" mutable="no">
+        <type>constexpr uint32_t</type>
+        <definition>constexpr uint32_t sky::GDI::invalid_handle</definition>
+        <argsstring></argsstring>
+        <name>invalid_handle</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="29" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsky_1_1_g_d_i_1afc3157adcfd8956d68d63bed6c109c4b" prot="public" static="yes" mutable="no">
+        <type>constexpr uint16_t</type>
+        <definition>constexpr uint16_t sky::GDI::vertex_buffer_max</definition>
+        <argsstring></argsstring>
+        <name>vertex_buffer_max</name>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="30" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsky_1_1_g_d_i_1a664a8b4c798b216e5569efc6f40508c3" prot="public" static="yes" mutable="no">
+        <type>constexpr uint16_t</type>
+        <definition>constexpr uint16_t sky::GDI::index_buffer_max</definition>
+        <argsstring></argsstring>
+        <name>index_buffer_max</name>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="31" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsky_1_1_g_d_i_1a9b3b4fcfcd9c4865230ca8c3f9533b90" prot="public" static="yes" mutable="no">
+        <type>constexpr uint16_t</type>
+        <definition>constexpr uint16_t sky::GDI::shader_max</definition>
+        <argsstring></argsstring>
+        <name>shader_max</name>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="32" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsky_1_1_g_d_i_1a618c019c29b975c0ad43d7614969f4ca" prot="public" static="yes" mutable="no">
+        <type>constexpr uint16_t</type>
+        <definition>constexpr uint16_t sky::GDI::max_frames_in_flight</definition>
+        <argsstring></argsstring>
+        <name>max_frames_in_flight</name>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="33" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classsky_1_1_g_d_i_1a118b0335804a824916b37fc6cbced2b2" prot="protected" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t sky::GDI::cur_buf</definition>
+        <argsstring></argsstring>
+        <name>cur_buf</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="62" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsky_1_1_g_d_i_1aeff6a03ef55ea81a4d50983d3732fe56" prot="protected" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t sky::GDI::prev_buf</definition>
+        <argsstring></argsstring>
+        <name>prev_buf</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="63" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsky_1_1_g_d_i_1aad1fc4beed3a676808d532cd1c9f63ce" prot="protected" static="no" mutable="no">
+        <type><ref refid="classsky_1_1_buffer" kindref="compound">Buffer</ref>&lt; UINT16_MAX &gt;</type>
+        <definition>Buffer&lt;UINT16_MAX&gt; sky::GDI::cmdbufs[max_frames_in_flight]</definition>
+        <argsstring>[max_frames_in_flight]</argsstring>
+        <name>cmdbufs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="64" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsky_1_1_g_d_i_1a560e0cf19b51f98b6d14a7c419047c46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>sky::GDI::GDI</definition>
+        <argsstring>()=default</argsstring>
+        <name>GDI</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="35" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_g_d_i_1a1b3c52859f66832befa33ed780437517" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual sky::GDI::~GDI</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GDI</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="37" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_g_d_i_1a61f23f12c1b1ec2b9f13da901fd32d7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void sky::GDI::write_command</definition>
+        <argsstring>(T *cmd)</argsstring>
+        <name>write_command</name>
+        <param>
+          <type>T *</type>
+          <declname>cmd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="42" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Internal/GDI.inl" bodystart="18" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_g_d_i_1ac26db74298e154c8919dcb999a7681d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::GDI::swap_buffers</definition>
+        <argsstring>()</argsstring>
+        <name>swap_buffers</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="44" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Internal/GDI.cpp" bodystart="17" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_g_d_i_1a2cdd1794bfacf8be60ce70eedb68129f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool sky::GDI::initialize</definition>
+        <argsstring>(Viewport *viewport)</argsstring>
+        <name>initialize</name>
+        <reimplementedby refid="classsky_1_1_metal_g_d_i_1adebd652ef7805a2e03638218deb8d1ec">initialize</reimplementedby>
+        <param>
+          <type><ref refid="classsky_1_1_viewport" kindref="compound">Viewport</ref> *</type>
+          <declname>viewport</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="46" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Internal/GDI.cpp" bodystart="97" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_g_d_i_1a0fa28ad51fc07110ebfebc43d8b231ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void sky::GDI::set_viewport</definition>
+        <argsstring>(Viewport *viewport)</argsstring>
+        <name>set_viewport</name>
+        <reimplementedby refid="classsky_1_1_metal_g_d_i_1a5e4b6eef282bc57649441a6628580111">set_viewport</reimplementedby>
+        <param>
+          <type><ref refid="classsky_1_1_viewport" kindref="compound">Viewport</ref> *</type>
+          <declname>viewport</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="48" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Internal/GDI.cpp" bodystart="102" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_g_d_i_1a89334da920a4a5c3597c3f1f388c287a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool sky::GDI::create_vertex_buffer</definition>
+        <argsstring>(const uint32_t vbuf_id, const MemoryBlock &amp;initial_data, const BufferUsage usage)</argsstring>
+        <name>create_vertex_buffer</name>
+        <reimplementedby refid="classsky_1_1_metal_g_d_i_1ad831fbb7fdae8974a4b47477655d8105">create_vertex_buffer</reimplementedby>
+        <param>
+          <type>const uint32_t</type>
+          <declname>vbuf_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structsky_1_1_memory_block" kindref="compound">MemoryBlock</ref> &amp;</type>
+          <declname>initial_data</declname>
+        </param>
+        <param>
+          <type>const BufferUsage</type>
+          <declname>usage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="50" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Internal/GDI.cpp" bodystart="107" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_g_d_i_1af53f1a3f2c43946bd7017c47e3ecb110" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool sky::GDI::set_vertex_buffer</definition>
+        <argsstring>(const uint32_t vbuf_id)</argsstring>
+        <name>set_vertex_buffer</name>
+        <reimplementedby refid="classsky_1_1_metal_g_d_i_1a48ef34687828e0a37b9b9b6148697b89">set_vertex_buffer</reimplementedby>
+        <param>
+          <type>const uint32_t</type>
+          <declname>vbuf_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="53" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Internal/GDI.cpp" bodystart="114" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_g_d_i_1af3314cac06f7b0bf829a082636bb4a4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool sky::GDI::create_shader</definition>
+        <argsstring>(const uint32_t shader_id, const char *name)</argsstring>
+        <name>create_shader</name>
+        <reimplementedby refid="classsky_1_1_metal_g_d_i_1aa963cba912350d1ad9fb73715b4cf023">create_shader</reimplementedby>
+        <param>
+          <type>const uint32_t</type>
+          <declname>shader_id</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="55" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Internal/GDI.cpp" bodystart="120" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_g_d_i_1af9c5037c6887977ad5c21f7222f4f961" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool sky::GDI::set_shaders</definition>
+        <argsstring>(const uint32_t vertex_id, const uint32_t fragment_id)</argsstring>
+        <name>set_shaders</name>
+        <reimplementedby refid="classsky_1_1_metal_g_d_i_1ab1433bc053dcfa0f37c760eafe593766">set_shaders</reimplementedby>
+        <param>
+          <type>const uint32_t</type>
+          <declname>vertex_id</declname>
+        </param>
+        <param>
+          <type>const uint32_t</type>
+          <declname>fragment_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="57" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Internal/GDI.cpp" bodystart="126" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_g_d_i_1ae2bd372b77bfd9015ca1c5396602240c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void sky::GDI::present</definition>
+        <argsstring>()</argsstring>
+        <name>present</name>
+        <reimplementedby refid="classsky_1_1_metal_g_d_i_1a215ae1a1eba8394ebd8912fc3850bcf1">present</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="59" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Internal/GDI.cpp" bodystart="132" bodyend="135"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classsky_1_1_g_d_i_1a549a229f01078b7290ffe17f5f3031e3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classsky_1_1_g_d_i" kindref="compound">GDI</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; GDI &gt; sky::GDI::create</definition>
+        <argsstring>()</argsstring>
+        <name>create</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="39" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Metal/MetalDriver.mm" bodystart="26" bodyend="29"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsky_1_1_g_d_i_1a66069236eab3e2440eee770d0c929ca2" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::GDI::process_commands</definition>
+        <argsstring>()</argsstring>
+        <name>process_commands</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="66" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Internal/GDI.cpp" bodystart="23" bodyend="95"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="38">
+        <label>sky::GDI</label>
+        <link refid="classsky_1_1_g_d_i"/>
+      </node>
+      <node id="39">
+        <label>sky::MetalGDI</label>
+        <link refid="classsky_1_1_metal_g_d_i"/>
+        <childnode refid="38" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="40">
+        <label>sky::GDI</label>
+        <link refid="classsky_1_1_g_d_i"/>
+        <childnode refid="41" relation="usage">
+          <edgelabel>cmdbufs</edgelabel>
+        </childnode>
+      </node>
+      <node id="41">
+        <label>sky::Buffer&lt; UINT16_MAX &gt;</label>
+        <link refid="classsky_1_1_buffer"/>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" line="27" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp" bodystart="27" bodyend="67"/>
+    <listofallmembers>
+      <member refid="classsky_1_1_g_d_i_1aad1fc4beed3a676808d532cd1c9f63ce" prot="protected" virt="non-virtual"><scope>sky::GDI</scope><name>cmdbufs</name></member>
+      <member refid="classsky_1_1_g_d_i_1a549a229f01078b7290ffe17f5f3031e3" prot="public" virt="non-virtual"><scope>sky::GDI</scope><name>create</name></member>
+      <member refid="classsky_1_1_g_d_i_1af3314cac06f7b0bf829a082636bb4a4a" prot="public" virt="virtual"><scope>sky::GDI</scope><name>create_shader</name></member>
+      <member refid="classsky_1_1_g_d_i_1a89334da920a4a5c3597c3f1f388c287a" prot="public" virt="virtual"><scope>sky::GDI</scope><name>create_vertex_buffer</name></member>
+      <member refid="classsky_1_1_g_d_i_1a118b0335804a824916b37fc6cbced2b2" prot="protected" virt="non-virtual"><scope>sky::GDI</scope><name>cur_buf</name></member>
+      <member refid="classsky_1_1_g_d_i_1a560e0cf19b51f98b6d14a7c419047c46" prot="public" virt="non-virtual"><scope>sky::GDI</scope><name>GDI</name></member>
+      <member refid="classsky_1_1_g_d_i_1a664a8b4c798b216e5569efc6f40508c3" prot="public" virt="non-virtual"><scope>sky::GDI</scope><name>index_buffer_max</name></member>
+      <member refid="classsky_1_1_g_d_i_1a2cdd1794bfacf8be60ce70eedb68129f" prot="public" virt="virtual"><scope>sky::GDI</scope><name>initialize</name></member>
+      <member refid="classsky_1_1_g_d_i_1a966acb0c798091a0cdfb2247beefa5b9" prot="public" virt="non-virtual"><scope>sky::GDI</scope><name>invalid_handle</name></member>
+      <member refid="classsky_1_1_g_d_i_1a618c019c29b975c0ad43d7614969f4ca" prot="public" virt="non-virtual"><scope>sky::GDI</scope><name>max_frames_in_flight</name></member>
+      <member refid="classsky_1_1_g_d_i_1ae2bd372b77bfd9015ca1c5396602240c" prot="public" virt="virtual"><scope>sky::GDI</scope><name>present</name></member>
+      <member refid="classsky_1_1_g_d_i_1aeff6a03ef55ea81a4d50983d3732fe56" prot="protected" virt="non-virtual"><scope>sky::GDI</scope><name>prev_buf</name></member>
+      <member refid="classsky_1_1_g_d_i_1a66069236eab3e2440eee770d0c929ca2" prot="protected" virt="non-virtual"><scope>sky::GDI</scope><name>process_commands</name></member>
+      <member refid="classsky_1_1_g_d_i_1af9c5037c6887977ad5c21f7222f4f961" prot="public" virt="virtual"><scope>sky::GDI</scope><name>set_shaders</name></member>
+      <member refid="classsky_1_1_g_d_i_1af53f1a3f2c43946bd7017c47e3ecb110" prot="public" virt="virtual"><scope>sky::GDI</scope><name>set_vertex_buffer</name></member>
+      <member refid="classsky_1_1_g_d_i_1a0fa28ad51fc07110ebfebc43d8b231ca" prot="public" virt="virtual"><scope>sky::GDI</scope><name>set_viewport</name></member>
+      <member refid="classsky_1_1_g_d_i_1a9b3b4fcfcd9c4865230ca8c3f9533b90" prot="public" virt="non-virtual"><scope>sky::GDI</scope><name>shader_max</name></member>
+      <member refid="classsky_1_1_g_d_i_1ac26db74298e154c8919dcb999a7681d8" prot="public" virt="non-virtual"><scope>sky::GDI</scope><name>swap_buffers</name></member>
+      <member refid="classsky_1_1_g_d_i_1afc3157adcfd8956d68d63bed6c109c4b" prot="public" virt="non-virtual"><scope>sky::GDI</scope><name>vertex_buffer_max</name></member>
+      <member refid="classsky_1_1_g_d_i_1a61f23f12c1b1ec2b9f13da901fd32d7e" prot="public" virt="non-virtual"><scope>sky::GDI</scope><name>write_command</name></member>
+      <member refid="classsky_1_1_g_d_i_1a1b3c52859f66832befa33ed780437517" prot="public" virt="virtual"><scope>sky::GDI</scope><name>~GDI</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

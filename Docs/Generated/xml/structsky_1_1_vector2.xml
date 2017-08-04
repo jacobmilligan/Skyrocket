@@ -1,0 +1,628 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsky_1_1_vector2" kind="struct" language="C++" prot="public">
+    <compoundname>sky::Vector2</compoundname>
+    <includes refid="_vector2_8hpp" local="no">Vector2.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename</type>
+        <declname>T</declname>
+        <defname>T</defname>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsky_1_1_vector2_1ac9915b65a39ae9fa3005afddf9578e46" prot="public" static="no" mutable="no">
+        <type>T</type>
+        <definition>T sky::Vector2&lt; T &gt;::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <briefdescription>
+<para>The x coordinate of the <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="34" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsky_1_1_vector2_1a5a087f8b7d544a03a99f0a710dea021c" prot="public" static="no" mutable="no">
+        <type>T</type>
+        <definition>T sky::Vector2&lt; T &gt;::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <briefdescription>
+<para>The y coordinate of the <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="37" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsky_1_1_vector2_1ab500fd5abc802eeb515b9de70f923dc1" prot="public" static="no" mutable="no">
+        <type>union sky::Vector2::@0</type>
+        <definition>union sky::Vector2::@0 sky::Vector2&lt; T &gt;::@1</definition>
+        <argsstring></argsstring>
+        <name>@1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="39" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structsky_1_1_vector2_1af518a186dc2b7a1f307e46dd012f8843" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::Vector2&lt; T &gt;::Vector2</definition>
+        <argsstring>(const T value)</argsstring>
+        <name>Vector2</name>
+        <param>
+          <type>const T</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Initializes a new <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> with all elements assigned the specified value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to assign to all elements </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="44" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="44" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1a7fda45b05ababbf96c5bf8e3dfcc34b5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::Vector2&lt; T &gt;::Vector2</definition>
+        <argsstring>()</argsstring>
+        <name>Vector2</name>
+        <briefdescription>
+<para>Initializes a new <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> with all elements assigned a value of zero. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="48" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1a7a3ebc21108cae95dfffc8b3c970cf05" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::Vector2&lt; T &gt;::Vector2</definition>
+        <argsstring>(const T vx, const T vy)</argsstring>
+        <name>Vector2</name>
+        <param>
+          <type>const T</type>
+          <declname>vx</declname>
+        </param>
+        <param>
+          <type>const T</type>
+          <declname>vy</declname>
+        </param>
+        <briefdescription>
+<para>Initializes a new <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> with each element assigned the specified value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to assign to the x element (element[0]) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value to assign to the y element (element[1]) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="54" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="54" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1a1f9300457df93f62ed8931393048d56c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string sky::Vector2&lt; T &gt;::to_string</definition>
+        <argsstring>()</argsstring>
+        <name>to_string</name>
+        <briefdescription>
+<para>Outputs a string representation of the <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> elements in the form &quot;{x, y}&quot;. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The string representation of the <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="60" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="60" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1a813d98cbd69991aa3769c1b293fac833" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T</type>
+        <definition>T sky::Vector2&lt; T &gt;::dot</definition>
+        <argsstring>(const Vector2&lt; T &gt; &amp;right) const</argsstring>
+        <name>dot</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Computes the dot product of this <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> and another, returning a value of type T. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vector to compute the dot product with </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dot product result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="71" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="71" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1a6a54be7f3ebc7f94674ec26c0a8438a8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T</type>
+        <definition>T sky::Vector2&lt; T &gt;::length</definition>
+        <argsstring>() const</argsstring>
+        <name>length</name>
+        <briefdescription>
+<para>Computes the length of the <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The vectors length </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="78" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="78" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1a836f6c1e864932107ac8cbec267ade5d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T</type>
+        <definition>T sky::Vector2&lt; T &gt;::squared_length</definition>
+        <argsstring>() const</argsstring>
+        <name>squared_length</name>
+        <briefdescription>
+<para>Computes the squared length of the <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> - used for optimizing simple length comparisons when exact length value isn&apos;t required. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The vectors length squared </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="86" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="86" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1a7ce9b84972e3fa789993ef373bffb024" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::Vector2&lt; T &gt;::normalize</definition>
+        <argsstring>()</argsstring>
+        <name>normalize</name>
+        <briefdescription>
+<para>Normalizes the <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&apos;s elements to be of length 1 but retain their direction. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="93" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="93" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1a707dc9987a630194bf93c9c95550e328" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt;</type>
+        <definition>Vector2&lt;T&gt; sky::Vector2&lt; T &gt;::get_normalized</definition>
+        <argsstring>()</argsstring>
+        <name>get_normalized</name>
+        <briefdescription>
+<para>Normalizes the <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&apos;s elements to be of length 1 but retain their direction. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The normalized version of the vector </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="105" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="105" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1a6eccc82baa83cab81751b5f5890e59fa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt;</type>
+        <definition>Vector2&lt;T&gt; sky::Vector2&lt; T &gt;::perpendicular</definition>
+        <argsstring>() const</argsstring>
+        <name>perpendicular</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="114" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="114" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1aaf252cebe17d13caf180035108657b6d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::Vector2&lt; T &gt;::clamp</definition>
+        <argsstring>(const Vector2&lt; T &gt; &amp;lower, const Vector2&lt; T &gt; &amp;upper)</argsstring>
+        <name>clamp</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+          <declname>lower</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+          <declname>upper</declname>
+        </param>
+        <briefdescription>
+<para>Clamps all of the <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&apos;s elements to remain within the given upper and lower bounds. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lower</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> representing the lowest allowed values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>upper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> representing the highest allowed values </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="123" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="123" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1ab7c1ea6191b33126626c1cd3e951674f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::Vector2&lt; T &gt;::clamp</definition>
+        <argsstring>(const T &amp;lower, const T &amp;upper)</argsstring>
+        <name>clamp</name>
+        <param>
+          <type>const T &amp;</type>
+          <declname>lower</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>upper</declname>
+        </param>
+        <briefdescription>
+<para>Clamps all of the <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&apos;s elements to remain within the given upper and lower bounds. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lower</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>T value representing the lowest allowed value applied to each component </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>upper</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>T value representing the highest allowed value applied to each component </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="133" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="133" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1a9695f2205a45bef4a3866fafd5657f7b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float sky::Vector2&lt; T &gt;::distance</definition>
+        <argsstring>(const Vector2&lt; T &gt; &amp;target) const</argsstring>
+        <name>distance</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="139" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="139" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1aaa04ca26b026827b3402038c7aff3655" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector2&lt;T&gt;&amp; sky::Vector2&lt; T &gt;::operator+=</definition>
+        <argsstring>(const Vector2&lt; T &gt; &amp;right)</argsstring>
+        <name>operator+=</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Unary operator += overload for <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> to add </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="151" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="151" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1aa10c497add544cf4cb6df625c277f7c6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector2&lt;T&gt;&amp; sky::Vector2&lt; T &gt;::operator+=</definition>
+        <argsstring>(const T &amp;scalar)</argsstring>
+        <name>operator+=</name>
+        <param>
+          <type>const T &amp;</type>
+          <declname>scalar</declname>
+        </param>
+        <briefdescription>
+<para>Unary operator += overload for scalar value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scalar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scalar to add to all elements </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="161" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="161" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1adaf4cfa41ee7cfd286630d7f23260a05" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector2&lt;T&gt;&amp; sky::Vector2&lt; T &gt;::operator-=</definition>
+        <argsstring>(const Vector2&lt; T &gt; &amp;right)</argsstring>
+        <name>operator-=</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Unary operator -= overload for <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> to subtract </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="171" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="171" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1a306a20ae00dc44967f38889306f39180" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector2&lt;T&gt;&amp; sky::Vector2&lt; T &gt;::operator-=</definition>
+        <argsstring>(const T &amp;scalar)</argsstring>
+        <name>operator-=</name>
+        <param>
+          <type>const T &amp;</type>
+          <declname>scalar</declname>
+        </param>
+        <briefdescription>
+<para>Unary operator -= overload for scalar value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scalar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scalar value to subtract from all elements </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="181" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="181" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1a5e8deff803d0a103b3dc5d722211f44b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector2&lt;T&gt;&amp; sky::Vector2&lt; T &gt;::operator*=</definition>
+        <argsstring>(const Vector2&lt; T &gt; &amp;right)</argsstring>
+        <name>operator*=</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Unary operator *= overload for <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> to multiply </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="191" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="191" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1abd44807e3dbfa6f0ecedb66f9d8d8b4a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector2&lt;T&gt;&amp; sky::Vector2&lt; T &gt;::operator*=</definition>
+        <argsstring>(const T &amp;scalar)</argsstring>
+        <name>operator*=</name>
+        <param>
+          <type>const T &amp;</type>
+          <declname>scalar</declname>
+        </param>
+        <briefdescription>
+<para>Unary operator *= overload for scalar value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scalar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scalar value to multiply with all elements </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="201" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="201" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1a9c1023838957a6285159a4c2728de6ed" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector2&lt;T&gt;&amp; sky::Vector2&lt; T &gt;::operator/=</definition>
+        <argsstring>(const Vector2&lt; T &gt; &amp;right)</argsstring>
+        <name>operator/=</name>
+        <param>
+          <type>const <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Unary operator /= overload for <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> to divide </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="211" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="211" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1a402f7c822bcbef00de0051faa0d8a0da" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref>&lt; T &gt; &amp;</type>
+        <definition>Vector2&lt;T&gt;&amp; sky::Vector2&lt; T &gt;::operator/=</definition>
+        <argsstring>(const T &amp;scalar)</argsstring>
+        <name>operator/=</name>
+        <param>
+          <type>const T &amp;</type>
+          <declname>scalar</declname>
+        </param>
+        <briefdescription>
+<para>Binary operator /= overload for scalar value. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scalar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scalar value to divide all elements by </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <ref refid="structsky_1_1_vector2" kindref="compound">Vector2</ref> result </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="221" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="221" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1a0fdde77b24eb817ad3d38d5b7faf2330" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T&amp; sky::Vector2&lt; T &gt;::operator[]</definition>
+        <argsstring>(const int i)</argsstring>
+        <name>operator[]</name>
+        <param>
+          <type>const int</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+<para>Operator[] overload for element access. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The element index to access </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The element at index i </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="231" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="231" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="structsky_1_1_vector2_1a871b4658ca74aad00e84ea5e3d92769e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>T const  &amp;</type>
+        <definition>T const&amp; sky::Vector2&lt; T &gt;::operator[]</definition>
+        <argsstring>(const int i) const</argsstring>
+        <name>operator[]</name>
+        <param>
+          <type>const int</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+<para>Operator[] overload for const element access. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The element index to access </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The element at index i </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="241" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="241" bodyend="246"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A 2 dimensional Vector structure with several linear algebra operations defined for its members. </para>    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data type to store in the vector </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" line="29" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector2.hpp" bodystart="29" bodyend="247"/>
+    <listofallmembers>
+      <member refid="structsky_1_1_vector2_1aaf252cebe17d13caf180035108657b6d" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>clamp</name></member>
+      <member refid="structsky_1_1_vector2_1ab7c1ea6191b33126626c1cd3e951674f" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>clamp</name></member>
+      <member refid="structsky_1_1_vector2_1a9695f2205a45bef4a3866fafd5657f7b" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>distance</name></member>
+      <member refid="structsky_1_1_vector2_1a813d98cbd69991aa3769c1b293fac833" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>dot</name></member>
+      <member refid="structsky_1_1_vector2_1a707dc9987a630194bf93c9c95550e328" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>get_normalized</name></member>
+      <member refid="structsky_1_1_vector2_1a6a54be7f3ebc7f94674ec26c0a8438a8" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>length</name></member>
+      <member refid="structsky_1_1_vector2_1a7ce9b84972e3fa789993ef373bffb024" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>normalize</name></member>
+      <member refid="structsky_1_1_vector2_1a5e8deff803d0a103b3dc5d722211f44b" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>operator*=</name></member>
+      <member refid="structsky_1_1_vector2_1abd44807e3dbfa6f0ecedb66f9d8d8b4a" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>operator*=</name></member>
+      <member refid="structsky_1_1_vector2_1aaa04ca26b026827b3402038c7aff3655" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>operator+=</name></member>
+      <member refid="structsky_1_1_vector2_1aa10c497add544cf4cb6df625c277f7c6" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>operator+=</name></member>
+      <member refid="structsky_1_1_vector2_1adaf4cfa41ee7cfd286630d7f23260a05" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>operator-=</name></member>
+      <member refid="structsky_1_1_vector2_1a306a20ae00dc44967f38889306f39180" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>operator-=</name></member>
+      <member refid="structsky_1_1_vector2_1a9c1023838957a6285159a4c2728de6ed" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>operator/=</name></member>
+      <member refid="structsky_1_1_vector2_1a402f7c822bcbef00de0051faa0d8a0da" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>operator/=</name></member>
+      <member refid="structsky_1_1_vector2_1a0fdde77b24eb817ad3d38d5b7faf2330" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>operator[]</name></member>
+      <member refid="structsky_1_1_vector2_1a871b4658ca74aad00e84ea5e3d92769e" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>operator[]</name></member>
+      <member refid="structsky_1_1_vector2_1a6eccc82baa83cab81751b5f5890e59fa" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>perpendicular</name></member>
+      <member refid="structsky_1_1_vector2_1a836f6c1e864932107ac8cbec267ade5d" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>squared_length</name></member>
+      <member refid="structsky_1_1_vector2_1a1f9300457df93f62ed8931393048d56c" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>to_string</name></member>
+      <member refid="structsky_1_1_vector2_1af518a186dc2b7a1f307e46dd012f8843" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>Vector2</name></member>
+      <member refid="structsky_1_1_vector2_1a7fda45b05ababbf96c5bf8e3dfcc34b5" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>Vector2</name></member>
+      <member refid="structsky_1_1_vector2_1a7a3ebc21108cae95dfffc8b3c970cf05" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>Vector2</name></member>
+      <member refid="structsky_1_1_vector2_1ac9915b65a39ae9fa3005afddf9578e46" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>x</name></member>
+      <member refid="structsky_1_1_vector2_1a5a087f8b7d544a03a99f0a710dea021c" prot="public" virt="non-virtual"><scope>sky::Vector2</scope><name>y</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

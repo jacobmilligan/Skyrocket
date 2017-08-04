@@ -13,12 +13,13 @@
 
 #include "Skyrocket/Core/Diagnostics/Error.hpp"
 
+#include <algorithm>
 #include <cinttypes>
 #include <cstdint>
-#include <algorithm>
 
 namespace sky {
 
+    
 template <typename T>
 struct Handle {
     uint32_t id { 0 };

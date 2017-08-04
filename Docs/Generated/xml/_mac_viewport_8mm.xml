@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="_mac_viewport_8mm" kind="file" language="C++">
+    <compoundname>MacViewport.mm</compoundname>
+    <includes refid="_config_8hpp" local="yes">Skyrocket/Platform/Config.hpp</includes>
+    <includes refid="_color_8hpp" local="yes">Skyrocket/Graphics/Color.hpp</includes>
+    <includes refid="_g_d_i_8hpp" local="yes">Skyrocket/Graphics/GDI/GDI.hpp</includes>
+    <includes refid="_mac_viewport_8h" local="yes">Skyrocket/Graphics/Internal/Apple/MacViewport.h</includes>
+    <incdepgraph>
+      <node id="496">
+        <label>queue</label>
+      </node>
+      <node id="499">
+        <label>Skyrocket/Platform/macOS/CocoaWindow.h</label>
+      </node>
+      <node id="479">
+        <label>cstdint</label>
+      </node>
+      <node id="491">
+        <label>Skyrocket/Platform/Time.hpp</label>
+        <link refid="_time_8hpp_source"/>
+        <childnode refid="477" relation="include">
+        </childnode>
+        <childnode refid="479" relation="include">
+        </childnode>
+      </node>
+      <node id="486">
+        <label>cstdarg</label>
+      </node>
+      <node id="481">
+        <label>Skyrocket/Core/Containers/Buffer.hpp</label>
+        <link refid="_buffer_8hpp_source"/>
+        <childnode refid="482" relation="include">
+        </childnode>
+        <childnode refid="479" relation="include">
+        </childnode>
+      </node>
+      <node id="493">
+        <label>Skyrocket/Input/Keycodes.hpp</label>
+        <link refid="_keycodes_8hpp_source"/>
+        <childnode refid="479" relation="include">
+        </childnode>
+      </node>
+      <node id="497">
+        <label>Skyrocket/Graphics/GDI/Internal/GDI.inl</label>
+        <link refid="_g_d_i_8inl_source"/>
+      </node>
+      <node id="476">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MacViewport.mm</label>
+        <link refid="_mac_viewport_8mm"/>
+        <childnode refid="477" relation="include">
+        </childnode>
+        <childnode refid="478" relation="include">
+        </childnode>
+        <childnode refid="480" relation="include">
+        </childnode>
+        <childnode refid="498" relation="include">
+        </childnode>
+      </node>
+      <node id="477">
+        <label>Skyrocket/Platform/Config.hpp</label>
+        <link refid="_config_8hpp_source"/>
+      </node>
+      <node id="488">
+        <label>Skyrocket/Graphics/GDI/Commands.hpp</label>
+        <link refid="_commands_8hpp_source"/>
+        <childnode refid="489" relation="include">
+        </childnode>
+        <childnode refid="495" relation="include">
+        </childnode>
+      </node>
+      <node id="482">
+        <label>Skyrocket/Core/Diagnostics/Error.hpp</label>
+        <link refid="_error_8hpp_source"/>
+        <childnode refid="477" relation="include">
+        </childnode>
+        <childnode refid="483" relation="include">
+        </childnode>
+        <childnode refid="484" relation="include">
+        </childnode>
+        <childnode refid="485" relation="include">
+        </childnode>
+        <childnode refid="486" relation="include">
+        </childnode>
+      </node>
+      <node id="498">
+        <label>Skyrocket/Graphics/Internal/Apple/MacViewport.h</label>
+        <link refid="_mac_viewport_8h_source"/>
+        <childnode refid="499" relation="include">
+        </childnode>
+        <childnode refid="489" relation="include">
+        </childnode>
+      </node>
+      <node id="484">
+        <label>cstdio</label>
+      </node>
+      <node id="483">
+        <label>vector</label>
+      </node>
+      <node id="495">
+        <label>Skyrocket/Graphics/GDI/Definitions.hpp</label>
+        <link refid="_definitions_8hpp_source"/>
+      </node>
+      <node id="485">
+        <label>cstdlib</label>
+      </node>
+      <node id="478">
+        <label>Skyrocket/Graphics/Color.hpp</label>
+        <link refid="_color_8hpp_source"/>
+        <childnode refid="479" relation="include">
+        </childnode>
+      </node>
+      <node id="489">
+        <label>Skyrocket/Graphics/Viewport.hpp</label>
+        <link refid="_viewport_8hpp_source"/>
+        <childnode refid="487" relation="include">
+        </childnode>
+        <childnode refid="490" relation="include">
+        </childnode>
+        <childnode refid="479" relation="include">
+        </childnode>
+        <childnode refid="494" relation="include">
+        </childnode>
+      </node>
+      <node id="480">
+        <label>Skyrocket/Graphics/GDI/GDI.hpp</label>
+        <link refid="_g_d_i_8hpp_source"/>
+        <childnode refid="481" relation="include">
+        </childnode>
+        <childnode refid="487" relation="include">
+        </childnode>
+        <childnode refid="488" relation="include">
+        </childnode>
+        <childnode refid="495" relation="include">
+        </childnode>
+        <childnode refid="489" relation="include">
+        </childnode>
+        <childnode refid="494" relation="include">
+        </childnode>
+        <childnode refid="496" relation="include">
+        </childnode>
+        <childnode refid="497" relation="include">
+        </childnode>
+      </node>
+      <node id="492">
+        <label>Skyrocket/Platform/Internal/PlatformEvents.hpp</label>
+        <link refid="_platform_events_8hpp_source"/>
+        <childnode refid="493" relation="include">
+        </childnode>
+        <childnode refid="479" relation="include">
+        </childnode>
+        <childnode refid="483" relation="include">
+        </childnode>
+      </node>
+      <node id="487">
+        <label>Skyrocket/Core/Memory.hpp</label>
+        <link refid="_memory_8hpp_source"/>
+        <childnode refid="479" relation="include">
+        </childnode>
+      </node>
+      <node id="494">
+        <label>memory</label>
+      </node>
+      <node id="490">
+        <label>Skyrocket/Platform/Platform.hpp</label>
+        <link refid="_platform_8hpp_source"/>
+        <childnode refid="491" relation="include">
+        </childnode>
+        <childnode refid="492" relation="include">
+        </childnode>
+        <childnode refid="477" relation="include">
+        </childnode>
+        <childnode refid="493" relation="include">
+        </childnode>
+        <childnode refid="479" relation="include">
+        </childnode>
+        <childnode refid="494" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacesky">sky</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>MacViewport.cpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Skyrocket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>--------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Created<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Jacob<sp/>Milligan<sp/>on<sp/>9/07/2017</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Copyright<sp/>(c)<sp/>2016<sp/>Jacob<sp/>Milligan.<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Skyrocket/Platform/Config.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Skyrocket/Graphics/Color.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Skyrocket/Graphics/GDI/GDI.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Skyrocket/Graphics/Internal/Apple/MacViewport.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>SKY_GRAPHICS_API_METAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Skyrocket/Graphics/Internal/Apple/MetalView.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacesky" kindref="compound">sky</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal">Viewport::Viewport()</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal">Viewport::~Viewport()</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>close();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Viewport::create_native_viewport()</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>handle_<sp/>=<sp/>std::make_unique&lt;NativeViewport&gt;();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>CocoaWindow*<sp/>window<sp/>=<sp/>(CocoaWindow*)Platform::create_native_window(caption_,<sp/>width_,<sp/>height_);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>NSRect<sp/>frame<sp/>=<sp/>[window<sp/>frame];</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>CocoaView*<sp/>view<sp/>=<sp/>[[[CocoaView<sp/>alloc]<sp/>initWithFrame:frame]<sp/>autorelease];</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>SKY_GRAPHICS_API_METAL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>view<sp/>=<sp/>[[[<ref refid="class_metal_view" kindref="compound">MetalView</ref><sp/>alloc]<sp/>initWithFrame:frame]<sp/>autorelease];</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>[window<sp/>setContentView:view];</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>handle_-&gt;view<sp/>=<sp/>view;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>handle_-&gt;window<sp/>=<sp/>window;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Viewport::destroy_native_viewport()</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Viewport::set_backing_color(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsky_1_1_color" kindref="compound">sky::Color</ref><sp/>&amp;color)</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>[handle_-&gt;view<sp/>setBackingColor:((CGFloat)color.<ref refid="structsky_1_1_color_1a1be5db6da93d8840ccf2946757441634" kindref="member">r</ref>)<sp/>/<sp/>255.0</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g:((CGFloat)color.<ref refid="structsky_1_1_color_1aab2efb0f3a5e027c4dd6713067a27e98" kindref="member">g</ref>)<sp/>/<sp/>255.0</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b:((CGFloat)color.<ref refid="structsky_1_1_color_1a2f852d284025191a838d00ae61961782" kindref="member">b</ref>)<sp/>/<sp/>255.0</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>a:((CGFloat)color.<ref refid="structsky_1_1_color_1a3a080ac0c585968dbf2ee31989ffb436" kindref="member">a</ref>)<sp/>/<sp/>255.0];</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal">NativeViewport*<sp/>Viewport::get_native_viewport()</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>handle_.get();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MacViewport.mm"/>
+  </compounddef>
+</doxygen>

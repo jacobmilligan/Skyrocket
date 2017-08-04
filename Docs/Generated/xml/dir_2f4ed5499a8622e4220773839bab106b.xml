@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_2f4ed5499a8622e4220773839bab106b" kind="dir">
+    <compoundname>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket</compoundname>
+    <innerdir refid="dir_ec4306d3d089299ba5a8108db6e54791">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core</innerdir>
+    <innerdir refid="dir_8d28e8b6e20ac51d9e0dc5d85a613eb0">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Framework</innerdir>
+    <innerdir refid="dir_900acac47b4a603aaef43c05f7f6238a">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics</innerdir>
+    <innerdir refid="dir_97f6a71a285fbc742f3e643fbc491932">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input</innerdir>
+    <innerdir refid="dir_b2c9c7ab95a18516d8192777e447a18f">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/"/>
+  </compounddef>
+</doxygen>

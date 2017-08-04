@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsky_1_1_key_state" kind="struct" language="C++" prot="public">
+    <compoundname>sky::KeyState</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsky_1_1_key_state_1ad23e80691ed2581f0140622c13e652f5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sky::KeyState::is_down</definition>
+        <argsstring></argsstring>
+        <name>is_down</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/PlatformEvents.hpp" line="28" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/PlatformEvents.hpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsky_1_1_key_state_1a6812224157fedacb89a9c1d7b802549a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t sky::KeyState::state_changes</definition>
+        <argsstring></argsstring>
+        <name>state_changes</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/PlatformEvents.hpp" line="29" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/PlatformEvents.hpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structsky_1_1_key_state_1ac01a05efcc14af73a2e70e0d594ee48f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::KeyState::KeyState</definition>
+        <argsstring>()</argsstring>
+        <name>KeyState</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/PlatformEvents.hpp" line="24" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/PlatformEvents.hpp" bodystart="24" bodyend="26"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/PlatformEvents.hpp" line="23" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/PlatformEvents.hpp" bodystart="23" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structsky_1_1_key_state_1ad23e80691ed2581f0140622c13e652f5" prot="public" virt="non-virtual"><scope>sky::KeyState</scope><name>is_down</name></member>
+      <member refid="structsky_1_1_key_state_1ac01a05efcc14af73a2e70e0d594ee48f" prot="public" virt="non-virtual"><scope>sky::KeyState</scope><name>KeyState</name></member>
+      <member refid="structsky_1_1_key_state_1a6812224157fedacb89a9c1d7b802549a" prot="public" virt="non-virtual"><scope>sky::KeyState</scope><name>state_changes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

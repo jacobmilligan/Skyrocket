@@ -33,8 +33,8 @@ Renderer::~Renderer()
     if ( threading_ == ThreadSupport::multithreaded ) {
         active_ = false;
         present();
+        render_thread_.join();
         if ( render_thread_.joinable() ) {
-            render_thread_.join();
         }
     }
 }
@@ -121,19 +121,19 @@ void Renderer::frame()
         cv_.wait(lock, [this]() { return notified_; });
         notified_ = false;
 
-        rendering_ = true;
         if ( gdi_ != nullptr ) {
             gdi_->swap_buffers();
+            rendering_ = true;
             gdi_->present();
+            rendering_ = false;
         }
-        rendering_ = false;
     }
 }
 
 void Renderer::wait_for_render_finish()
 {
     while ( rendering_ ) {
-        std::this_thread::sleep_for(std::chrono::nanoseconds(100));
+        std::this_thread::sleep_for(std::chrono::nanoseconds(1));
     }
 }
 

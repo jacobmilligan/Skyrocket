@@ -21,8 +21,6 @@
 
 namespace sky {
 
-/// @ingroup linear
-/// @{
 
 /// @brief A 2 dimensional Vector structure with several linear algebra operations
 /// defined for its members.
@@ -402,6 +400,9 @@ bool operator!=(const Vector2<T>& left, const Vector2<T> &right)
 {
     return (left.x != right.x) || (left.y != right.y);
 }
+
+/// @defgroup vec2aliases Vector3 Aliases
+/// @{
 
 /// @brief Type alias for a Vector2 with elements of type double
 using Vector2d = Vector2<double>;

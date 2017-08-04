@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="namespacesky_1_1fs" kind="namespace" language="C++">
+    <compoundname>sky::fs</compoundname>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="_filesystem_8hpp_1a2ad35f8cc8ac0cb4eae49e2cc2f02ff5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * sky::fs::slurp_file</definition>
+        <argsstring>(const Path &amp;filepath)</argsstring>
+        <name>slurp_file</name>
+        <param>
+          <type>const <ref refid="classsky_1_1_path" kindref="compound">Path</ref> &amp;</type>
+          <declname>filepath</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="56" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Filesystem.cpp" bodystart="148" bodyend="162"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Filesystem.hpp" line="53" column="1"/>
+  </compounddef>
+</doxygen>

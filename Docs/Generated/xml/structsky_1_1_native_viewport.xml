@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsky_1_1_native_viewport" kind="struct" language="C++" prot="public">
+    <compoundname>sky::NativeViewport</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsky_1_1_native_viewport_1a1a32882f8e9385b72e0eea756349dbf6" prot="public" static="no" mutable="no">
+        <type>CocoaWindow *</type>
+        <definition>CocoaWindow* sky::NativeViewport::window</definition>
+        <argsstring></argsstring>
+        <name>window</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MacViewport.h" line="22" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MacViewport.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsky_1_1_native_viewport_1addd44bff6944639d8ce4ae1b919c9b23" prot="public" static="no" mutable="no">
+        <type>CocoaView *</type>
+        <definition>CocoaView* sky::NativeViewport::view</definition>
+        <argsstring></argsstring>
+        <name>view</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MacViewport.h" line="23" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MacViewport.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MacViewport.h" line="21" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MacViewport.h" bodystart="21" bodyend="24"/>
+    <listofallmembers>
+      <member refid="structsky_1_1_native_viewport_1addd44bff6944639d8ce4ae1b919c9b23" prot="public" virt="non-virtual"><scope>sky::NativeViewport</scope><name>view</name></member>
+      <member refid="structsky_1_1_native_viewport_1a1a32882f8e9385b72e0eea756349dbf6" prot="public" virt="non-virtual"><scope>sky::NativeViewport</scope><name>window</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

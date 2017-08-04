@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_ec4306d3d089299ba5a8108db6e54791" kind="dir">
+    <compoundname>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core</compoundname>
+    <innerdir refid="dir_d35a400264e5a0db9087bd6bc489a8cf">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers</innerdir>
+    <innerdir refid="dir_83b4c1824dc0ed0dad99250874f4108b">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Diagnostics</innerdir>
+    <innerdir refid="dir_c856b55c1dc0b45212dfea0c74920d4a">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Geometry</innerdir>
+    <innerdir refid="dir_2b3e8febea577b38d86a8a3f23a03750">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math</innerdir>
+    <innerfile refid="_math_8hpp">Math.hpp</innerfile>
+    <innerfile refid="_memory_8hpp">Memory.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/"/>
+  </compounddef>
+</doxygen>

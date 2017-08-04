@@ -1,0 +1,10 @@
+body {
+    background-color: #F3F3F4;
+}
+
+div.header, div.contents {
+    width: 80%;
+    margin: 0 auto;
+    background: none;
+    background-color: white;
+}

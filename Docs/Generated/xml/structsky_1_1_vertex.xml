@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsky_1_1_vertex" kind="struct" language="C++" prot="public">
+    <compoundname>sky::Vertex</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsky_1_1_vertex_1a1ee837a5af5f035056d45a0903d0ae7e" prot="public" static="no" mutable="no">
+        <type><ref refid="group__vec4aliases_1ga8e592c0fc9ad30cb8c8afba90765156a" kindref="member">Vector4f</ref></type>
+        <definition>Vector4f sky::Vertex::position</definition>
+        <argsstring></argsstring>
+        <name>position</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Core/Vertex.hpp" line="22" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Core/Vertex.hpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsky_1_1_vertex_1a85daa9cbd934c2f28898dccdde86df7e" prot="public" static="no" mutable="no">
+        <type><ref refid="group__vec4aliases_1ga8e592c0fc9ad30cb8c8afba90765156a" kindref="member">Vector4f</ref></type>
+        <definition>Vector4f sky::Vertex::color</definition>
+        <argsstring></argsstring>
+        <name>color</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Core/Vertex.hpp" line="23" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Core/Vertex.hpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="117">
+        <label>sky::Vector4&lt; float &gt;</label>
+        <link refid="structsky_1_1_vector4"/>
+      </node>
+      <node id="116">
+        <label>sky::Vertex</label>
+        <link refid="structsky_1_1_vertex"/>
+        <childnode refid="117" relation="usage">
+          <edgelabel>position</edgelabel>
+          <edgelabel>color</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Core/Vertex.hpp" line="21" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Core/Vertex.hpp" bodystart="21" bodyend="24"/>
+    <listofallmembers>
+      <member refid="structsky_1_1_vertex_1a85daa9cbd934c2f28898dccdde86df7e" prot="public" virt="non-virtual"><scope>sky::Vertex</scope><name>color</name></member>
+      <member refid="structsky_1_1_vertex_1a1ee837a5af5f035056d45a0903d0ae7e" prot="public" virt="non-virtual"><scope>sky::Vertex</scope><name>position</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

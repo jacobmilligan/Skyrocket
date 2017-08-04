@@ -21,7 +21,12 @@ namespace sky {
 
 MetalGDI::MetalGDI() = default;
 
-MetalGDI::~MetalGDI() = default;
+MetalGDI::~MetalGDI()
+{
+    for ( int i = 0; i < max_frames_in_flight; ++i ) {
+        dispatch_semaphore_signal(buf_sem_);
+    }
+}
 
 std::unique_ptr<GDI> GDI::create()
 {
@@ -40,6 +45,7 @@ bool MetalGDI::initialize(Viewport* viewport)
     set_viewport(viewport);
     
     command_queue_ = [device_ newCommandQueue];
+    buf_sem_ = dispatch_semaphore_create(max_frames_in_flight);
 
     //--------------------------------
     //  Load library and shader path
@@ -184,43 +190,45 @@ void MetalGDI::present()
     if ( mtl_layer_ == nil ) {
         return;
     }
-
+    
+    dispatch_semaphore_wait(buf_sem_, DISPATCH_TIME_FOREVER);
     command_buffer_[prev_buf] = [command_queue_ commandBufferWithUnretainedReferences];
+    [command_buffer_[prev_buf] addCompletedHandler:^(id<MTLCommandBuffer> commandBuffer){
+        dispatch_semaphore_signal(buf_sem_);
+    }];
 
-    id<CAMetalDrawable> drawable = [mtl_layer_ nextDrawable];
-    if ( drawable == nil ) {
-        SKY_ERROR("Renderer", "Couldn't get next CAMetalDrawable");
-        return;
+    @autoreleasepool {
+
+        MTLRenderPassDescriptor * rpd = [MTLRenderPassDescriptor renderPassDescriptor];
+
+        if ( rpd == nil ) {
+            SKY_ERROR("Renderer", "Couldn't create a RenderPassDescriptor");
+            return;
+        }
+
+        id<CAMetalDrawable> drawable =[mtl_layer_ nextDrawable];
+        if ( drawable == nil ) {
+            SKY_ERROR("Renderer", "Couldn't get next CAMetalDrawable");
+            return;
+        }
+
+        rpd.colorAttachments[0].texture = drawable.texture;
+        rpd.colorAttachments[0].loadAction = MTLLoadActionClear;
+        rpd.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 0.0);
+        rpd.colorAttachments[0].storeAction = MTLStoreActionStore;
+
+        render_encoder_ =[command_buffer_[prev_buf] renderCommandEncoderWithDescriptor:rpd];
+
+        [render_encoder_ setRenderPipelineState:render_pipeline_];
+
+        process_commands();
+
+        [render_encoder_ endEncoding];
+
+        [command_buffer_[prev_buf] presentDrawable:drawable];
+
+        [command_buffer_[prev_buf] commit];
     }
-
-    MTLRenderPassDescriptor* rpd = [MTLRenderPassDescriptor renderPassDescriptor];
-
-    if ( rpd == nil ) {
-        SKY_ERROR("Renderer", "Couldn't create a RenderPassDescriptor");
-        return;
-    }
-
-    rpd.colorAttachments[0].texture = drawable.texture;
-    rpd.colorAttachments[0].loadAction = MTLLoadActionClear;
-    rpd.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 0.0);
-    rpd.colorAttachments[0].storeAction = MTLStoreActionStore;
-
-    render_encoder_ = [command_buffer_[prev_buf] renderCommandEncoderWithDescriptor:rpd];
-
-    [rpd release];
-
-    [render_encoder_ setRenderPipelineState:render_pipeline_];
-
-    process_commands();
-
-    [render_encoder_ endEncoding];
-
-    [command_buffer_[prev_buf] presentDrawable:drawable];
-
-    [command_buffer_[prev_buf] commit];
-
-    [render_encoder_ release];
-    [drawable release];
 }
 
 

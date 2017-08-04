@@ -17,6 +17,7 @@
 
 namespace sky {
 
+
 template <uint32_t Size>
 class Buffer {
 public:
@@ -29,7 +30,7 @@ public:
 
         SKY_ASSERT(cursor_ + size < Size, "sizeof T (%lu) is small enough to fit in buffer", size);
 
-        memcpy(&buffer_[cursor_], data, size);
+        memcpy(&data_[cursor_], data, size);
         cursor_ += size;
         end_ = cursor_;
     }
@@ -43,7 +44,7 @@ public:
                    "sizeof T (%lu) is small enough to prevent reading past end of buffer",
                    size);
 
-        auto mem = static_cast<void*>(&buffer_[cursor_]);
+        auto mem = static_cast<void*>(&data_[cursor_]);
         cursor_ += size;
         return static_cast<T*>(mem);
     }
@@ -56,7 +57,7 @@ public:
                    "sizeof T (%lu) is small enough to prevent reading past end of buffer",
                    size);
 
-        memcpy(out_data, &buffer_[cursor_], size);
+        memcpy(out_data, &data_[cursor_], size);
         cursor_ += size;
     }
 
@@ -75,10 +76,15 @@ public:
         return cursor_;
     }
 
+    uint32_t size() const
+    {
+        return Size;
+    }
+
 private:
     uint32_t end_{0};
     uint32_t cursor_{0};
-    uint8_t buffer_[Size]{};
+    uint8_t data_[Size]{};
 };
 
 

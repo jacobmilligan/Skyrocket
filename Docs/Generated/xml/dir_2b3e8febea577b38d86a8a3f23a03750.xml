@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_2b3e8febea577b38d86a8a3f23a03750" kind="dir">
+    <compoundname>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math</compoundname>
+    <innerfile refid="_common_8hpp">Common.hpp</innerfile>
+    <innerfile refid="_matrix4_8hpp">Matrix4.hpp</innerfile>
+    <innerfile refid="_trigonometry_8hpp">Trigonometry.hpp</innerfile>
+    <innerfile refid="_vector2_8hpp">Vector2.hpp</innerfile>
+    <innerfile refid="_vector3_8hpp">Vector3.hpp</innerfile>
+    <innerfile refid="_vector4_8hpp">Vector4.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/"/>
+  </compounddef>
+</doxygen>

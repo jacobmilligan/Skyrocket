@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classsky_1_1_platform" kind="class" language="C++" prot="public">
+    <compoundname>sky::Platform</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classsky_1_1_platform_1aec782ac3ff343f907b40f641a0f068ef" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sky::Platform::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" line="49" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsky_1_1_platform_1a47110ac6eb12a244c81a0b9185a90118" prot="private" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* sky::Platform::app_title_</definition>
+        <argsstring></argsstring>
+        <name>app_title_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" line="52" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classsky_1_1_platform_1aad45d9589c9db4bde5c20876f5f81502" prot="private" static="yes" mutable="no">
+        <type><ref refid="structsky_1_1_platform_events" kindref="compound">PlatformEvents</ref></type>
+        <definition>PlatformEvents sky::Platform::events_</definition>
+        <argsstring></argsstring>
+        <name>events_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" line="50" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsky_1_1_platform_1aa44d77e6e981880dda6058a98a06342e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::Platform::Platform</definition>
+        <argsstring>()</argsstring>
+        <name>Platform</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" line="28" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" bodystart="28" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_platform_1a23aa9491330f3a64c70753e94ed47fa0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::Platform::launch</definition>
+        <argsstring>(const char *app_title)</argsstring>
+        <name>launch</name>
+        <param>
+          <type>const char *</type>
+          <declname>app_title</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" line="31" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Platform.cpp" bodystart="21" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_platform_1a41d2615d88d8f74987d152b4679d99ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::Platform::poll_events</definition>
+        <argsstring>()</argsstring>
+        <name>poll_events</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" line="36" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Platform.cpp" bodystart="30" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_platform_1a0e9e879cd7ed47b9d4da049e3f2ed1d7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool sky::Platform::initialized</definition>
+        <argsstring>()</argsstring>
+        <name>initialized</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" line="38" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classsky_1_1_platform_1af1e237aabef6c1bc37a415a0218d2875" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * sky::Platform::create_native_window</definition>
+        <argsstring>(const char *caption, const uint16_t width, const uint16_t height)</argsstring>
+        <name>create_native_window</name>
+        <param>
+          <type>const char *</type>
+          <declname>caption</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>width</declname>
+        </param>
+        <param>
+          <type>const uint16_t</type>
+          <declname>height</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" line="33" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/macOS/MacPlatform.mm" bodystart="70" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_platform_1ae571b0c2ef71f53d9766d852f90570ec" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structsky_1_1_platform_events" kindref="compound">PlatformEvents</ref> &amp;</type>
+        <definition>static const PlatformEvents&amp; sky::Platform::get_events</definition>
+        <argsstring>()</argsstring>
+        <name>get_events</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" line="43" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" bodystart="43" bodyend="46"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classsky_1_1_platform_1a4f8a529410dd46092adc31d1aa5eb698" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::Platform::native_init</definition>
+        <argsstring>()</argsstring>
+        <name>native_init</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" line="54" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/macOS/MacPlatform.mm" bodystart="25" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_platform_1ae6f4de33c681fb68cfb9323c50188d76" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::Platform::native_poll_events</definition>
+        <argsstring>()</argsstring>
+        <name>native_poll_events</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" line="55" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/macOS/MacPlatform.mm" bodystart="80" bodyend="97"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" line="26" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp" bodystart="26" bodyend="56"/>
+    <listofallmembers>
+      <member refid="classsky_1_1_platform_1a47110ac6eb12a244c81a0b9185a90118" prot="private" virt="non-virtual"><scope>sky::Platform</scope><name>app_title_</name></member>
+      <member refid="classsky_1_1_platform_1af1e237aabef6c1bc37a415a0218d2875" prot="public" virt="non-virtual"><scope>sky::Platform</scope><name>create_native_window</name></member>
+      <member refid="classsky_1_1_platform_1aad45d9589c9db4bde5c20876f5f81502" prot="private" virt="non-virtual"><scope>sky::Platform</scope><name>events_</name></member>
+      <member refid="classsky_1_1_platform_1ae571b0c2ef71f53d9766d852f90570ec" prot="public" virt="non-virtual"><scope>sky::Platform</scope><name>get_events</name></member>
+      <member refid="classsky_1_1_platform_1a0e9e879cd7ed47b9d4da049e3f2ed1d7" prot="public" virt="non-virtual"><scope>sky::Platform</scope><name>initialized</name></member>
+      <member refid="classsky_1_1_platform_1aec782ac3ff343f907b40f641a0f068ef" prot="private" virt="non-virtual"><scope>sky::Platform</scope><name>initialized_</name></member>
+      <member refid="classsky_1_1_platform_1a23aa9491330f3a64c70753e94ed47fa0" prot="public" virt="non-virtual"><scope>sky::Platform</scope><name>launch</name></member>
+      <member refid="classsky_1_1_platform_1a4f8a529410dd46092adc31d1aa5eb698" prot="private" virt="non-virtual"><scope>sky::Platform</scope><name>native_init</name></member>
+      <member refid="classsky_1_1_platform_1ae6f4de33c681fb68cfb9323c50188d76" prot="private" virt="non-virtual"><scope>sky::Platform</scope><name>native_poll_events</name></member>
+      <member refid="classsky_1_1_platform_1aa44d77e6e981880dda6058a98a06342e" prot="public" virt="non-virtual"><scope>sky::Platform</scope><name>Platform</name></member>
+      <member refid="classsky_1_1_platform_1a41d2615d88d8f74987d152b4679d99ca" prot="public" virt="non-virtual"><scope>sky::Platform</scope><name>poll_events</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

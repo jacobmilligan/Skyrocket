@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="group__os" kind="group">
+    <compoundname>os</compoundname>
+    <title>OS submodule</title>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="group__os_1gae68ba00906434857ac412863978b4de1" prot="public" static="no">
+        <name>OS</name>
+        <enumvalue id="group__os_1ggae68ba00906434857ac412863978b4de1aad921d60486366258809553a3db49a4a" prot="public">
+          <name>unknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__os_1ggae68ba00906434857ac412863978b4de1a43b9d8ea18c48c3a64c4e37338fc668f" prot="public">
+          <name>macos</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__os_1ggae68ba00906434857ac412863978b4de1a0f4137ed1502b5045d6083aa258b5c42" prot="public">
+          <name>windows</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__os_1ggae68ba00906434857ac412863978b4de1a26e980d26840d8cefb033391cd6ddbaf" prot="public">
+          <name>linux_generic</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__os_1ggae68ba00906434857ac412863978b4de1a9e304d4e8df1b74cfa009913198428ab" prot="public">
+          <name>ios</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__os_1ggae68ba00906434857ac412863978b4de1ae4dbfb49abab8408885679aa8dc4017f" prot="public">
+          <name>iphone_sim</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__os_1ggae68ba00906434857ac412863978b4de1ac31b32364ce19ca8fcd150a417ecce58" prot="public">
+          <name>android</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Defines the current operating system. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Config.hpp" line="38" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Config.hpp" bodystart="38" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="enum" id="group__os_1gacec7a47350032f6268fbadd6deb252f3" prot="public" static="no">
+        <name>OSFamily</name>
+        <enumvalue id="group__os_1ggacec7a47350032f6268fbadd6deb252f3aad921d60486366258809553a3db49a4a" prot="public">
+          <name>unknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__os_1ggacec7a47350032f6268fbadd6deb252f3a1f3870be274f6c49b3e31a0c6728957f" prot="public">
+          <name>apple</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__os_1ggacec7a47350032f6268fbadd6deb252f3a5f532a3fc4f1ea403f37070f59a7a53a" prot="public">
+          <name>microsoft</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__os_1ggacec7a47350032f6268fbadd6deb252f3a0c1255bdd5a4b86d2692d262405bf495" prot="public">
+          <name>linuxos</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="group__os_1ggacec7a47350032f6268fbadd6deb252f3ac31b32364ce19ca8fcd150a417ecce58" prot="public">
+          <name>android</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Defines the family of operating systems that the current platform belongs to. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Config.hpp" line="50" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Config.hpp" bodystart="50" bodyend="56"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="group__os_1ga247e060444c5043132422b429fa3405f" prot="public" static="no">
+        <name>SKY_OS_MACOS</name>
+        <initializer>0</initializer>
+        <briefdescription>
+<para>MacOSX operating system. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Config.hpp" line="59" column="9" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Config.hpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__os_1ga6142b79e661a0c535fbe07cb80d31b24" prot="public" static="no">
+        <name>SKY_OS_IOS</name>
+        <initializer>0</initializer>
+        <briefdescription>
+<para>IOS operating system. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Config.hpp" line="62" column="9" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Config.hpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__os_1ga2db180c3b4227828d411adb2e4597e84" prot="public" static="no">
+        <name>SKY_OS_ANDROID</name>
+        <initializer>0</initializer>
+        <briefdescription>
+<para>Android operating system. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Config.hpp" line="65" column="9" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Config.hpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__os_1ga07d9f8b27b5b7697b75d7a4877dbaf70" prot="public" static="no">
+        <name>SKY_OS_WINDOWS</name>
+        <initializer>0</initializer>
+        <briefdescription>
+<para>Windows operating system. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Config.hpp" line="68" column="9" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Config.hpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="group__os_1gaf2b01fa51d66dbec78dd48807a98e146" prot="public" static="no">
+        <name>SKY_OS_LINUX</name>
+        <initializer>0</initializer>
+        <briefdescription>
+<para>Linux operating systems. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Config.hpp" line="71" column="9" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Config.hpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Defines several OS-related macros and constants that can be used for platform-specific code. </para>    </briefdescription>
+    <detaileddescription>
+<para>Both the <ref refid="" kindref="compound">target_platform</ref> and <ref refid="" kindref="compound">target_family</ref> constants can and should be used for platform-detection over the predefines macros to avoid horrible macro debugging problems that can crop up. The macros should only be used to conditionally include headers or to conditionally include blocks of code that otherwise wouldn&apos;t compile on the current platform. Each OS-detection macro is a boolean value of either 1 or 0 </para>    </detaileddescription>
+  </compounddef>
+</doxygen>

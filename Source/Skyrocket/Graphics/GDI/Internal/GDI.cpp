@@ -18,13 +18,13 @@ void GDI::swap_buffers()
 {
     prev_buf = cur_buf;
     cur_buf = static_cast<uint16_t>(cur_buf + 1) % max_frames_in_flight;
+    cmdbufs[cur_buf].reset();
+    cmdbufs[prev_buf].reset();
 }
 
 void GDI::process_commands()
 {
     auto cmd_buf = &cmdbufs[prev_buf];
-
-    cmd_buf->reset();
 
     rc::CmdType* next_cmd_type = nullptr;
 
@@ -91,7 +91,6 @@ void GDI::process_commands()
         }
     }
 
-    cmd_buf->reset();
 }
 
 bool GDI::initialize(Viewport*  /*viewport*/)

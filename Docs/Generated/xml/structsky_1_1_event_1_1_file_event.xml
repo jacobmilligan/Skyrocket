@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsky_1_1_event_1_1_file_event" kind="struct" language="C++" prot="public">
+    <compoundname>sky::Event::FileEvent</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsky_1_1_event_1_1_file_event_1a4a0406664bcbea407057becc6c92fb29" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sky::Event::FileEvent::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Event.hpp" line="109" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Event.hpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsky_1_1_event_1_1_file_event_1a29fb8410b403b4fe5e96fb99f6e8ff27" prot="public" static="no" mutable="no">
+        <type>char **</type>
+        <definition>char** sky::Event::FileEvent::paths</definition>
+        <argsstring></argsstring>
+        <name>paths</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Event.hpp" line="110" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Event.hpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Event.hpp" line="108" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Event.hpp" bodystart="108" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structsky_1_1_event_1_1_file_event_1a4a0406664bcbea407057becc6c92fb29" prot="public" virt="non-virtual"><scope>sky::Event::FileEvent</scope><name>count</name></member>
+      <member refid="structsky_1_1_event_1_1_file_event_1a29fb8410b403b4fe5e96fb99f6e8ff27" prot="public" virt="non-virtual"><scope>sky::Event::FileEvent</scope><name>paths</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

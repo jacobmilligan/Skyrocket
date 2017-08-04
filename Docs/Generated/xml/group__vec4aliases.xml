@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="group__vec4aliases" kind="group">
+    <compoundname>vec4aliases</compoundname>
+    <title>Vector4 Aliases</title>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__vec4aliases_1ga5e802176d17f9240937e4a66bf26f4a9" prot="public" static="no">
+        <type>Vector4&lt; double &gt;</type>
+        <definition>using sky::Vector4d = typedef Vector4&lt;double&gt;</definition>
+        <argsstring></argsstring>
+        <name>Vector4d</name>
+        <briefdescription>
+<para>Type alias for a <ref refid="structsky_1_1_vector4" kindref="compound">Vector4</ref> with elements of type unsigned double. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector4.hpp" line="468" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector4.hpp" bodystart="468" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__vec4aliases_1ga8e592c0fc9ad30cb8c8afba90765156a" prot="public" static="no">
+        <type>Vector4&lt; float &gt;</type>
+        <definition>using sky::Vector4f = typedef Vector4&lt;float&gt;</definition>
+        <argsstring></argsstring>
+        <name>Vector4f</name>
+        <briefdescription>
+<para>Type alias for a <ref refid="structsky_1_1_vector4" kindref="compound">Vector4</ref> with elements of type unsigned float. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector4.hpp" line="470" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector4.hpp" bodystart="470" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__vec4aliases_1ga3f5931e012e9be4b76577e498a81ca70" prot="public" static="no">
+        <type>Vector4&lt; int32_t &gt;</type>
+        <definition>using sky::Vector4i = typedef Vector4&lt;int32_t&gt;</definition>
+        <argsstring></argsstring>
+        <name>Vector4i</name>
+        <briefdescription>
+<para>Type alias for a <ref refid="structsky_1_1_vector4" kindref="compound">Vector4</ref> with elements of type 32 bit unsigned int. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector4.hpp" line="472" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector4.hpp" bodystart="472" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__vec4aliases_1gad1b36c328828e5efc7f2e211fa288092" prot="public" static="no">
+        <type>Vector4&lt; uint32_t &gt;</type>
+        <definition>using sky::Vector4u = typedef Vector4&lt;uint32_t&gt;</definition>
+        <argsstring></argsstring>
+        <name>Vector4u</name>
+        <briefdescription>
+<para>Type alias for a <ref refid="structsky_1_1_vector4" kindref="compound">Vector4</ref> with elements of type 32 bit unsigned unsigned int. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector4.hpp" line="474" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector4.hpp" bodystart="474" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__vec4aliases_1gaa7cc17780a206ece7aa6bf71976ea111" prot="public" static="no">
+        <type>Vector4&lt; bool &gt;</type>
+        <definition>using sky::Vector4b = typedef Vector4&lt;bool&gt;</definition>
+        <argsstring></argsstring>
+        <name>Vector4b</name>
+        <briefdescription>
+<para>Type alias for a <ref refid="structsky_1_1_vector4" kindref="compound">Vector4</ref> with elements of type unsigned bool. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector4.hpp" line="476" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Vector4.hpp" bodystart="476" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

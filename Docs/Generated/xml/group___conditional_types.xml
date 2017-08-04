@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="group___conditional_types" kind="group">
+    <compoundname>ConditionalTypes</compoundname>
+    <title>A collection of types that change depending on defined</title>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group___conditional_types_1ga320d9c06868dffb69f7409e7699c5780" prot="public" static="no">
+        <type>typename std::conditional&lt; Size&lt;=UINT8_MAX, uint8_t, typename std::conditional&lt; Size&lt;=UINT16_MAX, uint16_t, uint32_t &gt;::type &gt;::type</type>
+        <definition>using sky::conditional_uint = typedef typename std::conditional&lt;Size &lt;= UINT8_MAX, uint8_t, typename std::conditional&lt;Size &lt;= UINT16_MAX, uint16_t,uint32_t &gt;::type &gt;::type</definition>
+        <argsstring></argsstring>
+        <name>conditional_uint</name>
+        <briefdescription>
+<para>Represents a conditional unsigned integer with a minimum value of uint8 and a maximum value of uint32. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/ConditionalTypes.hpp" line="28" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/ConditionalTypes.hpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group___conditional_types_1ga2d0c128c9556b758ccaef05dc62d395e" prot="public" static="no">
+        <type>typename std::conditional&lt; Size&lt;=UINT16_MAX, uint16_t, typename std::conditional&lt; Size&lt;=UINT32_MAX, uint32_t, uint64_t &gt;::type &gt;::type</type>
+        <definition>using sky::large_conditional_uint = typedef typename std::conditional&lt;Size &lt;= UINT16_MAX, uint16_t, typename std::conditional&lt;Size &lt;= UINT32_MAX, uint32_t, uint64_t &gt;::type &gt;::type</definition>
+        <argsstring></argsstring>
+        <name>large_conditional_uint</name>
+        <briefdescription>
+<para>Represents a large conditional unsigned integer with a minimum value of uint16 and a maximum value of uint64. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/ConditionalTypes.hpp" line="36" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/ConditionalTypes.hpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>conditions, an example being the conditional_uint which one of uint8, uint16, or uin32 depending on the expected maximum value held within. These are mainly used internally within Skyrocket for efficient usage of space for indices and id values in containers. </para>    </detaileddescription>
+  </compounddef>
+</doxygen>

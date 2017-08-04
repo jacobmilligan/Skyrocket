@@ -16,8 +16,6 @@
 
 namespace sky {
 
-/// @ingroup linear
-/// @{
 
 /// @brief A 4 dimensional Vector structure with several linear algebra operations
 /// defined for its members.
@@ -462,6 +460,10 @@ bool operator!=(const Vector4<T>& left, const Vector4<T>& right)
            || (left.w != right.w);
 }
 
+
+/// @defgroup vec4aliases Vector4 Aliases
+/// @{
+
 /// @brief Type alias for a Vector4 with elements of type unsigned double
 using Vector4d = Vector4<double>;
 /// @brief Type alias for a Vector4 with elements of type unsigned float
@@ -475,4 +477,4 @@ using Vector4b = Vector4<bool>;
 
 /// @}
 
-}
+} // namespace sky

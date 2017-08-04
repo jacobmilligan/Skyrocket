@@ -16,8 +16,6 @@
 
 namespace sky {
 
-/// @ingroup linear
-/// @{
 
 /// @brief A 3 dimensional Vector structure with several linear algebra operations
 /// defined for its members.
@@ -439,6 +437,9 @@ bool operator!=(const Vector3<T>& left, const Vector3<T> &right)
     return (left.x != right.x) || (left.y != right.y) || (left.z != right.z);;
 }
 
+/// @defgroup vec3aliases Vector3 Aliases
+/// @{
+
 /// @brief Type alias for a Vector3 with elements of type double
 using Vector3d = Vector3<double>;
 /// @brief Type alias for a Vector3 with elements of type float
@@ -452,4 +453,4 @@ using Vector3b = Vector3<bool>;
 
 /// @}
 
-}
+}  // namespace sky

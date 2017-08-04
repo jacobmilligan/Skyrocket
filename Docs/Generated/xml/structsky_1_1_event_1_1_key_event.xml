@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsky_1_1_event_1_1_key_event" kind="struct" language="C++" prot="public">
+    <compoundname>sky::Event::KeyEvent</compoundname>
+    <includes refid="_event_8hpp" local="no">Event.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsky_1_1_event_1_1_key_event_1a70391ed5a3a60d3db51537580609361a" prot="public" static="no" mutable="no">
+        <type>Key</type>
+        <definition>Key sky::Event::KeyEvent::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <briefdescription>
+<para>The key that was held/released/pressed during the event. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Event.hpp" line="99" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Event.hpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsky_1_1_event_1_1_key_event_1aeaa60c1ec496c79ee0ece8a07fee33c2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sky::Event::KeyEvent::scancode</definition>
+        <argsstring></argsstring>
+        <name>scancode</name>
+        <briefdescription>
+<para>The keys integer scancode. This is different for different platforms so can be used for platform-specific event handling. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Event.hpp" line="102" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Event.hpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsky_1_1_event_1_1_key_event_1a1ca4fe1f66e1c45f62b28c6fe9180306" prot="public" static="no" mutable="no">
+        <type>ModifierKey</type>
+        <definition>ModifierKey sky::Event::KeyEvent::modifier</definition>
+        <argsstring></argsstring>
+        <name>modifier</name>
+        <briefdescription>
+<para>A modifier key that was held down at the same time as the key was triggered, if any. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Event.hpp" line="105" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Event.hpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Describes a key_pressed, key_released, or key_held event. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Event.hpp" line="97" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Event.hpp" bodystart="97" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structsky_1_1_event_1_1_key_event_1a70391ed5a3a60d3db51537580609361a" prot="public" virt="non-virtual"><scope>sky::Event::KeyEvent</scope><name>key</name></member>
+      <member refid="structsky_1_1_event_1_1_key_event_1a1ca4fe1f66e1c45f62b28c6fe9180306" prot="public" virt="non-virtual"><scope>sky::Event::KeyEvent</scope><name>modifier</name></member>
+      <member refid="structsky_1_1_event_1_1_key_event_1aeaa60c1ec496c79ee0ece8a07fee33c2" prot="public" virt="non-virtual"><scope>sky::Event::KeyEvent</scope><name>scancode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

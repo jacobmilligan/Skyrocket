@@ -11,6 +11,9 @@
 
 #pragma once
 
+#include <chrono>
+#include <thread>
+
 namespace sky {
 
 
@@ -21,6 +24,7 @@ void GDI::write_command(T* cmd)
     SKY_ASSERT(is_base, "Command is derived from RenderCommand");
 
     auto header = static_cast<rc::Command*>(cmd)->type;
+
     cmdbufs[cur_buf].write(&header);
     cmdbufs[cur_buf].write(cmd);
 }

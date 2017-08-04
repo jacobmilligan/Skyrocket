@@ -1,0 +1,368 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="_keycodes_8hpp" kind="file" language="C++">
+    <compoundname>Keycodes.hpp</compoundname>
+    <includes local="no">cstdint</includes>
+    <includedby refid="_application_8hpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Framework/Application.hpp</includedby>
+    <includedby refid="_event_8hpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Event.hpp</includedby>
+    <includedby refid="_keyboard_8hpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Keyboard.hpp</includedby>
+    <includedby refid="_platform_events_8hpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/PlatformEvents.hpp</includedby>
+    <includedby refid="_platform_8hpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp</includedby>
+    <incdepgraph>
+      <node id="659">
+        <label>cstdint</label>
+      </node>
+      <node id="658">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Keycodes.hpp</label>
+        <link refid="_keycodes_8hpp"/>
+        <childnode refid="659" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="685">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/macOS/MacPlatform.mm</label>
+        <link refid="_mac_platform_8mm_source"/>
+      </node>
+      <node id="683">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Windows/WindowsPlatform.cpp</label>
+        <link refid="_windows_platform_8cpp_source"/>
+      </node>
+      <node id="668">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/macOS/MacInput.mm</label>
+        <link refid="_mac_input_8mm_source"/>
+      </node>
+      <node id="661">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Framework/Application.hpp</label>
+        <link refid="_application_8hpp_source"/>
+        <childnode refid="662" relation="include">
+        </childnode>
+      </node>
+      <node id="664">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Keyboard.hpp</label>
+        <link refid="_keyboard_8hpp_source"/>
+        <childnode refid="665" relation="include">
+        </childnode>
+      </node>
+      <node id="660">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Keycodes.hpp</label>
+        <link refid="_keycodes_8hpp"/>
+        <childnode refid="661" relation="include">
+        </childnode>
+        <childnode refid="663" relation="include">
+        </childnode>
+        <childnode refid="664" relation="include">
+        </childnode>
+        <childnode refid="666" relation="include">
+        </childnode>
+        <childnode refid="669" relation="include">
+        </childnode>
+      </node>
+      <node id="678">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Renderer.cpp</label>
+        <link refid="_renderer_8cpp_source"/>
+      </node>
+      <node id="674">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Internal/GDI.cpp</label>
+        <link refid="_g_d_i_8cpp_source"/>
+      </node>
+      <node id="676">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Metal/MetalDriver.mm</label>
+        <link refid="_metal_driver_8mm_source"/>
+      </node>
+      <node id="677">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MacViewport.mm</label>
+        <link refid="_mac_viewport_8mm_source"/>
+      </node>
+      <node id="662">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Framework/Application.cpp</label>
+        <link refid="_application_8cpp_source"/>
+      </node>
+      <node id="672">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp</label>
+        <link refid="_commands_8hpp_source"/>
+        <childnode refid="673" relation="include">
+        </childnode>
+      </node>
+      <node id="665">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Internal/Keyboard.cpp</label>
+        <link refid="_keyboard_8cpp_source"/>
+      </node>
+      <node id="680">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MacViewport.h</label>
+        <link refid="_mac_viewport_8h_source"/>
+        <childnode refid="676" relation="include">
+        </childnode>
+        <childnode refid="677" relation="include">
+        </childnode>
+      </node>
+      <node id="670">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Windows/WindowsViewport.cpp</label>
+        <link refid="_windows_viewport_8cpp_source"/>
+      </node>
+      <node id="681">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MetalView.mm</label>
+        <link refid="_metal_view_8mm_source"/>
+      </node>
+      <node id="667">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/PlatformEvents.cpp</label>
+        <link refid="_platform_events_8cpp_source"/>
+      </node>
+      <node id="686">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Windows/WindowsInput.cpp</label>
+        <link refid="_windows_input_8cpp_source"/>
+      </node>
+      <node id="671">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Viewport.hpp</label>
+        <link refid="_viewport_8hpp_source"/>
+        <childnode refid="672" relation="include">
+        </childnode>
+        <childnode refid="673" relation="include">
+        </childnode>
+        <childnode refid="680" relation="include">
+        </childnode>
+        <childnode refid="681" relation="include">
+        </childnode>
+        <childnode refid="682" relation="include">
+        </childnode>
+        <childnode refid="670" relation="include">
+        </childnode>
+        <childnode refid="667" relation="include">
+        </childnode>
+        <childnode refid="683" relation="include">
+        </childnode>
+      </node>
+      <node id="682">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Viewport.cpp</label>
+        <link refid="_viewport_8cpp_source"/>
+      </node>
+      <node id="673">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp</label>
+        <link refid="_g_d_i_8hpp_source"/>
+        <childnode refid="661" relation="include">
+        </childnode>
+        <childnode refid="674" relation="include">
+        </childnode>
+        <childnode refid="675" relation="include">
+        </childnode>
+        <childnode refid="677" relation="include">
+        </childnode>
+        <childnode refid="678" relation="include">
+        </childnode>
+        <childnode refid="679" relation="include">
+        </childnode>
+      </node>
+      <node id="663">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Event.hpp</label>
+        <link refid="_event_8hpp_source"/>
+      </node>
+      <node id="679">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Renderer.hpp</label>
+        <link refid="_renderer_8hpp_source"/>
+        <childnode refid="678" relation="include">
+        </childnode>
+      </node>
+      <node id="666">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/PlatformEvents.hpp</label>
+        <link refid="_platform_events_8hpp_source"/>
+        <childnode refid="667" relation="include">
+        </childnode>
+        <childnode refid="668" relation="include">
+        </childnode>
+        <childnode refid="669" relation="include">
+        </childnode>
+        <childnode refid="686" relation="include">
+        </childnode>
+      </node>
+      <node id="675">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Metal/MetalDriver.h</label>
+        <link refid="_metal_driver_8h_source"/>
+        <childnode refid="676" relation="include">
+        </childnode>
+      </node>
+      <node id="684">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Platform.cpp</label>
+        <link refid="_platform_8cpp_source"/>
+      </node>
+      <node id="669">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp</label>
+        <link refid="_platform_8hpp_source"/>
+        <childnode refid="662" relation="include">
+        </childnode>
+        <childnode refid="670" relation="include">
+        </childnode>
+        <childnode refid="671" relation="include">
+        </childnode>
+        <childnode refid="665" relation="include">
+        </childnode>
+        <childnode refid="684" relation="include">
+        </childnode>
+        <childnode refid="685" relation="include">
+        </childnode>
+        <childnode refid="686" relation="include">
+        </childnode>
+        <childnode refid="683" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacesky">sky</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Keycodes.hpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Skyrocket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>--------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Created<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Jacob<sp/>Milligan<sp/>on<sp/>4/07/2017</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Copyright<sp/>(c)<sp/>2016<sp/>Jacob<sp/>Milligan.<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacesky" kindref="compound">sky</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>ModifierKey<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>shift<sp/>=<sp/>0x0001,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>control<sp/>=<sp/>0x0002,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>alt<sp/>=<sp/>0x0004,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>super<sp/>=<sp/>0x0008</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>Key<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>unknown<sp/>=<sp/>-1,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>space<sp/>=<sp/>32,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>apostrophe<sp/>=<sp/>39,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>comma<sp/>=<sp/>44,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>minus,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>period,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>slash,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>num0,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>num1,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>num2,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>num3,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>num4,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>num5,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>num6,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>num7,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>num8,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>num9,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>semicolon<sp/>=<sp/>59,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>equal<sp/>=<sp/>61,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>A<sp/>=<sp/>65,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>B,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>C,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>D,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>E,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>F,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>G,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>H,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>I,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>J,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>K,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>L,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>M,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>N,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>O,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>P,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>Q,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>R,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>S,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>T,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>U,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>V,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>W,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>X,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>Y,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>Z,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>left_bracket,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>backslash,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>right_bracket,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>grave_accent<sp/>=<sp/>96,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>international_1<sp/>=<sp/>161,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>international_2,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>escape<sp/>=<sp/>256,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>enter,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>tab,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>backspace,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>insert,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>delete_key,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>right,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>left,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>down,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>up,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>page_up,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>page_down,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>home,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>end,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>caps_lock<sp/>=<sp/>280,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>scroll_lock,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>num_lock,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>print_screen,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>pause,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>f1<sp/>=<sp/>290,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>f2,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>f3,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>f4,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>f5,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>f6,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>f7,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>f8,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>f9,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>f10,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>f11,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>f12,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>f13,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>f14,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>f15,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>f16,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>f17,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>f18,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>f19,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>f20,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>f21,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>f22,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>f23,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>f24,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>f25,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_0<sp/>=<sp/>320,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_1,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_2,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_3,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_4,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_5,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_6,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_7,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_8,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_9,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_decimal,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_divide,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_multiply,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_minus,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_plus,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_enter,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>keypad_equals,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>left_shift<sp/>=<sp/>340,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>left_control,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>left_alt,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>left_super,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>right_shift,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>right_control,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>right_alt,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>right_super,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>menu,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>last<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(menu)</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Keycodes.hpp"/>
+  </compounddef>
+</doxygen>

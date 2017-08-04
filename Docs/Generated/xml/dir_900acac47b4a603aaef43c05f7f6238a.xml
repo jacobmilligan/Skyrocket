@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_900acac47b4a603aaef43c05f7f6238a" kind="dir">
+    <compoundname>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics</compoundname>
+    <innerdir refid="dir_bcbac28111598bc8a09bca0010d9a777">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Core</innerdir>
+    <innerdir refid="dir_0068e7a88881ca736beb2902754fc201">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI</innerdir>
+    <innerdir refid="dir_7d13eb31ec56edbc1073ad850a0dc468">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal</innerdir>
+    <innerfile refid="_color_8hpp">Color.hpp</innerfile>
+    <innerfile refid="_renderer_8hpp">Renderer.hpp</innerfile>
+    <innerfile refid="_viewport_8hpp">Viewport.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="_platform_8hpp" kind="file" language="C++">
+    <compoundname>Platform.hpp</compoundname>
+    <includes refid="_time_8hpp" local="yes">Skyrocket/Platform/Time.hpp</includes>
+    <includes refid="_platform_events_8hpp" local="yes">Skyrocket/Platform/Internal/PlatformEvents.hpp</includes>
+    <includes refid="_config_8hpp" local="yes">Skyrocket/Platform/Config.hpp</includes>
+    <includes refid="_keycodes_8hpp" local="yes">Skyrocket/Input/Keycodes.hpp</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="_application_8cpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Framework/Application.cpp</includedby>
+    <includedby refid="_windows_viewport_8cpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Windows/WindowsViewport.cpp</includedby>
+    <includedby refid="_viewport_8hpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Viewport.hpp</includedby>
+    <includedby refid="_keyboard_8cpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Internal/Keyboard.cpp</includedby>
+    <includedby refid="_platform_8cpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Platform.cpp</includedby>
+    <includedby refid="_mac_platform_8mm" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/macOS/MacPlatform.mm</includedby>
+    <includedby refid="_windows_input_8cpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Windows/WindowsInput.cpp</includedby>
+    <includedby refid="_windows_platform_8cpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Windows/WindowsPlatform.cpp</includedby>
+    <incdepgraph>
+      <node id="850">
+        <label>cstdint</label>
+      </node>
+      <node id="848">
+        <label>Skyrocket/Platform/Time.hpp</label>
+        <link refid="_time_8hpp_source"/>
+        <childnode refid="849" relation="include">
+        </childnode>
+        <childnode refid="850" relation="include">
+        </childnode>
+      </node>
+      <node id="852">
+        <label>Skyrocket/Input/Keycodes.hpp</label>
+        <link refid="_keycodes_8hpp_source"/>
+        <childnode refid="850" relation="include">
+        </childnode>
+      </node>
+      <node id="849">
+        <label>Skyrocket/Platform/Config.hpp</label>
+        <link refid="_config_8hpp_source"/>
+      </node>
+      <node id="853">
+        <label>vector</label>
+      </node>
+      <node id="851">
+        <label>Skyrocket/Platform/Internal/PlatformEvents.hpp</label>
+        <link refid="_platform_events_8hpp_source"/>
+        <childnode refid="852" relation="include">
+        </childnode>
+        <childnode refid="850" relation="include">
+        </childnode>
+        <childnode refid="853" relation="include">
+        </childnode>
+      </node>
+      <node id="854">
+        <label>memory</label>
+      </node>
+      <node id="847">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp</label>
+        <link refid="_platform_8hpp"/>
+        <childnode refid="848" relation="include">
+        </childnode>
+        <childnode refid="851" relation="include">
+        </childnode>
+        <childnode refid="849" relation="include">
+        </childnode>
+        <childnode refid="852" relation="include">
+        </childnode>
+        <childnode refid="850" relation="include">
+        </childnode>
+        <childnode refid="854" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="875">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/macOS/MacPlatform.mm</label>
+        <link refid="_mac_platform_8mm_source"/>
+      </node>
+      <node id="872">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Windows/WindowsPlatform.cpp</label>
+        <link refid="_windows_platform_8cpp_source"/>
+      </node>
+      <node id="861">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Framework/Application.hpp</label>
+        <link refid="_application_8hpp_source"/>
+        <childnode refid="856" relation="include">
+        </childnode>
+      </node>
+      <node id="866">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Renderer.cpp</label>
+        <link refid="_renderer_8cpp_source"/>
+      </node>
+      <node id="862">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Internal/GDI.cpp</label>
+        <link refid="_g_d_i_8cpp_source"/>
+      </node>
+      <node id="864">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Metal/MetalDriver.mm</label>
+        <link refid="_metal_driver_8mm_source"/>
+      </node>
+      <node id="865">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MacViewport.mm</label>
+        <link refid="_mac_viewport_8mm_source"/>
+      </node>
+      <node id="856">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Framework/Application.cpp</label>
+        <link refid="_application_8cpp_source"/>
+      </node>
+      <node id="859">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp</label>
+        <link refid="_commands_8hpp_source"/>
+        <childnode refid="860" relation="include">
+        </childnode>
+      </node>
+      <node id="873">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Input/Internal/Keyboard.cpp</label>
+        <link refid="_keyboard_8cpp_source"/>
+      </node>
+      <node id="868">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MacViewport.h</label>
+        <link refid="_mac_viewport_8h_source"/>
+        <childnode refid="864" relation="include">
+        </childnode>
+        <childnode refid="865" relation="include">
+        </childnode>
+      </node>
+      <node id="857">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Windows/WindowsViewport.cpp</label>
+        <link refid="_windows_viewport_8cpp_source"/>
+      </node>
+      <node id="869">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MetalView.mm</label>
+        <link refid="_metal_view_8mm_source"/>
+      </node>
+      <node id="871">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/PlatformEvents.cpp</label>
+        <link refid="_platform_events_8cpp_source"/>
+      </node>
+      <node id="876">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Windows/WindowsInput.cpp</label>
+        <link refid="_windows_input_8cpp_source"/>
+      </node>
+      <node id="858">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Viewport.hpp</label>
+        <link refid="_viewport_8hpp_source"/>
+        <childnode refid="859" relation="include">
+        </childnode>
+        <childnode refid="860" relation="include">
+        </childnode>
+        <childnode refid="868" relation="include">
+        </childnode>
+        <childnode refid="869" relation="include">
+        </childnode>
+        <childnode refid="870" relation="include">
+        </childnode>
+        <childnode refid="857" relation="include">
+        </childnode>
+        <childnode refid="871" relation="include">
+        </childnode>
+        <childnode refid="872" relation="include">
+        </childnode>
+      </node>
+      <node id="870">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Viewport.cpp</label>
+        <link refid="_viewport_8cpp_source"/>
+      </node>
+      <node id="860">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/GDI.hpp</label>
+        <link refid="_g_d_i_8hpp_source"/>
+        <childnode refid="861" relation="include">
+        </childnode>
+        <childnode refid="862" relation="include">
+        </childnode>
+        <childnode refid="863" relation="include">
+        </childnode>
+        <childnode refid="865" relation="include">
+        </childnode>
+        <childnode refid="866" relation="include">
+        </childnode>
+        <childnode refid="867" relation="include">
+        </childnode>
+      </node>
+      <node id="867">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Renderer.hpp</label>
+        <link refid="_renderer_8hpp_source"/>
+        <childnode refid="866" relation="include">
+        </childnode>
+      </node>
+      <node id="863">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Metal/MetalDriver.h</label>
+        <link refid="_metal_driver_8h_source"/>
+        <childnode refid="864" relation="include">
+        </childnode>
+      </node>
+      <node id="874">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Internal/Platform.cpp</label>
+        <link refid="_platform_8cpp_source"/>
+      </node>
+      <node id="855">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp</label>
+        <link refid="_platform_8hpp"/>
+        <childnode refid="856" relation="include">
+        </childnode>
+        <childnode refid="857" relation="include">
+        </childnode>
+        <childnode refid="858" relation="include">
+        </childnode>
+        <childnode refid="873" relation="include">
+        </childnode>
+        <childnode refid="874" relation="include">
+        </childnode>
+        <childnode refid="875" relation="include">
+        </childnode>
+        <childnode refid="876" relation="include">
+        </childnode>
+        <childnode refid="872" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classsky_1_1_platform" prot="public">sky::Platform</innerclass>
+    <innernamespace refid="namespacesky">sky</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>OS.hpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Skyrocket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>--------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Created<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Jacob<sp/>Milligan<sp/>on<sp/>4/07/2017</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>Copyright<sp/>(c)<sp/>2016<sp/>Jacob<sp/>Milligan.<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Include<sp/>platform<sp/>headers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Skyrocket/Platform/Time.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Skyrocket/Platform/Internal/PlatformEvents.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Skyrocket/Platform/Config.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Skyrocket/Input/Keycodes.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacesky" kindref="compound">sky</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="classsky_1_1_platform" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsky_1_1_platform" kindref="compound">Platform</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classsky_1_1_platform" kindref="compound">Platform</ref>()</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>{}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>launch(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>app_title);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>create_native_window(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>caption,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>width,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint16_t<sp/>height);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>poll_events();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initialized()</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>initialized_;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsky_1_1_platform_events" kindref="compound">PlatformEvents</ref>&amp;<sp/>get_events()</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>events_;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initialized_;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structsky_1_1_platform_events" kindref="compound">PlatformEvents</ref><sp/>events_;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>app_title_;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>native_init();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>native_poll_events();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Platform/Platform.hpp"/>
+  </compounddef>
+</doxygen>

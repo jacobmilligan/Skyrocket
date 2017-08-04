@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_d35a400264e5a0db9087bd6bc489a8cf" kind="dir">
+    <compoundname>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers</compoundname>
+    <innerfile refid="_buffer_8hpp">Buffer.hpp</innerfile>
+    <innerfile refid="_conditional_types_8hpp">ConditionalTypes.hpp</innerfile>
+    <innerfile refid="_handle_table_8hpp">HandleTable.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/"/>
+  </compounddef>
+</doxygen>

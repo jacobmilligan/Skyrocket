@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsky_1_1rc_1_1_command" kind="struct" language="C++" prot="public">
+    <compoundname>sky::rc::Command</compoundname>
+    <derivedcompoundref refid="structsky_1_1rc_1_1_create_shader" prot="public" virt="non-virtual">sky::rc::CreateShader</derivedcompoundref>
+    <derivedcompoundref refid="structsky_1_1rc_1_1_create_vertex_buffer" prot="public" virt="non-virtual">sky::rc::CreateVertexBuffer</derivedcompoundref>
+    <derivedcompoundref refid="structsky_1_1rc_1_1_set_shaders" prot="public" virt="non-virtual">sky::rc::SetShaders</derivedcompoundref>
+    <derivedcompoundref refid="structsky_1_1rc_1_1_set_vertex_buffer" prot="public" virt="non-virtual">sky::rc::SetVertexBuffer</derivedcompoundref>
+    <derivedcompoundref refid="structsky_1_1rc_1_1_set_viewport" prot="public" virt="non-virtual">sky::rc::SetViewport</derivedcompoundref>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsky_1_1rc_1_1_command_1ac197f02cae801cf986213a28b06d6a07" prot="public" static="no" mutable="no">
+        <type>CmdType</type>
+        <definition>CmdType sky::rc::Command::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" line="38" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structsky_1_1rc_1_1_command_1afa65b20f9d145f0a89cadcb069e58a41" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sky::rc::Command::Command</definition>
+        <argsstring>(const CmdType &amp;cmd_type)</argsstring>
+        <name>Command</name>
+        <param>
+          <type>const CmdType &amp;</type>
+          <declname>cmd_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" line="33" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" bodystart="33" bodyend="36"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="16">
+        <label>sky::rc::SetVertexBuffer</label>
+        <link refid="structsky_1_1rc_1_1_set_vertex_buffer"/>
+        <childnode refid="12" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>sky::rc::SetShaders</label>
+        <link refid="structsky_1_1rc_1_1_set_shaders"/>
+        <childnode refid="12" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>sky::rc::Command</label>
+        <link refid="structsky_1_1rc_1_1_command"/>
+      </node>
+      <node id="14">
+        <label>sky::rc::CreateVertexBuffer</label>
+        <link refid="structsky_1_1rc_1_1_create_vertex_buffer"/>
+        <childnode refid="12" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>sky::rc::SetViewport</label>
+        <link refid="structsky_1_1rc_1_1_set_viewport"/>
+        <childnode refid="12" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>sky::rc::CreateShader</label>
+        <link refid="structsky_1_1rc_1_1_create_shader"/>
+        <childnode refid="12" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" line="32" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/GDI/Commands.hpp" bodystart="32" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structsky_1_1rc_1_1_command_1afa65b20f9d145f0a89cadcb069e58a41" prot="public" virt="non-virtual"><scope>sky::rc::Command</scope><name>Command</name></member>
+      <member refid="structsky_1_1rc_1_1_command_1ac197f02cae801cf986213a28b06d6a07" prot="public" virt="non-virtual"><scope>sky::rc::Command</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

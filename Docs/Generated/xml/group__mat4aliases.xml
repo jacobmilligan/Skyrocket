@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="group__mat4aliases" kind="group">
+    <compoundname>mat4aliases</compoundname>
+    <title>Vector3 Aliases</title>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="group__mat4aliases_1ga41f5eca971ff86667bec94df4c87cc18" prot="public" static="no">
+        <type>Matrix4&lt; double &gt;</type>
+        <definition>using sky::Matrix4d = typedef Matrix4&lt;double&gt;</definition>
+        <argsstring></argsstring>
+        <name>Matrix4d</name>
+        <briefdescription>
+<para>Type alias for a <ref refid="structsky_1_1_matrix4" kindref="compound">Matrix4</ref> with elements of type double. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="323" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__mat4aliases_1ga0a1835c19cf2b259a5d212e4e7709391" prot="public" static="no">
+        <type>Matrix4&lt; float &gt;</type>
+        <definition>using sky::Matrix4f = typedef Matrix4&lt;float&gt;</definition>
+        <argsstring></argsstring>
+        <name>Matrix4f</name>
+        <briefdescription>
+<para>Type alias for a <ref refid="structsky_1_1_matrix4" kindref="compound">Matrix4</ref> with elements of type float. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="325" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__mat4aliases_1ga719580f6ae024dbfcb4b76ccbf0d2886" prot="public" static="no">
+        <type>Matrix4&lt; int &gt;</type>
+        <definition>using sky::Matrix4i = typedef Matrix4&lt;int&gt;</definition>
+        <argsstring></argsstring>
+        <name>Matrix4i</name>
+        <briefdescription>
+<para>Type alias for a <ref refid="structsky_1_1_matrix4" kindref="compound">Matrix4</ref> with elements of type int. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="327" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__mat4aliases_1ga5e54ce96889d26b2d69d29ab57fd09cc" prot="public" static="no">
+        <type>Matrix4&lt; unsigned int &gt;</type>
+        <definition>using sky::Matrix4u = typedef Matrix4&lt;unsigned int&gt;</definition>
+        <argsstring></argsstring>
+        <name>Matrix4u</name>
+        <briefdescription>
+<para>Type alias for a <ref refid="structsky_1_1_matrix4" kindref="compound">Matrix4</ref> with elements of type unsigned int. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="329" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="group__mat4aliases_1ga3a1c98143f406650290733ef30bd9504" prot="public" static="no">
+        <type>Matrix4&lt; bool &gt;</type>
+        <definition>using sky::Matrix4b = typedef Matrix4&lt;bool&gt;</definition>
+        <argsstring></argsstring>
+        <name>Matrix4b</name>
+        <briefdescription>
+<para>Type alias for a <ref refid="structsky_1_1_matrix4" kindref="compound">Matrix4</ref> with elements of type bool. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" line="331" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Math/Matrix4.hpp" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

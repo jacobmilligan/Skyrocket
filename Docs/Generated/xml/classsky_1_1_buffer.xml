@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classsky_1_1_buffer" kind="class" language="C++" prot="public">
+    <compoundname>sky::Buffer</compoundname>
+    <includes refid="_buffer_8hpp" local="no">Buffer.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>uint32_t</type>
+        <declname>Size</declname>
+        <defname>Size</defname>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classsky_1_1_buffer_1a390e9647453f8da4d835c068d4716e3d" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t sky::Buffer&lt; Size &gt;::end_</definition>
+        <argsstring></argsstring>
+        <name>end_</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" line="82" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsky_1_1_buffer_1a779512950d0fe3aad80ac93bcb3d172a" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t sky::Buffer&lt; Size &gt;::cursor_</definition>
+        <argsstring></argsstring>
+        <name>cursor_</name>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" line="83" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsky_1_1_buffer_1a529ccc63b416ee23fe1a59b28f77b94f" prot="private" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t sky::Buffer&lt; Size &gt;::data_[Size]</definition>
+        <argsstring>[Size]</argsstring>
+        <name>data_</name>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" line="84" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsky_1_1_buffer_1a2a757d445f830e37a9b1922aa33cb581" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>sky::Buffer&lt; Size &gt;::Buffer</definition>
+        <argsstring>()=default</argsstring>
+        <name>Buffer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" line="26" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_buffer_1a67e42d32e3f26b492c468b3b55ca031b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void sky::Buffer&lt; Size &gt;::write</definition>
+        <argsstring>(T *data)</argsstring>
+        <name>write</name>
+        <param>
+          <type>T *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" line="29" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" bodystart="29" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_buffer_1ac1bbc41b86832f1c60d9642ebcb4e354" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T *</type>
+        <definition>T* sky::Buffer&lt; Size &gt;::read</definition>
+        <argsstring>()</argsstring>
+        <name>read</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" line="41" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" bodystart="41" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_buffer_1a5c13f5e0cd08f8b53186c65a86d53c01" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void sky::Buffer&lt; Size &gt;::read_copy</definition>
+        <argsstring>(T *out_data)</argsstring>
+        <name>read_copy</name>
+        <param>
+          <type>T *</type>
+          <declname>out_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" line="55" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" bodystart="55" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_buffer_1aefd550a9f98c4d1c7e411f516b9742e3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void sky::Buffer&lt; Size &gt;::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" line="66" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" bodystart="66" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_buffer_1a3471f07eda84650d9e30ba4da688fe56" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const uint32_t &amp;</type>
+        <definition>const uint32_t&amp; sky::Buffer&lt; Size &gt;::end</definition>
+        <argsstring>() const</argsstring>
+        <name>end</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" line="71" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" bodystart="71" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classsky_1_1_buffer_1abf004e13ea12bb7eb87c128a48a0b90d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const uint32_t &amp;</type>
+        <definition>const uint32_t&amp; sky::Buffer&lt; Size &gt;::cursor_pos</definition>
+        <argsstring>() const</argsstring>
+        <name>cursor_pos</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" line="76" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" bodystart="76" bodyend="79"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="1">Hey</heading>
+</para><para><computeroutput>hey</computeroutput> <parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>    </detaileddescription>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" line="24" column="1" bodyfile="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Core/Containers/Buffer.hpp" bodystart="24" bodyend="85"/>
+    <listofallmembers>
+      <member refid="classsky_1_1_buffer_1a2a757d445f830e37a9b1922aa33cb581" prot="public" virt="non-virtual"><scope>sky::Buffer</scope><name>Buffer</name></member>
+      <member refid="classsky_1_1_buffer_1a779512950d0fe3aad80ac93bcb3d172a" prot="private" virt="non-virtual"><scope>sky::Buffer</scope><name>cursor_</name></member>
+      <member refid="classsky_1_1_buffer_1abf004e13ea12bb7eb87c128a48a0b90d" prot="public" virt="non-virtual"><scope>sky::Buffer</scope><name>cursor_pos</name></member>
+      <member refid="classsky_1_1_buffer_1a529ccc63b416ee23fe1a59b28f77b94f" prot="private" virt="non-virtual"><scope>sky::Buffer</scope><name>data_</name></member>
+      <member refid="classsky_1_1_buffer_1a3471f07eda84650d9e30ba4da688fe56" prot="public" virt="non-virtual"><scope>sky::Buffer</scope><name>end</name></member>
+      <member refid="classsky_1_1_buffer_1a390e9647453f8da4d835c068d4716e3d" prot="private" virt="non-virtual"><scope>sky::Buffer</scope><name>end_</name></member>
+      <member refid="classsky_1_1_buffer_1ac1bbc41b86832f1c60d9642ebcb4e354" prot="public" virt="non-virtual"><scope>sky::Buffer</scope><name>read</name></member>
+      <member refid="classsky_1_1_buffer_1a5c13f5e0cd08f8b53186c65a86d53c01" prot="public" virt="non-virtual"><scope>sky::Buffer</scope><name>read_copy</name></member>
+      <member refid="classsky_1_1_buffer_1aefd550a9f98c4d1c7e411f516b9742e3" prot="public" virt="non-virtual"><scope>sky::Buffer</scope><name>reset</name></member>
+      <member refid="classsky_1_1_buffer_1a67e42d32e3f26b492c468b3b55ca031b" prot="public" virt="non-virtual"><scope>sky::Buffer</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

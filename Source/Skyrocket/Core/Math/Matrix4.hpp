@@ -17,8 +17,6 @@
 
 namespace sky {
 
-/// @ingroup linear
-/// @{
 
 /// @brief Matrix4 is a 4x4 matrix representation with several useful utility
 /// functions and operator overloads. Internally, it uses a column vectors and
@@ -316,6 +314,10 @@ Matrix4<T> operator*(const Matrix4<T>& left, const Matrix4<T>& right)
         left[3] * right[3][0] + left[3] * right[3][1] + left[3] * right[3][2] + left[3] * right[3][3]
     );
 }
+
+
+/// @defgroup mat4aliases Vector3 Aliases
+/// @{
 
 /// @brief Type alias for a Matrix4 with elements of type double
 using Matrix4d = Matrix4<double>;

@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="_color_8hpp" kind="file" language="C++">
+    <compoundname>Color.hpp</compoundname>
+    <includes local="no">cstdint</includes>
+    <includedby refid="_mac_viewport_8mm" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MacViewport.mm</includedby>
+    <includedby refid="_color_8cpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Color.cpp</includedby>
+    <includedby refid="_viewport_8cpp" local="yes">/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Viewport.cpp</includedby>
+    <incdepgraph>
+      <node id="282">
+        <label>cstdint</label>
+      </node>
+      <node id="281">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Color.hpp</label>
+        <link refid="_color_8hpp"/>
+        <childnode refid="282" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="284">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Apple/MacViewport.mm</label>
+        <link refid="_mac_viewport_8mm_source"/>
+      </node>
+      <node id="285">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Color.cpp</label>
+        <link refid="_color_8cpp_source"/>
+      </node>
+      <node id="283">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Color.hpp</label>
+        <link refid="_color_8hpp"/>
+        <childnode refid="284" relation="include">
+        </childnode>
+        <childnode refid="285" relation="include">
+        </childnode>
+        <childnode refid="286" relation="include">
+        </childnode>
+      </node>
+      <node id="286">
+        <label>/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Internal/Viewport.cpp</label>
+        <link refid="_viewport_8cpp_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structsky_1_1_color" prot="public">sky::Color</innerclass>
+    <innernamespace refid="namespacesky">sky</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Color.hpp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Skyrocket<sp/>Framework</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>----------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Created<sp/>by<sp/>Jacob<sp/>Milligan<sp/>on<sp/>8/12/2016.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2016<sp/>Jacob<sp/>Milligan<sp/>All<sp/>rights<sp/>reserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacesky" kindref="compound">sky</ref><sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="structsky_1_1_color" refkind="compound"><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structsky_1_1_color" kindref="compound">Color</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="structsky_1_1_color_1aef3a1c0ee3ec09c2f3f57323efb4f9af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsky_1_1_color_1aef3a1c0ee3ec09c2f3f57323efb4f9af" kindref="member">Color</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>cr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>cg,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>cb,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>ca)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structsky_1_1_color_1a1be5db6da93d8840ccf2946757441634" kindref="member">r</ref>(cr),<sp/><ref refid="structsky_1_1_color_1aab2efb0f3a5e027c4dd6713067a27e98" kindref="member">g</ref>(cg),<sp/><ref refid="structsky_1_1_color_1a2f852d284025191a838d00ae61961782" kindref="member">b</ref>(cb),<sp/><ref refid="structsky_1_1_color_1a3a080ac0c585968dbf2ee31989ffb436" kindref="member">a</ref>(ca)<sp/>{}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="structsky_1_1_color_1ae67363c1798e0e5dea5acc9a4a9dffcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsky_1_1_color_1ae67363c1798e0e5dea5acc9a4a9dffcd" kindref="member">Color</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>cr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>cg,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t<sp/>cb)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structsky_1_1_color_1a1be5db6da93d8840ccf2946757441634" kindref="member">r</ref>(cr),<sp/><ref refid="structsky_1_1_color_1aab2efb0f3a5e027c4dd6713067a27e98" kindref="member">g</ref>(cg),<sp/><ref refid="structsky_1_1_color_1a2f852d284025191a838d00ae61961782" kindref="member">b</ref>(cb),<sp/><ref refid="structsky_1_1_color_1a3a080ac0c585968dbf2ee31989ffb436" kindref="member">a</ref>(255)<sp/>{}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structsky_1_1_color_1a37e753d7670aae8d684146bb26dbee35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsky_1_1_color_1a37e753d7670aae8d684146bb26dbee35" kindref="member">Color</ref>()</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structsky_1_1_color_1a1be5db6da93d8840ccf2946757441634" kindref="member">r</ref>(255),<sp/><ref refid="structsky_1_1_color_1aab2efb0f3a5e027c4dd6713067a27e98" kindref="member">g</ref>(255),<sp/><ref refid="structsky_1_1_color_1a2f852d284025191a838d00ae61961782" kindref="member">b</ref>(255),<sp/><ref refid="structsky_1_1_color_1a3a080ac0c585968dbf2ee31989ffb436" kindref="member">a</ref>(255)<sp/>{}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structsky_1_1_color_1a9e24e704d2fc73e9cef13d59bf303fb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsky_1_1_color_1a9e24e704d2fc73e9cef13d59bf303fb2" kindref="member">Color</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsky_1_1_color" kindref="compound">Color</ref>&amp;<sp/>other)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structsky_1_1_color_1a1be5db6da93d8840ccf2946757441634" kindref="member">r</ref><sp/>=<sp/>other.<ref refid="structsky_1_1_color_1a1be5db6da93d8840ccf2946757441634" kindref="member">r</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structsky_1_1_color_1aab2efb0f3a5e027c4dd6713067a27e98" kindref="member">g</ref><sp/>=<sp/>other.<ref refid="structsky_1_1_color_1aab2efb0f3a5e027c4dd6713067a27e98" kindref="member">g</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structsky_1_1_color_1a2f852d284025191a838d00ae61961782" kindref="member">b</ref><sp/>=<sp/>other.<ref refid="structsky_1_1_color_1a2f852d284025191a838d00ae61961782" kindref="member">b</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structsky_1_1_color_1a3a080ac0c585968dbf2ee31989ffb436" kindref="member">a</ref><sp/>=<sp/>other.<ref refid="structsky_1_1_color_1a3a080ac0c585968dbf2ee31989ffb436" kindref="member">a</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator==(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsky_1_1_color" kindref="compound">Color</ref>&amp;<sp/>other)</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>other.<ref refid="structsky_1_1_color_1a1be5db6da93d8840ccf2946757441634" kindref="member">r</ref><sp/>==<sp/><ref refid="structsky_1_1_color_1a1be5db6da93d8840ccf2946757441634" kindref="member">r</ref><sp/>&amp;&amp;<sp/>other.<ref refid="structsky_1_1_color_1aab2efb0f3a5e027c4dd6713067a27e98" kindref="member">g</ref><sp/>==<sp/><ref refid="structsky_1_1_color_1aab2efb0f3a5e027c4dd6713067a27e98" kindref="member">g</ref><sp/>&amp;&amp;<sp/>other.<ref refid="structsky_1_1_color_1a2f852d284025191a838d00ae61961782" kindref="member">b</ref><sp/>==<sp/><ref refid="structsky_1_1_color_1a2f852d284025191a838d00ae61961782" kindref="member">b</ref><sp/>&amp;&amp;<sp/>other.<ref refid="structsky_1_1_color_1a3a080ac0c585968dbf2ee31989ffb436" kindref="member">a</ref><sp/>==<sp/><ref refid="structsky_1_1_color_1a3a080ac0c585968dbf2ee31989ffb436" kindref="member">a</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator!=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsky_1_1_color" kindref="compound">Color</ref>&amp;<sp/>other)</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>other.<ref refid="structsky_1_1_color_1a1be5db6da93d8840ccf2946757441634" kindref="member">r</ref><sp/>!=<sp/><ref refid="structsky_1_1_color_1a1be5db6da93d8840ccf2946757441634" kindref="member">r</ref><sp/>||<sp/>other.<ref refid="structsky_1_1_color_1aab2efb0f3a5e027c4dd6713067a27e98" kindref="member">g</ref><sp/>!=<sp/><ref refid="structsky_1_1_color_1aab2efb0f3a5e027c4dd6713067a27e98" kindref="member">g</ref><sp/>||<sp/>other.<ref refid="structsky_1_1_color_1a2f852d284025191a838d00ae61961782" kindref="member">b</ref><sp/>!=<sp/><ref refid="structsky_1_1_color_1a2f852d284025191a838d00ae61961782" kindref="member">b</ref><sp/>||<sp/>other.<ref refid="structsky_1_1_color_1a3a080ac0c585968dbf2ee31989ffb436" kindref="member">a</ref><sp/>!=<sp/><ref refid="structsky_1_1_color_1a3a080ac0c585968dbf2ee31989ffb436" kindref="member">a</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_equal(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t&amp;<sp/>cr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t&amp;<sp/>cg,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t&amp;<sp/>cb,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t&amp;<sp/>ca)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="62"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cr<sp/>==<sp/><ref refid="structsky_1_1_color_1a1be5db6da93d8840ccf2946757441634" kindref="member">r</ref><sp/>&amp;&amp;<sp/>cg<sp/>==<sp/><ref refid="structsky_1_1_color_1aab2efb0f3a5e027c4dd6713067a27e98" kindref="member">g</ref><sp/>&amp;&amp;<sp/>cb<sp/>==<sp/><ref refid="structsky_1_1_color_1a2f852d284025191a838d00ae61961782" kindref="member">b</ref><sp/>&amp;&amp;<sp/>ca<sp/>==<sp/><ref refid="structsky_1_1_color_1a3a080ac0c585968dbf2ee31989ffb436" kindref="member">a</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structsky_1_1_color_1a1be5db6da93d8840ccf2946757441634" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="structsky_1_1_color_1a1be5db6da93d8840ccf2946757441634" kindref="member">r</ref>,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsky_1_1_color_1aab2efb0f3a5e027c4dd6713067a27e98" kindref="member">g</ref>,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsky_1_1_color_1a2f852d284025191a838d00ae61961782" kindref="member">b</ref>,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structsky_1_1_color_1a3a080ac0c585968dbf2ee31989ffb436" kindref="member">a</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="structsky_1_1_color_1a7f06d1d7a704bcc1bb93b32b798b5c95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsky_1_1_color" kindref="compound">Color</ref><sp/><ref refid="structsky_1_1_color_1a7f06d1d7a704bcc1bb93b32b798b5c95" kindref="member">black</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structsky_1_1_color_1a0a53ffed27ec6a66c8ef1314456c0662" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsky_1_1_color" kindref="compound">Color</ref><sp/><ref refid="structsky_1_1_color_1a0a53ffed27ec6a66c8ef1314456c0662" kindref="member">white</ref>;</highlight></codeline>
+<codeline lineno="80" refid="structsky_1_1_color_1ad4392adf8d16cc14b771bdf1a634e4ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsky_1_1_color" kindref="compound">Color</ref><sp/><ref refid="structsky_1_1_color_1ad4392adf8d16cc14b771bdf1a634e4ae" kindref="member">red</ref>;</highlight></codeline>
+<codeline lineno="82" refid="structsky_1_1_color_1a09ddac0f771824c5be805480f084cd24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsky_1_1_color" kindref="compound">Color</ref><sp/><ref refid="structsky_1_1_color_1a09ddac0f771824c5be805480f084cd24" kindref="member">orange</ref>;</highlight></codeline>
+<codeline lineno="84" refid="structsky_1_1_color_1a949e106f13d1255cb930626ba12dd44d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsky_1_1_color" kindref="compound">Color</ref><sp/><ref refid="structsky_1_1_color_1a949e106f13d1255cb930626ba12dd44d" kindref="member">green</ref>;</highlight></codeline>
+<codeline lineno="86" refid="structsky_1_1_color_1a8aaceb8eae9a00d1958b55072286a1cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsky_1_1_color" kindref="compound">Color</ref><sp/><ref refid="structsky_1_1_color_1a8aaceb8eae9a00d1958b55072286a1cd" kindref="member">blue</ref>;</highlight></codeline>
+<codeline lineno="88" refid="structsky_1_1_color_1a6a9862c4e10fe3c26722a474047185ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsky_1_1_color" kindref="compound">Color</ref><sp/><ref refid="structsky_1_1_color_1a6a9862c4e10fe3c26722a474047185ed" kindref="member">purple</ref>;</highlight></codeline>
+<codeline lineno="90" refid="structsky_1_1_color_1a9da0e843a98e243593bc356e61be3c13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsky_1_1_color" kindref="compound">Color</ref><sp/><ref refid="structsky_1_1_color_1a9da0e843a98e243593bc356e61be3c13" kindref="member">gray</ref>;</highlight></codeline>
+<codeline lineno="92" refid="structsky_1_1_color_1a69b296bb41c8ad7231d77148dbe28e0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structsky_1_1_color" kindref="compound">Color</ref><sp/><ref refid="structsky_1_1_color_1a69b296bb41c8ad7231d77148dbe28e0e" kindref="member">transparent</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="/Users/Jacob/Dev/Repos/SkyrocketModules/Source/Skyrocket/Graphics/Color.hpp"/>
+  </compounddef>
+</doxygen>
