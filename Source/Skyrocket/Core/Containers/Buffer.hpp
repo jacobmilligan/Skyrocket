@@ -66,6 +66,12 @@ public:
         cursor_ = 0;
     }
 
+    void clear()
+    {
+        reset();
+        end_ = 0;
+    }
+
     const uint32_t& end() const
     {
         return end_;

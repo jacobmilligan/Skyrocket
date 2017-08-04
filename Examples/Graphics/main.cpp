@@ -153,7 +153,6 @@ int main(int argc, char** argv)
 			printf("Open windows: %d\n", sky::Viewport::open_viewports());
 		}
 
-
         renderer.set_vertex_buffer(vbuf_id);
         renderer.present();
 

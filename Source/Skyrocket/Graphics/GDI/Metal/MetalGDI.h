@@ -9,17 +9,18 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
+//TODO(Jacob): make some kind of metal buffer pool class for handling semaphores and multi-buffering
+
 #pragma once
 
-#include "Skyrocket/Graphics/GDI/GDI.hpp"
 #include "Skyrocket/Core/Containers/HandleTable.hpp"
+#include "Skyrocket/Graphics/GDI/GDI.hpp"
 
 #import <AppKit/AppKit.h>
 #import <Metal/Metal.h>
 #import <QuartzCore/CAMetalLayer.h>
 
 namespace sky {
-
 
 template <uint16_t Size>
 struct MetalBuffer {
@@ -87,14 +88,16 @@ private:
     id<MTLLibrary> default_library_;
     id<MTLFunction> default_vshader_;
     id<MTLFunction> default_fragshader_;
-    
+
     dispatch_semaphore_t buf_sem_;
 
     CAMetalLayer* mtl_layer_;
 
     HandleTable<MetalBuffer<2>, vertex_buffer_max> vertex_buffers_;
     HandleTable<id<MTLFunction>, shader_max> shaders_;
+
+    uint32_t buffer_index_{0};
 };
 
 
-}
+}  // namespace sky

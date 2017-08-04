@@ -153,7 +153,6 @@ bool MetalGDI::set_vertex_buffer(const uint32_t vbuf_id)
     [render_encoder_ setVertexBuffer:vbuf->current()
                                offset:0
                               atIndex:0];
-    [render_encoder_ drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:3];
     return true;
 }
 
@@ -187,17 +186,14 @@ bool MetalGDI::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
 
 void MetalGDI::present()
 {
+    dispatch_semaphore_wait(buf_sem_, DISPATCH_TIME_FOREVER);
+
     if ( mtl_layer_ == nil ) {
         return;
     }
-    
-    dispatch_semaphore_wait(buf_sem_, DISPATCH_TIME_FOREVER);
-    command_buffer_[prev_buf] = [command_queue_ commandBufferWithUnretainedReferences];
-    [command_buffer_[prev_buf] addCompletedHandler:^(id<MTLCommandBuffer> commandBuffer){
-        dispatch_semaphore_signal(buf_sem_);
-    }];
 
     @autoreleasepool {
+        id<MTLCommandBuffer> cmd_buffer = [command_queue_ commandBufferWithUnretainedReferences];
 
         MTLRenderPassDescriptor * rpd = [MTLRenderPassDescriptor renderPassDescriptor];
 
@@ -206,7 +202,7 @@ void MetalGDI::present()
             return;
         }
 
-        id<CAMetalDrawable> drawable =[mtl_layer_ nextDrawable];
+        id<CAMetalDrawable> drawable = [mtl_layer_ nextDrawable];
         if ( drawable == nil ) {
             SKY_ERROR("Renderer", "Couldn't get next CAMetalDrawable");
             return;
@@ -217,17 +213,22 @@ void MetalGDI::present()
         rpd.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 0.0);
         rpd.colorAttachments[0].storeAction = MTLStoreActionStore;
 
-        render_encoder_ =[command_buffer_[prev_buf] renderCommandEncoderWithDescriptor:rpd];
+        render_encoder_ = [cmd_buffer renderCommandEncoderWithDescriptor:rpd];
 
         [render_encoder_ setRenderPipelineState:render_pipeline_];
 
         process_commands();
 
+        [render_encoder_ drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:3];
         [render_encoder_ endEncoding];
 
-        [command_buffer_[prev_buf] presentDrawable:drawable];
+        [cmd_buffer presentDrawable:drawable];
+        [cmd_buffer addCompletedHandler:^(id<MTLCommandBuffer> commandBuffer){
+            buffer_index_ = (buffer_index_ + 1) % max_frames_in_flight;
+            dispatch_semaphore_signal(buf_sem_);
+        }];
 
-        [command_buffer_[prev_buf] commit];
+        [cmd_buffer commit];
     }
 }
 

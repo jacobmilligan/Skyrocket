@@ -99,7 +99,7 @@ void GraphicsDriver::present()
     if ( threading_ == ThreadSupport::multithreaded ) {
         kick_render_thread();
     } else {
-        gdi_->swap_buffers();
+        gdi_->next_frame();
         gdi_->present();
     }
 }
@@ -122,8 +122,8 @@ void GraphicsDriver::frame()
         notified_ = false;
 
         if ( gdi_ != nullptr ) {
-            gdi_->swap_buffers();
             rendering_ = true;
+            gdi_->next_frame();
             gdi_->present();
             rendering_ = false;
         }
@@ -132,9 +132,9 @@ void GraphicsDriver::frame()
 
 void GraphicsDriver::wait_for_render_finish()
 {
-    while ( rendering_ ) {
-        std::this_thread::sleep_for(std::chrono::nanoseconds(1));
-    }
+//    while ( gdi_->frames_in_flight >= gdi_->max_frames_in_flight ) {
+//        std::this_thread::sleep_for(std::chrono::nanoseconds(1));
+//    }
 }
 
 

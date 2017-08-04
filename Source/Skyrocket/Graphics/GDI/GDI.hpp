@@ -41,7 +41,7 @@ public:
     template <typename T>
     void write_command(T* cmd);
 
-    void swap_buffers();
+    void next_frame();
 
     virtual bool initialize(Viewport* viewport);
 

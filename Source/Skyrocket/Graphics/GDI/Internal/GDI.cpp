@@ -14,12 +14,12 @@
 namespace sky {
 
 
-void GDI::swap_buffers()
+void GDI::next_frame()
 {
     prev_buf = cur_buf;
     cur_buf = static_cast<uint16_t>(cur_buf + 1) % max_frames_in_flight;
-    cmdbufs[cur_buf].reset();
-    cmdbufs[prev_buf].reset();
+    cmdbufs[prev_buf].clear();
+    cmdbufs[cur_buf].clear();
 }
 
 void GDI::process_commands()
@@ -90,7 +90,6 @@ void GDI::process_commands()
             } break;
         }
     }
-
 }
 
 bool GDI::initialize(Viewport*  /*viewport*/)
