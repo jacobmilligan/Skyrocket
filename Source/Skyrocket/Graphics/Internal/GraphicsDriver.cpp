@@ -10,14 +10,14 @@
 //
 
 #include "Skyrocket/Graphics/GDI/GDI.hpp"
-#include "Skyrocket/Graphics/Renderer.hpp"
+#include "Skyrocket/Graphics/GraphicsDriver.hpp"
 
 #include <condition_variable>
 
 namespace sky {
 
 
-Renderer::Renderer(const ThreadSupport threading)
+GraphicsDriver::GraphicsDriver(const ThreadSupport threading)
     : gdi_(GDI::create()),
       next_vbuf_id_(1),
       next_ibuf_id_(1),
@@ -28,7 +28,7 @@ Renderer::Renderer(const ThreadSupport threading)
       rendering_(false)
 {}
 
-Renderer::~Renderer()
+GraphicsDriver::~GraphicsDriver()
 {
     if ( threading_ == ThreadSupport::multithreaded ) {
         active_ = false;
@@ -39,25 +39,25 @@ Renderer::~Renderer()
     }
 }
 
-bool Renderer::initialize(Viewport& view)
+bool GraphicsDriver::initialize(Viewport& view)
 {
 //    gdi_->write_command(RenderCommand(RenderCommand::Type::init));
     auto success = gdi_->initialize(&view);
 
     if ( threading_ == ThreadSupport::multithreaded ) {
-        render_thread_ = std::thread(&Renderer::frame, this);
+        render_thread_ = std::thread(&GraphicsDriver::frame, this);
     }
 
     return success;
 }
 
-void Renderer::set_viewport(Viewport& viewport)
+void GraphicsDriver::set_viewport(Viewport& viewport)
 {
     rc::SetViewport cmd(&viewport);
     gdi_->write_command<rc::SetViewport>(&cmd);
 }
 
-uint32_t Renderer::create_vertex_buffer(const MemoryBlock& initial_data, const BufferUsage usage)
+uint32_t GraphicsDriver::create_vertex_buffer(const MemoryBlock& initial_data, const BufferUsage usage)
 {
     auto id = next_vbuf_id_;
     next_vbuf_id_++;
@@ -68,13 +68,13 @@ uint32_t Renderer::create_vertex_buffer(const MemoryBlock& initial_data, const B
     return id;
 }
 
-void Renderer::set_vertex_buffer(const uint32_t vbuf_id)
+void GraphicsDriver::set_vertex_buffer(const uint32_t vbuf_id)
 {
     rc::SetVertexBuffer cmd(vbuf_id);
     gdi_->write_command<rc::SetVertexBuffer>(&cmd);
 }
 
-uint32_t Renderer::create_shader(const char* name)
+uint32_t GraphicsDriver::create_shader(const char* name)
 {
     auto id = next_shader_id_;
     next_shader_id_++;
@@ -86,7 +86,7 @@ uint32_t Renderer::create_shader(const char* name)
     return id;
 }
 
-bool Renderer::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
+bool GraphicsDriver::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
 {
     rc::SetShaders cmd(vertex_id, fragment_id);
     gdi_->write_command<rc::SetShaders>(&cmd);
@@ -94,7 +94,7 @@ bool Renderer::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
     return true;
 }
 
-void Renderer::present()
+void GraphicsDriver::present()
 {
     if ( threading_ == ThreadSupport::multithreaded ) {
         kick_render_thread();
@@ -104,13 +104,13 @@ void Renderer::present()
     }
 }
 
-void Renderer::kick_render_thread()
+void GraphicsDriver::kick_render_thread()
 {
     notified_ = true;
     cv_.notify_one();
 }
 
-void Renderer::frame()
+void GraphicsDriver::frame()
 {
     active_ = true;
     std::mutex mut;
@@ -130,7 +130,7 @@ void Renderer::frame()
     }
 }
 
-void Renderer::wait_for_render_finish()
+void GraphicsDriver::wait_for_render_finish()
 {
     while ( rendering_ ) {
         std::this_thread::sleep_for(std::chrono::nanoseconds(1));

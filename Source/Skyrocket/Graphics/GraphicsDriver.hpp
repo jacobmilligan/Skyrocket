@@ -1,5 +1,5 @@
 //
-//  Renderer.hpp
+//  GraphicsDriver.hpp
 //  Skyrocket
 //
 //  --------------------------------------------------------------
@@ -22,15 +22,15 @@ namespace sky {
 class Viewport;
 struct MemoryBlock;
 
-class Renderer {
+class GraphicsDriver {
 public:
     enum class ThreadSupport {
         single_thread,
         multithreaded
     };
 
-    explicit Renderer(const ThreadSupport threading);
-    ~Renderer();
+    explicit GraphicsDriver(const ThreadSupport threading);
+    ~GraphicsDriver();
 
     bool initialize(Viewport& view);
 

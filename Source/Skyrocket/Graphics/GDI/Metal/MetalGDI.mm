@@ -1,5 +1,5 @@
 //
-//  MetalDriver.mm
+//  MetalGDI.mm
 //  Skyrocket
 //
 //  --------------------------------------------------------------
@@ -9,7 +9,7 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Skyrocket/Graphics/GDI/Metal/MetalDriver.h"
+#include "Skyrocket/Graphics/GDI/Metal/MetalGDI.h"
 #include "Skyrocket/Graphics/Internal/Apple/MacViewport.h"
 #include "Skyrocket/Graphics/Internal/Apple/MetalView.h"
 #include "Skyrocket/Platform/Filesystem.hpp"

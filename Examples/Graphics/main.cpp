@@ -13,7 +13,7 @@
 #include <Skyrocket/Core/Diagnostics/Timespan.hpp>
 #include <Skyrocket/Framework/Application.hpp>
 #include <Skyrocket/Graphics/Core/Vertex.hpp>
-#include <Skyrocket/Graphics/Renderer.hpp>
+#include <Skyrocket/Graphics/GraphicsDriver.hpp>
 #include <Skyrocket/Input/Keyboard.hpp>
 #include <Skyrocket/Platform/Filesystem.hpp>
 
@@ -103,7 +103,7 @@ int main(int argc, char** argv)
 	sky::Viewport view;
 	view.open(app_name, 800, 600);
 
-    sky::Renderer renderer(sky::Renderer::ThreadSupport::multithreaded);
+    sky::GraphicsDriver renderer(sky::GraphicsDriver::ThreadSupport::multithreaded);
 
     if ( !renderer.initialize(view) ) {
         SKY_ERROR(app_name, "Couldn't initialize graphics device interface");
