@@ -26,7 +26,9 @@ enum class CmdType : uint8_t {
     create_index_buffer,
     create_shader,
     set_vertex_buffer,
-    set_shaders
+    set_index_buffer,
+    set_shaders,
+    draw_primitives
 };
 
 struct Command {
@@ -61,12 +63,42 @@ struct CreateVertexBuffer : public Command {
 };
 
 struct SetVertexBuffer: public Command {
-    explicit SetVertexBuffer(const uint32_t id)
+    explicit SetVertexBuffer(const uint32_t id, const uint32_t offset,
+                             const uint32_t num_vertices)
         : Command(CmdType::set_vertex_buffer),
-          buf_id(id)
+          buf_id(id),
+          first_vertex(offset),
+          count(num_vertices)
     {}
 
     uint32_t buf_id;
+    uint32_t first_vertex;
+    uint32_t count;
+};
+
+struct CreateIndexBuffer : public Command {
+    CreateIndexBuffer(const uint32_t id, const MemoryBlock& initial_data)
+        : Command(CmdType::create_index_buffer),
+          buf_id(id),
+          data(initial_data)
+    {}
+
+    uint32_t buf_id;
+    MemoryBlock data;
+};
+
+struct SetIndexBuffer: public Command {
+    explicit SetIndexBuffer(const uint32_t id, const uint32_t offset,
+                            const uint32_t num_indices)
+        : Command(CmdType::set_index_buffer),
+          buf_id(id),
+          first_index(offset),
+          count(num_indices)
+    {}
+
+    uint32_t buf_id;
+    uint32_t first_index;
+    uint32_t count;
 };
 
 struct CreateShader : public Command {
@@ -89,6 +121,12 @@ struct SetShaders : public Command {
 
     uint32_t vertex_program;
     uint32_t fragment_program;
+};
+
+struct DrawPrimitives : public Command {
+    DrawPrimitives()
+        : Command(CmdType::draw_primitives)
+    {}
 };
 
 

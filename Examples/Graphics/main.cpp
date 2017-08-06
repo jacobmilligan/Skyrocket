@@ -113,26 +113,33 @@ int main(int argc, char** argv)
 	sky::Keyboard keyboard;
 
     std::vector<sky::Vertex> vertices = {
-        sky::Vertex {
-            .position = sky::Vector4f(0.0f, 0.5f, 0.0f, 1.0f),
-            .color = sky::Vector4f(1.0f, 0.0f, 0.0f, 1.0f)
-        },
-        sky::Vertex {
-            .position = sky::Vector4f(-0.5f, -0.5f, 0.0f, 1.0f),
-            .color = sky::Vector4f(0.0f, 1.0f, 0.0f, 1.0f)
-        },
-        sky::Vertex {
-            .position = sky::Vector4f(0.5f, -0.5f, 0.0f, 1.0f),
-            .color = sky::Vector4f(0.0f, 0.0f, 1.0f, 1.0f)
-        }
+        sky::Vertex(-1, 1, 1, 1, 0, 1, 1, 1),
+        sky::Vertex(-1,-1, 1, 1, 0, 0, 1, 1),
+        sky::Vertex( 1,-1, 1, 1, 1, 0, 1, 1),
+        sky::Vertex( 1, 1, 1, 1, 1, 1, 1, 1),
+        sky::Vertex(-1, 1,-1, 1, 0, 1, 0, 1),
+        sky::Vertex(-1,-1,-1, 1, 0, 0, 0, 1),
+        sky::Vertex( 1,-1,-1, 1, 1, 0, 0, 1),
+        sky::Vertex( 1, 1,-1, 1, 1, 1, 0, 1)
     };
 
-    sky::MemoryBlock block = {
-        .data = vertices.data(),
-        .size = sizeof(sky::Vertex) * 3
+    std::vector<uint32_t> indices = {
+        3,2,6,6,7,3,
+        4,5,1,1,0,4,
+        4,0,3,3,7,4,
+        1,5,6,6,2,1,
+        0,1,2,2,3,0,
+        7,6,5,5,4,7
     };
 
-    auto vbuf_id = renderer.create_vertex_buffer(block, sky::BufferUsage::staticbuf);
+    auto vbuf_id = renderer.create_vertex_buffer(sky::MemoryBlock {
+        static_cast<uint32_t>(sizeof(sky::Vertex) * vertices.size()),
+        vertices.data()
+    }, sky::BufferUsage::staticbuf);
+    auto ibuf_id = renderer.create_index_buffer(sky::MemoryBlock {
+        static_cast<uint32_t>(sizeof(uint32_t) * indices.size()),
+        indices.data()
+    });
 
     renderer.set_shaders(0, 0);
 
@@ -153,7 +160,9 @@ int main(int argc, char** argv)
 			printf("Open windows: %d\n", sky::Viewport::open_viewports());
 		}
 
-        renderer.set_vertex_buffer(vbuf_id);
+        renderer.set_vertex_buffer(vbuf_id, 0, static_cast<uint32_t>(vertices.size()));
+        renderer.set_index_buffer(ibuf_id, 0, static_cast<uint32_t>(indices.size()));
+        renderer.draw_primitives();
         renderer.present();
 
 		auto dt = sky::Timespan(sky::high_resolution_time() - before);

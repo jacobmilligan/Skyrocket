@@ -70,9 +70,15 @@ public:
 
     bool set_vertex_buffer(const uint32_t vbuf_id) override;
 
+    bool create_index_buffer(const uint32_t ibuf_id, const MemoryBlock& initial_data) override;
+
+    bool set_index_buffer(const uint32_t vbuf_id) override;
+
     bool create_shader(const uint32_t shader_id, const char* name) override;
 
     bool set_shaders(const uint32_t vertex_id, const uint32_t fragment_id) override;
+
+    bool draw_primitives() override;
 
     void present() override;
 
@@ -94,6 +100,7 @@ private:
     CAMetalLayer* mtl_layer_;
 
     HandleTable<MetalBuffer<2>, vertex_buffer_max> vertex_buffers_;
+    HandleTable<MetalBuffer<2>, index_buffer_max> index_buffers_;
     HandleTable<id<MTLFunction>, shader_max> shaders_;
 
     uint32_t buffer_index_{0};

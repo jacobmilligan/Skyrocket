@@ -25,8 +25,8 @@ void GDI::write_command(T* cmd)
 
     auto header = static_cast<rc::Command*>(cmd)->type;
 
-    cmdbufs[cur_buf].write(&header);
-    cmdbufs[cur_buf].write(cmd);
+    cmdbufs_.get_write().write(&header);
+    cmdbufs_.get_write().write(cmd);
 }
 
 

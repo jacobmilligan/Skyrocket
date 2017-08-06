@@ -66,6 +66,11 @@ struct Timespan {
             (hours * 3600 + minutes * 60 + seconds) * ticks_per_second
         );
     }
+
+    inline void reset(const uint64_t ticks)
+    {
+        ticks_ = ticks;
+    }
     
     /// @brief Gets the time value in ticks
     /// @return The time in ticks

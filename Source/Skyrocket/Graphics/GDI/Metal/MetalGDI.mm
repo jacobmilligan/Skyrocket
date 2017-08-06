@@ -156,6 +156,25 @@ bool MetalGDI::set_vertex_buffer(const uint32_t vbuf_id)
     return true;
 }
 
+bool MetalGDI::create_index_buffer(const uint32_t ibuf_id, const MemoryBlock& initial_data)
+{
+    index_buffers_.create(ibuf_id);
+    auto ibuf = index_buffers_.lookup(ibuf_id);
+
+    if ( ibuf == nullptr ) {
+        return false;
+    }
+    
+    ibuf->init(device_, initial_data.data, initial_data.size, BufferUsage::none);
+
+    return true;
+}
+
+bool MetalGDI::set_index_buffer(const uint32_t vbuf_id)
+{
+    return GDI::set_index_buffer(vbuf_id);
+}
+
 bool MetalGDI::create_shader(const uint32_t shader_id, const char* name)
 {
     NSString* nsname = [NSString stringWithUTF8String:name];
@@ -182,6 +201,24 @@ bool MetalGDI::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
     }
 
     return false;
+}
+
+bool MetalGDI::draw_primitives()
+{
+    if ( target_.index_buffer > 0 ) {
+        [render_encoder_ drawIndexedPrimitives:MTLPrimitiveTypeTriangle
+                                    indexCount:target_.index_count
+                                     indexType:MTLIndexTypeUInt32
+                                   indexBuffer:index_buffers_.lookup(target_.index_buffer)->current()
+                             indexBufferOffset:target_.index_offset];
+    } else {
+        [render_encoder_ drawPrimitives:MTLPrimitiveTypeTriangle
+                            vertexStart:target_.vertex_offset
+                            vertexCount:target_.vertex_count
+                          instanceCount:target_.vertex_count / 3];
+    }
+    
+    return true;
 }
 
 void MetalGDI::present()
@@ -219,7 +256,6 @@ void MetalGDI::present()
 
         process_commands();
 
-        [render_encoder_ drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:3];
         [render_encoder_ endEncoding];
 
         [cmd_buffer presentDrawable:drawable];

@@ -25,14 +25,15 @@ GraphicsDriver::GraphicsDriver(const ThreadSupport threading)
       notified_(false),
       threading_(threading),
       active_(false),
-      rendering_(false)
+      rendering_(false),
+      dt_(high_resolution_time())
 {}
 
 GraphicsDriver::~GraphicsDriver()
 {
     if ( threading_ == ThreadSupport::multithreaded ) {
         active_ = false;
-        present();
+        present(16.66f);
         render_thread_.join();
         if ( render_thread_.joinable() ) {
         }
@@ -60,7 +61,7 @@ void GraphicsDriver::set_viewport(Viewport& viewport)
 uint32_t GraphicsDriver::create_vertex_buffer(const MemoryBlock& initial_data, const BufferUsage usage)
 {
     auto id = next_vbuf_id_;
-    next_vbuf_id_++;
+    ++next_vbuf_id_;
 
     rc::CreateVertexBuffer cmd(id, initial_data, usage);
     gdi_->write_command<rc::CreateVertexBuffer>(&cmd);
@@ -68,10 +69,29 @@ uint32_t GraphicsDriver::create_vertex_buffer(const MemoryBlock& initial_data, c
     return id;
 }
 
-void GraphicsDriver::set_vertex_buffer(const uint32_t vbuf_id)
+void GraphicsDriver::set_vertex_buffer(const uint32_t vbuf_id, const uint32_t offset,
+                                       const uint32_t num_vertices)
 {
-    rc::SetVertexBuffer cmd(vbuf_id);
+    rc::SetVertexBuffer cmd(vbuf_id, offset, num_vertices);
     gdi_->write_command<rc::SetVertexBuffer>(&cmd);
+}
+
+uint32_t GraphicsDriver::create_index_buffer(const MemoryBlock& initial_data)
+{
+    auto id = next_ibuf_id_;
+    ++next_ibuf_id_;
+
+    rc::CreateIndexBuffer cmd(id, initial_data);
+    gdi_->write_command<rc::CreateIndexBuffer>(&cmd);
+
+    return id;
+}
+
+void GraphicsDriver::set_index_buffer(const uint32_t ibuf_id, const uint32_t offset,
+                                      const uint32_t num_indices)
+{
+    rc::SetIndexBuffer cmd(ibuf_id, offset, num_indices);
+    gdi_->write_command<rc::SetIndexBuffer>(&cmd);
 }
 
 uint32_t GraphicsDriver::create_shader(const char* name)
@@ -94,14 +114,30 @@ bool GraphicsDriver::set_shaders(const uint32_t vertex_id, const uint32_t fragme
     return true;
 }
 
-void GraphicsDriver::present()
+void GraphicsDriver::draw_primitives()
+{
+    rc::DrawPrimitives cmd;
+    gdi_->write_command<rc::DrawPrimitives>(&cmd);
+}
+
+void GraphicsDriver::present(const float target_dt)
 {
     if ( threading_ == ThreadSupport::multithreaded ) {
         kick_render_thread();
     } else {
-        gdi_->next_frame();
         gdi_->present();
     }
+
+    dt_.reset(high_resolution_time() - dt_.ticks());
+
+    if ( dt_.total_milliseconds() < target_dt ) {
+        auto diff = target_dt - dt_.total_milliseconds();
+        auto millis = std::chrono::duration<float, std::milli>(diff);
+        auto time_point = std::chrono::high_resolution_clock::now() + millis;
+        std::this_thread::sleep_until(time_point);
+    }
+
+    dt_.reset(high_resolution_time());
 }
 
 void GraphicsDriver::kick_render_thread()
@@ -123,7 +159,7 @@ void GraphicsDriver::frame()
 
         if ( gdi_ != nullptr ) {
             rendering_ = true;
-            gdi_->next_frame();
+            gdi_->flip();
             gdi_->present();
             rendering_ = false;
         }
@@ -132,9 +168,9 @@ void GraphicsDriver::frame()
 
 void GraphicsDriver::wait_for_render_finish()
 {
-//    while ( gdi_->frames_in_flight >= gdi_->max_frames_in_flight ) {
-//        std::this_thread::sleep_for(std::chrono::nanoseconds(1));
-//    }
+    while ( gdi_->frames_in_flight() >= 1 ) {
+        std::this_thread::sleep_for(std::chrono::nanoseconds(1));
+    }
 }
 
 

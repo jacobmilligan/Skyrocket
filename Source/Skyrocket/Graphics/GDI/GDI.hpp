@@ -24,6 +24,30 @@ namespace sky {
 
 class Path;
 
+struct DrawTarget {
+    DrawTarget()
+    {
+        reset();
+    }
+
+    void reset()
+    {
+        vertex_buffer = 0;
+        vertex_count = 0;
+        vertex_offset = 0;
+        index_count = 0;
+        index_buffer = 0;
+        index_offset = 0;
+    }
+
+    uint32_t vertex_buffer{0};
+    uint32_t vertex_count{0};
+    uint32_t vertex_offset{0};
+    uint32_t index_buffer{0};
+    uint32_t index_count{0};
+    uint32_t index_offset{0};
+};
+
 class GDI {
 public:
     static constexpr uint32_t invalid_handle = 0;
@@ -41,8 +65,6 @@ public:
     template <typename T>
     void write_command(T* cmd);
 
-    void next_frame();
-
     virtual bool initialize(Viewport* viewport);
 
     virtual void set_viewport(Viewport* viewport);
@@ -52,16 +74,32 @@ public:
 
     virtual bool set_vertex_buffer(const uint32_t vbuf_id);
 
+    virtual bool create_index_buffer(const uint32_t ibuf_id, const MemoryBlock& initial_data);
+
+    virtual bool set_index_buffer(const uint32_t ibuf_id);
+
+    virtual bool draw_primitives();
+
     virtual bool create_shader(const uint32_t shader_id, const char* name);
 
     virtual bool set_shaders(const uint32_t vertex_id, const uint32_t fragment_id);
 
     virtual void present();
 
+    void flip()
+    {
+        cmdbufs_.flip();
+    }
+
+    uint16_t frames_in_flight()
+    {
+        return static_cast<uint16_t>(cmdbufs_.read_index() + 1);
+    }
+
 protected:
-    uint16_t cur_buf {0};
-    uint16_t prev_buf {0};
-    Buffer<UINT16_MAX> cmdbufs[max_frames_in_flight];
+    CommandBuffer<UINT16_MAX, max_frames_in_flight> cmdbufs_;
+
+    DrawTarget target_;
 
     void process_commands();
 };
