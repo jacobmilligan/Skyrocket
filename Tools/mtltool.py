@@ -18,9 +18,13 @@ if __name__ == '__main__':
 
     input_dir = os.path.realpath(os.path.join(os.getcwd(), args.input))
     output_dir = os.path.realpath(os.path.join(os.getcwd(), args.out))
+
+    if not os.path.exists(output_dir):
+        os.mkdir(output_dir)
+
     shader_files = glob.glob(os.path.join(input_dir, '*.metal'))
 
-    air_out = os.path.join(output_dir, 'Shaders.air')
+    air_out = os.path.join(output_dir, 'Lib.air')
     shader_out = os.path.join(output_dir, 'Lib.metallib')
 
     cmd = ['xcrun', '-sdk', 'macosx', 'metal', '-Wall'] + shader_files + ['-o', air_out]

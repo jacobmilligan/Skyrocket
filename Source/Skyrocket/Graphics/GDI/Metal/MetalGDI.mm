@@ -49,17 +49,17 @@ bool MetalGDI::initialize(Viewport* viewport)
     //--------------------------------
     //  Load library and shader path
     //--------------------------------
-    Path lib_path(SKY_RESOURCE_DIRECTORY);
-    lib_path.append("Shaders/Metal/Lib.metallib");
-
-    NSString* nspath = [NSString stringWithUTF8String:lib_path.str()];
-    library_ = [device_ newLibraryWithFile:nspath error:&err];
-
-    if ( library_ == nil ) {
-        SKY_ERROR("Graphics Device Interface", "Couldn't load metal library with path %s: NSError: %s",
-                  lib_path.str(), [[err localizedDescription] UTF8String]);
-        return false;
-    }
+//    Path lib_path(SKY_RESOURCE_DIRECTORY);
+//    lib_path.append("Shaders/Metal/Lib.metallib");
+//
+//    NSString* nspath = [NSString stringWithUTF8String:lib_path.str()];
+//    library_ = [device_ newLibraryWithFile:nspath error:&err];
+//
+//    if ( library_ == nil ) {
+//        SKY_ERROR("Graphics Device Interface", "Couldn't load metal library with path %s: NSError: %s",
+//                  lib_path.str(), [[err localizedDescription] UTF8String]);
+//        return false;
+//    }
 
     //--------------------------------
     //  Load default library

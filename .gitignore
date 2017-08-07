@@ -40,7 +40,7 @@
 .DS_Store
 .idea/
 Build/
+Bin/
 Docs/Generated
-CMakeFiles/
 cmake-build-debug
 
