@@ -15,11 +15,11 @@
 
 namespace sky {
 
-/*!
- * @brief Contains a block of memory and its size
-*/
+/// @brief Contains a block of memory and its size
 struct MemoryBlock {
+    /// @brief The byte size of the memory block
     uint32_t size { 0 };
+    /// @brief Pointer to the data being stored
     void* data { nullptr };
 };
 

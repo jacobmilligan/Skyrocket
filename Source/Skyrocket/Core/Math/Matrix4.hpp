@@ -131,6 +131,8 @@ struct Matrix4 {
         return trans;
     }
 
+    /// @brief Transposes the matrix
+    /// @return The matrix transpose
     Matrix4<T> transpose()
     {
         auto start = *this;

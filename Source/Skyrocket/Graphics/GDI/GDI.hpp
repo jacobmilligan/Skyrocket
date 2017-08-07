@@ -24,12 +24,15 @@ namespace sky {
 
 class Path;
 
-struct DrawTarget {
-    DrawTarget()
+/// @brief Contains the current state of the graphics device - buffers,
+/// shaders, indices etc. being used currently
+struct RenderState {
+    RenderState()
     {
         reset();
     }
 
+    /// @brief Resets all values back to zero
     void reset()
     {
         vertex_buffer = 0;
@@ -48,6 +51,10 @@ struct DrawTarget {
     uint32_t index_offset{0};
 };
 
+/// @brief The Graphics Device Interface (GDI) is the main interface to the native
+/// graphics API being currently used - each one with its own GDI deriving from this
+/// class with all functions directly calling API-specific operations synchronously.
+/// The GDI should only be created via the create() static member function.
 class GDI {
 public:
     static constexpr uint32_t invalid_handle = 0;
@@ -61,13 +68,25 @@ public:
 
     virtual ~GDI() = default;
 
+    /// @brief Creates a new API-specific GDI. A GDI cannot be created without calling
+    /// this method
+    /// @return Unique pointer to the GDI
     static std::unique_ptr<GDI> create();
 
+    /// @brief Writes a new render command to the internal write buffer
+    /// @tparam T The type of render command being written
+    /// @param cmd Pointer to the command structure
     template <typename T>
     void write_command(T* cmd);
 
+    /// @brief Initializes the graphics device, allocating resources and creating a
+    /// device context
+    /// @param viewport The viewport to attach the graphics device to
+    /// @return Successful initialization if true, false otherwise
     virtual bool initialize(Viewport* viewport);
 
+    /// @brief Sets the viewport as the active viewport for this graphics device
+    /// @param viewport
     virtual void set_viewport(Viewport* viewport);
 
     virtual bool create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& initial_data,
@@ -93,21 +112,19 @@ public:
 
     virtual void present();
 
+    /// @brief Flips the internal command buffers
     void flip()
     {
         cmdbufs_.flip();
     }
 
-    uint16_t frames_in_flight()
-    {
-        return static_cast<uint16_t>(cmdbufs_.read_index() + 1);
-    }
-
 protected:
-    CommandBuffer<UINT16_MAX, max_frames_in_flight> cmdbufs_;
+    Multibuffer<UINT16_MAX, max_frames_in_flight> cmdbufs_;
 
-    DrawTarget target_;
+    RenderState target_;
 
+    /// @brief Empties the current read command buffer of all commands, calling the
+    /// relevant member functions
     void process_commands();
 };
 

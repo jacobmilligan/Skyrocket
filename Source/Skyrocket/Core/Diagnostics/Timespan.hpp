@@ -67,6 +67,8 @@ struct Timespan {
         );
     }
 
+    /// @brief Resets the timespan with the given amount of ticks
+    /// @param ticks Clock ticks to reset the timer with
     inline void reset(const uint64_t ticks)
     {
         ticks_ = ticks;
@@ -79,6 +81,8 @@ struct Timespan {
         return ticks_;
     }
 
+    /// @brief Gets the time value in microseconds
+    /// @return The time in microseconds
     inline uint64_t microseconds() const
     {
         return static_cast<uint64_t>(ticks_ * micros_per_tick_);

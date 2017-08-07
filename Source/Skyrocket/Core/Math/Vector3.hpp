@@ -22,6 +22,19 @@ namespace sky {
 /// @tparam T The data type to store in the vector
 template <typename T>
 struct Vector3 {
+
+    union {
+        struct {
+            /// @brief The x coordinate of the Vector3
+            T x;
+
+            /// @brief The y coordinate of the Vector3
+            T y;
+
+            /// @brief The z coordinate of the Vector3
+            T z;
+        };
+    };
     
     /// @brief Initializes a new Vector3 with all elements assigned the
     /// specified value
@@ -46,19 +59,6 @@ struct Vector3 {
     /// @param vz The z coordinate value
     Vector3(const Vector2<T>& vec2, const T vz)
         : x(vec2.x), y(vec2.y), z(vz) {}
-    
-    union {
-        struct {
-            /// @brief The x coordinate of the Vector3
-            T x;
-    
-            /// @brief The y coordinate of the Vector3
-            T y;
-    
-            /// @brief The z coordinate of the Vector3
-            T z;
-        };
-    };
     
     /// @brief Outputs a string representation of the Vector3 elements in the form
     /// "{x, y, z}"
