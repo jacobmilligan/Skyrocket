@@ -49,5 +49,10 @@ bool Viewport::close_requested()
 	return window_data_.close_requested;
 }
 
-
+Vector2f Viewport::size()
+{
+    return Vector2f(width_, height_);
 }
+
+
+}  // namespace sky

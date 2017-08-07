@@ -29,6 +29,7 @@
         _metalLayer.pixelFormat = MTLPixelFormatBGRA8Unorm;
         _metalLayer.framebufferOnly = YES;
         _metalLayer.frame = frameRect;
+        _metalLayer.opaque = NO;
         _metalLayer.backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), bgColor);
 
         [_metalLayer removeAllAnimations];

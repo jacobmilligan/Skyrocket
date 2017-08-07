@@ -53,6 +53,7 @@ public:
     static constexpr uint32_t invalid_handle = 0;
     static constexpr uint16_t vertex_buffer_max = 1024;
     static constexpr uint16_t index_buffer_max = 1024;
+    static constexpr uint16_t uniform_buffer_max = 512;
     static constexpr uint16_t shader_max = 512;
     static constexpr uint16_t max_frames_in_flight = 3;
 
@@ -83,6 +84,12 @@ public:
     virtual bool create_shader(const uint32_t shader_id, const char* name);
 
     virtual bool set_shaders(const uint32_t vertex_id, const uint32_t fragment_id);
+
+    virtual bool create_uniform(const uint32_t u_id, const uint32_t size);
+
+    virtual void set_uniform(const uint32_t u_id, const uint32_t index);
+
+    virtual void update_uniform(const uint32_t u_id, const MemoryBlock& data);
 
     virtual void present();
 

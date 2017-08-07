@@ -25,21 +25,23 @@ namespace sky {
 /// has defined all arithmetic and logical operators
 template <typename T>
 struct Matrix4 {
-public:
+    /// @brief The column vector elements of the matrix
+    Vector4<T> columns[4];
+
     /// @brief Default constructor - initializes the Matrix as the identity
     /// matrix, that is the main diagonal elements are initialized to 1
     /// with all other elements initialized to 0
     Matrix4() : Matrix4(static_cast<T>(1)) {}
-    
+
     /// @brief Constructs a new matrix with the main diagonal elements
     /// initialized to the specified value
     /// @param value Value to initialize the matrix's main diagonal elements to
     Matrix4(const T value)
     {
-        columns_[0] = Vector4<T>(value, 0, 0, 0);
-        columns_[1] = Vector4<T>(0, value, 0, 0);
-        columns_[2] = Vector4<T>(0, 0, value, 0);
-        columns_[3] = Vector4<T>(0, 0, 0, value);
+        columns[0] = Vector4<T>(value, 0, 0, 0);
+        columns[1] = Vector4<T>(0, value, 0, 0);
+        columns[2] = Vector4<T>(0, 0, value, 0);
+        columns[3] = Vector4<T>(0, 0, 0, value);
     }
     
     /// @brief Constructs a new matrix with the specified column vectors used to
@@ -51,10 +53,10 @@ public:
     Matrix4(const Vector4<T>& col1, const Vector4<T>& col2,
                      const Vector4<T>& col3, const Vector4<T>& col4)
     {
-        columns_[0] = col1;
-        columns_[1] = col2;
-        columns_[2] = col3;
-        columns_[3] = col4;
+        columns[0] = col1;
+        columns[1] = col2;
+        columns[2] = col3;
+        columns[3] = col4;
     }
     
     /// @brief Constructs a new matrix with the specified element values in
@@ -82,10 +84,10 @@ public:
         const T w0, const T w1, const T w2, const T w3
     )
     {
-        columns_[0] = Vector4<T>(x0, y0, z0, w0);
-        columns_[1] = Vector4<T>(x1, y1, z1, w1);
-        columns_[2] = Vector4<T>(x2, y2, z2, w2);
-        columns_[3] = Vector4<T>(x3, y3, z3, w3);
+        columns[0] = Vector4<T>(x0, y0, z0, w0);
+        columns[1] = Vector4<T>(x1, y1, z1, w1);
+        columns[2] = Vector4<T>(x2, y2, z2, w2);
+        columns[3] = Vector4<T>(x3, y3, z3, w3);
     }
     
     /// @brief Gets a string representation of the matrix
@@ -94,10 +96,10 @@ public:
     {
         std::stringstream ss;
         
-        ss << columns_[0].to_string() << "\n"
-            << columns_[1].to_string() << "\n"
-            << columns_[2].to_string() << "\n"
-            << columns_[3].to_string() << "\n";
+        ss << columns[0].to_string() << "\n"
+            << columns[1].to_string() << "\n"
+            << columns[2].to_string() << "\n"
+            << columns[3].to_string() << "\n";
         
         return ss.str();
     }
@@ -108,11 +110,11 @@ public:
     Matrix4<T> scale(const Vector3<T>& delta)
     {
         auto result = *this;
-        
-        result[0] *= delta[0];
-        result[1] *= delta[1];
-        result[2] *= delta[2];
-        
+
+        result[0] *= delta.x;
+        result[1] *= delta.y;
+        result[2] *= delta.z;
+
         return result;
     }
     
@@ -123,10 +125,38 @@ public:
     Matrix4<T> translate(const Vector3<T>& delta)
     {
         Matrix4<T> trans = *this;
-        trans[3] = columns_[0] * delta[0] + columns_[1] * delta[1] + columns_[2]
-            * delta[2] + columns_[3];
-        
+        trans[3][0] = delta.x;
+        trans[3][1] = delta.y;
+        trans[3][2] = delta.z;
         return trans;
+    }
+
+    Matrix4<T> transpose()
+    {
+        auto start = *this;
+        auto result = start;
+
+        result[0][0] = start[0][0];
+        result[0][1] = start[1][0];
+        result[0][2] = start[2][0];
+        result[0][3] = start[3][0];
+
+        result[1][0] = start[0][1];
+        result[1][1] = start[1][1];
+        result[1][2] = start[2][1];
+        result[1][3] = start[3][1];
+
+        result[2][0] = start[0][2];
+        result[2][1] = start[1][2];
+        result[2][2] = start[2][2];
+        result[2][3] = start[3][2];
+
+        result[3][0] = start[0][3];
+        result[3][1] = start[1][3];
+        result[3][2] = start[2][3];
+        result[3][3] = start[3][3];
+
+        return result;
     }
     
     /// @brief Gets a rotation matrix using this matrix and a Vector3 that describes
@@ -163,32 +193,6 @@ public:
     }
     
     /// @brief Creates a left-handed orthographic projection matrix used for
-    /// projecting 2D world coordinates to 2D screen space
-    /// @param left The left-most point of the viewing area
-    /// @param right The right-most point of the viewing area
-    /// @param bottom The bottom-most point of the viewing area
-    /// @param top The top-most point of the viewing area
-    /// @return The orthographic projection matrix
-    Matrix4<T> ortho(const T left, const T right, const T bottom,
-                     const T top)
-    {
-        Matrix4<T> result;
-        
-        // Width and height
-        result[0][0] = static_cast<T>(2) / (right - left);
-        result[1][1] = static_cast<T>(2) / (top - bottom);
-        
-        // OpenGL expects a lhs for the perspective divide stage
-        // so the z coordinate needs to be negated to flip it
-        result[2][2] = static_cast<T>(-1);
-        
-        result[3][0] = -(right + left) / (right - left);
-        result[3][1] = -(top + bottom) / (top - bottom);
-        
-        return result;
-    }
-    
-    /// @brief Creates a left-handed orthographic projection matrix used for
     /// projecting 3D world coordinates to 2D screen space
     /// @param left The left-most point of the viewing area
     /// @param right The right-most point of the viewing area
@@ -201,18 +205,26 @@ public:
                      const T top, const T near, const T far)
     {
         Matrix4<T> result;
-        
+
         // Width and height
         result[0][0] = static_cast<T>(2) / (right - left);
         result[1][1] = static_cast<T>(2) / (top - bottom);
-        
-        result[3][0] = -(right + left) / (right - left);
-        result[3][1] = -(top + bottom) / (top - bottom);
-        
+#if SKY_GRAPHICS_API_OPENGL == 1
         // OpenGL expects a lhs for the perspective divide stage
         // so the z coordinate needs to be negated to flip it
-        result[2][2] = static_cast<T>(-2) / (far - near); // -2 to work with gl instead of using -1
+        result[2][2] = static_cast<T>(-2) / (far - near);
         result[3][2] = -(far + near) / (far - near); // f + n instead of just n in numer for gl compatibility
+
+        result[3][0] = -(right + left) / (right - left);
+        result[3][1] = -(top + bottom) / (top - bottom);
+#elif SKY_GRAPHICS_API_METAL == 1
+        auto mtl_near = static_cast<T>(0.0);
+        result[2][2] = static_cast<T>(1) / (far - mtl_near);
+
+        result[3][0] = (right + left) / (left - right);
+        result[3][1] = (top + bottom) / (bottom - top);
+        result[3][2] = mtl_near / (far - mtl_near);
+#endif
         
         return result;
     }
@@ -265,7 +277,7 @@ public:
     /// @return The column vector
     Vector4<T>& operator[](const int i)
     {
-        return columns_[i];
+        return columns[i];
     }
     
     /// @brief Defines subscript operator for accessing the column vector elements
@@ -274,12 +286,8 @@ public:
     /// @return The column vector
     const Vector4<T>& operator[](const int i) const
     {
-        return columns_[i];
+        return columns[i];
     }
-    
-private:
-    /// @brief The column vector elements of the matrix
-    Vector4<T> columns_[4];
 };
 
 /// @brief Operator* overload for multiplying a matrix by a column vector and
@@ -332,4 +340,4 @@ using Matrix4b = Matrix4<bool>;
 
 /// @}
 
-}
+}  // namespace sky

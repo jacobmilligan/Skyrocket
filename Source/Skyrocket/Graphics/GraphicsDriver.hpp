@@ -48,6 +48,12 @@ public:
     void set_index_buffer(const uint32_t ibuf_id, const uint32_t offset,
                           const uint32_t num_indices);
 
+    uint32_t create_uniform(const UniformType type, const uint16_t count);
+
+    void set_uniform(const uint32_t u_id, const uint32_t index);
+
+    void update_uniform(const uint32_t u_id, const MemoryBlock& data);
+
     uint32_t create_shader(const char* name);
 
     bool set_shaders(const uint32_t vertex_id, const uint32_t fragment_id);
@@ -55,11 +61,13 @@ public:
     void draw_primitives();
 
     void present(const float target_dt = 2.0f);
+
 private:
     ThreadSupport threading_;
     uint32_t next_vbuf_id_;
     uint32_t next_ibuf_id_;
     uint32_t next_shader_id_;
+    uint32_t next_uniform_id_;
 
     std::unique_ptr<GDI> gdi_;
 

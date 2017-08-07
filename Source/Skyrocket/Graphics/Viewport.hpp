@@ -13,6 +13,7 @@
 
 #include "Skyrocket/Core/Memory.hpp"
 #include "Skyrocket/Platform/Platform.hpp"
+#include "Skyrocket/Core/Math/Vector2.hpp"
 
 #include <cstdint>
 #include <memory>
@@ -44,6 +45,9 @@ public:
 	bool close_requested();
 
     NativeViewport* get_native_viewport();
+
+	Vector2f size();
+
 private:
 	static uint16_t open_windows_;
 

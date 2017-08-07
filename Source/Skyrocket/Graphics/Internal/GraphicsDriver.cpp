@@ -11,8 +11,10 @@
 
 #include "Skyrocket/Graphics/GDI/GDI.hpp"
 #include "Skyrocket/Graphics/GraphicsDriver.hpp"
+#include "Skyrocket/Core/Math.hpp"
 
 #include <condition_variable>
+#include <Skyrocket/Graphics/Core/Vertex.hpp>
 
 namespace sky {
 
@@ -22,6 +24,7 @@ GraphicsDriver::GraphicsDriver(const ThreadSupport threading)
       next_vbuf_id_(1),
       next_ibuf_id_(1),
       next_shader_id_(1),
+      next_uniform_id_(1),
       notified_(false),
       threading_(threading),
       active_(false),
@@ -97,7 +100,7 @@ void GraphicsDriver::set_index_buffer(const uint32_t ibuf_id, const uint32_t off
 uint32_t GraphicsDriver::create_shader(const char* name)
 {
     auto id = next_shader_id_;
-    next_shader_id_++;
+    ++next_shader_id_;
 
     rc::CreateShader cmd(id, name);
 
@@ -114,6 +117,49 @@ bool GraphicsDriver::set_shaders(const uint32_t vertex_id, const uint32_t fragme
     return true;
 }
 
+uint32_t GraphicsDriver::create_uniform(const UniformType type, const uint16_t count)
+{
+    auto id = next_uniform_id_;
+    ++next_uniform_id_;
+
+    uint32_t size = 0;
+
+    switch (type) {
+        case UniformType::vec2:
+            size = sizeof(Vector2f);
+            break;
+        case UniformType::vec3:
+            size = sizeof(Vector3f);
+            break;
+        case UniformType::vec4:
+            size = sizeof(Vector4f);
+            break;
+        case UniformType::mat4:
+            size = sizeof(Matrix4f);
+            break;
+        default:
+            size = 0;
+    }
+
+    size *= count;
+
+    rc::CreateUniform cmd(id, type, size);
+    gdi_->write_command<rc::CreateUniform>(&cmd);
+    return id;
+}
+
+void GraphicsDriver::set_uniform(const uint32_t u_id, const uint32_t index)
+{
+    rc::SetUniform cmd(u_id, index);
+    gdi_->write_command(&cmd);
+}
+
+void GraphicsDriver::update_uniform(const uint32_t u_id, const MemoryBlock& data)
+{
+    rc::UpdateUniform cmd(u_id, data);
+    gdi_->write_command(&cmd);
+}
+
 void GraphicsDriver::draw_primitives()
 {
     rc::DrawPrimitives cmd;
@@ -125,9 +171,11 @@ void GraphicsDriver::present(const float target_dt)
     if ( threading_ == ThreadSupport::multithreaded ) {
         kick_render_thread();
     } else {
+        gdi_->flip();
         gdi_->present();
     }
 
+    // TODO(Jacob): Move this out of the renderer and use a semaphore with n buffers instead
     dt_.reset(high_resolution_time() - dt_.ticks());
 
     if ( dt_.total_milliseconds() < target_dt ) {

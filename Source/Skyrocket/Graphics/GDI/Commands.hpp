@@ -11,8 +11,8 @@
 
 #pragma once
 
-#include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Graphics/GDI/Definitions.hpp"
+#include "Skyrocket/Graphics/Viewport.hpp"
 
 namespace sky {
 namespace rc {
@@ -25,9 +25,12 @@ enum class CmdType : uint8_t {
     create_vertex_buffer,
     create_index_buffer,
     create_shader,
+    create_uniform,
     set_vertex_buffer,
     set_index_buffer,
     set_shaders,
+    set_uniform,
+    update_uniform,
     draw_primitives
 };
 
@@ -121,6 +124,41 @@ struct SetShaders : public Command {
 
     uint32_t vertex_program;
     uint32_t fragment_program;
+};
+
+struct CreateUniform : public Command {
+    CreateUniform(const uint32_t u_id, const UniformType type, const uint32_t data_size)
+        : Command(CmdType::create_uniform),
+          uniform_id(u_id),
+          uniform_type(type),
+          size(data_size)
+    {}
+
+    uint32_t uniform_id;
+    UniformType uniform_type;
+    uint32_t size;
+};
+
+struct SetUniform : public Command {
+    SetUniform(const uint32_t u_id, const uint32_t index)
+        : Command(CmdType::set_uniform),
+          uniform_id(u_id),
+          uniform_index(index)
+    {}
+
+    uint32_t uniform_id;
+    uint32_t uniform_index;
+};
+
+struct UpdateUniform : public Command {
+    UpdateUniform(const uint32_t u_id, const MemoryBlock& data)
+        : Command(CmdType::update_uniform),
+          uniform_id(u_id),
+          new_data(data)
+    {}
+
+    uint32_t uniform_id;
+    MemoryBlock new_data;
 };
 
 struct DrawPrimitives : public Command {

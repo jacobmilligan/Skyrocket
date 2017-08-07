@@ -16,8 +16,17 @@ namespace sky {
 
 enum class BufferUsage {
     none = 0x0,
-    staticbuf = 0x1,
+    staticbuf,
     dynamic
+};
+
+enum class UniformType {
+    vec2 = 0x0,
+    vec3,
+    vec4,
+    mat2,
+    mat3,
+    mat4
 };
 
 

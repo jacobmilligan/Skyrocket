@@ -18,7 +18,6 @@
 
 namespace sky {
 
-
 MetalGDI::MetalGDI() = default;
 
 MetalGDI::~MetalGDI()
@@ -76,9 +75,20 @@ struct Vertex {
     float4 color;
 };
 
-vertex Vertex basic_vertex( device Vertex* vertices [[buffer(0)]], uint vid [[vertex_id]] )
+struct ModelViewProjection {
+    float4x4 model_view;
+    float4x4 projection;
+};
+
+vertex Vertex basic_vertex(device Vertex* vertices [[buffer(0)]],
+                           constant ModelViewProjection& uniforms [[buffer(1)]],
+                           uint vid [[vertex_id]] )
 {
-    return vertices[vid];
+    Vertex out;
+    out.position = uniforms.projection * uniforms.model_view * vertices[vid].position;
+    out.color = vertices[vid].color;
+
+    return out;
 }
 
 fragment float4 basic_fragment(Vertex in [[stage_in]])
@@ -134,6 +144,7 @@ bool MetalGDI::create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& i
     auto vbuf = vertex_buffers_.lookup(vbuf_id);
 
     if ( vbuf == nullptr ) {
+        SKY_ERROR("Vertex Buffer", "Could not create a new vertex buffer with id %" PRIu32, vbuf_id);
         return false;
     }
 
@@ -147,6 +158,7 @@ bool MetalGDI::set_vertex_buffer(const uint32_t vbuf_id)
     auto vbuf = vertex_buffers_.lookup(vbuf_id);
 
     if ( vbuf == nullptr ) {
+        SKY_ERROR("Vertex Buffer", "Invalid vertex buffer specified with ID %" PRIu32, vbuf_id);
         return false;
     }
 
@@ -162,6 +174,7 @@ bool MetalGDI::create_index_buffer(const uint32_t ibuf_id, const MemoryBlock& in
     auto ibuf = index_buffers_.lookup(ibuf_id);
 
     if ( ibuf == nullptr ) {
+        SKY_ERROR("Index Buffer", "Could not create a new vertex buffer with id %" PRIu32, ibuf_id);
         return false;
     }
     
@@ -172,6 +185,7 @@ bool MetalGDI::create_index_buffer(const uint32_t ibuf_id, const MemoryBlock& in
 
 bool MetalGDI::set_index_buffer(const uint32_t vbuf_id)
 {
+    // No op - just need to specify buffer with Metal (done in process_commands())
     return GDI::set_index_buffer(vbuf_id);
 }
 
@@ -188,6 +202,7 @@ bool MetalGDI::create_shader(const uint32_t shader_id, const char* name)
     shaders_.create(shader_id, func);
     return true;
 }
+    
 
 bool MetalGDI::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
 {
@@ -201,6 +216,47 @@ bool MetalGDI::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
     }
 
     return false;
+}
+    
+bool MetalGDI::create_uniform(const uint32_t u_id, const uint32_t size)
+{
+    uniform_buffers_.create(u_id);
+    
+    auto ubuf = uniform_buffers_.lookup(u_id);
+    
+    if ( ubuf == nullptr ) {
+        SKY_ERROR("Uniform", "Could not create a new uniform buffer with id %" PRIu32, u_id);
+        return false;
+    }
+
+    ubuf->current() = [device_ newBufferWithLength:size
+                                           options:0];
+    
+    return true;
+}
+
+void MetalGDI::set_uniform(const uint32_t u_id, const uint32_t index)
+{
+    auto ubuf = uniform_buffers_.lookup(u_id);
+    
+    if ( ubuf == nullptr ) {
+        SKY_ERROR("Uniform", "Invalid uniform specified with ID of %" PRIu32, u_id);
+        return;
+    }
+
+    [render_encoder_ setVertexBuffer:ubuf->current() offset:0 atIndex:index];
+}
+
+void MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data)
+{
+    auto ubuf = uniform_buffers_.lookup(u_id);
+    
+    if ( ubuf == nullptr ) {
+        SKY_ERROR("Uniform", "Invalid uniform specified with ID of %" PRIu32, u_id);
+        return;
+    }
+    
+    memcpy([ubuf->current() contents], data.data, data.size);
 }
 
 bool MetalGDI::draw_primitives()
@@ -226,6 +282,7 @@ void MetalGDI::present()
     dispatch_semaphore_wait(buf_sem_, DISPATCH_TIME_FOREVER);
 
     if ( mtl_layer_ == nil ) {
+        SKY_ERROR("Drawing", "Could not present - no Metal layer specified");
         return;
     }
 

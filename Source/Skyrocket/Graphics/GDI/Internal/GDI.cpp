@@ -92,6 +92,25 @@ void GDI::process_commands()
                 }
 
             } break;
+
+            case rc::CmdType::create_uniform:
+            {
+                auto cmd = cmd_buf.read<rc::CreateUniform>();
+                create_uniform(cmd->uniform_id, cmd->size);
+            } break;
+
+            case rc::CmdType::set_uniform:
+            {
+                auto cmd = cmd_buf.read<rc::SetUniform>();
+                set_uniform(cmd->uniform_id, cmd->uniform_index);
+            } break;
+
+            case rc::CmdType::update_uniform:
+            {
+                auto cmd = cmd_buf.read<rc::UpdateUniform>();
+                update_uniform(cmd->uniform_id, cmd->new_data);
+            } break;
+
             case rc::CmdType::draw_primitives:
             {
                 cmd_buf.read<rc::DrawPrimitives>();
@@ -146,6 +165,22 @@ bool GDI::set_shaders(const uint32_t  /*vertex_id*/, const uint32_t  /*fragment_
 {
     // no op
     return false;
+}
+
+bool GDI::create_uniform(const uint32_t  /*u_id*/, const uint32_t /*initial_data*/)
+{
+    // no op
+    return false;
+}
+
+void GDI::set_uniform(const uint32_t  /*u_id*/, const uint32_t  /*index*/)
+{
+    // no op
+}
+
+void GDI::update_uniform(const uint32_t  /*u_id*/, const MemoryBlock&  /*data*/)
+{
+    // no op
 }
 
 bool GDI::draw_primitives()

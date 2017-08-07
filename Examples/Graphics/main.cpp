@@ -11,99 +11,52 @@
 
 #include <Skyrocket/Core/Containers/HandleTable.hpp>
 #include <Skyrocket/Core/Diagnostics/Timespan.hpp>
-#include <Skyrocket/Framework/Application.hpp>
 #include <Skyrocket/Graphics/Core/Vertex.hpp>
 #include <Skyrocket/Graphics/GraphicsDriver.hpp>
 #include <Skyrocket/Input/Keyboard.hpp>
 #include <Skyrocket/Platform/Filesystem.hpp>
 
-#include <vector>
-#include <Skyrocket/Core/Containers/Buffer.hpp>
+#include <Skyrocket/Core/Math.hpp>
+#include <Skyrocket/Graphics/Color.hpp>
+#include <iostream>
 
-class GraphicsApp : public sky::Application {
-public:
-    GraphicsApp()
-        : sky::Application("Skyrocket Graphics Demo")
-    {}
-
-    void on_startup(int argc, const char** argv) override
+struct Rectangle {
+    Rectangle()
     {
+        vertices = {
+            sky::Vertex(-1.0f, 1.0f, 0.0f, 1, 0, 1, 1, 1),
+            sky::Vertex(1.0f, 1.0f, 0.0f, 1, 0, 0, 1, 1),
+            sky::Vertex(1.0f, -1.0f, 0.0f, 1, 1, 0, 1, 1),
+            sky::Vertex(-1.0f, -1.0f, 0.0f, 1, 1, 1, 1, 1)
+        };
+
+        indices = {
+            0, 1, 3,
+            3, 2, 1
+        };
     }
 
-    void on_update() override
-    {
+    sky::Matrix4f model;
+    std::vector<sky::Vertex> vertices;
+    std::vector<uint32_t> indices;
+};
 
-    }
-
-    void on_render() override
-    {
-
-    }
-
-    void on_keydown(sky::Key keycode) override
-    {
-        if ( keycode == sky::Key::escape ) {
-            shutdown();
-        }
-    }
-
-    void on_mouse() override
-    {
-
-    }
-
-    void on_keyup(sky::Key keycode) override
-    {
-    }
+struct ModelViewProjection {
+    ModelViewProjection() = default;
+    sky::Matrix4f model_view;
+    sky::Matrix4f projection;
 };
 
 int main(int argc, char** argv)
 {
-//    std::string name = "Jacob";
-//    std::string last = "Milligan";
-//
-//    sky::Buffer<sizeof(std::string) * 32> buf;
-//
-//    std::string str;
-//    auto running = true;
-//
-//    while ( running ) {
-//        buf.write<std::string>(&name);
-//        buf.write<std::string>(&last);
-//
-//        buf.reset();
-//
-//        while ( buf.cursor_pos() != buf.end() ) {
-//            auto str = buf.read<std::string>();
-//
-//            if ( str->empty() ) {
-//                running = false;
-//            }
-//
-//            auto correct = true;
-//            auto pos = buf.cursor_pos() / sizeof(std::string);
-//            if ( pos == 1 && *str != name ) {
-//                correct = false;
-//            }
-//            if ( pos == 2 && *str != last ) {
-//                correct = false;
-//            }
-//            printf("%s\r", str->c_str() );
-//        }
-//
-//        buf.reset();
-//    }
-//
-//    return 0;
-
-
     const char* app_name = "Skyrocket Graphics Example";
     sky::Platform platform;
 	platform.launch(app_name);
 	sky::Viewport view;
 	view.open(app_name, 800, 600);
+    view.set_backing_color(sky::Color::gray);
 
-    sky::GraphicsDriver renderer(sky::GraphicsDriver::ThreadSupport::multithreaded);
+    sky::GraphicsDriver renderer(sky::GraphicsDriver::ThreadSupport::single_thread);
 
     if ( !renderer.initialize(view) ) {
         SKY_ERROR(app_name, "Couldn't initialize graphics device interface");
@@ -112,43 +65,42 @@ int main(int argc, char** argv)
 
 	sky::Keyboard keyboard;
 
-    std::vector<sky::Vertex> vertices = {
-        sky::Vertex(-1, 1, 1, 1, 0, 1, 1, 1),
-        sky::Vertex(-1,-1, 1, 1, 0, 0, 1, 1),
-        sky::Vertex( 1,-1, 1, 1, 1, 0, 1, 1),
-        sky::Vertex( 1, 1, 1, 1, 1, 1, 1, 1),
-        sky::Vertex(-1, 1,-1, 1, 0, 1, 0, 1),
-        sky::Vertex(-1,-1,-1, 1, 0, 0, 0, 1),
-        sky::Vertex( 1,-1,-1, 1, 1, 0, 0, 1),
-        sky::Vertex( 1, 1,-1, 1, 1, 1, 0, 1)
-    };
-
-    std::vector<uint32_t> indices = {
-        3,2,6,6,7,3,
-        4,5,1,1,0,4,
-        4,0,3,3,7,4,
-        1,5,6,6,2,1,
-        0,1,2,2,3,0,
-        7,6,5,5,4,7
-    };
+    Rectangle rect;
 
     auto vbuf_id = renderer.create_vertex_buffer(sky::MemoryBlock {
-        static_cast<uint32_t>(sizeof(sky::Vertex) * vertices.size()),
-        vertices.data()
+        static_cast<uint32_t>(sizeof(sky::Vertex) * rect.vertices.size()),
+        rect.vertices.data()
     }, sky::BufferUsage::staticbuf);
     auto ibuf_id = renderer.create_index_buffer(sky::MemoryBlock {
-        static_cast<uint32_t>(sizeof(uint32_t) * indices.size()),
-        indices.data()
+        static_cast<uint32_t>(sizeof(uint32_t) * rect.indices.size()),
+        rect.indices.data()
     });
+    auto ubuf_id = renderer.create_uniform(sky::UniformType::mat4, 2);
+
+    ModelViewProjection mvp;
+
+    sky::Matrix4f identity;
+
+    double total = 0;
+    double frames = 0.0;
+
+    sky::Vector3f pos;
+    sky::Vector3f scale(10.0f, 10.0f, 0.0f);
+
+    auto translation_mat = identity.translate(pos);
+    auto scale_mat = identity.scale(scale);
+    mvp.model_view = translation_mat * scale_mat;
+    mvp.projection = identity.ortho(0.0f, view.size().x, view.size().y, 0.0f, -1.0f, 1.0f);
+
+    renderer.update_uniform(ubuf_id, sky::MemoryBlock{ sizeof(ModelViewProjection), &mvp});
 
     renderer.set_shaders(0, 0);
 
-    double total = 0;
-    double std_total = 0.0;
-    double frames = 0.0;
+    auto dt = 0.0;
+    uint64_t frame_start = 0;
 
     while ( sky::Viewport::open_viewports() > 0 ) {
-        auto before = sky::high_resolution_time();
+        frame_start = sky::high_resolution_time();
 
 		platform.poll_events();
 
@@ -160,16 +112,33 @@ int main(int argc, char** argv)
 			printf("Open windows: %d\n", sky::Viewport::open_viewports());
 		}
 
-        renderer.set_vertex_buffer(vbuf_id, 0, static_cast<uint32_t>(vertices.size()));
-        renderer.set_index_buffer(ibuf_id, 0, static_cast<uint32_t>(indices.size()));
+        if ( keyboard.key_down(sky::Key::down) ) {
+            pos.y += 0.2f * dt;
+        }
+        if ( keyboard.key_down(sky::Key::right) ) {
+            pos.x += 0.2f * dt;
+        }
+        if ( keyboard.key_down(sky::Key::up) ) {
+            pos.y -= 0.2f * dt;
+        }
+        if ( keyboard.key_down(sky::Key::left) ) {
+            pos.x -= 0.2f * dt;
+        }
+
+        translation_mat = identity.translate(pos);
+        scale_mat = identity.scale(scale);
+        mvp.model_view = translation_mat * scale_mat;
+
+        renderer.update_uniform(ubuf_id, sky::MemoryBlock{ sizeof(ModelViewProjection), &mvp});
+        renderer.set_vertex_buffer(vbuf_id, 0, static_cast<uint32_t>(rect.vertices.size()));
+        renderer.set_uniform(ubuf_id, 1);
+        renderer.set_index_buffer(ibuf_id, 0, static_cast<uint32_t>(rect.indices.size()));
         renderer.draw_primitives();
-        renderer.present();
+        renderer.present(16.0f);
 
-		auto dt = sky::Timespan(sky::high_resolution_time() - before);
 
-        printf("%f\n", dt.total_milliseconds());
-        total += dt.total_milliseconds();
-        frames++;
+        dt = sky::Timespan(sky::high_resolution_time() - frame_start).total_milliseconds();
+        printf("%f\n", dt);
     }
 
 //    printf("Average: %fms STD: %fms\n", total / frames, std_total / frames);

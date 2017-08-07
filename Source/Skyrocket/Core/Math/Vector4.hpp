@@ -22,6 +22,22 @@ namespace sky {
 /// @tparam T The data type to store in the vector
 template <typename T>
 struct Vector4 {
+
+    union {
+        struct {
+            /// @brief The x coordinate of the Vector4
+            T x;
+
+            /// @brief The y coordinate of the Vector4
+            T y;
+
+            /// @brief The z coordinate of the Vector4
+            T z;
+
+            /// @brief The w coordinate of the Vector4
+            T w;
+        };
+    };
     
     /// @brief Initializes a new Vector4 with all elements assigned the
     /// specified value
@@ -55,22 +71,6 @@ struct Vector4 {
     /// @param vw The w coordinate value
     Vector4(const Vector3<T>& vec3, const T vw)
         : x(vec3.x), y(vec3.y), z(vec3.z), w(vw) {}
-    
-    union {
-        struct {
-            /// @brief The x coordinate of the Vector4
-            T x;
-    
-            /// @brief The y coordinate of the Vector4
-            T y;
-    
-            /// @brief The z coordinate of the Vector4
-            T z;
-    
-            /// @brief The w coordinate of the Vector4
-            T w;
-        };
-    };
     
     /// @brief Outputs a string representation of the Vector4 elements in the form
     /// "{x, y, z, w}"
