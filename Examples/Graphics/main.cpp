@@ -81,9 +81,6 @@ int main(int argc, char** argv)
 
     sky::Matrix4f identity;
 
-    double total = 0;
-    double frames = 0.0;
-
     sky::Vector3f pos;
     sky::Vector3f scale(10.0f, 10.0f, 0.0f);
 
@@ -105,7 +102,7 @@ int main(int argc, char** argv)
 		platform.poll_events();
 
 		if ( keyboard.key_down(sky::Key::escape) || view.close_requested() ) {
-			break;
+            break;
 		}
 
 		if ( keyboard.key_typed(sky::Key::space) ) {
@@ -113,16 +110,16 @@ int main(int argc, char** argv)
 		}
 
         if ( keyboard.key_down(sky::Key::down) ) {
-            pos.y += 0.2f * dt;
+            pos.y += 0.5f * dt;
         }
         if ( keyboard.key_down(sky::Key::right) ) {
-            pos.x += 0.2f * dt;
+            pos.x += 0.5f * dt;
         }
         if ( keyboard.key_down(sky::Key::up) ) {
-            pos.y -= 0.2f * dt;
+            pos.y -= 0.5f * dt;
         }
         if ( keyboard.key_down(sky::Key::left) ) {
-            pos.x -= 0.2f * dt;
+            pos.x -= 0.5f * dt;
         }
 
         translation_mat = identity.translate(pos);
@@ -134,14 +131,12 @@ int main(int argc, char** argv)
         renderer.set_uniform(ubuf_id, 1);
         renderer.set_index_buffer(ibuf_id, 0, static_cast<uint32_t>(rect.indices.size()));
         renderer.draw_primitives();
-        renderer.present(16.0f);
+        renderer.present();
 
 
         dt = sky::Timespan(sky::high_resolution_time() - frame_start).total_milliseconds();
         printf("%f\n", dt);
     }
-
-//    printf("Average: %fms STD: %fms\n", total / frames, std_total / frames);
 
     return 0;
 }

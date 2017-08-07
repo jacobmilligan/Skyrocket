@@ -28,15 +28,15 @@ GraphicsDriver::GraphicsDriver(const ThreadSupport threading)
       notified_(false),
       threading_(threading),
       active_(false),
-      rendering_(false),
-      dt_(high_resolution_time())
+      dt_(high_resolution_time()),
+      sem(gdi_->max_frames_in_flight)
 {}
 
 GraphicsDriver::~GraphicsDriver()
 {
     if ( threading_ == ThreadSupport::multithreaded ) {
         active_ = false;
-        present(16.66f);
+        present();
         render_thread_.join();
         if ( render_thread_.joinable() ) {
         }
@@ -166,26 +166,15 @@ void GraphicsDriver::draw_primitives()
     gdi_->write_command<rc::DrawPrimitives>(&cmd);
 }
 
-void GraphicsDriver::present(const float target_dt)
+void GraphicsDriver::present()
 {
     if ( threading_ == ThreadSupport::multithreaded ) {
         kick_render_thread();
+        sem.wait();
     } else {
         gdi_->flip();
         gdi_->present();
     }
-
-    // TODO(Jacob): Move this out of the renderer and use a semaphore with n buffers instead
-    dt_.reset(high_resolution_time() - dt_.ticks());
-
-    if ( dt_.total_milliseconds() < target_dt ) {
-        auto diff = target_dt - dt_.total_milliseconds();
-        auto millis = std::chrono::duration<float, std::milli>(diff);
-        auto time_point = std::chrono::high_resolution_clock::now() + millis;
-        std::this_thread::sleep_until(time_point);
-    }
-
-    dt_.reset(high_resolution_time());
 }
 
 void GraphicsDriver::kick_render_thread()
@@ -206,18 +195,10 @@ void GraphicsDriver::frame()
         notified_ = false;
 
         if ( gdi_ != nullptr ) {
-            rendering_ = true;
             gdi_->flip();
             gdi_->present();
-            rendering_ = false;
+            sem.signal();
         }
-    }
-}
-
-void GraphicsDriver::wait_for_render_finish()
-{
-    while ( gdi_->frames_in_flight() >= 1 ) {
-        std::this_thread::sleep_for(std::chrono::nanoseconds(1));
     }
 }
 

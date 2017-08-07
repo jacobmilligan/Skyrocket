@@ -17,6 +17,7 @@
 
 #include <memory>
 #include <thread>
+#include <Skyrocket/Platform/Thread.hpp>
 
 namespace sky {
 
@@ -60,7 +61,7 @@ public:
 
     void draw_primitives();
 
-    void present(const float target_dt = 2.0f);
+    void present();
 
 private:
     ThreadSupport threading_;
@@ -73,13 +74,12 @@ private:
 
     bool notified_;
     bool active_;
-    bool rendering_;
     std::condition_variable cv_;
     std::thread render_thread_;
 
     Timespan dt_;
+    Semaphore sem;
 
-    void wait_for_render_finish();
     void kick_render_thread();
     void frame();
 };
