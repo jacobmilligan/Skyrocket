@@ -27,6 +27,7 @@ public:
 
     void append(const Path& other);
     void append(const char* str);
+    void make_real();
 
     bool exists() const;
 
@@ -45,7 +46,6 @@ private:
 
     std::vector<char> path_;
 
-    void make_real();
     void make_null_terminated();
     int32_t last_slash_pos() const;
 };

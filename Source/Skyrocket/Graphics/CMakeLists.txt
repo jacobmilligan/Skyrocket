@@ -43,6 +43,16 @@ add_subdirectory(Core)
 ######################################
 
 skyrocket_add_library(${lib_name} STATIC)
+
+# Add external deps
+
+find_package(FreeType REQUIRED)
+if (FREETYPE_FOUND)
+    target_include_directories(${lib_name} PUBLIC ${FREETYPE_INCLUDE_DIRS})
+    target_link_libraries(${lib_name} ${FREETYPE_LIBRARIES})
+endif ()
+
+# Add internal deps
 target_link_libraries(${lib_name}
         SkyrocketCore
         SkyrocketPlatform)

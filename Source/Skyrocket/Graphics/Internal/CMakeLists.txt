@@ -6,4 +6,5 @@ endif ()
 
 skyrocket_add_sources(Color.cpp
         Viewport.cpp
-        GraphicsDriver.cpp)
+        GraphicsDriver.cpp
+        Font.cpp)

@@ -48,6 +48,7 @@ function(skyrocket_add_library lib_name lib_type)
 
     add_library(${lib_name} "${lib_type}" "${skyrocket_sources}" "${headers}")
     target_include_directories(${lib_name} PUBLIC ${PROJECT_SOURCE_DIR}/Source)
+    target_include_directories(${lib_name} PUBLIC ${PROJECT_SOURCE_DIR}/Deps)
     set(${lib_name}_sources "${skyrocket_sources}" CACHE INTERNAL "")
 
     set(skyrocket_libraries ${skyrocket_libraries} "${lib_name}" CACHE INTERNAL "")
