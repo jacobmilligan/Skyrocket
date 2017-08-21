@@ -30,5 +30,5 @@ T clamp(const T& value, const T& low, const T& high)
 }
  
 
-}
-}
+}  // namespace math
+}  // namespace sky

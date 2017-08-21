@@ -36,7 +36,7 @@ struct Matrix4 {
     /// @brief Constructs a new matrix with the main diagonal elements
     /// initialized to the specified value
     /// @param value Value to initialize the matrix's main diagonal elements to
-    Matrix4(const T value)
+    explicit Matrix4(const T value)
     {
         columns[0] = Vector4<T>(value, 0, 0, 0);
         columns[1] = Vector4<T>(0, value, 0, 0);
@@ -51,7 +51,7 @@ struct Matrix4 {
     /// @param col3 The right-center column
     /// @param col4 The right-most column
     Matrix4(const Vector4<T>& col1, const Vector4<T>& col2,
-                     const Vector4<T>& col3, const Vector4<T>& col4)
+            const Vector4<T>& col3, const Vector4<T>& col4)
     {
         columns[0] = col1;
         columns[1] = col2;
@@ -177,7 +177,6 @@ struct Matrix4 {
         auto dcos = static_cast<T>(cos(angle));
         auto ocos = static_cast<T>(1.0 - dcos);
         
-        
         // Rodrigues' Rotation Formula
         rotation[0][0] = dcos + (axis.x * axis.x) * ocos;
         rotation[0][1] = axis.y * axis.x + axis.z * dsin;
@@ -185,10 +184,10 @@ struct Matrix4 {
         
         rotation[1][0] = axis.x * axis.y * ocos - axis.z * dsin;
         rotation[1][1] = dcos + (axis.y * axis.y) * ocos;
-        rotation[1][2] = axis.z * axis.y * ocos + axis.x * dsin;
+        rotation[1][2] = axis.z * axis.y * ocos - axis.x * dsin;
         
         rotation[2][0] = axis.x * axis.z * ocos + axis.y * dsin;
-        rotation[2][1] = axis.y * axis.z * ocos - axis.x * dsin;
+        rotation[2][1] = axis.y * axis.z * ocos + axis.x * dsin;
         rotation[2][2] = dcos + (axis.z * axis.z) * ocos;
         
         return rotation;
@@ -228,6 +227,27 @@ struct Matrix4 {
         result[3][2] = mtl_near / (far - mtl_near);
 #endif
         
+        return result;
+    }
+
+    Matrix4<T> perspective(const T fov_y, const T aspect, const T z_near, const T z_far)
+    {
+        Matrix4<T> result(0);
+
+        auto y_scale = static_cast<T>(1) / tan(fov_y * 0.5);
+
+#if SKY_GRAPHICS_API_METAL == 1
+        auto x_scale = y_scale / aspect;
+        auto q = -(z_far + z_near) / (z_far - z_near);
+
+        result[0][0] = x_scale;
+        result[1][1] = y_scale;
+
+        result[2][2] = q;
+        result[2][3] = static_cast<T>(-1);
+        result[3][2] = static_cast<T>(-2) * z_far * z_near / (z_far - z_near);
+#endif
+
         return result;
     }
     
@@ -317,12 +337,24 @@ Vector4<T> operator*(const Matrix4<T>& mat, const Vector4<T>& vec)
 template <typename T>
 Matrix4<T> operator*(const Matrix4<T>& left, const Matrix4<T>& right)
 {
-    return Matrix4<T>(
-        left[0] * right[0][0] + left[0] * right[0][1] + left[0] * right[0][2] + left[0] * right[0][3],
-        left[1] * right[1][0] + left[1] * right[1][1] + left[1] * right[1][2] + left[1] * right[1][3],
-        left[2] * right[2][0] + left[2] * right[2][1] + left[2] * right[2][2] + left[2] * right[2][3],
-        left[3] * right[3][0] + left[3] * right[3][1] + left[3] * right[3][2] + left[3] * right[3][3]
-    );
+    Matrix4<T> result(static_cast<T>(0));
+
+    auto A1 = left[0];
+    auto A2 = left[1];
+    auto A3 = left[2];
+    auto A4 = left[3];
+
+    auto B1 = right[0];
+    auto B2 = right[1];
+    auto B3 = right[2];
+    auto B4 = right[3];
+
+    result[0] = A1 * B1[0] + A2 * B1[1] + A3 * B1[2] + A4 * B1[3];
+    result[1] = A1 * B2[0] + A2 * B2[1] + A3 * B2[2] + A4 * B2[3];
+    result[2] = A1 * B3[0] + A2 * B3[1] + A3 * B3[2] + A4 * B3[3];
+    result[3] = A1 * B4[0] + A2 * B4[1] + A3 * B4[2] + A4 * B4[3];
+
+    return result;
 }
 
 

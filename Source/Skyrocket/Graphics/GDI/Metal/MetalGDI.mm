@@ -311,6 +311,8 @@ void MetalGDI::present()
 
         [render_encoder_ setRenderPipelineState:render_pipeline_];
 
+        [render_encoder_ setCullMode:MTLCullModeBack];
+
         process_commands();
 
         [render_encoder_ endEncoding];
