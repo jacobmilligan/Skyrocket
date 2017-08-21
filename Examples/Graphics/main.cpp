@@ -11,15 +11,14 @@
 
 #include <Skyrocket/Core/Containers/HandleTable.hpp>
 #include <Skyrocket/Core/Diagnostics/Timespan.hpp>
-#include <Skyrocket/Graphics/Core/Vertex.hpp>
-#include <Skyrocket/Graphics/GraphicsDriver.hpp>
-#include <Skyrocket/Input/Keyboard.hpp>
-#include <Skyrocket/Platform/Filesystem.hpp>
-
 #include <Skyrocket/Core/Math.hpp>
 #include <Skyrocket/Graphics/Color.hpp>
-#include <iostream>
+#include <Skyrocket/Graphics/Core/Vertex.hpp>
 #include <Skyrocket/Graphics/Font.hpp>
+#include <Skyrocket/Graphics/GraphicsDriver.hpp>
+#include <Skyrocket/Input/Keyboard.hpp>
+
+#include <iostream>
 
 struct Rectangle {
     Rectangle()
