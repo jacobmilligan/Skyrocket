@@ -126,6 +126,11 @@ fragment float4 basic_fragment(Vertex in [[stage_in]])
         return false;
     }
 
+    MTLDepthStencilDescriptor* ds_descriptor = [MTLDepthStencilDescriptor new];
+    ds_descriptor.depthCompareFunction = MTLCompareFunctionLess;
+    ds_descriptor.depthWriteEnabled = YES;
+    depth_stencil_state_ = [device_ newDepthStencilStateWithDescriptor:ds_descriptor];
+
     return true;
 }
 
@@ -311,6 +316,7 @@ void MetalGDI::present()
 
         [render_encoder_ setRenderPipelineState:render_pipeline_];
 
+        [render_encoder_ setDepthStencilState:depth_stencil_state_];
         [render_encoder_ setCullMode:MTLCullModeBack];
 
         process_commands();
@@ -324,7 +330,7 @@ void MetalGDI::present()
         }];
 
         [cmd_buffer commit];
-    }
+    };
 }
 
 

@@ -16,6 +16,8 @@
 
 namespace sky {
 
+struct Timespan;
+
 
 struct Semaphore {
     explicit Semaphore(const uint16_t max_count)
@@ -23,33 +25,16 @@ struct Semaphore {
           count_(max_count)
     {}
 
-    void wait()
-    {
-        std::unique_lock<std::mutex> lock(mut_);
-        cv_.wait(lock, [&]() {
-            return count_ > 0;
-        });
-        --count_;
-        if ( count_ < 0 ) {
-            count_ = 0;
-        }
-    }
-
-    void signal()
-    {
-        std::unique_lock<std::mutex> lock(mut_);
-        ++count_;
-        if ( count_ > max_count_ ) {
-            count_ = max_count_;
-        }
-        cv_.notify_one();
-    }
+    void wait();
+    void signal();
 private:
     uint16_t max_count_;
     std::atomic<uint16_t> count_;
     std::mutex mut_;
     std::condition_variable cv_;
 };
+
+void thread_sleep(const Timespan& time);
 
 
 } // namespace sky

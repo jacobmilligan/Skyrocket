@@ -103,6 +103,8 @@ private:
     id<MTLFunction> default_vshader_;
     id<MTLFunction> default_fragshader_;
 
+    id<MTLDepthStencilState> depth_stencil_state_;
+
     dispatch_semaphore_t buf_sem_;
 
     CAMetalLayer* mtl_layer_;

@@ -20,13 +20,17 @@
 
 #include <iostream>
 
-struct Rectangle {
-    Rectangle()
+struct Cube {
+    sky::Vector3f pos;
+    sky::Vector3f scale;
+    sky::Vector2f angle;
+
+    Cube(sky::GraphicsDriver* driver)
     {
         auto cube_width = 1.0f;
         auto cube_height = 1.0f;
         auto cube_depth = 1.0f;
-        vertices = {
+        vertices_ = {
             // 0
             sky::Vertex(-cube_width,-cube_height,-cube_depth, 1.0f, 0.0f,1.0f,1.0f,1.0f),
             //1
@@ -45,7 +49,7 @@ struct Rectangle {
             sky::Vertex(-cube_width, cube_height, cube_depth, 1.0f, 1.0f,1.0f,0.0f,1.0f)
         };
 
-        indices = {
+        indices_ = {
             0, 1, 3, 3, 1, 2,
             1, 5, 2, 2, 5, 6,
             5, 4, 6, 6, 4, 7,
@@ -53,10 +57,46 @@ struct Rectangle {
             3, 2, 7, 7, 2, 6,
             4, 5, 0, 0, 5, 1
         };
+
+        vbuf_id_ = driver->create_vertex_buffer(sky::MemoryBlock {
+            static_cast<uint32_t>(sizeof(sky::Vertex) * vertices_.size()),
+            vertices_.data()
+        }, sky::BufferUsage::staticbuf);
+        ibuf_id_ = driver->create_index_buffer(sky::MemoryBlock {
+            static_cast<uint32_t>(sizeof(uint32_t) * indices_.size()),
+            indices_.data()
+        });
+
+        xaxis_ = sky::Vector3f(0.0f, 1.0f, 0.0f);
+        yaxis_ = sky::Vector3f(1.0f, 0.0f, 0.0f);
+        pos = sky::Vector3f(0.0f, 0.0f, 0.0f);
+        scale = sky::Vector3f(100.0f, 100.0f, 100.0f);
     }
 
-    std::vector<sky::Vertex> vertices;
-    std::vector<uint32_t> indices;
+    sky::Matrix4f get_transform()
+    {
+        auto translation_mat = identity_.translate(pos);
+        auto scale_mat = identity_.scale(scale);
+        auto rotation_mat = identity_.rotate(angle.x, xaxis_) * identity_.rotate(angle.y, yaxis_);
+
+        return translation_mat * rotation_mat * scale_mat;
+    }
+
+    void render()
+    {
+        driver_->set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(vertices_.size()));
+        driver_->set_index_buffer(ibuf_id_, 0, static_cast<uint32_t>(indices_.size()));
+        driver_->draw_primitives();
+    }
+
+private:
+    sky::GraphicsDriver* driver_;
+    std::vector<sky::Vertex> vertices_;
+    std::vector<uint32_t> indices_;
+    uint32_t vbuf_id_, ibuf_id_;
+    sky::Vector3f xaxis_, yaxis_;
+
+    sky::Matrix4f identity_;
 };
 
 struct ModelViewProjection {
@@ -88,47 +128,34 @@ int main(int argc, char** argv)
     }
 
     // Geometry
-    Rectangle rect;
+    Cube cube(&driver);
     ModelViewProjection mvp;
-    sky::Matrix4f identity;
-    sky::Vector3f pos(0.0f, 0.0f, 0.0f);
-    sky::Vector3f scale(100.0f, 100.0f, 100.0f);
-    auto angle = 90.0f;
+    auto angle_x = 90.0f;
+    auto angle_y = 0.0f;
 
-    auto cam_pos = sky::Vector3f(0.0f, 0.0f, 110.0f);
+    auto cam_pos = sky::Vector3f(0.0f, 0.0f, 250.0f);
     auto cam_front = sky::Vector3f(0.0f, 0.0f, -1.0f);
     auto cam_up = sky::Vector3f(0.0f, 1.0f, 0.0f);
 
-    auto translation_mat = identity.translate(pos);
-    auto rotation_mat = identity.rotate(angle, sky::Vector3f(0.0f, 0.0f, 1.0f));
-    auto scale_mat = identity.scale(scale);
+    sky::Matrix4f identity;
     auto view_mat = identity.look_at(cam_pos, cam_pos + cam_front, cam_up);
-    mvp.model_view = view_mat * translation_mat * rotation_mat * scale_mat;
-//    mvp.projection = identity.ortho(0.0f, view.size().x, view.size().y, 0.0f, -1.0f, 1.0f);
-    auto projection_mat = identity.perspective(sky::math::to_radians(90.0f), view.size().x / view.size().y, 0.1f, 1000.0f);
-    mvp.model_view = projection_mat * mvp.model_view;
-//    mvp.projection = identity.perspective(90.0f, view.size().x / view.size().y, 0.1f, 100.0f);
+    mvp.model_view = view_mat * cube.get_transform();
+    mvp.projection = identity.perspective(sky::math::to_radians(90.0f), view.size().x / view.size().y, 0.1f, 5000.0f);
 
     // Graphics resources
     sky::Font font;
     font.load_from_file(root_path.relative_path("Go-Regular.ttf"), 32);
 
-    auto vbuf_id = driver.create_vertex_buffer(sky::MemoryBlock {
-        static_cast<uint32_t>(sizeof(sky::Vertex) * rect.vertices.size()),
-        rect.vertices.data()
-    }, sky::BufferUsage::staticbuf);
-    auto ibuf_id = driver.create_index_buffer(sky::MemoryBlock {
-        static_cast<uint32_t>(sizeof(uint32_t) * rect.indices.size()),
-        rect.indices.data()
-    });
     auto ubuf_id = driver.create_uniform(sky::UniformType::mat4, 2);
 
     driver.update_uniform(ubuf_id, sky::MemoryBlock{ sizeof(ModelViewProjection), &mvp});
     driver.set_shaders(0, 0);
 
     // Main loop
-    auto dt = 0.0;
+    sky::Timespan dt;
     uint64_t frame_start = 0;
+    auto cam_speed = 10.0f;
+    auto target_frametime = 16.6;
 
     while ( sky::Viewport::open_viewports() > 0 ) {
         frame_start = sky::high_resolution_time();
@@ -139,48 +166,37 @@ int main(int argc, char** argv)
             break;
 		}
 
-		if ( keyboard.key_typed(sky::Key::space) ) {
-			printf("Open windows: %d\n", sky::Viewport::open_viewports());
-		}
-
         if ( keyboard.key_down(sky::Key::up) ) {
-//            pos.y -= 0.5f * dt;
-            cam_pos += (cam_front * 1.0f);
+            cam_pos += (cam_front * cam_speed);
         }
         if ( keyboard.key_down(sky::Key::down) ) {
-//            pos.y += 0.5f * dt;
-            cam_pos -= (cam_front * 1.0f);
+            cam_pos -= (cam_front * cam_speed);
         }
         if ( keyboard.key_down(sky::Key::left) ) {
-//            pos.x -= 0.5f * dt;
-            cam_pos -= (cam_front.cross(cam_up) * 1.0f).get_normalized();
+            cam_pos -= (cam_front.cross(cam_up) * cam_speed);
         }
         if ( keyboard.key_down(sky::Key::right) ) {
-//            pos.x += 0.5f * dt;
-            cam_pos += (cam_front.cross(cam_up) * 1.0f).get_normalized();
-        }
-        if ( keyboard.key_down(sky::Key::E) ) {
-            angle += 0.01f;
-        }
-        if ( keyboard.key_down(sky::Key::Q) ) {
-            angle -= 0.01f;
+            cam_pos += (cam_front.cross(cam_up) * cam_speed);
         }
 
-        translation_mat = identity.translate(pos);
-        scale_mat = identity.scale(scale);
-        rotation_mat = identity.rotate(angle, sky::Vector3f(0.0f, 1.0f, 0.0f));
+        cube.angle += 0.2f;
+
         view_mat = identity.look_at(cam_pos, cam_pos + cam_front, cam_up);
-        mvp.model_view = projection_mat * view_mat * translation_mat * rotation_mat * scale_mat;
-//
+        mvp.model_view = view_mat * cube.get_transform();
         driver.update_uniform(ubuf_id, sky::MemoryBlock{ sizeof(ModelViewProjection), &mvp});
-        driver.set_vertex_buffer(vbuf_id, 0, static_cast<uint32_t>(rect.vertices.size()));
         driver.set_uniform(ubuf_id, 1);
-        driver.set_index_buffer(ibuf_id, 0, static_cast<uint32_t>(rect.indices.size()));
-        driver.draw_primitives();
+
+        cube.render();
+
         driver.present();
 
-        dt = sky::Timespan(sky::high_resolution_time() - frame_start).total_milliseconds();
-        printf("%f\n", dt);
+        dt = sky::Timespan(sky::high_resolution_time() - frame_start);
+
+        if ( dt.total_milliseconds() < target_frametime) {
+            auto diff = target_frametime - dt.total_milliseconds();
+            auto sleep_time = sky::Timespan(static_cast<uint64_t>(diff * sky::Timespan::ticks_per_millisecond));
+            sky::thread_sleep(sleep_time);
+        }
     }
 
     return 0;
