@@ -25,8 +25,12 @@ struct Cube {
     sky::Vector3f scale;
     sky::Vector2f angle;
 
-    Cube(sky::GraphicsDriver* driver)
+    Cube() = default;
+
+    void init(sky::GraphicsDriver* driver)
     {
+        driver_ = driver;
+
         auto cube_width = 1.0f;
         auto cube_height = 1.0f;
         auto cube_depth = 1.0f;
@@ -73,13 +77,15 @@ struct Cube {
         scale = sky::Vector3f(100.0f, 100.0f, 100.0f);
     }
 
-    sky::Matrix4f get_transform()
+    sky::Matrix4f& get_transform()
     {
         auto translation_mat = identity_.translate(pos);
         auto scale_mat = identity_.scale(scale);
         auto rotation_mat = identity_.rotate(angle.x, xaxis_) * identity_.rotate(angle.y, yaxis_);
 
-        return translation_mat * rotation_mat * scale_mat;
+        transform_ = translation_mat * rotation_mat * scale_mat;
+
+        return transform_;
     }
 
     void render()
@@ -90,13 +96,13 @@ struct Cube {
     }
 
 private:
-    sky::GraphicsDriver* driver_;
+    sky::GraphicsDriver* driver_{};
     std::vector<sky::Vertex> vertices_;
     std::vector<uint32_t> indices_;
-    uint32_t vbuf_id_, ibuf_id_;
+    uint32_t vbuf_id_{}, ibuf_id_{};
     sky::Vector3f xaxis_, yaxis_;
 
-    sky::Matrix4f identity_;
+    sky::Matrix4f identity_, transform_;
 };
 
 struct ModelViewProjection {
@@ -128,10 +134,13 @@ int main(int argc, char** argv)
     }
 
     // Geometry
-    Cube cube(&driver);
-    ModelViewProjection mvp;
-    auto angle_x = 90.0f;
-    auto angle_y = 0.0f;
+    std::array<Cube, 3> cubes;
+    auto pos = 0.0f;
+    for ( auto& c : cubes ) {
+        c.init(&driver);
+        c.pos = sky::Vector3f(pos, pos, 1.0f);
+        pos += 100.0f;
+    }
 
     auto cam_pos = sky::Vector3f(0.0f, 0.0f, 250.0f);
     auto cam_front = sky::Vector3f(0.0f, 0.0f, -1.0f);
@@ -139,16 +148,20 @@ int main(int argc, char** argv)
 
     sky::Matrix4f identity;
     auto view_mat = identity.look_at(cam_pos, cam_pos + cam_front, cam_up);
-    mvp.model_view = view_mat * cube.get_transform();
-    mvp.projection = identity.perspective(sky::math::to_radians(90.0f), view.size().x / view.size().y, 0.1f, 5000.0f);
+    auto projection_mat = identity.perspective(sky::math::to_radians(90.0f), view.size().x / view.size().y, 0.1f, 5000.0f);
 
     // Graphics resources
     sky::Font font;
     font.load_from_file(root_path.relative_path("Go-Regular.ttf"), 32);
 
-    auto ubuf_id = driver.create_uniform(sky::UniformType::mat4, 2);
+    auto model_ubuf = driver.create_uniform(sky::UniformType::mat4, 1);
+    auto view_ubuf = driver.create_uniform(sky::UniformType::mat4, 1);
+    auto projection_ubuf = driver.create_uniform(sky::UniformType::mat4, 1);
 
-    driver.update_uniform(ubuf_id, sky::MemoryBlock{ sizeof(ModelViewProjection), &mvp});
+    auto transform = cubes[0].get_transform();
+    driver.update_uniform(model_ubuf, sky::MemoryBlock{ sizeof(sky::Matrix4f), &transform});
+    driver.update_uniform(view_ubuf, sky::MemoryBlock{ sizeof(sky::Matrix4f), &view_mat});
+    driver.update_uniform(projection_ubuf, sky::MemoryBlock{ sizeof(sky::Matrix4f), &projection_mat});
     driver.set_shaders(0, 0);
 
     // Main loop
@@ -179,14 +192,20 @@ int main(int argc, char** argv)
             cam_pos += (cam_front.cross(cam_up) * cam_speed);
         }
 
-        cube.angle += 0.2f;
 
         view_mat = identity.look_at(cam_pos, cam_pos + cam_front, cam_up);
-        mvp.model_view = view_mat * cube.get_transform();
-        driver.update_uniform(ubuf_id, sky::MemoryBlock{ sizeof(ModelViewProjection), &mvp});
-        driver.set_uniform(ubuf_id, 1);
 
-        cube.render();
+        driver.update_uniform(view_ubuf, sky::MemoryBlock{ sizeof(sky::Matrix4f), &view_mat});
+        driver.update_uniform(projection_ubuf, sky::MemoryBlock{ sizeof(sky::Matrix4f), &projection_mat});
+        driver.set_uniform(view_ubuf, 2);
+        driver.set_uniform(projection_ubuf, 3);
+
+        for ( auto& c : cubes ) {
+            driver.set_uniform(model_ubuf, 1);
+            c.angle += 0.02f;
+            driver.update_uniform(model_ubuf, sky::MemoryBlock{ sizeof(sky::Matrix4f), &c.get_transform()});
+            c.render();
+        }
 
         driver.present();
 

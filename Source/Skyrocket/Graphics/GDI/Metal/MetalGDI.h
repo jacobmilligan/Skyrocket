@@ -32,9 +32,11 @@ struct MetalBuffer {
     {
         current_ = 0;
         usage_ = usage;
-        buffers_[0] = [device newBufferWithBytes:data
-                                          length:length
-                                         options:MTLResourceCPUCacheModeDefaultCache];
+        for ( int i = 0; i < Size; ++i ) {
+            buffers_[i] = [device newBufferWithBytes:data
+                                              length:length
+                                             options:MTLResourceCPUCacheModeDefaultCache];
+        }
     }
 
     void swap()
@@ -109,9 +111,9 @@ private:
 
     CAMetalLayer* mtl_layer_;
 
-    HandleTable<MetalBuffer<2>, vertex_buffer_max> vertex_buffers_;
-    HandleTable<MetalBuffer<2>, index_buffer_max> index_buffers_;
-    HandleTable<MetalBuffer<2>, uniform_buffer_max> uniform_buffers_;
+    HandleTable<MetalBuffer<max_frames_in_flight>, vertex_buffer_max> vertex_buffers_;
+    HandleTable<MetalBuffer<max_frames_in_flight>, index_buffer_max> index_buffers_;
+    HandleTable<MetalBuffer<max_frames_in_flight>, uniform_buffer_max> uniform_buffers_;
     HandleTable<id<MTLFunction>, shader_max> shaders_;
 
     uint32_t buffer_index_{0};

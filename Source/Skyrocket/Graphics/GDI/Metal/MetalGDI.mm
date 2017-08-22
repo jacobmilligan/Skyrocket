@@ -75,17 +75,14 @@ struct Vertex {
     float4 color;
 };
 
-struct ModelViewProjection {
-    float4x4 model_view;
-    float4x4 projection;
-};
-
 vertex Vertex basic_vertex(device Vertex* vertices [[buffer(0)]],
-                           constant ModelViewProjection& uniforms [[buffer(1)]],
+                           constant float4x4& model [[buffer(1)]],
+                           constant float4x4& view [[buffer(2)]],
+                           constant float4x4& projection [[buffer(3)]],
                            uint vid [[vertex_id]] )
 {
     Vertex out;
-    out.position = uniforms.projection * uniforms.model_view * vertices[vid].position;
+    out.position = projection * view * model * vertices[vid].position;
     out.color = vertices[vid].color;
 
     return out;
@@ -234,8 +231,7 @@ bool MetalGDI::create_uniform(const uint32_t u_id, const uint32_t size)
         return false;
     }
 
-    ubuf->current() = [device_ newBufferWithLength:size
-                                           options:0];
+    ubuf->init(device_, nullptr, size, BufferUsage::none);
     
     return true;
 }
@@ -260,8 +256,9 @@ void MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data)
         SKY_ERROR("Uniform", "Invalid uniform specified with ID of %" PRIu32, u_id);
         return;
     }
-    
+
     memcpy([ubuf->current() contents], data.data, data.size);
+    ubuf->swap();
 }
 
 bool MetalGDI::draw_primitives()
