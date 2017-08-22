@@ -31,7 +31,7 @@ MESSAGE("-- Skyrocket: Resource root defined as ${CMAKE_CURRENT_SOURCE_DIR}/${SK
 ###########################
 
 add_subdirectory(Source)
-add_subdirectory(Examples/Graphics)
+add_subdirectory(Examples)
 add_subdirectory(Tests)
 
 MESSAGE("-- Skyrocket.Graphics: Using the ${skyrocket_graphics_api} API")

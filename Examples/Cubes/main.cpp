@@ -35,21 +35,13 @@ struct Cube {
         auto cube_height = 1.0f;
         auto cube_depth = 1.0f;
         vertices_ = {
-            // 0
             sky::Vertex(-cube_width,-cube_height,-cube_depth, 1.0f, 0.0f,1.0f,1.0f,1.0f),
-            //1
             sky::Vertex( cube_width,-cube_height,-cube_depth, 1.0f, 0.0f,0.0f,1.0f,1.0f),
-            //2
             sky::Vertex( cube_width, cube_height,-cube_depth, 1.0f, 1.0f,0.0f,1.0f,1.0f),
-            //3
             sky::Vertex(-cube_width, cube_height,-cube_depth, 1.0f, 1.0f,1.0f,1.0f,1.0f),
-            //4
             sky::Vertex(-cube_width,-cube_height, cube_depth, 1.0f, 0.0f,1.0f,0.0f,1.0f),
-            //5
             sky::Vertex( cube_width,-cube_height, cube_depth, 1.0f, 0.0f,0.0f,0.0f,1.0f),
-            //6
             sky::Vertex( cube_width, cube_height, cube_depth, 1.0f, 1.0f,0.0f,0.0f,1.0f),
-            //7
             sky::Vertex(-cube_width, cube_height, cube_depth, 1.0f, 1.0f,1.0f,0.0f,1.0f)
         };
 
@@ -62,14 +54,14 @@ struct Cube {
             4, 5, 0, 0, 5, 1
         };
 
-        vbuf_id_ = driver->create_vertex_buffer(sky::MemoryBlock {
-            static_cast<uint32_t>(sizeof(sky::Vertex) * vertices_.size()),
-            vertices_.data()
-        }, sky::BufferUsage::staticbuf);
-        ibuf_id_ = driver->create_index_buffer(sky::MemoryBlock {
-            static_cast<uint32_t>(sizeof(uint32_t) * indices_.size()),
-            indices_.data()
-        });
+        auto vertices_size = static_cast<uint32_t>(sizeof(sky::Vertex) * vertices_.size());
+        auto indices_size = static_cast<uint32_t>(sizeof(uint32_t) * indices_.size());
+
+        auto vbuf_mem = sky::MemoryBlock { vertices_size, vertices_.data() };
+        auto ibuf_mem = sky::MemoryBlock { indices_size, indices_.data() };
+
+        vbuf_id_ = driver->create_vertex_buffer(vbuf_mem, sky::BufferUsage::staticbuf);
+        ibuf_id_ = driver->create_index_buffer(ibuf_mem);
 
         xaxis_ = sky::Vector3f(0.0f, 1.0f, 0.0f);
         yaxis_ = sky::Vector3f(1.0f, 0.0f, 0.0f);
@@ -90,8 +82,11 @@ struct Cube {
 
     void render()
     {
-        driver_->set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(vertices_.size()));
-        driver_->set_index_buffer(ibuf_id_, 0, static_cast<uint32_t>(indices_.size()));
+        auto vertices_size = static_cast<uint32_t>(vertices_.size());
+        auto indices_size = static_cast<uint32_t>(indices_.size());
+
+        driver_->set_vertex_buffer(vbuf_id_, 0, vertices_size);
+        driver_->set_index_buffer(ibuf_id_, 0, indices_size);
         driver_->draw_primitives();
     }
 
@@ -114,8 +109,8 @@ struct ModelViewProjection {
 int main(int argc, char** argv)
 {
     // Setup paths and string data
-    const char* app_name = "Skyrocket Graphics Example";
-    auto root_path = sky::Path::executable_path().relative_path("../../../../Examples/Graphics");
+    const char* app_name = "Skyrocket Cubes Example";
+    auto root_path = sky::Path::executable_path().relative_path("../../../../Examples/Cubes");
     root_path.make_real();
 
     // Skyrocket platform and input handling data
@@ -124,8 +119,10 @@ int main(int argc, char** argv)
     sky::Keyboard keyboard;
 
     platform.launch(app_name);
+
 	view.open(app_name, 800, 600);
     view.set_backing_color(sky::Color::gray);
+
     sky::GraphicsDriver driver(sky::GraphicsDriver::ThreadSupport::single_thread);
 
     if ( !driver.initialize(view) ) {
@@ -133,7 +130,6 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    // Geometry
     std::array<Cube, 3> cubes;
     auto pos = 0.0f;
     for ( auto& c : cubes ) {
@@ -142,26 +138,18 @@ int main(int argc, char** argv)
         pos += 100.0f;
     }
 
+    sky::Matrix4f identity, view_mat;
+    auto fovy = static_cast<float>(sky::math::to_radians(90.0f));
+
     auto cam_pos = sky::Vector3f(0.0f, 0.0f, 250.0f);
     auto cam_front = sky::Vector3f(0.0f, 0.0f, -1.0f);
     auto cam_up = sky::Vector3f(0.0f, 1.0f, 0.0f);
 
-    sky::Matrix4f identity;
-    auto view_mat = identity.look_at(cam_pos, cam_pos + cam_front, cam_up);
-    auto projection_mat = identity.perspective(sky::math::to_radians(90.0f), view.size().x / view.size().y, 0.1f, 5000.0f);
-
-    // Graphics resources
-    sky::Font font;
-    font.load_from_file(root_path.relative_path("Go-Regular.ttf"), 32);
-
+    auto projection_mat = identity.perspective(fovy, view.size().x / view.size().y, 0.1f, 5000.0f);
     auto model_ubuf = driver.create_uniform(sky::UniformType::mat4, 1);
     auto view_ubuf = driver.create_uniform(sky::UniformType::mat4, 1);
     auto projection_ubuf = driver.create_uniform(sky::UniformType::mat4, 1);
 
-    auto transform = cubes[0].get_transform();
-    driver.update_uniform(model_ubuf, sky::MemoryBlock{ sizeof(sky::Matrix4f), &transform});
-    driver.update_uniform(view_ubuf, sky::MemoryBlock{ sizeof(sky::Matrix4f), &view_mat});
-    driver.update_uniform(projection_ubuf, sky::MemoryBlock{ sizeof(sky::Matrix4f), &projection_mat});
     driver.set_shaders(0, 0);
 
     // Main loop
@@ -173,12 +161,11 @@ int main(int argc, char** argv)
     while ( sky::Viewport::open_viewports() > 0 ) {
         frame_start = sky::high_resolution_time();
 
-		platform.poll_events();
+        platform.poll_events();
 
-		if ( keyboard.key_down(sky::Key::escape) || view.close_requested() ) {
+        if ( keyboard.key_down(sky::Key::escape) || view.close_requested() ) {
             break;
-		}
-
+        }
         if ( keyboard.key_down(sky::Key::up) ) {
             cam_pos += (cam_front * cam_speed);
         }
@@ -191,7 +178,6 @@ int main(int argc, char** argv)
         if ( keyboard.key_down(sky::Key::right) ) {
             cam_pos += (cam_front.cross(cam_up) * cam_speed);
         }
-
 
         view_mat = identity.look_at(cam_pos, cam_pos + cam_front, cam_up);
 

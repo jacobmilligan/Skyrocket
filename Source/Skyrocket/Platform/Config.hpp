@@ -181,7 +181,7 @@ const auto target_compiler = Compiler::clang;
 #endif
 
 ///////////////////////////////
-// Graphics API definitions  //
+// Cubes API definitions  //
 ///////////////////////////////
 
 #if !defined(SKY_GRAPHICS_API_METAL)

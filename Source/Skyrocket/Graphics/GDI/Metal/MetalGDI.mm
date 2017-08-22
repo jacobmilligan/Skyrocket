@@ -56,7 +56,7 @@ bool MetalGDI::initialize(Viewport* viewport)
 //    library_ = [device_ newLibraryWithFile:nspath error:&err];
 //
 //    if ( library_ == nil ) {
-//        SKY_ERROR("Graphics Device Interface", "Couldn't load metal library with path %s: NSError: %s",
+//        SKY_ERROR("Cubes Device Interface", "Couldn't load metal library with path %s: NSError: %s",
 //                  lib_path.str(), [[err localizedDescription] UTF8String]);
 //        return false;
 //    }
@@ -118,7 +118,7 @@ fragment float4 basic_fragment(Vertex in [[stage_in]])
     render_pipeline_ = [device_ newRenderPipelineStateWithDescriptor:pipeline_descriptor error:&err];
 
     if ( render_pipeline_ == nil ) {
-        SKY_ERROR("Graphics Device Interface", "Couldn't initialize main render pipeline state: NSError: %s",
+        SKY_ERROR("Cubes Device Interface", "Couldn't initialize main render pipeline state: NSError: %s",
                   [[err localizedDescription] UTF8String]);
         return false;
     }

@@ -1,6 +1,6 @@
 set(CMAKE_CXX_STANDARD 14)
 
-set(exe_name skyrocket_graphics_example)
+set(exe_name CubesExample)
 
 set(SRCS main.cpp)
 
