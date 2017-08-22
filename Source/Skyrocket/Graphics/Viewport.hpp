@@ -25,6 +25,7 @@ struct PlatformWindow;
 struct NativeViewport;
 class GDI;
 
+/// @brief Viewport is a window with a framebuffer for drawing to.
 class Viewport {
 public:
     Viewport();
@@ -34,18 +35,33 @@ public:
 
 	~Viewport();
 
+    /// @brief Creates and opens the viewport - becoming the active one
+    /// @param caption
+    /// @param width
+    /// @param height
     void open(const char* caption, const uint16_t width, const uint16_t height);
 
+    /// @brief Closes and destroys the viewport
 	void close();
 
+    /// @brief Returns the amount of currently open viewports
+    /// @return
 	static uint16_t open_viewports();
 
+    /// @brief Sets the backing/clear color of the viewport
+    /// @param color
     void set_backing_color(const Color& color);
 
+    /// @brief Checks whether the viewports window requested to close in this frame
+    /// @return True if close was requested, false otherwise
 	bool close_requested();
 
+    /// @brief Gets a pointer to the platform-specific native viewport object handle
+    /// @return
     NativeViewport* get_native_viewport();
 
+    /// @brief Gets the size of the viewports framebuffer
+    /// @return
 	Vector2f size();
 
 private:

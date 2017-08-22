@@ -18,14 +18,17 @@ namespace sky {
 
 struct Timespan;
 
-
+/// @brief A basic semaphore object that allows up to UINT16_MAX resources
 struct Semaphore {
     explicit Semaphore(const uint16_t max_count)
         : max_count_(max_count),
           count_(max_count)
     {}
 
+    /// @brief Puts the calling thread to sleep until a new resource is available
     void wait();
+
+    /// @brief Releases a resource and notifies the next waiting thread
     void signal();
 private:
     uint16_t max_count_;
@@ -34,6 +37,8 @@ private:
     std::condition_variable cv_;
 };
 
+/// @brief Puts the calling thread to sleep for the given timespan
+/// @param time
 void thread_sleep(const Timespan& time);
 
 

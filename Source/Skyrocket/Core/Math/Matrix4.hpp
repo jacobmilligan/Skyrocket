@@ -230,6 +230,12 @@ struct Matrix4 {
         return result;
     }
 
+    /// @brief Creates a perspective projection matrix
+    /// @param fov_y
+    /// @param aspect generally view.width / view.height
+    /// @param z_near
+    /// @param z_far
+    /// @return
     Matrix4<T> perspective(const T fov_y, const T aspect, const T z_near, const T z_far)
     {
         Matrix4<T> result(0);

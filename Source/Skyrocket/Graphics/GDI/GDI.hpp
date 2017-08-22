@@ -89,17 +89,38 @@ public:
     /// @param viewport
     virtual void set_viewport(Viewport* viewport);
 
+    /// @brief Creates a new vertex buffer
+    /// @param vbuf_id The id handle of the buffer to create
+    /// @param initial_data The data to copy into the buffer
+    /// @param usage
+    /// @return Success if true, false otherwise
     virtual bool create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& initial_data,
                                       const BufferUsage usage);
 
+    /// @brief Sets the vertex buffer associated with the given id as the current one
+    /// @param vbuf_id
+    /// @return Success if true, false otherwise
     virtual bool set_vertex_buffer(const uint32_t vbuf_id);
 
+    /// @brief Creates a new index buffer
+    /// @param ibuf_id The id handle of the buffer to create
+    /// @param initial_data
+    /// @return
     virtual bool create_index_buffer(const uint32_t ibuf_id, const MemoryBlock& initial_data);
 
+    /// @brief Sets the index buffer associated with the given id as the current one
+    /// @param ibuf_id
+    /// @return Success if true, false otherwise
     virtual bool set_index_buffer(const uint32_t ibuf_id);
 
+    /// @brief Draws primitive triangle data
+    /// @return
     virtual bool draw_primitives();
 
+    /// @brief Creates a new shader
+    /// @param shader_id
+    /// @param name
+    /// @return
     virtual bool create_shader(const uint32_t shader_id, const char* name);
 
     virtual bool set_shaders(const uint32_t vertex_id, const uint32_t fragment_id);
@@ -110,6 +131,7 @@ public:
 
     virtual void update_uniform(const uint32_t u_id, const MemoryBlock& data);
 
+    /// @brief Commits the current command buffer and processes all commands
     virtual void present();
 
     /// @brief Flips the internal command buffers

@@ -139,6 +139,9 @@ struct Vector3 {
         z = math::clamp<T>(z, lower, upper);
     }
 
+    /// @brief Gets the distance from this vector to a target vector
+    /// @param target
+    /// @return
     float distance(const Vector3<T>& target) const
     {
         auto ydist = y - target.y;

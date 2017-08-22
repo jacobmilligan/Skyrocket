@@ -18,6 +18,8 @@ namespace sky {
 namespace rc {
 
 
+/// @brief List of all available command types - used as a flag for the command buffer
+/// to work out what the next expected command will be
 enum class CmdType : uint8_t {
     unknown,
     init,
@@ -34,12 +36,14 @@ enum class CmdType : uint8_t {
     draw_primitives
 };
 
+/// @brief Base command struct - all other render commands derive from this
 struct Command {
     explicit Command(const CmdType& cmd_type)
         :
         type(cmd_type)
     {}
 
+    /// @brief The type flag for the command buffer
     CmdType type;
 };
 
