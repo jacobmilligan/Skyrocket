@@ -120,7 +120,7 @@ int main(int argc, char** argv)
 
     platform.launch(app_name);
 
-	view.open(app_name, 800, 600);
+    view.open(app_name, 800, 600);
     view.set_backing_color(sky::Color::gray);
 
     sky::GraphicsDriver driver(sky::GraphicsDriver::ThreadSupport::single_thread);
