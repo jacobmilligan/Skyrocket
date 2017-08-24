@@ -30,6 +30,6 @@ constexpr double to_degrees(const double radians)
 {
     return radians * (180.0 / pi);
 }
-    
+
 }  // namespace math
 }  // namespace sky

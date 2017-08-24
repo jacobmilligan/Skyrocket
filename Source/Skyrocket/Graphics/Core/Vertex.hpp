@@ -22,8 +22,9 @@ namespace sky {
 struct Vertex {
     Vertex(const float x, const float y, const float z, const float w,
            const float r, const float g, const float b, const float a)
-        : position(Vector4f { x, y, z, w }),
-          color(Vector4f { r, g, b, a })
+        :
+        position(Vector4f {x, y, z, w}),
+        color(Vector4f {r, g, b, a})
     {}
 
     Vector4f position;

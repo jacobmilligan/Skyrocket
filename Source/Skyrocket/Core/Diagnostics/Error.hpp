@@ -28,7 +28,7 @@ namespace impl {
 /// @param msgformat The format string for the message
 /// @param ... Format parameters
 void __sky_print_error(const char* func, const char* file, const int line,
-                 const char* type, const char* msgformat, ...);
+                       const char* type, const char* msgformat, ...);
 
 /// @brief Handles the assertion macro. Prints the format assertion string to stderr
 /// @param function The function the assertion occurred in
@@ -38,7 +38,7 @@ void __sky_print_error(const char* func, const char* file, const int line,
 /// @param msgformat The message format string
 /// @param ... Format arguments
 void __sky_assert_handler(const char* function, const char* file, const int line,
-                      const char* expr, const char* msgformat, ...);
+                          const char* expr, const char* msgformat, ...);
 
 }  // namespace impl
 

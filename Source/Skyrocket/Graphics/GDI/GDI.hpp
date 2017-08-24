@@ -76,7 +76,7 @@ public:
     /// @brief Writes a new render command to the internal write buffer
     /// @tparam T The type of render command being written
     /// @param cmd Pointer to the command structure
-    template <typename T>
+    template<typename T>
     void write_command(T* cmd);
 
     /// @brief Initializes the graphics device, allocating resources and creating a

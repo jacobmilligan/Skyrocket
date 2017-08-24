@@ -1,6 +1,6 @@
 if (APPLE)
     add_subdirectory(Apple)
-elseif(WIN32)
+elseif (WIN32)
     add_subdirectory(Windows)
 endif ()
 

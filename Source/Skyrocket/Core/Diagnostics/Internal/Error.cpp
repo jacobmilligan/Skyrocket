@@ -22,7 +22,7 @@ struct AssertMessage {
 std::vector<AssertMessage> assert_guards;
 
 void __sky_assert_handler(const char* function, const char* file, const int line,
-                      const char* expr, const char* msgformat, ...)
+                          const char* expr, const char* msgformat, ...)
 {
     fprintf(stderr, "--- Skyrocket ---\n");
 
@@ -41,7 +41,7 @@ void __sky_assert_handler(const char* function, const char* file, const int line
 }
 
 void __sky_print_error(const char* func, const char* file, const int line,
-                 const char* type, const char* msgformat, ...)
+                       const char* type, const char* msgformat, ...)
 {
     fprintf(stderr, "--- Skyrocket ---\n%s error: ", type);
 
@@ -55,7 +55,7 @@ void __sky_print_error(const char* func, const char* file, const int line,
     fprintf(stderr, "\nAt: %s:%d in: %s\n", file, line, func);
 }
 
-    
+
 }
 
 
@@ -68,8 +68,9 @@ AssertGuard::AssertGuard(const char* action, const char* data)
 
 AssertGuard::~AssertGuard()
 {
-    if ( impl::assert_guards.size() > 0 )
+    if ( impl::assert_guards.size() > 0 ) {
         impl::assert_guards.pop_back();
+    }
 }
 
 

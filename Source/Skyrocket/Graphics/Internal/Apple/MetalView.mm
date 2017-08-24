@@ -15,42 +15,78 @@
 
 #import <AppKit/AppKit.h>
 
-@implementation MetalView
+@
+implementation MetalView
 
--(id)initWithFrame:(NSRect)frameRect {
-    if ( (self = [super initWithFrame:frameRect]) ) {
-        [self setWantsLayer:YES];
+-(id)
+initWithFrame:
+    (NSRect)
+frameRect {
+if ( (
+self =
+[
+super initWithFrame:
+frameRect]) ) {
+[
+self setWantsLayer:YES];
 
-        CGFloat bgColor[] = {0.0, 0.0, 0.0, 1.0};
-        _metalLayer = [CAMetalLayer layer];
+CGFloat bgColor[] = {0.0, 0.0, 0.0, 1.0};
+_metalLayer =
+[
+CAMetalLayer layer
+];
 
-        _metalLayer.masksToBounds = YES;
-        _metalLayer.presentsWithTransaction = NO;
-        _metalLayer.pixelFormat = MTLPixelFormatBGRA8Unorm;
-        _metalLayer.framebufferOnly = YES;
-        _metalLayer.frame = frameRect;
-        _metalLayer.opaque = NO;
-        _metalLayer.backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), bgColor);
+_metalLayer.
+masksToBounds = YES;
+_metalLayer.
+presentsWithTransaction = NO;
+_metalLayer.
+pixelFormat = MTLPixelFormatBGRA8Unorm;
+_metalLayer.
+framebufferOnly = YES;
+_metalLayer.
+frame = frameRect;
+_metalLayer.
+opaque = NO;
+_metalLayer.
+backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), bgColor);
 
-        [_metalLayer removeAllAnimations];
+[
+_metalLayer removeAllAnimations
+];
 
-        [self setLayer:_metalLayer];
-    }
-
-    return self;
+[
+self setLayer:
+_metalLayer];
 }
 
--(void)setBackingColor:(CGFloat)r g:(CGFloat)g b:(CGFloat)b a:(CGFloat)a {
-    CGFloat bgColor[] = {r, g, b, a};
-    _metalLayer.backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), bgColor);
+return
+self;
+}
+
+-(void)
+setBackingColor:
+    (CGFloat)
+r g:
+(CGFloat)
+g b:
+(CGFloat)
+b a:
+(CGFloat)a {
+CGFloat bgColor[] = {r, g, b, a};
+_metalLayer.
+backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), bgColor);
 }
 
 -(BOOL)acceptsFirstResponder {
-    return YES;
+return YES;
 }
 
--(BOOL)acceptsFirstMouse:(NSEvent *)event {
-    return YES;
+-(BOOL)
+acceptsFirstMouse:
+    (NSEvent * )
+event {
+return YES;
 }
 
 @end

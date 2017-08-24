@@ -23,20 +23,26 @@ struct Color {
     /// @param ca The alpha component
     Color(const uint8_t cr, const uint8_t cg, const uint8_t cb,
           const uint8_t ca)
-        : r(cr), g(cg), b(cb), a(ca) {}
-    
+        :
+        r(cr), g(cg), b(cb), a(ca)
+    {}
+
     /// @brief Initializes a new color with the specified RGB values with the alpha
     /// value set to 255
     /// @param cr The red component
     /// @param cg The green component
     /// @param cb The blue component
     Color(const uint8_t cr, const uint8_t cg, const uint8_t cb)
-        : r(cr), g(cg), b(cb), a(255) {}
-    
+        :
+        r(cr), g(cg), b(cb), a(255)
+    {}
+
     /// @brief Initializes a new color with all components set to 255
     Color()
-        : r(255), g(255), b(255), a(255) {}
-    
+        :
+        r(255), g(255), b(255), a(255)
+    {}
+
     /// @brief Copy constructor
     /// @param other The other color
     Color(const Color& other)
@@ -46,32 +52,32 @@ struct Color {
         b = other.b;
         a = other.a;
     }
-    
+
     bool operator==(const Color& other)
     {
         return other.r == r && other.g == g && other.b == b && other.a == a;
     }
-    
+
     bool operator!=(const Color& other)
     {
         return other.r != r || other.g != g || other.b != b || other.a != a;
     }
-    
+
     inline bool is_equal(const uint8_t& cr, const uint8_t& cg, const uint8_t& cb,
-                    const uint8_t& ca) const
+                         const uint8_t& ca) const
     {
         return cr == r && cg == g && cb == b && ca == a;
     }
-    
+
     /// @brief The red component
     uint8_t r,
     /// @brief The green component
-    g,
+        g,
     /// @brief The blue component
-    b,
+        b,
     /// @brief The alpha component
-    a;
-    
+        a;
+
     /// @brief Predefined black color
     static const Color black;
     /// @brief Predefined white color

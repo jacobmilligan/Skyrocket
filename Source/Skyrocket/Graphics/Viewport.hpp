@@ -23,6 +23,7 @@ namespace sky {
 struct Color;
 struct PlatformWindow;
 struct NativeViewport;
+
 class GDI;
 
 /// @brief Viewport is a window with a framebuffer for drawing to.
@@ -30,10 +31,10 @@ class Viewport {
 public:
     Viewport();
 
-	Viewport(const Viewport& other) = delete;
-	Viewport& operator=(const Viewport& other) = delete;
+    Viewport(const Viewport& other) = delete;
+    Viewport& operator=(const Viewport& other) = delete;
 
-	~Viewport();
+    ~Viewport();
 
     /// @brief Creates and opens the viewport - becoming the active one
     /// @param caption
@@ -42,11 +43,11 @@ public:
     void open(const char* caption, const uint16_t width, const uint16_t height);
 
     /// @brief Closes and destroys the viewport
-	void close();
+    void close();
 
     /// @brief Returns the amount of currently open viewports
     /// @return
-	static uint16_t open_viewports();
+    static uint16_t open_viewports();
 
     /// @brief Sets the backing/clear color of the viewport
     /// @param color
@@ -54,7 +55,7 @@ public:
 
     /// @brief Checks whether the viewports window requested to close in this frame
     /// @return True if close was requested, false otherwise
-	bool close_requested();
+    bool close_requested();
 
     /// @brief Gets a pointer to the platform-specific native viewport object handle
     /// @return
@@ -62,20 +63,20 @@ public:
 
     /// @brief Gets the size of the viewports framebuffer
     /// @return
-	Vector2f size();
+    Vector2f size();
 
 private:
-	static uint16_t open_windows_;
+    static uint16_t open_windows_;
 
     const char* caption_;
     uint16_t width_;
     uint16_t height_;
 
     std::unique_ptr<NativeViewport> handle_;
-	WindowData window_data_;
+    WindowData window_data_;
 
-	void create_native_viewport();
-	void destroy_native_viewport();
+    void create_native_viewport();
+    void destroy_native_viewport();
 };
 
 

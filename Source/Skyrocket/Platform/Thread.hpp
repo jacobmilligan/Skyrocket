@@ -21,8 +21,9 @@ struct Timespan;
 /// @brief A basic semaphore object that allows up to UINT16_MAX resources
 struct Semaphore {
     explicit Semaphore(const uint16_t max_count)
-        : max_count_(max_count),
-          count_(max_count)
+        :
+        max_count_(max_count),
+        count_(max_count)
     {}
 
     /// @brief Puts the calling thread to sleep until a new resource is available

@@ -24,15 +24,15 @@ namespace sky {
 
 /// @brief Represents a conditional unsigned integer with a minimum value of uint8 and
 /// a maximum value of uint32
-template <size_t Size>
+template<size_t Size>
 using conditional_uint = typename std::conditional<Size <= UINT8_MAX, uint8_t,
-    typename std::conditional<Size <= UINT16_MAX, uint16_t,uint32_t
+    typename std::conditional<Size <= UINT16_MAX, uint16_t, uint32_t
     >::type
 >::type;
 
 /// @brief Represents a large conditional unsigned integer with a minimum value of uint16
 /// and a maximum value of uint64
-template <size_t Size>
+template<size_t Size>
 using large_conditional_uint = typename std::conditional<Size <= UINT16_MAX, uint16_t,
     typename std::conditional<Size <= UINT32_MAX, uint32_t, uint64_t
     >::type

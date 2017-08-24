@@ -20,7 +20,7 @@ namespace sky {
 /// @brief A 4 dimensional Vector structure with several linear algebra operations
 /// defined for its members.
 /// @tparam T The data type to store in the vector
-template <typename T>
+template<typename T>
 struct Vector4 {
 
     union {
@@ -38,16 +38,20 @@ struct Vector4 {
             T w;
         };
     };
-    
+
     /// @brief Initializes a new Vector4 with all elements assigned the
     /// specified value
     /// @param value Value to assign to all elements
     Vector4(const T value)
-        : x(value), y(value), z(value), w(value) {}
-    
+        :
+        x(value), y(value), z(value), w(value)
+    {}
+
     /// @brief Initializes a new Vector4 with all elements assigned a value of zero
-    Vector4() : Vector4(0.0f) {}
-    
+    Vector4() :
+        Vector4(0.0f)
+    {}
+
     /// @brief Initializes a new Vector4 with each element assigned the
     /// specified value
     /// @param vx Value to assign to the x element (element[0])
@@ -55,23 +59,29 @@ struct Vector4 {
     /// @param vz Value to assign to the z element (element[2])
     /// @param vw Value to assign to the w element (element[3])
     Vector4(const T vx, const T vy, const T vz, const T vw)
-        : x(vx), y(vy), z(vz), w(vw) {}
-    
+        :
+        x(vx), y(vy), z(vz), w(vw)
+    {}
+
     /// @brief Initializes a new Vector4 using a Vector2 for the x and y
     /// coordinates
     /// @param vec2 Vector2 to use for x and y coordinates
     /// @param vz The z coordinate value
     /// @param vw The w coordinate value
-    Vector4(const Vector2<T>& vec2, const T vz, const T vw)
-        : x(vec2.x), y(vec2.y), z(vz), w(vw) {}
-    
+    Vector4(const Vector2 <T>& vec2, const T vz, const T vw)
+        :
+        x(vec2.x), y(vec2.y), z(vz), w(vw)
+    {}
+
     /// @brief Initializes a new Vector4 using a Vector3 for the x, y, and z
     /// coordinates
     /// @param vec2 Vector3 to use for x, y, and z coordinates
     /// @param vw The w coordinate value
-    Vector4(const Vector3<T>& vec3, const T vw)
-        : x(vec3.x), y(vec3.y), z(vec3.z), w(vw) {}
-    
+    Vector4(const Vector3 <T>& vec3, const T vw)
+        :
+        x(vec3.x), y(vec3.y), z(vec3.z), w(vw)
+    {}
+
     /// @brief Outputs a string representation of the Vector4 elements in the form
     /// "{x, y, z, w}"
     /// @return The string representation of the Vector4
@@ -81,7 +91,7 @@ struct Vector4 {
         ss << "{" << x << ", " << y << ", " << z << ", " << w << "}";
         return ss.str();
     }
-    
+
     /// @brief Computes the dot product of this Vector4 and another, returning
     /// a value of type T
     /// @param right The vector to compute the dot product with
@@ -90,12 +100,12 @@ struct Vector4 {
     {
         return (x * right.x) + (y * right.y) + (z * right.z) + (w * right.w);
     }
-    
+
     /// @brief Computes the length of the Vector4
     /// @return The vectors length
     T length() const
     {
-        return std::sqrt( (x * x) + (y * y) + (z * z) + (w * w) );
+        return std::sqrt((x * x) + (y * y) + (z * z) + (w * w));
     }
 
     /// @brief Computes the squared length of the Vector4 - used for optimizing
@@ -105,14 +115,14 @@ struct Vector4 {
     {
         return (x * x) + (y * y) + (z * z) + (w * w);
     }
-    
+
     /// @brief Normalizes the Vector4's elements to be of length 1 but retain their
     /// direction.
     void normalize()
     {
         auto len = length();
-        auto n = static_cast<T>(1) / ( (len <= 0) ? 1 : len );
-        
+        auto n = static_cast<T>(1) / ((len <= 0) ? 1 : len);
+
         x *= n;
         y *= n;
         z *= n;
@@ -126,11 +136,11 @@ struct Vector4 {
     {
         auto normalized = *this;
         auto len = length();
-        auto n = static_cast<T>(1) / ( (len <= 0) ? 1 : len );
+        auto n = static_cast<T>(1) / ((len <= 0) ? 1 : len);
 
         return Vector4<T>(x * n, y * n, z * n, w * n);
     }
-    
+
     /// @brief Clamps all of the Vector4's elements to remain within the given
     /// upper and lower bounds.
     /// @param lower Vector4 representing the lowest allowed values
@@ -168,9 +178,9 @@ struct Vector4 {
             (ydist * ydist) + (xdist * xdist) + (zdist * zdist) + (wdist * wdist)
         ));
     }
-    
+
     // Arithmetic operators
-    
+
     /// @brief Unary operator += overload for Vector4 value
     /// @param right Vector4 to add
     /// @return The Vector4 result
@@ -182,7 +192,7 @@ struct Vector4 {
         w += right.w;
         return *this;
     }
-    
+
     /// @brief Unary operator += overload for scalar value
     /// @param scalar Scalar to add to all elements
     /// @return The Vector4 result
@@ -194,7 +204,7 @@ struct Vector4 {
         w += scalar;
         return *this;
     }
-    
+
     /// @brief Unary operator -= overload for Vector4 value
     /// @param right Vector4 to subtract
     /// @return The Vector4 result
@@ -206,7 +216,7 @@ struct Vector4 {
         w -= right.w;
         return *this;
     }
-    
+
     /// @brief Unary operator -= overload for scalar value
     /// @param scalar Scalar value to subtract from all elements
     /// @return The Vector4 result
@@ -218,7 +228,7 @@ struct Vector4 {
         w -= scalar;
         return *this;
     }
-    
+
     /// @brief Unary operator *= overload for Vector4 value
     /// @param right Vector4 to multiply
     /// @return The Vector4 result
@@ -230,7 +240,7 @@ struct Vector4 {
         w *= right.w;
         return *this;
     }
-    
+
     /// @brief Unary operator *= overload for scalar value
     /// @param scalar Scalar value to multiply with all elements
     /// @return The Vector4 result
@@ -242,7 +252,7 @@ struct Vector4 {
         w *= scalar;
         return *this;
     }
-    
+
     /// @brief Unary operator /= overload for Vector4 value
     /// @param right Vector4 to divide
     /// @return The Vector4 result
@@ -254,7 +264,7 @@ struct Vector4 {
         w /= right.w;
         return *this;
     }
-    
+
     /// @brief Binary operator /= overload for scalar value
     /// @param scalar Scalar value to divide all elements by
     /// @return The Vector4 result
@@ -266,24 +276,24 @@ struct Vector4 {
         w /= scalar;
         return *this;
     }
-    
+
     /// @brief Operator[] overload for element access
     /// @param i The element index to access
     /// @return The element at index i
     T& operator[](const int i)
     {
         SKY_ASSERT(i < 4, "Index out of bounds");
-        
+
         return (&x)[i];
     }
-    
+
     /// @brief Operator[] overload for const element access
     /// @param i The element index to access
     /// @return The element at index i
     T const& operator[](const int i) const
     {
         SKY_ASSERT(i < 4, "Index out of bounds");
-        
+
         return (&x)[i];
     }
 };
@@ -299,7 +309,7 @@ struct Vector4 {
 /// @param left Left operand
 /// @param right Right operand
 /// @return Result of addition of each of the lefts elements with the rights
-template <typename T>
+template<typename T>
 Vector4<T> operator+(const Vector4<T>& left, const Vector4<T>& right)
 {
     return Vector4<T>(
@@ -315,7 +325,7 @@ Vector4<T> operator+(const Vector4<T>& left, const Vector4<T>& right)
 /// @param vec Left operand
 /// @param scalar Right operand (scalar)
 /// @return Addition result of each of the vectors elements with the scalar.
-template <typename T>
+template<typename T>
 Vector4<T> operator+(const Vector4<T>& vec, const T& scalar)
 {
     return Vector4<T>(
@@ -331,7 +341,7 @@ Vector4<T> operator+(const Vector4<T>& vec, const T& scalar)
 /// @param left Left operand
 /// @param right Right operand
 /// @return Subtraction result of each of the lefts elements by the right elements
-template <typename T>
+template<typename T>
 Vector4<T> operator-(const Vector4<T>& left, const Vector4<T>& right)
 {
     return Vector4<T>(
@@ -347,7 +357,7 @@ Vector4<T> operator-(const Vector4<T>& left, const Vector4<T>& right)
 /// @param left Left operand
 /// @param right Right operand (scalar)
 /// @return Subtraction result of each of the vectors elements by the scalar
-template <typename T>
+template<typename T>
 Vector4<T> operator-(const Vector4<T>& vec, const T& scalar)
 {
     return Vector4<T>(
@@ -363,7 +373,7 @@ Vector4<T> operator-(const Vector4<T>& vec, const T& scalar)
 /// @param left Left operand
 /// @param right Right operand
 /// @return Division result of each of the left operands elements over the right elements
-template <typename T>
+template<typename T>
 Vector4<T> operator/(const Vector4<T>& left, const Vector4<T>& right)
 {
     return Vector4<T>(
@@ -379,7 +389,7 @@ Vector4<T> operator/(const Vector4<T>& left, const Vector4<T>& right)
 /// @param left Left operand
 /// @param right Right operand
 /// @return Division result of each of the left operands elements over the scalar
-template <typename T>
+template<typename T>
 Vector4<T> operator/(const Vector4<T>& vec, const T& divisor)
 {
     return Vector4<T>(
@@ -395,7 +405,7 @@ Vector4<T> operator/(const Vector4<T>& vec, const T& divisor)
 /// @param left The left operand
 /// @param right The right operand
 /// @return Multiplication result of each of the vectors elements
-template <typename T>
+template<typename T>
 Vector4<T> operator*(const Vector4<T>& left, const Vector4<T>& right)
 {
     return Vector4<T>(
@@ -411,7 +421,7 @@ Vector4<T> operator*(const Vector4<T>& left, const Vector4<T>& right)
 /// @param left The left operand
 /// @param right The right operand
 /// @return Multiplication result of each of the vectors elements with the scalar
-template <typename T>
+template<typename T>
 Vector4<T> operator*(const Vector4<T>& vec, const T& scalar)
 {
     return Vector4<T>(
@@ -426,7 +436,7 @@ Vector4<T> operator*(const Vector4<T>& vec, const T& scalar)
 /// @tparam T Data type of the Vector4's elements
 /// @param vec The vector to negate
 /// @return The result of negating each of the vectors elements
-template <typename T>
+template<typename T>
 Vector4<T> operator-(const Vector4<T>& vec)
 {
     return Vector4<T>(
@@ -444,11 +454,11 @@ Vector4<T> operator-(const Vector4<T>& vec)
 /// @param left Left operand
 /// @param right Right operand
 /// @return true if all elements in both Vector4's are equal, false otherwise
-template <typename T>
+template<typename T>
 bool operator==(const Vector4<T>& left, const Vector4<T>& right)
 {
     return (left.x == right.x) && (left.y == right.y) && (left.z == right.z)
-           && (left.w == right.w);
+        && (left.w == right.w);
 }
 
 /// @brief Binary operator!= overload
@@ -456,11 +466,11 @@ bool operator==(const Vector4<T>& left, const Vector4<T>& right)
 /// @param left Left operand
 /// @param right Right operand
 /// @return true if any element in either Vector4 are not equal, false otherwise
-template <typename T>
+template<typename T>
 bool operator!=(const Vector4<T>& left, const Vector4<T>& right)
 {
     return (left.x != right.x) || (left.y != right.y) || (left.z != right.z)
-           || (left.w != right.w);
+        || (left.w != right.w);
 }
 
 

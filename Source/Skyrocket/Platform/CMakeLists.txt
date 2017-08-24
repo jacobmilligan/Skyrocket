@@ -26,7 +26,7 @@ MESSAGE("-- Skyrocket.Platform: Building for ${skyrocket_platform}")
 ###### macOS ######
 if (${skyrocket_platform} STREQUAL "macOS")
     add_subdirectory(macOS)
-elseif(${skyrocket_platform} STREQUAL "Windows")
+elseif (${skyrocket_platform} STREQUAL "Windows")
     add_subdirectory(Windows)
 endif ()
 

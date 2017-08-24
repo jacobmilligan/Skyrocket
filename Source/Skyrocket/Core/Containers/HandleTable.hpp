@@ -22,10 +22,10 @@ namespace sky {
 
 /// @brief Groups some data with an integer ID
 /// @tparam T The type of data stored in the handle
-template <typename T>
+template<typename T>
 struct Handle {
-    uint32_t id { 0 };
-    T data { T() };
+    uint32_t id{0};
+    T data{T()};
 };
 
 /// @brief A static table of integer id -> data mappings. Avoids the overhead of a hashmap
@@ -33,7 +33,7 @@ struct Handle {
 /// generation of ID's but only maps them to handles.
 /// @tparam T The type of data to store in the table
 /// @tparam Capacity The maximum capacity of the table
-template <typename T, uint32_t Capacity>
+template<typename T, uint32_t Capacity>
 class HandleTable {
 public:
     /// @brief ID number that represents an invalid handle. This should be used for error
@@ -43,7 +43,8 @@ public:
     /// @brief Allocates a number of default instances of the specified data type
     /// equal to the capacity of the table.
     HandleTable()
-        : indicies_()
+        :
+        indicies_()
     {
         for ( uint32_t i = 0; i < Capacity; ++i ) {
             indicies_[i] = i;
@@ -79,17 +80,23 @@ public:
     void create(const uint32_t id, const T& data)
     {
         if ( count_ + 1 >= Capacity || count_ + 1 == invalid_id ) {
-            SKY_ERROR("HandleTable", "Creating new handle while capacity (%" PRIu32 ") is reached", Capacity);
+            SKY_ERROR("HandleTable", "Creating new handle while capacity (%"
+                PRIu32
+                ") is reached", Capacity);
             return;
         }
 
         if ( contains(id) ) {
-            SKY_ERROR("HandleTable", "Creating new handle with existing (%" PRIu32 ")", id);
+            SKY_ERROR("HandleTable", "Creating new handle with existing (%"
+                PRIu32
+                ")", id);
             return;
         }
 
         if ( id == invalid_id || id >= Capacity ) {
-            SKY_ERROR("HandleTable", "Creating new handle with invalid ID (%" PRIu32 ")", id);
+            SKY_ERROR("HandleTable", "Creating new handle with invalid ID (%"
+                PRIu32
+                ")", id);
             return;
         }
 
@@ -115,7 +122,9 @@ public:
     void destroy(const uint32_t id)
     {
         if ( !contains(id) ) {
-            SKY_ERROR("HandleTable", "Trying to destroy invalid id (%" PRIu32 ")", id);
+            SKY_ERROR("HandleTable", "Trying to destroy invalid id (%"
+                PRIu32
+                ")", id);
             return;
         }
 
@@ -146,15 +155,17 @@ public:
     T* lookup(const uint32_t id)
     {
         if ( !contains(id) ) {
-            SKY_ERROR("HandleTable", "Trying to lookup invalid id (%" PRIu32 ")", id);
+            SKY_ERROR("HandleTable", "Trying to lookup invalid id (%"
+                PRIu32
+                ")", id);
             return nullptr;
         }
 
-        return &handles_[ indicies_[id] ].data;
+        return &handles_[indicies_[id]].data;
     }
 
 private:
-    uint32_t count_ { 0 };
+    uint32_t count_{0};
     Handle<T> handles_[Capacity];
     uint32_t indicies_[Capacity];
 };

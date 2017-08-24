@@ -35,7 +35,8 @@ Path::Path(const char* path)
 }
 
 Path::Path(const Path& other)
-    : path_(other.path_)
+    :
+    path_(other.path_)
 {
     make_null_terminated();
     if ( exists() ) {

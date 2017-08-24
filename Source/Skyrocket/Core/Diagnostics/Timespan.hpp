@@ -36,13 +36,13 @@ struct Timespan {
 
     /// @brief The number of ticks that make a millisecond
     static const uint64_t ticks_per_millisecond;
-    
+
     /// @brief The number of ticks that make a second
     static const uint64_t ticks_per_second;
-    
+
     /// @brief The number of ticks that make a minute
     static const uint64_t ticks_per_minute;
-    
+
     /// @brief The number of ticks that make an hour
     static const uint64_t ticks_per_hour;
 
@@ -51,9 +51,10 @@ struct Timespan {
     /// @brief Initializes the time structure using the specified number of ticks
     /// @param ticks Number of ticks in the time unit
     explicit Timespan(const uint64_t ticks)
-        : ticks_(ticks)
+        :
+        ticks_(ticks)
     {}
-    
+
     /// @brief Initializes the time structure using the specified hours, minutes,
     /// and seconds
     /// @param hours Number of hours in the time unit
@@ -73,7 +74,7 @@ struct Timespan {
     {
         ticks_ = ticks;
     }
-    
+
     /// @brief Gets the time value in ticks
     /// @return The time in ticks
     inline uint64_t ticks() const
@@ -87,31 +88,31 @@ struct Timespan {
     {
         return static_cast<uint64_t>(ticks_ * micros_per_tick_);
     }
-    
+
     /// @brief Gets the time value in milliseconds
     /// @return The time in milliseconds
-	inline uint64_t milliseconds() const
+    inline uint64_t milliseconds() const
     {
         return static_cast<uint64_t>(ticks_ * ms_per_tick_);
     }
-    
+
     /// @brief Gets the time value in seconds
     /// @return The time in seconds
-	inline uint64_t seconds() const
+    inline uint64_t seconds() const
     {
         return static_cast<uint64_t>(ticks_ * secs_per_tick_);
     }
-    
+
     /// @brief Gets the time value in minutes
     /// @return The time in minutes
-	inline uint64_t minutes() const
+    inline uint64_t minutes() const
     {
         return static_cast<uint64_t>(ticks_ * mins_per_tick_);
     }
-    
+
     /// @brief Gets the time value in hours
     /// @return The time in hours
-	inline uint64_t hours() const
+    inline uint64_t hours() const
     {
         return static_cast<uint64_t>(ticks_ * hours_per_tick_);
     }
@@ -222,7 +223,7 @@ struct Timespan {
     {
         return ticks_ <= other.ticks_;
     }
-    
+
 private:
     /// @brief The time units ticks value used in all conversions
     uint64_t ticks_{0};
@@ -247,7 +248,7 @@ private:
 /// @tparam T The Interval unit to use (ticks, seconds, minutes etc.)
 /// @param duration The duration in the specified Interval to assign to the Time unit
 /// @return The Time unit
-template <TimeInterval T>
+template<TimeInterval T>
 Timespan get_timespan(const double duration);
 
 

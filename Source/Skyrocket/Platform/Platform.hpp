@@ -28,7 +28,7 @@ namespace sky {
 /// application calls.
 class Platform {
 public:
-	Platform() = default;
+    Platform() = default;
 
     /// @brief Launches a new application and window for the current platform
     /// @param app_title
@@ -39,35 +39,35 @@ public:
     /// @param width
     /// @param height
     /// @return raw void* to the native window object
-	static void* create_native_window(const char* caption, const uint16_t width,
+    static void* create_native_window(const char* caption, const uint16_t width,
                                       const uint16_t height);
 
     /// @brief Polls the input and registers all events
-	void poll_events();
+    void poll_events();
 
     /// @brief Checks whether the platform was initialized or not
     /// @return True if initialized, false otherwise
-	bool initialized()
-	{
-		return initialized_;
-	}
+    bool initialized()
+    {
+        return initialized_;
+    }
 
     /// @brief Gets a reference to the struct that holds all the events that were registered in the
     /// previous frame
     /// @return
-	static const PlatformEvents& get_events()
-	{
-		return events_;
-	}
+    static const PlatformEvents& get_events()
+    {
+        return events_;
+    }
 
 private:
-	bool initialized_{};
-	static PlatformEvents events_;
+    bool initialized_{};
+    static PlatformEvents events_;
 
-	const char* app_title_{};
+    const char* app_title_{};
 
-	void native_init();
-	void native_poll_events();
+    void native_init();
+    void native_poll_events();
 };
 
 

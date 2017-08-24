@@ -23,63 +23,62 @@ void GDI::process_commands()
 
         next_cmd_type = cmd_buf.read<rc::CmdType>();
 
-        switch (*next_cmd_type) {
-            case rc::CmdType::unknown:
-            {
+        switch ( *next_cmd_type ) {
+            case rc::CmdType::unknown: {
 
-            } break;
+            }
+                break;
 
-            case rc::CmdType::init:
-            {
+            case rc::CmdType::init: {
 //                auto
 //                auto& view = static_cast<rc::SetViewport&>(next_cmd).viewport;
 //                initialize(view);
-            } break;
+            }
+                break;
 
-            case rc::CmdType::set_viewport:
-            {
+            case rc::CmdType::set_viewport: {
                 auto cmd = cmd_buf.read<rc::SetViewport>();
                 auto view = cmd->viewport;
                 set_viewport(view);
-            } break;
+            }
+                break;
 
-            case rc::CmdType::create_vertex_buffer:
-            {
+            case rc::CmdType::create_vertex_buffer: {
                 auto cmd = cmd_buf.read<rc::CreateVertexBuffer>();
                 create_vertex_buffer(cmd->buf_id, cmd->data, cmd->buf_usage);
-            } break;
+            }
+                break;
 
-            case rc::CmdType::set_vertex_buffer:
-            {
+            case rc::CmdType::set_vertex_buffer: {
                 auto cmd = cmd_buf.read<rc::SetVertexBuffer>();
                 set_vertex_buffer(cmd->buf_id);
                 target_.vertex_buffer = cmd->buf_id;
                 target_.vertex_count = cmd->count;
                 target_.vertex_offset = cmd->first_vertex;
-            } break;
+            }
+                break;
 
-            case rc::CmdType::create_index_buffer:
-            {
+            case rc::CmdType::create_index_buffer: {
                 auto cmd = cmd_buf.read<rc::CreateIndexBuffer>();
                 create_index_buffer(cmd->buf_id, cmd->data);
-            } break;
+            }
+                break;
 
-            case rc::CmdType::set_index_buffer:
-            {
+            case rc::CmdType::set_index_buffer: {
                 auto cmd = cmd_buf.read<rc::SetIndexBuffer>();
                 set_index_buffer(cmd->buf_id);
                 target_.index_buffer = cmd->buf_id;
                 target_.index_count = cmd->count;
                 target_.index_offset = cmd->first_index;
-            } break;
+            }
+                break;
 
-            case rc::CmdType::create_shader:
-            {
+            case rc::CmdType::create_shader: {
 
-            } break;
+            }
+                break;
 
-            case rc::CmdType::set_shaders:
-            {
+            case rc::CmdType::set_shaders: {
                 auto cmd = cmd_buf.read<rc::SetShaders>();
 
                 auto v_prog = cmd->vertex_program;
@@ -91,31 +90,32 @@ void GDI::process_commands()
                     set_shaders(v_prog, f_prog);
                 }
 
-            } break;
+            }
+                break;
 
-            case rc::CmdType::create_uniform:
-            {
+            case rc::CmdType::create_uniform: {
                 auto cmd = cmd_buf.read<rc::CreateUniform>();
                 create_uniform(cmd->uniform_id, cmd->size);
-            } break;
+            }
+                break;
 
-            case rc::CmdType::set_uniform:
-            {
+            case rc::CmdType::set_uniform: {
                 auto cmd = cmd_buf.read<rc::SetUniform>();
                 set_uniform(cmd->uniform_id, cmd->uniform_index);
-            } break;
+            }
+                break;
 
-            case rc::CmdType::update_uniform:
-            {
+            case rc::CmdType::update_uniform: {
                 auto cmd = cmd_buf.read<rc::UpdateUniform>();
                 update_uniform(cmd->uniform_id, cmd->new_data);
-            } break;
+            }
+                break;
 
-            case rc::CmdType::draw_primitives:
-            {
+            case rc::CmdType::draw_primitives: {
                 cmd_buf.read<rc::DrawPrimitives>();
                 draw_primitives();
-            } break;
+            }
+                break;
         }
     }
 }

@@ -49,8 +49,9 @@ struct Command {
 
 struct SetViewport : public Command {
     explicit SetViewport(Viewport* viewport_ptr)
-        : Command(CmdType::set_viewport),
-          viewport(viewport_ptr)
+        :
+        Command(CmdType::set_viewport),
+        viewport(viewport_ptr)
     {}
 
     Viewport* viewport;
@@ -58,10 +59,11 @@ struct SetViewport : public Command {
 
 struct CreateVertexBuffer : public Command {
     CreateVertexBuffer(const uint32_t id, const MemoryBlock& initial_data, const BufferUsage usage)
-        : Command(CmdType::create_vertex_buffer),
-          buf_id(id),
-          data(initial_data),
-          buf_usage(usage)
+        :
+        Command(CmdType::create_vertex_buffer),
+        buf_id(id),
+        data(initial_data),
+        buf_usage(usage)
     {}
 
     uint32_t buf_id;
@@ -69,13 +71,14 @@ struct CreateVertexBuffer : public Command {
     BufferUsage buf_usage;
 };
 
-struct SetVertexBuffer: public Command {
+struct SetVertexBuffer : public Command {
     explicit SetVertexBuffer(const uint32_t id, const uint32_t offset,
                              const uint32_t num_vertices)
-        : Command(CmdType::set_vertex_buffer),
-          buf_id(id),
-          first_vertex(offset),
-          count(num_vertices)
+        :
+        Command(CmdType::set_vertex_buffer),
+        buf_id(id),
+        first_vertex(offset),
+        count(num_vertices)
     {}
 
     uint32_t buf_id;
@@ -85,22 +88,24 @@ struct SetVertexBuffer: public Command {
 
 struct CreateIndexBuffer : public Command {
     CreateIndexBuffer(const uint32_t id, const MemoryBlock& initial_data)
-        : Command(CmdType::create_index_buffer),
-          buf_id(id),
-          data(initial_data)
+        :
+        Command(CmdType::create_index_buffer),
+        buf_id(id),
+        data(initial_data)
     {}
 
     uint32_t buf_id;
     MemoryBlock data;
 };
 
-struct SetIndexBuffer: public Command {
+struct SetIndexBuffer : public Command {
     explicit SetIndexBuffer(const uint32_t id, const uint32_t offset,
                             const uint32_t num_indices)
-        : Command(CmdType::set_index_buffer),
-          buf_id(id),
-          first_index(offset),
-          count(num_indices)
+        :
+        Command(CmdType::set_index_buffer),
+        buf_id(id),
+        first_index(offset),
+        count(num_indices)
     {}
 
     uint32_t buf_id;
@@ -110,9 +115,10 @@ struct SetIndexBuffer: public Command {
 
 struct CreateShader : public Command {
     CreateShader(const uint32_t shader_id, const char* shader_name)
-        : Command(CmdType::create_shader),
-          sid(shader_id),
-          name(shader_name)
+        :
+        Command(CmdType::create_shader),
+        sid(shader_id),
+        name(shader_name)
     {}
 
     uint32_t sid;
@@ -121,9 +127,10 @@ struct CreateShader : public Command {
 
 struct SetShaders : public Command {
     SetShaders(const uint32_t vert_id, const uint32_t frag_id)
-        : Command(CmdType::set_shaders),
-          vertex_program(vert_id),
-          fragment_program(frag_id)
+        :
+        Command(CmdType::set_shaders),
+        vertex_program(vert_id),
+        fragment_program(frag_id)
     {}
 
     uint32_t vertex_program;
@@ -132,10 +139,11 @@ struct SetShaders : public Command {
 
 struct CreateUniform : public Command {
     CreateUniform(const uint32_t u_id, const UniformType type, const uint32_t data_size)
-        : Command(CmdType::create_uniform),
-          uniform_id(u_id),
-          uniform_type(type),
-          size(data_size)
+        :
+        Command(CmdType::create_uniform),
+        uniform_id(u_id),
+        uniform_type(type),
+        size(data_size)
     {}
 
     uint32_t uniform_id;
@@ -145,9 +153,10 @@ struct CreateUniform : public Command {
 
 struct SetUniform : public Command {
     SetUniform(const uint32_t u_id, const uint32_t index)
-        : Command(CmdType::set_uniform),
-          uniform_id(u_id),
-          uniform_index(index)
+        :
+        Command(CmdType::set_uniform),
+        uniform_id(u_id),
+        uniform_index(index)
     {}
 
     uint32_t uniform_id;
@@ -156,9 +165,10 @@ struct SetUniform : public Command {
 
 struct UpdateUniform : public Command {
     UpdateUniform(const uint32_t u_id, const MemoryBlock& data)
-        : Command(CmdType::update_uniform),
-          uniform_id(u_id),
-          new_data(data)
+        :
+        Command(CmdType::update_uniform),
+        uniform_id(u_id),
+        new_data(data)
     {}
 
     uint32_t uniform_id;
@@ -167,7 +177,8 @@ struct UpdateUniform : public Command {
 
 struct DrawPrimitives : public Command {
     DrawPrimitives()
-        : Command(CmdType::draw_primitives)
+        :
+        Command(CmdType::draw_primitives)
     {}
 };
 

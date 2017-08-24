@@ -18,9 +18,14 @@
 #import <Metal/Metal.h>
 #import <QuartzCore/CAMetalLayer.h>
 
-@interface MetalView : CocoaView
+@
+interface MetalView :
+CocoaView
 
-@property (readonly, nullable)CAMetalLayer* metalLayer;
+@
+property (readonly, nullable
+)
+CAMetalLayer* metalLayer;
 
 @end
 

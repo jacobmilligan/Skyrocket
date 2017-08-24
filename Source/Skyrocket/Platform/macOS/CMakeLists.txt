@@ -2,7 +2,7 @@
 FIND_LIBRARY(cocoa_lib Cocoa)
 if (NOT cocoa_lib)
     MESSAGE("-- Skyrocket.Platform: Could not find Cocoa framework")
-else()
+else ()
     list(APPEND dependencies ${cocoa_lib})
 endif ()
 

@@ -19,7 +19,7 @@ namespace sky {
 
 
 struct Viewport::NativeViewport {
-	HWND window;
+    HWND window;
 };
 
 Viewport::Viewport()
@@ -27,28 +27,28 @@ Viewport::Viewport()
 
 Viewport::~Viewport()
 {
-	close();
+    close();
 }
 
 void Viewport::destroy_native_viewport()
 {
-	if ( handle_ ) {
-		delete handle_;
-	}
+    if ( handle_ ) {
+        delete handle_;
+    }
 }
 
 void Viewport::create_native_viewport()
 {
-	AssertGuard guard("Creating a native viewport", nullptr);
+    AssertGuard guard("Creating a native viewport", nullptr);
 
-	SKY_ASSERT(Platform::initialized(), "Platform is initialized");
+    SKY_ASSERT(Platform::initialized(), "Platform is initialized");
 
-	handle_ = std::make_unique<NativeViewport>();
-	handle_->window = static_cast<HWND>(Platform::create_native_window(caption_, width_, height_));
-	SetPropW(handle_->window, L"SKY_WINDOW", &window_data_);
+    handle_ = std::make_unique<NativeViewport>();
+    handle_->window = static_cast<HWND>(Platform::create_native_window(caption_, width_, height_));
+    SetPropW(handle_->window, L"SKY_WINDOW", &window_data_);
 }
 
-void Viewport::set_backing_color(const sky::Color &color)
+void Viewport::set_backing_color(const sky::Color& color)
 {
 
 }

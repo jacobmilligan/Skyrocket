@@ -22,7 +22,7 @@ namespace sky {
 /// @brief A simple wrapper around a buffer of data of varying size and type - read and
 /// write operations handle moving the internal cursor and end position.
 /// @tparam Size Number of bytes to store in the buffer
-template <uint32_t Size>
+template<uint32_t Size>
 class Buffer {
 public:
     Buffer() = default;
@@ -30,7 +30,7 @@ public:
     /// @brief Writes data of any type to the buffer via copy
     /// @tparam T The type of data being written allows for specifying byte size
     /// @param data The data to write to the buffer
-    template <typename T>
+    template<typename T>
     void write(T* data)
     {
         auto size = sizeof(T);
@@ -46,7 +46,7 @@ public:
     /// @tparam T Type of data being read. This allows the current element to be read
     /// into any receiving pointer type.
     /// @return Pointer to the copied data
-    template <typename T>
+    template<typename T>
     T* read()
     {
         auto size = sizeof(T);
@@ -63,7 +63,7 @@ public:
     /// @brief Reads data from the buffer, copying it into the specified pointer
     /// @tparam T The type of data being read
     /// @param out_data The pointer to copy the data into
-    template <typename T>
+    template<typename T>
     void read_copy(T* out_data)
     {
         auto size = sizeof(T);
@@ -119,7 +119,7 @@ private:
 /// operations
 /// @tparam Size Number of bytes to store in each buffer
 /// @tparam NumBuffers The number of buffer available
-template <uint32_t Size, uint16_t NumBuffers>
+template<uint32_t Size, uint16_t NumBuffers>
 class Multibuffer {
 public:
     Multibuffer() = default;

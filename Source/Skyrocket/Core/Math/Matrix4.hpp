@@ -23,15 +23,17 @@ namespace sky {
 /// utilizes the same functions and operator overloads defined on these Vector types
 /// @tparam T The data type held within each matrix element. Supports any type that
 /// has defined all arithmetic and logical operators
-template <typename T>
+template<typename T>
 struct Matrix4 {
     /// @brief The column vector elements of the matrix
-    Vector4<T> columns[4];
+    Vector4 <T> columns[4];
 
     /// @brief Default constructor - initializes the Matrix as the identity
     /// matrix, that is the main diagonal elements are initialized to 1
     /// with all other elements initialized to 0
-    Matrix4() : Matrix4(static_cast<T>(1)) {}
+    Matrix4() :
+        Matrix4(static_cast<T>(1))
+    {}
 
     /// @brief Constructs a new matrix with the main diagonal elements
     /// initialized to the specified value
@@ -43,22 +45,22 @@ struct Matrix4 {
         columns[2] = Vector4<T>(0, 0, value, 0);
         columns[3] = Vector4<T>(0, 0, 0, value);
     }
-    
+
     /// @brief Constructs a new matrix with the specified column vectors used to
     /// initialize the matrix's column values from left to right
     /// @param col1 The left-most column
     /// @param col2 The left-center column
     /// @param col3 The right-center column
     /// @param col4 The right-most column
-    Matrix4(const Vector4<T>& col1, const Vector4<T>& col2,
-            const Vector4<T>& col3, const Vector4<T>& col4)
+    Matrix4(const Vector4 <T>& col1, const Vector4 <T>& col2,
+            const Vector4 <T>& col3, const Vector4 <T>& col4)
     {
         columns[0] = col1;
         columns[1] = col2;
         columns[2] = col3;
         columns[3] = col4;
     }
-    
+
     /// @brief Constructs a new matrix with the specified element values in
     /// column-major ordering, i.e. top to bottom, left to right
     /// @param x0
@@ -89,25 +91,25 @@ struct Matrix4 {
         columns[2] = Vector4<T>(x2, y2, z2, w2);
         columns[3] = Vector4<T>(x3, y3, z3, w3);
     }
-    
+
     /// @brief Gets a string representation of the matrix
     /// @return The matrix string
     std::string to_string()
     {
         std::stringstream ss;
-        
+
         ss << columns[0].to_string() << "\n"
-            << columns[1].to_string() << "\n"
-            << columns[2].to_string() << "\n"
-            << columns[3].to_string() << "\n";
-        
+           << columns[1].to_string() << "\n"
+           << columns[2].to_string() << "\n"
+           << columns[3].to_string() << "\n";
+
         return ss.str();
     }
-    
+
     /// @brief Gets a scale matrix using this matrix and a column Vector3 as a basis
     /// @param delta The column vector to scale the matrix by
     /// @return The scale matrix
-    Matrix4<T> scale(const Vector3<T>& delta)
+    Matrix4<T> scale(const Vector3 <T>& delta)
     {
         auto result = *this;
 
@@ -117,12 +119,12 @@ struct Matrix4 {
 
         return result;
     }
-    
+
     /// @brief Gets a translation matrix using this matrix and a
     /// column Vector3 as a basis
     /// @param delta The column vector to translate the matrix by
     /// @return The translation matrix
-    Matrix4<T> translate(const Vector3<T>& delta)
+    Matrix4<T> translate(const Vector3 <T>& delta)
     {
         Matrix4<T> trans = *this;
         trans[3][0] = delta.x;
@@ -160,39 +162,39 @@ struct Matrix4 {
 
         return result;
     }
-    
+
     /// @brief Gets a rotation matrix using this matrix and a Vector3 that describes
     /// the axis to rotate around, specifying the angle in degrees to rotate with.
     /// @param angle The angle at which to rotate
     /// @param axis_vec The vector representing an axis to rotate around
     /// @return The rotation matrix
-    Matrix4<T> rotate(const T angle, const Vector3<T>& axis_vec)
+    Matrix4<T> rotate(const T angle, const Vector3 <T>& axis_vec)
     {
         auto axis = axis_vec;
         auto rotation = *this;
-        
+
         axis.normalize();
-        
+
         auto dsin = static_cast<T>(sin(angle));
         auto dcos = static_cast<T>(cos(angle));
         auto ocos = static_cast<T>(1.0 - dcos);
-        
+
         // Rodrigues' Rotation Formula
         rotation[0][0] = dcos + (axis.x * axis.x) * ocos;
         rotation[0][1] = axis.y * axis.x + axis.z * dsin;
         rotation[0][2] = axis.z * axis.x * ocos - axis.y * dsin;
-        
+
         rotation[1][0] = axis.x * axis.y * ocos - axis.z * dsin;
         rotation[1][1] = dcos + (axis.y * axis.y) * ocos;
         rotation[1][2] = axis.z * axis.y * ocos - axis.x * dsin;
-        
+
         rotation[2][0] = axis.x * axis.z * ocos + axis.y * dsin;
         rotation[2][1] = axis.y * axis.z * ocos + axis.x * dsin;
         rotation[2][2] = dcos + (axis.z * axis.z) * ocos;
-        
+
         return rotation;
     }
-    
+
     /// @brief Creates a left-handed orthographic projection matrix used for
     /// projecting 3D world coordinates to 2D screen space
     /// @param left The left-most point of the viewing area
@@ -226,7 +228,7 @@ struct Matrix4 {
         result[3][1] = (top + bottom) / (bottom - top);
         result[3][2] = mtl_near / (far - mtl_near);
 #endif
-        
+
         return result;
     }
 
@@ -256,63 +258,63 @@ struct Matrix4 {
 
         return result;
     }
-    
+
     /// @brief Constructs a matrix to use as a view matrix for looking at a
     /// particular point in 3D space
     /// @param eye The viewers eye point
     /// @param target The new point in 3D space to look at
     /// @param up The vector pointing upwards in 3D space relative to the eye point
     /// @return The look_at matrix
-    Matrix4<T> look_at(const Vector3<T>& eye, const Vector3<T>& target,
-                       const Vector3<T>& up)
+    Matrix4<T> look_at(const Vector3 <T>& eye, const Vector3 <T>& target,
+                       const Vector3 <T>& up)
     {
         Matrix4<T> result;
-        
+
         Vector3<T> f(target - eye); // towards center
         f.normalize();
-        
+
         auto s = f.cross(up);
         s.normalize();
-        
+
         auto u = s.cross(f); // pointing up
-        
+
         // Up
         result[0][1] = u.x;
         result[1][1] = u.y;
         result[2][1] = u.z;
-        
+
         // Right
         result[0][0] = s.x;
         result[1][0] = s.y;
         result[2][0] = s.z;
-        
+
         // Negative target for rhs
         result[0][2] = -f.x;
         result[1][2] = -f.y;
         result[2][2] = -f.z;
-        
+
         // Calculate translations - always in 4th column
         result[3][0] = -s.dot(eye); // -position.x
         result[3][1] = -u.dot(eye); // -position.y
         result[3][2] = f.dot(eye); // z for rhs instead of -z
-        
+
         return result;
     }
-    
+
     /// @brief Defines subscript operator for accessing the column vector elements
     /// of the matrix
     /// @param i The column vector to access
     /// @return The column vector
-    Vector4<T>& operator[](const int i)
+    Vector4 <T>& operator[](const int i)
     {
         return columns[i];
     }
-    
+
     /// @brief Defines subscript operator for accessing the column vector elements
     /// of the matrix. Definition used for const accessing
     /// @param i The column vector to access
     /// @return The column vector
-    const Vector4<T>& operator[](const int i) const
+    const Vector4 <T>& operator[](const int i) const
     {
         return columns[i];
     }
@@ -324,8 +326,8 @@ struct Matrix4 {
 /// @param mat The matrix to multiply
 /// @param vec The vector to multiple
 /// @return The Vector result of the multiplication
-template <typename T>
-Vector4<T> operator*(const Matrix4<T>& mat, const Vector4<T>& vec)
+template<typename T>
+Vector4 <T> operator*(const Matrix4<T>& mat, const Vector4 <T>& vec)
 {
     return Vector4<T>(
         mat[0][0] * vec[0] + mat[0][1] * vec[0] + mat[0][2] * vec[0] + mat[0][3] * vec[0],
@@ -340,7 +342,7 @@ Vector4<T> operator*(const Matrix4<T>& mat, const Vector4<T>& vec)
 /// @param left LHS Matrix
 /// @param right RHS Matrix
 /// @return The result of the multiplication operation
-template <typename T>
+template<typename T>
 Matrix4<T> operator*(const Matrix4<T>& left, const Matrix4<T>& right)
 {
     Matrix4<T> result(static_cast<T>(0));

@@ -22,10 +22,11 @@
 
 namespace sky {
 
-template <uint16_t Size>
+template<uint16_t Size>
 struct MetalBuffer {
     MetalBuffer()
-        : current_(0), usage_(BufferUsage::none)
+        :
+        current_(0), usage_(BufferUsage::none)
     {}
 
     void init(id<MTLDevice> device, void* data, const uint32_t length, const BufferUsage usage)
@@ -33,9 +34,13 @@ struct MetalBuffer {
         current_ = 0;
         usage_ = usage;
         for ( int i = 0; i < Size; ++i ) {
-            buffers_[i] = [device newBufferWithBytes:data
-                                              length:length
-                                             options:MTLResourceCPUCacheModeDefaultCache];
+            buffers_[i] = [device
+            newBufferWithBytes:
+            data
+            length:
+            length
+            options:
+            MTLResourceCPUCacheModeDefaultCache];
         }
     }
 
@@ -99,7 +104,7 @@ private:
 
     id<MTLCommandBuffer> command_buffer_[max_frames_in_flight];
     id<MTLRenderCommandEncoder> render_encoder_;
-    
+
     id<MTLLibrary> library_;
     id<MTLLibrary> default_library_;
     id<MTLFunction> default_vshader_;

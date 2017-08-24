@@ -22,15 +22,15 @@ namespace sky {
 /// have one keyboard key at any given time
 enum class ModifierKey {
     /// @brief The left/right shift key modifier
-    shift = 0x0001,
+        shift = 0x0001,
     /// @brief The left/right control key modifier
-    control = 0x0002,
+        control = 0x0002,
     /// @brief The left/right alt key modifier
-    alt = 0x0004,
+        alt = 0x0004,
     /// @brief The left/right super key modifier - this is usually the windows key
     /// on Windows or linux systems with a Windows keyboard or the option
     /// key on macOS
-    super = 0x0008
+        super = 0x0008
 };
 
 /// @brief Enumeration of all keycodes on a US standard keyboard. The keycodes map
@@ -86,9 +86,9 @@ enum class Key {
     right_bracket,
     grave_accent = 96,
     /// @brief Keycode to use for non-US mapped key
-    international_1 = 161,
+        international_1 = 161,
     /// @brief Keycode to use for non-US mapped key
-    international_2,
+        international_2,
     escape = 256,
     enter,
     tab,

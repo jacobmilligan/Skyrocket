@@ -20,14 +20,13 @@
 //===================================================
 
 #undef FTERRORS_H_
-#define FT_ERRORDEF( e, v, s )  { e, s },
+#define FT_ERRORDEF(e, v, s)  { e, s },
 #define FT_ERROR_START_LIST     {
 #define FT_ERROR_END_LIST       { 0, NULL } };
 
-const struct
-{
-    int          code;
-    const char*  msg;
+const struct {
+    int code;
+    const char* msg;
 } FT_errors[] =
 
 #include FT_ERRORS_H
@@ -52,7 +51,8 @@ struct FontService {
 FT_Library FontService::lib = nullptr;
 
 Font::Font()
-    : service(std::make_unique<FontService>())
+    :
+    service(std::make_unique<FontService>())
 {}
 
 Font::~Font() = default;

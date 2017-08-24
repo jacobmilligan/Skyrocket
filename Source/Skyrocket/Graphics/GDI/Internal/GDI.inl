@@ -17,7 +17,7 @@
 namespace sky {
 
 
-template <typename T>
+template<typename T>
 void GDI::write_command(T* cmd)
 {
     auto is_base = std::is_base_of<rc::Command, T>::value;

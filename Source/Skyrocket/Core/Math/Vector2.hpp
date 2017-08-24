@@ -25,34 +25,40 @@ namespace sky {
 /// @brief A 2 dimensional Vector structure with several linear algebra operations
 /// defined for its members.
 /// @tparam T The data type to store in the vector
-template <typename T>
+template<typename T>
 struct Vector2 {
-    
+
     union {
         struct {
             /// @brief The x coordinate of the Vector2
             T x;
-            
+
             /// @brief  The y coordinate of the Vector2
             T y;
         };
     };
-    
+
     /// @brief Initializes a new Vector2 with all elements assigned the
     /// specified value
     /// @param value Value to assign to all elements
     Vector2(const T value)
-        : x(value), y(value) {}
-    
+        :
+        x(value), y(value)
+    {}
+
     /// @brief Initializes a new Vector2 with all elements assigned a value of zero
-    Vector2() : Vector2(0) {}
-    
+    Vector2() :
+        Vector2(0)
+    {}
+
     /// @brief Initializes a new Vector2 with each element assigned the
     /// specified value
     /// @param vx Value to assign to the x element (element[0])
     /// @param vy Value to assign to the y element (element[1])
     Vector2(const T vx, const T vy)
-        : x(vx), y(vy) {}
+        :
+        x(vx), y(vy)
+    {}
 
     /// @brief Outputs a string representation of the Vector2 elements in the form
     /// "{x, y}"
@@ -63,21 +69,21 @@ struct Vector2 {
         ss << "{" << x << ", " << y << "}";
         return ss.str();
     }
-    
+
     /// @brief Computes the dot product of this Vector2 and another, returning
     /// a value of type T
     /// @param right The vector to compute the dot product with
     /// @return Dot product result
-    T dot(const Vector2<T> &right) const
+    T dot(const Vector2<T>& right) const
     {
         return (x * right.x) + (y * right.y);
     }
-    
+
     /// @brief Computes the length of the Vector2
     /// @return The vectors length
     T length() const
     {
-        return std::sqrt( (x * x) + (y * y) );
+        return std::sqrt((x * x) + (y * y));
     }
 
     /// @brief Computes the squared length of the Vector2 - used for optimizing
@@ -87,14 +93,14 @@ struct Vector2 {
     {
         return (x * x) + (y * y);
     }
-    
+
     /// @brief Normalizes the Vector2's elements to be of length 1 but retain their
     /// direction.
     void normalize()
     {
         auto len = length();
-        auto n = static_cast<T>(1) / ( (len <= 0) ? 1 : len );
-        
+        auto n = static_cast<T>(1) / ((len <= 0) ? 1 : len);
+
         x *= n;
         y *= n;
     }
@@ -106,7 +112,7 @@ struct Vector2 {
     {
         auto normalized = *this;
         auto len = length();
-        auto n = static_cast<T>(1) / ( (len <= 0) ? 1 : len );
+        auto n = static_cast<T>(1) / ((len <= 0) ? 1 : len);
 
         return Vector2<T>(x * n, y * n);
     }
@@ -115,7 +121,7 @@ struct Vector2 {
     {
         return Vector2<T>(-y, x);
     }
-    
+
     /// @brief Clamps all of the Vector2's elements to remain within the given
     /// upper and lower bounds.
     /// @param lower Vector2 representing the lowest allowed values
@@ -143,11 +149,11 @@ struct Vector2 {
     {
         auto ydist = y - target.y;
         auto xdist = x - target.x;
-        return static_cast<float>(sqrt( (ydist * ydist) + (xdist * xdist) ));
+        return static_cast<float>(sqrt((ydist * ydist) + (xdist * xdist)));
     }
 
     // Arithmetic operators
-    
+
     /// @brief Unary operator += overload for Vector2 value
     /// @param right Vector2 to add
     /// @return The Vector2 result
@@ -157,7 +163,7 @@ struct Vector2 {
         y += right.y;
         return *this;
     }
-    
+
     /// @brief Unary operator += overload for scalar value
     /// @param scalar Scalar to add to all elements
     /// @return The Vector2 result
@@ -167,7 +173,7 @@ struct Vector2 {
         y += scalar;
         return *this;
     }
-    
+
     /// @brief Unary operator -= overload for Vector2 value
     /// @param right Vector2 to subtract
     /// @return The Vector2 result
@@ -177,7 +183,7 @@ struct Vector2 {
         y -= right.y;
         return *this;
     }
-    
+
     /// @brief Unary operator -= overload for scalar value
     /// @param scalar Scalar value to subtract from all elements
     /// @return The Vector2 result
@@ -187,7 +193,7 @@ struct Vector2 {
         y -= scalar;
         return *this;
     }
-    
+
     /// @brief Unary operator *= overload for Vector2 value
     /// @param right Vector2 to multiply
     /// @return The Vector2 result
@@ -197,7 +203,7 @@ struct Vector2 {
         y *= right.y;
         return *this;
     }
-    
+
     /// @brief Unary operator *= overload for scalar value
     /// @param scalar Scalar value to multiply with all elements
     /// @return The Vector2 result
@@ -207,7 +213,7 @@ struct Vector2 {
         y *= scalar;
         return *this;
     }
-    
+
     /// @brief Unary operator /= overload for Vector2 value
     /// @param right Vector2 to divide
     /// @return The Vector2 result
@@ -217,7 +223,7 @@ struct Vector2 {
         y /= right.y;
         return *this;
     }
-    
+
     /// @brief Binary operator /= overload for scalar value
     /// @param scalar Scalar value to divide all elements by
     /// @return The Vector2 result
@@ -227,24 +233,24 @@ struct Vector2 {
         y /= scalar;
         return *this;
     }
-    
+
     /// @brief Operator[] overload for element access
     /// @param i The element index to access
     /// @return The element at index i
     T& operator[](const int i)
     {
         SKY_ASSERT(i < 2, "Index %d out of bounds", i);
-        
+
         return (&x)[i];
     }
-    
+
     /// @brief Operator[] overload for const element access
     /// @param i The element index to access
     /// @return The element at index i
     T const& operator[](const int i) const
     {
         SKY_ASSERT(i < 2, "Index %d out of bounds", i);
-        
+
         return (&x)[i];
     }
 };
@@ -260,7 +266,7 @@ struct Vector2 {
 /// @param left Left operand
 /// @param right Right operand
 /// @return Result of addition of each of the lefts elements with the rights
-template <typename T>
+template<typename T>
 Vector2<T> operator+(const Vector2<T>& left, const Vector2<T>& right)
 {
     return Vector2<T>(
@@ -274,7 +280,7 @@ Vector2<T> operator+(const Vector2<T>& left, const Vector2<T>& right)
 /// @param vec Left operand
 /// @param scalar Right operand (scalar)
 /// @return Addition result of each of the vectors elements with the scalar.
-template <typename T>
+template<typename T>
 Vector2<T> operator+(const Vector2<T>& vec, const T& scalar)
 {
     return Vector2<T>(
@@ -288,7 +294,7 @@ Vector2<T> operator+(const Vector2<T>& vec, const T& scalar)
 /// @param left Left operand
 /// @param right Right operand
 /// @return Subtraction result of each of the lefts elements by the right elements
-template <typename T>
+template<typename T>
 Vector2<T> operator-(const Vector2<T>& left, const Vector2<T>& right)
 {
     return Vector2<T>(
@@ -302,7 +308,7 @@ Vector2<T> operator-(const Vector2<T>& left, const Vector2<T>& right)
 /// @param left Left operand
 /// @param right Right operand (scalar)
 /// @return Subtraction result of each of the vectors elements by the scalar
-template <typename T>
+template<typename T>
 Vector2<T> operator-(const Vector2<T>& vec, const T& scalar)
 {
     return Vector2<T>(
@@ -316,7 +322,7 @@ Vector2<T> operator-(const Vector2<T>& vec, const T& scalar)
 /// @param left Left operand
 /// @param right Right operand
 /// @return Division result of each of the left operands elements over the right elements
-template <typename T>
+template<typename T>
 Vector2<T> operator/(const Vector2<T>& left, const Vector2<T>& right)
 {
     return Vector2<T>(
@@ -330,7 +336,7 @@ Vector2<T> operator/(const Vector2<T>& left, const Vector2<T>& right)
 /// @param left Left operand
 /// @param right Right operand
 /// @return Division result of each of the left operands elements over the scalar
-template <typename T>
+template<typename T>
 Vector2<T> operator/(const Vector2<T>& vec, const T& divisor)
 {
     return Vector2<T>(
@@ -344,7 +350,7 @@ Vector2<T> operator/(const Vector2<T>& vec, const T& divisor)
 /// @param left The left operand
 /// @param right The right operand
 /// @return Multiplication result of each of the vectors elements
-template <typename T>
+template<typename T>
 Vector2<T> operator*(const Vector2<T>& left, const Vector2<T>& right)
 {
     return Vector2<T>(
@@ -358,7 +364,7 @@ Vector2<T> operator*(const Vector2<T>& left, const Vector2<T>& right)
 /// @param left The left operand
 /// @param right The right operand
 /// @return Multiplication result of each of the vectors elements with the scalar
-template <typename T>
+template<typename T>
 Vector2<T> operator*(const Vector2<T>& vec, const T& scalar)
 {
     return Vector2<T>(
@@ -371,7 +377,7 @@ Vector2<T> operator*(const Vector2<T>& vec, const T& scalar)
 /// @tparam T Data type of the Vector2's elements
 /// @param vec The vector to negate
 /// @return The result of negating each of the vectors elements
-template <typename T>
+template<typename T>
 Vector2<T> operator-(const Vector2<T>& vec)
 {
     return Vector2<T>(
@@ -387,8 +393,8 @@ Vector2<T> operator-(const Vector2<T>& vec)
 /// @param left Left operand
 /// @param right Right operand
 /// @return true if all elements in both Vector2's are equal, false otherwise
-template <typename T>
-bool operator==(const Vector2<T>& left, const Vector2<T> &right)
+template<typename T>
+bool operator==(const Vector2<T>& left, const Vector2<T>& right)
 {
     return (left.x == right.x) && (left.y == right.y);
 }
@@ -398,8 +404,8 @@ bool operator==(const Vector2<T>& left, const Vector2<T> &right)
 /// @param left Left operand
 /// @param right Right operand
 /// @return true if any element in either Vector2 are not equal, false otherwise
-template <typename T>
-bool operator!=(const Vector2<T>& left, const Vector2<T> &right)
+template<typename T>
+bool operator!=(const Vector2<T>& left, const Vector2<T>& right)
 {
     return (left.x != right.x) || (left.y != right.y);
 }

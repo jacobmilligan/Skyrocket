@@ -16,8 +16,9 @@ namespace sky {
 
 
 Application::Application(const char* name)
-    : name_(name),
-      active_(false)
+    :
+    name_(name),
+    active_(false)
 {}
 
 Application::~Application()

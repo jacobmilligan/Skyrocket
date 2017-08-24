@@ -43,7 +43,7 @@ uint64_t get_hertz() noexcept
 
 #if SKY_OS_MACOS == 1
 
-    mach_timebase_info_data_t ns_tick {};
+    mach_timebase_info_data_t ns_tick{};
     mach_timebase_info(&ns_tick);
 
     hertz = static_cast<uint64_t>(ns_tick.denom * 1e9 / ns_tick.numer);

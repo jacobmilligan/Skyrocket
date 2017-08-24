@@ -20,7 +20,7 @@ namespace sky {
 /// @brief A 3 dimensional Vector structure with several linear algebra operations
 /// defined for its members.
 /// @tparam T The data type to store in the vector
-template <typename T>
+template<typename T>
 struct Vector3 {
 
     union {
@@ -35,31 +35,39 @@ struct Vector3 {
             T z;
         };
     };
-    
+
     /// @brief Initializes a new Vector3 with all elements assigned the
     /// specified value
     /// @param value Value to assign to all elements
     Vector3(const T value)
-        : x(value), y(value), z(value) {}
-    
+        :
+        x(value), y(value), z(value)
+    {}
+
     /// @brief Initializes a new Vector3 with all elements assigned a value of zero
-    Vector3() : Vector3(0.0f) {}
-    
+    Vector3() :
+        Vector3(0.0f)
+    {}
+
     /// @brief Initializes a new Vector3 with each element assigned the
     /// specified value
     /// @param vx Value to assign to the x element (element[0])
     /// @param vy Value to assign to the y element (element[1])
     /// @param vz Value to assign to the z element (element[2])
     Vector3(const T vx, const T vy, const T vz)
-        : x(vx), y(vy), z(vz) {}
-    
+        :
+        x(vx), y(vy), z(vz)
+    {}
+
     /// @brief Initializes a new Vector3 using a Vector2 for the x and y
     /// coordinates
     /// @param vec2 Vector2 to use for x and y coordinates
     /// @param vz The z coordinate value
-    Vector3(const Vector2<T>& vec2, const T vz)
-        : x(vec2.x), y(vec2.y), z(vz) {}
-    
+    Vector3(const Vector2 <T>& vec2, const T vz)
+        :
+        x(vec2.x), y(vec2.y), z(vz)
+    {}
+
     /// @brief Outputs a string representation of the Vector3 elements in the form
     /// "{x, y, z}"
     /// @return The string representation of the Vector3
@@ -69,7 +77,7 @@ struct Vector3 {
         ss << "{" << x << ", " << y << ", " << z << "}";
         return ss.str();
     }
-    
+
     /// @brief Computes the dot product of this Vector3 and another, returning
     /// a value of type T
     /// @param right The vector to compute the dot product with
@@ -78,12 +86,12 @@ struct Vector3 {
     {
         return (x * right.x) + (y * right.y) + (z * right.z);
     }
-    
+
     /// @brief Computes the length of the Vector3
     /// @return The vectors length
     T length() const
     {
-        return std::sqrt( (x * x) + (y * y) + (z * z) );
+        return std::sqrt((x * x) + (y * y) + (z * z));
     }
 
     /// @brief Computes the squared length of the Vector3 - used for optimizing
@@ -93,14 +101,14 @@ struct Vector3 {
     {
         return (x * x) + (y * y) + (z * z);
     }
-    
+
     /// @brief Normalizes the Vector3's elements to be of length 1 but retain their
     /// direction.
     void normalize()
     {
         auto len = length();
-        auto n = static_cast<T>(1) / ( (len <= 0) ? 1 : len );
-        
+        auto n = static_cast<T>(1) / ((len <= 0) ? 1 : len);
+
         x *= n;
         y *= n;
         z *= n;
@@ -112,11 +120,11 @@ struct Vector3 {
     Vector3<T> get_normalized()
     {
         auto len = length();
-        auto n = static_cast<T>(1) / ( (len <= 0) ? 1 : len );
+        auto n = static_cast<T>(1) / ((len <= 0) ? 1 : len);
 
         return Vector3<T>(x * n, y * n, z * n);
     }
-    
+
     /// @brief Clamps all of the Vector3's elements to remain within the given
     /// upper and lower bounds.
     /// @param lower Vector3 representing the lowest allowed values
@@ -151,7 +159,7 @@ struct Vector3 {
             (ydist * ydist) + (xdist * xdist) + (zdist * zdist)
         ));
     }
-    
+
     /// @brief Calculates the vectors cross product with the given Vector3 to
     /// produce a new Vector3 that is perpendicular to to both operands
     /// @param right Right operand
@@ -164,9 +172,9 @@ struct Vector3 {
             (x * right.y) - (y * right.x)
         );
     }
-    
+
     // Arithmetic operators
-    
+
     /// @brief Unary operator += overload for Vector3 value
     /// @param right Vector3 to add
     /// @return The Vector3 result
@@ -177,7 +185,7 @@ struct Vector3 {
         z += right.z;
         return *this;
     }
-    
+
     /// @brief Unary operator += overload for scalar value
     /// @param scalar Scalar to add to all elements
     /// @return The Vector3 result
@@ -188,7 +196,7 @@ struct Vector3 {
         z += scalar;
         return *this;
     }
-    
+
     /// @brief Unary operator -= overload for Vector3 value
     /// @param right Vector3 to subtract
     /// @return The Vector3 result
@@ -199,7 +207,7 @@ struct Vector3 {
         z -= right.z;
         return *this;
     }
-    
+
     /// @brief Unary operator -= overload for scalar value
     /// @param scalar Scalar value to subtract from all elements
     /// @return The Vector3 result
@@ -210,7 +218,7 @@ struct Vector3 {
         z -= scalar;
         return *this;
     }
-    
+
     /// @brief Unary operator *= overload for Vector3 value
     /// @param right Vector3 to multiply
     /// @return The Vector3 result
@@ -221,7 +229,7 @@ struct Vector3 {
         z *= right.z;
         return *this;
     }
-    
+
     /// @brief Unary operator *= overload for scalar value
     /// @param scalar Scalar value to multiply with all elements
     /// @return The Vector3 result
@@ -232,7 +240,7 @@ struct Vector3 {
         z *= scalar;
         return *this;
     }
-    
+
     /// @brief Unary operator /= overload for Vector3 value
     /// @param right Vector3 to divide
     /// @return The Vector3 result
@@ -243,7 +251,7 @@ struct Vector3 {
         z /= right.z;
         return *this;
     }
-    
+
     /// @brief Binary operator /= overload for scalar value
     /// @param scalar Scalar value to divide all elements by
     /// @return The Vector3 result
@@ -254,24 +262,24 @@ struct Vector3 {
         z /= scalar;
         return *this;
     }
-    
+
     /// @brief Operator[] overload for element access
     /// @param i The element index to access
     /// @return The element at index i
     T& operator[](const int i)
     {
         SKY_ASSERT(i < 3, "Index out of bounds");
-        
+
         return (&x)[i];
     }
-    
+
     /// @brief Operator[] overload for const element access
     /// @param i The element index to access
     /// @return The element at index i
     T const& operator[](const int i) const
     {
         SKY_ASSERT(i < 3, "Index out of bounds");
-        
+
         return (&x)[i];
     }
 };
@@ -287,7 +295,7 @@ struct Vector3 {
 /// @param left Left operand
 /// @param right Right operand
 /// @return Result of addition of each of the lefts elements with the rights
-template <typename T>
+template<typename T>
 Vector3<T> operator+(const Vector3<T>& left, const Vector3<T>& right)
 {
     return Vector3<T>(
@@ -302,7 +310,7 @@ Vector3<T> operator+(const Vector3<T>& left, const Vector3<T>& right)
 /// @param vec Left operand
 /// @param scalar Right operand (scalar)
 /// @return Addition result of each of the vectors elements with the scalar.
-template <typename T>
+template<typename T>
 Vector3<T> operator+(const Vector3<T>& vec, const T& scalar)
 {
     return Vector3<T>(
@@ -317,7 +325,7 @@ Vector3<T> operator+(const Vector3<T>& vec, const T& scalar)
 /// @param left Left operand
 /// @param right Right operand
 /// @return Subtraction result of each of the lefts elements by the right elements
-template <typename T>
+template<typename T>
 Vector3<T> operator-(const Vector3<T>& left, const Vector3<T>& right)
 {
     return Vector3<T>(
@@ -332,7 +340,7 @@ Vector3<T> operator-(const Vector3<T>& left, const Vector3<T>& right)
 /// @param left Left operand
 /// @param right Right operand (scalar)
 /// @return Subtraction result of each of the vectors elements by the scalar
-template <typename T>
+template<typename T>
 Vector3<T> operator-(const Vector3<T>& vec, const T& scalar)
 {
     return Vector3<T>(
@@ -347,7 +355,7 @@ Vector3<T> operator-(const Vector3<T>& vec, const T& scalar)
 /// @param left Left operand
 /// @param right Right operand
 /// @return Division result of each of the left operands elements over the right elements
-template <typename T>
+template<typename T>
 Vector3<T> operator/(const Vector3<T>& left, const Vector3<T>& right)
 {
     return Vector3<T>(
@@ -362,7 +370,7 @@ Vector3<T> operator/(const Vector3<T>& left, const Vector3<T>& right)
 /// @param left Left operand
 /// @param right Right operand
 /// @return Division result of each of the left operands elements over the scalar
-template <typename T>
+template<typename T>
 Vector3<T> operator/(const Vector3<T>& vec, const T& divisor)
 {
     return Vector3<T>(
@@ -377,7 +385,7 @@ Vector3<T> operator/(const Vector3<T>& vec, const T& divisor)
 /// @param left The left operand
 /// @param right The right operand
 /// @return Multiplication result of each of the vectors elements
-template <typename T>
+template<typename T>
 Vector3<T> operator*(const Vector3<T>& left, const Vector3<T>& right)
 {
     return Vector3<T>(
@@ -392,7 +400,7 @@ Vector3<T> operator*(const Vector3<T>& left, const Vector3<T>& right)
 /// @param left The left operand
 /// @param right The right operand
 /// @return Multiplication result of each of the vectors elements with the scalar
-template <typename T>
+template<typename T>
 Vector3<T> operator*(const Vector3<T>& vec, const T& scalar)
 {
     return Vector3<T>(
@@ -406,7 +414,7 @@ Vector3<T> operator*(const Vector3<T>& vec, const T& scalar)
 /// @tparam T Data type of the Vector3's elements
 /// @param vec The vector to negate
 /// @return The result of negating each of the vectors elements
-template <typename T>
+template<typename T>
 Vector3<T> operator-(const Vector3<T>& vec)
 {
     return Vector3<T>(
@@ -423,8 +431,8 @@ Vector3<T> operator-(const Vector3<T>& vec)
 /// @param left Left operand
 /// @param right Right operand
 /// @return true if all elements in both Vector3's are equal, false otherwise
-template <typename T>
-bool operator==(const Vector3<T>& left, const Vector3<T> &right)
+template<typename T>
+bool operator==(const Vector3<T>& left, const Vector3<T>& right)
 {
     return (left.x == right.x) && (left.y == right.y) && (left.z == right.z);
 }
@@ -434,8 +442,8 @@ bool operator==(const Vector3<T>& left, const Vector3<T> &right)
 /// @param left Left operand
 /// @param right Right operand
 /// @return true if any element in either Vector3 are not equal, false otherwise
-template <typename T>
-bool operator!=(const Vector3<T>& left, const Vector3<T> &right)
+template<typename T>
+bool operator!=(const Vector3<T>& left, const Vector3<T>& right)
 {
     return (left.x != right.x) || (left.y != right.y) || (left.z != right.z);;
 }

@@ -30,7 +30,7 @@ void Viewport::open(const char* caption, const uint16_t width, const uint16_t he
     create_native_viewport();
     set_backing_color(Color::gray);
 
-	++open_windows_;
+    ++open_windows_;
 }
 
 void Viewport::close()
@@ -41,12 +41,12 @@ void Viewport::close()
 
 uint16_t Viewport::open_viewports()
 {
-	return open_windows_;
+    return open_windows_;
 }
 
 bool Viewport::close_requested()
 {
-	return window_data_.close_requested;
+    return window_data_.close_requested;
 }
 
 Vector2f Viewport::size()

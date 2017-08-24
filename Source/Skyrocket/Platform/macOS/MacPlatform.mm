@@ -25,30 +25,46 @@ namespace sky {
 void Platform::native_init()
 {
     AssertGuard assert_guard("Initializing platform", app_title_);
-    
+
 //    SKY_ASSERT(app_ != nullptr, "Application is not null");
-    
+
     // Create shared application and assign app delegate
-    [SkyrocketApplication sharedApplication];
-    [NSApp setDelegate:[[SkyrocketApplicationDelegate alloc] init]];
-    
+    [SkyrocketApplication
+    sharedApplication];
+    [NSApp
+    setDelegate:[[SkyrocketApplicationDelegate
+    alloc] init]];
+
     // Set activation policy to regular to avoid requiring .plist files in < OSX 10.7
-    [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-    
+    [NSApp
+        setActivationPolicy:
+    NSApplicationActivationPolicyRegular];
+
     // Add menu bars
     id menu = [[NSMenu alloc] autorelease];
-    id menuItem = [[NSMenuItem new] autorelease];
-    [menu addItem:menuItem];
-    
+    id menuItem = [[NSMenuItem
+    new] autorelease];
+    [menu
+        addItem:
+    menuItem];
+
     // Add dropdowns
-    id appMenu = [[NSMenu new] autorelease];
-    id quitMenuItem = [[NSMenuItem alloc] initWithTitle:@"Quit"
-                                                 action:@selector(terminate:)
-                                          keyEquivalent:@"q"];
-    [appMenu addItem:quitMenuItem];
-    [menuItem setSubmenu:appMenu];
-    
-    [NSApp setMainMenu:menu];
+    id appMenu = [[NSMenu
+    new] autorelease];
+    id quitMenuItem = [[NSMenuItem
+    alloc] initWithTitle:@"Quit"
+    action:@selector(terminate:)
+    keyEquivalent:@"q"];
+    [appMenu
+        addItem:
+    quitMenuItem];
+    [menuItem
+        setSubmenu:
+    appMenu];
+
+    [NSApp
+        setMainMenu:
+    menu];
 
 //    NSArray* args = [[NSProcessInfo processInfo] arguments];
 //    int argc = 0;
@@ -62,35 +78,49 @@ void Platform::native_init()
 
     initialized_ = true;
 
-    [NSApp run];
-    [NSApp activateIgnoringOtherApps:YES]; // make skyrocket the active app
+    [NSApp
+    run];
+    [NSApp
+        activateIgnoringOtherApps:
+    YES]; // make skyrocket the active app
 
 }
 
 void* Platform::create_native_window(const char* caption, const uint16_t width,
-                                  const uint16_t height)
+                                     const uint16_t height)
 {
     NSRect frame = NSMakeRect(0, 0, width, height);
-    CocoaWindow* window = [[CocoaWindow alloc] initWithEventsAndContent:&events_
-                                                            contentRect:frame
-                                                          captionString:caption];
+    CocoaWindow * window = [[CocoaWindow
+    alloc] initWithEventsAndContent:
+    &events_
+    contentRect:
+    frame
+        captionString:
+    caption];
     return window;
 }
-    
+
 void Platform::native_poll_events()
 {
     @autoreleasepool {
 
-        NSEvent* event;
+        NSEvent * event;
         while ( true ) {
-            event = [NSApp nextEventMatchingMask:NSAnyEventMask
-                                       untilDate:[NSDate distantPast]
-                                          inMode:NSDefaultRunLoopMode
-                                         dequeue:YES];
-            if ( event == nil )
+            event = [NSApp
+                nextEventMatchingMask:
+            NSAnyEventMask
+            untilDate:[NSDate distantPast]
+            inMode:
+            NSDefaultRunLoopMode
+                dequeue:
+            YES];
+            if ( event == nil ) {
                 break;
+            }
 
-            [NSApp sendEvent:event];
+            [NSApp
+                sendEvent:
+            event];
         }
 
     }

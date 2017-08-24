@@ -15,8 +15,5 @@ namespace sky {
 namespace imgui {
 
 
-
-
-
 } // namespace imgui
 } // namespace sky
