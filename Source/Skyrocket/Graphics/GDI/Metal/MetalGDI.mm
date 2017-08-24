@@ -98,13 +98,9 @@ fragment float4 basic_fragment(Vertex in [[stage_in]])
     NSString* nssrc = [NSString stringWithUTF8String:
     default_src];
 
-    default_library_ = [device_
-    newLibraryWithSource:
-    nssrc
-    options:
-    nil
-    error:
-    &err];
+    default_library_ = [device_ newLibraryWithSource:nssrc
+                                             options:nil
+                                               error:&err];
     if ( default_library_ == nil ) {
         SKY_ASSERT(default_library_ != nil,
                    "Default Metal Library loads correctly (see NSError: %s)",
@@ -140,13 +136,10 @@ fragment float4 basic_fragment(Vertex in [[stage_in]])
         return false;
     }
 
-    MTLDepthStencilDescriptor* ds_descriptor = [MTLDepthStencilDescriptor
-    new];
+    MTLDepthStencilDescriptor* ds_descriptor = [MTLDepthStencilDescriptor new];
     ds_descriptor.depthCompareFunction = MTLCompareFunctionLess;
     ds_descriptor.depthWriteEnabled = YES;
-    depth_stencil_state_ = [device_
-    newDepthStencilStateWithDescriptor:
-    ds_descriptor];
+    depth_stencil_state_ = [device_ newDepthStencilStateWithDescriptor:ds_descriptor];
 
     return true;
 }
@@ -187,13 +180,9 @@ bool MetalGDI::set_vertex_buffer(const uint32_t vbuf_id)
         return false;
     }
 
-    [render_encoder_
-    setVertexBuffer:
-    vbuf->current()
-    offset:
-    0
-    atIndex:
-    0];
+    [render_encoder_ setVertexBuffer:vbuf->current()
+                              offset:0
+                             atIndex:0];
     return true;
 }
 
@@ -221,11 +210,8 @@ bool MetalGDI::set_index_buffer(const uint32_t vbuf_id)
 
 bool MetalGDI::create_shader(const uint32_t shader_id, const char* name)
 {
-    NSString* nsname = [NSString stringWithUTF8String:
-    name];
-    id<MTLFunction> func = [library_
-    newFunctionWithName:
-    nsname];
+    NSString* nsname = [NSString stringWithUTF8String:name];
+    id<MTLFunction> func = [library_ newFunctionWithName:nsname];
 
     if ( func == nil ) {
         SKY_ERROR("Shader", "Couldn't create shader with name %s", name);
@@ -240,15 +226,11 @@ bool MetalGDI::create_shader(const uint32_t shader_id, const char* name)
 bool MetalGDI::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
 {
     if ( !shaders_.contains(vertex_id) || vertex_id == shaders_.invalid_id ) {
-        SKY_ERROR("Shader", "%"
-            PRIu32
-            " is an invalid vertex shader ID", vertex_id);
+        SKY_ERROR("Shader", "%" PRIu32 " is an invalid vertex shader ID", vertex_id);
         return false;
     }
     if ( !shaders_.contains(fragment_id) || fragment_id == shaders_.invalid_id ) {
-        SKY_ERROR("Shader", "%"
-            PRIu32
-            " is an invalid vertex shader ID", fragment_id);
+        SKY_ERROR("Shader", "%" PRIu32 " is an invalid vertex shader ID", fragment_id);
         return false;
     }
 
@@ -262,8 +244,7 @@ bool MetalGDI::create_uniform(const uint32_t u_id, const uint32_t size)
     auto ubuf = uniform_buffers_.lookup(u_id);
 
     if ( ubuf == nullptr ) {
-        SKY_ERROR("Uniform", "Could not create a new uniform buffer with id %"
-            PRIu32, u_id);
+        SKY_ERROR("Uniform", "Could not create a new uniform buffer with id %" PRIu32, u_id);
         return false;
     }
 
@@ -277,8 +258,7 @@ void MetalGDI::set_uniform(const uint32_t u_id, const uint32_t index)
     auto ubuf = uniform_buffers_.lookup(u_id);
 
     if ( ubuf == nullptr ) {
-        SKY_ERROR("Uniform", "Invalid uniform specified with ID of %"
-            PRIu32, u_id);
+        SKY_ERROR("Uniform", "Invalid uniform specified with ID of %" PRIu32, u_id);
         return;
     }
 
@@ -296,8 +276,7 @@ void MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data)
     auto ubuf = uniform_buffers_.lookup(u_id);
 
     if ( ubuf == nullptr ) {
-        SKY_ERROR("Uniform", "Invalid uniform specified with ID of %"
-            PRIu32, u_id);
+        SKY_ERROR("Uniform", "Invalid uniform specified with ID of %" PRIu32, u_id);
         return;
     }
 
@@ -309,27 +288,16 @@ void MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data)
 bool MetalGDI::draw_primitives()
 {
     if ( target_.index_buffer > 0 ) {
-        [render_encoder_
-        drawIndexedPrimitives:
-        MTLPrimitiveTypeTriangle
-        indexCount:
-        target_.index_count
-        indexType:
-        MTLIndexTypeUInt32
-        indexBuffer:
-        index_buffers_.lookup(target_.index_buffer)->current()
-        indexBufferOffset:
-        target_.index_offset];
+        [render_encoder_ drawIndexedPrimitives:MTLPrimitiveTypeTriangle
+                                    indexCount:target_.index_count
+                                     indexType:MTLIndexTypeUInt32
+                                   indexBuffer:index_buffers_.lookup(target_.index_buffer)->current()
+                             indexBufferOffset:target_.index_offset];
     } else {
-        [render_encoder_
-        drawPrimitives:
-        MTLPrimitiveTypeTriangle
-        vertexStart:
-        target_.vertex_offset
-        vertexCount:
-        target_.vertex_count
-        instanceCount:
-        target_.vertex_count / 3];
+        [render_encoder_ drawPrimitives:MTLPrimitiveTypeTriangle
+                            vertexStart:target_.vertex_offset
+                            vertexCount:target_.vertex_count
+                          instanceCount:target_.vertex_count / 3];
     }
 
     return true;

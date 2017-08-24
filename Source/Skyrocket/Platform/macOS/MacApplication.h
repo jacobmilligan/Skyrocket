@@ -19,14 +19,10 @@
 
 #import <AppKit/AppKit.h>
 
-@
-interface SkyrocketApplication :
-NSApplication
+@interface SkyrocketApplication : NSApplication
 @end
 
-@
-interface SkyrocketApplicationDelegate :
-NSObject <NSApplicationDelegate>
+@interface SkyrocketApplicationDelegate : NSObject <NSApplicationDelegate>
 @end
 
 #endif

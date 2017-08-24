@@ -80,8 +80,8 @@ PlatformEvents::PlatformEvents()
     vk_translation_table[0x59] = static_cast<uint16_t>(Key::keypad_7);
     vk_translation_table[0x5B] = static_cast<uint16_t>(Key::keypad_8);
     vk_translation_table[0x5C] = static_cast<uint16_t>(Key::keypad_9);
-
-// Keys independent of keyboard layout
+    
+    // Keys independent of keyboard layout
     vk_translation_table[0x24] = static_cast<uint16_t>(Key::enter);
     vk_translation_table[0x30] = static_cast<uint16_t>(Key::tab);
     vk_translation_table[0x31] = static_cast<uint16_t>(Key::space);

@@ -16,46 +16,21 @@
 namespace sky { struct PlatformEvents; }
 
 
-@
-interface CocoaWindow :
-NSWindow
+@interface CocoaWindow : NSWindow
 
-@
-property (nonnull)
-sky::PlatformEvents* events;
+@property (nonnull)sky::PlatformEvents* events;
 
--(
-nonnull instancetype
-)
-initWithEventsAndContent:
-    (nonnull
-sky::PlatformEvents*)
-events
-    contentRect:
-(NSRect)
-contentRect
-    captionString:
-(nullable const char*)
-caption;
+-(nonnull instancetype)initWithEventsAndContent:(nonnull sky::PlatformEvents*)events
+                                    contentRect:(NSRect)contentRect
+                                  captionString:(nullable const char*)caption;
 
 @end
 
-@
-interface CocoaView :
-NSView
+@interface CocoaView : NSView
 
--(void)
-setBackingColor:
-    (CGFloat)
-r
-    g:
-(CGFloat)
-g
-    b:
-(CGFloat)
-b
-    a:
-(CGFloat)
-a;
+-(void)setBackingColor:(CGFloat)r
+                     g:(CGFloat)g
+                     b:(CGFloat)b
+                     a:(CGFloat)a;
 
 @end

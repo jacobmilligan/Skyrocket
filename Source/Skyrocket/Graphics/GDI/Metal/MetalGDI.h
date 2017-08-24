@@ -34,13 +34,9 @@ struct MetalBuffer {
         current_ = 0;
         usage_ = usage;
         for ( int i = 0; i < Size; ++i ) {
-            buffers_[i] = [device
-            newBufferWithBytes:
-            data
-            length:
-            length
-            options:
-            MTLResourceCPUCacheModeDefaultCache];
+            buffers_[i] = [device newBufferWithBytes:data
+                                              length:length
+                                             options:MTLResourceCPUCacheModeDefaultCache];
         }
     }
 
