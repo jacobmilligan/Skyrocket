@@ -43,8 +43,7 @@ bool MetalGDI::initialize(Viewport* viewport)
 
     set_viewport(viewport);
 
-    command_queue_ = [device_
-    newCommandQueue];
+    command_queue_ = [device_ newCommandQueue];
     buf_sem_ = dispatch_semaphore_create(max_frames_in_flight);
 
     //--------------------------------
@@ -71,32 +70,31 @@ bool MetalGDI::initialize(Viewport* viewport)
 
 using namespace metal;
 
-struct Vertex {
+struct GraphicsData {
     float4 position [[position]];
     float4 color;
 };
 
-vertex Vertex basic_vertex(device Vertex* vertices [[buffer(0)]],
+vertex GraphicsData basic_vertex(device GraphicsData* vertices [[buffer(0)]],
                            constant float4x4& model [[buffer(1)]],
                            constant float4x4& view [[buffer(2)]],
                            constant float4x4& projection [[buffer(3)]],
                            uint vid [[vertex_id]] )
 {
-    Vertex out;
+    GraphicsData out;
     out.position = projection * view * model * vertices[vid].position;
     out.color = vertices[vid].color;
 
     return out;
 }
 
-fragment float4 basic_fragment(Vertex in [[stage_in]])
+fragment float4 basic_fragment(GraphicsData in [[stage_in]])
 {
     return in.color;
 }
     )";
 
-    NSString* nssrc = [NSString stringWithUTF8String:
-    default_src];
+    NSString* nssrc = [NSString stringWithUTF8String:default_src];
 
     default_library_ = [device_ newLibraryWithSource:nssrc
                                              options:nil
@@ -108,26 +106,20 @@ fragment float4 basic_fragment(Vertex in [[stage_in]])
         return false;
     }
 
-    default_vshader_ = [default_library_
-    newFunctionWithName:@"basic_vertex"];
-    default_fragshader_ = [default_library_
-    newFunctionWithName:@"basic_fragment"];
+    default_vshader_ = [default_library_ newFunctionWithName:@"basic_vertex"];
+    default_fragshader_ = [default_library_ newFunctionWithName:@"basic_fragment"];
 
     //--------------------------------
     //  Load main render pipeline
     //--------------------------------
 
-    MTLRenderPipelineDescriptor* pipeline_descriptor = [MTLRenderPipelineDescriptor
-    new];
+    MTLRenderPipelineDescriptor* pipeline_descriptor = [MTLRenderPipelineDescriptor new];
     pipeline_descriptor.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm;
     pipeline_descriptor.vertexFunction = default_vshader_;
     pipeline_descriptor.fragmentFunction = default_fragshader_;
 
-    render_pipeline_ = [device_
-    newRenderPipelineStateWithDescriptor:
-    pipeline_descriptor
-    error:
-    &err];
+    render_pipeline_ = [device_ newRenderPipelineStateWithDescriptor:pipeline_descriptor
+                                                               error:&err];
 
     if ( render_pipeline_ == nil ) {
         SKY_ERROR("Cubes Device Interface",
@@ -160,7 +152,7 @@ bool MetalGDI::create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& i
     auto vbuf = vertex_buffers_.lookup(vbuf_id);
 
     if ( vbuf == nullptr ) {
-        SKY_ERROR("Vertex Buffer", "Could not create a new vertex buffer with id %"
+        SKY_ERROR("GraphicsData Buffer", "Could not create a new vertex buffer with id %"
             PRIu32, vbuf_id);
         return false;
     }
@@ -175,7 +167,7 @@ bool MetalGDI::set_vertex_buffer(const uint32_t vbuf_id)
     auto vbuf = vertex_buffers_.lookup(vbuf_id);
 
     if ( vbuf == nullptr ) {
-        SKY_ERROR("Vertex Buffer", "Invalid vertex buffer specified with ID %"
+        SKY_ERROR("GraphicsData Buffer", "Invalid vertex buffer specified with ID %"
             PRIu32, vbuf_id);
         return false;
     }
@@ -262,13 +254,9 @@ void MetalGDI::set_uniform(const uint32_t u_id, const uint32_t index)
         return;
     }
 
-    [render_encoder_
-    setVertexBuffer:
-    ubuf->current()
-    offset:
-    0
-    atIndex:
-    index];
+    [render_encoder_ setVertexBuffer:ubuf->current()
+                              offset:0
+                             atIndex:index];
 }
 
 void MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data)
@@ -280,9 +268,24 @@ void MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data)
         return;
     }
 
-    memcpy([ubuf->current()
-    contents], data.data, data.size);
+    memcpy([ubuf->current() contents], data.data, data.size);
     ubuf->swap();
+}
+
+void MetalGDI::create_texture(const uint32_t t_id, const uint8_t* data, const int32_t width,
+                              const int32_t height, const int32_t bytes_per_pixel, const bool mipmapped)
+{
+    auto* descriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
+                                                                          width:width
+                                                                         height:height
+                                                                      mipmapped:mipmapped];
+    textures_.create(t_id, [device_ newTextureWithDescriptor:descriptor]);
+    auto tex = textures_.lookup(t_id);
+    auto bpr = bytes_per_pixel * width;
+    [*tex replaceRegion:MTLRegionMake2D(0, 0, width, height)
+            mipmapLevel:0
+              withBytes:data
+            bytesPerRow:bpr];
 }
 
 bool MetalGDI::draw_primitives()

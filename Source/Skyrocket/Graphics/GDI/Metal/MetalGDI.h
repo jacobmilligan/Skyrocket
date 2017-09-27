@@ -89,6 +89,10 @@ public:
 
     void update_uniform(const uint32_t u_id, const MemoryBlock& data) override;
 
+    void create_texture(const uint32_t t_id, const uint8_t* data, const int32_t width,
+                        const int32_t height, const int32_t bytes_per_pixel,
+                        const bool mipmapped) override;
+
     bool draw_primitives() override;
 
     void present() override;
@@ -116,6 +120,7 @@ private:
     HandleTable<MetalBuffer<max_frames_in_flight>, index_buffer_max> index_buffers_;
     HandleTable<MetalBuffer<max_frames_in_flight>, uniform_buffer_max> uniform_buffers_;
     HandleTable<id<MTLFunction>, shader_max> shaders_;
+    HandleTable<id<MTLTexture>, texture_max> textures_;
 
     uint32_t buffer_index_{0};
 };

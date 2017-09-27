@@ -124,7 +124,7 @@ private:
     std::thread render_thread_;
 
     Timespan dt_;
-    Semaphore sem;
+    Semaphore sem; // TODO(Jacob): rename
 
     void kick_render_thread();
     void frame();

@@ -14,7 +14,7 @@
 #include "Skyrocket/Core/Math.hpp"
 
 #include <condition_variable>
-#include <Skyrocket/Graphics/Core/Vertex.hpp>
+#include <Skyrocket/Graphics/Core/GraphicsData.hpp>
 
 namespace sky {
 

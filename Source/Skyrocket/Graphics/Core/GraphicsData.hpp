@@ -1,5 +1,5 @@
 //
-//  PackedVertex.hpp
+//  GraphicsData.hpp
 //  Skyrocket
 //
 //  --------------------------------------------------------------
@@ -19,8 +19,8 @@ namespace sky {
 
 
 /// @brief A graphics-related vertex
-struct Vertex {
-    Vertex(const float x, const float y, const float z, const float w,
+struct GraphicsData {
+    GraphicsData(const float x, const float y, const float z, const float w,
            const float r, const float g, const float b, const float a)
         :
         position(Vector4f {x, y, z, w}),

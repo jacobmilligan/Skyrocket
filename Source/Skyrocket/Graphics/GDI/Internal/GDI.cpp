@@ -183,6 +183,13 @@ void GDI::update_uniform(const uint32_t  /*u_id*/, const MemoryBlock&  /*data*/)
     // no op
 }
 
+void GDI::create_texture(const uint32_t t_id, const uint8_t* data, const int32_t width,
+                         const int32_t height, const int32_t bytes_per_pixel,
+                         const bool mipmapped)
+{
+    // no op
+}
+
 bool GDI::draw_primitives()
 {
     // no op

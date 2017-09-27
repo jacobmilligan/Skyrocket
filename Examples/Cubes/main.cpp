@@ -13,7 +13,7 @@
 #include <Skyrocket/Core/Diagnostics/Timespan.hpp>
 #include <Skyrocket/Core/Math.hpp>
 #include <Skyrocket/Graphics/Color.hpp>
-#include <Skyrocket/Graphics/Core/Vertex.hpp>
+#include <Skyrocket/Graphics/Core/GraphicsData.hpp>
 #include <Skyrocket/Graphics/Font.hpp>
 #include <Skyrocket/Graphics/GraphicsDriver.hpp>
 #include <Skyrocket/Input/Keyboard.hpp>
@@ -35,14 +35,14 @@ struct Cube {
         auto cube_height = 1.0f;
         auto cube_depth = 1.0f;
         vertices_ = {
-            sky::Vertex(-cube_width,-cube_height,-cube_depth, 1.0f, 0.0f,1.0f,1.0f,1.0f),
-            sky::Vertex( cube_width,-cube_height,-cube_depth, 1.0f, 0.0f,0.0f,1.0f,1.0f),
-            sky::Vertex( cube_width, cube_height,-cube_depth, 1.0f, 1.0f,0.0f,1.0f,1.0f),
-            sky::Vertex(-cube_width, cube_height,-cube_depth, 1.0f, 1.0f,1.0f,1.0f,1.0f),
-            sky::Vertex(-cube_width,-cube_height, cube_depth, 1.0f, 0.0f,1.0f,0.0f,1.0f),
-            sky::Vertex( cube_width,-cube_height, cube_depth, 1.0f, 0.0f,0.0f,0.0f,1.0f),
-            sky::Vertex( cube_width, cube_height, cube_depth, 1.0f, 1.0f,0.0f,0.0f,1.0f),
-            sky::Vertex(-cube_width, cube_height, cube_depth, 1.0f, 1.0f,1.0f,0.0f,1.0f)
+            sky::GraphicsData(-cube_width,-cube_height,-cube_depth, 1.0f, 0.0f,1.0f,1.0f,1.0f),
+            sky::GraphicsData( cube_width,-cube_height,-cube_depth, 1.0f, 0.0f,0.0f,1.0f,1.0f),
+            sky::GraphicsData( cube_width, cube_height,-cube_depth, 1.0f, 1.0f,0.0f,1.0f,1.0f),
+            sky::GraphicsData(-cube_width, cube_height,-cube_depth, 1.0f, 1.0f,1.0f,1.0f,1.0f),
+            sky::GraphicsData(-cube_width,-cube_height, cube_depth, 1.0f, 0.0f,1.0f,0.0f,1.0f),
+            sky::GraphicsData( cube_width,-cube_height, cube_depth, 1.0f, 0.0f,0.0f,0.0f,1.0f),
+            sky::GraphicsData( cube_width, cube_height, cube_depth, 1.0f, 1.0f,0.0f,0.0f,1.0f),
+            sky::GraphicsData(-cube_width, cube_height, cube_depth, 1.0f, 1.0f,1.0f,0.0f,1.0f)
         };
 
         indices_ = {
@@ -54,7 +54,7 @@ struct Cube {
             4, 5, 0, 0, 5, 1
         };
 
-        auto vertices_size = static_cast<uint32_t>(sizeof(sky::Vertex) * vertices_.size());
+        auto vertices_size = static_cast<uint32_t>(sizeof(sky::GraphicsData) * vertices_.size());
         auto indices_size = static_cast<uint32_t>(sizeof(uint32_t) * indices_.size());
 
         auto vbuf_mem = sky::MemoryBlock { vertices_size, vertices_.data() };
@@ -92,7 +92,7 @@ struct Cube {
 
 private:
     sky::GraphicsDriver* driver_{};
-    std::vector<sky::Vertex> vertices_;
+    std::vector<sky::GraphicsData> vertices_;
     std::vector<uint32_t> indices_;
     uint32_t vbuf_id_{}, ibuf_id_{};
     sky::Vector3f xaxis_, yaxis_;

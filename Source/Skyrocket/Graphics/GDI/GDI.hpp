@@ -62,6 +62,7 @@ public:
     static constexpr uint16_t index_buffer_max = 1024;
     static constexpr uint16_t uniform_buffer_max = 512;
     static constexpr uint16_t shader_max = 512;
+    static constexpr uint16_t texture_max = 512;
     static constexpr uint16_t max_frames_in_flight = 3;
 
     GDI() = default;
@@ -130,6 +131,10 @@ public:
     virtual void set_uniform(const uint32_t u_id, const uint32_t index);
 
     virtual void update_uniform(const uint32_t u_id, const MemoryBlock& data);
+
+    virtual void create_texture(const uint32_t t_id, const uint8_t* data, const int32_t width,
+                                const int32_t height,const int32_t bytes_per_pixel,
+                                const bool mipmapped);
 
     /// @brief Commits the current command buffer and processes all commands
     virtual void present();
