@@ -119,12 +119,12 @@ public:
     virtual bool draw_primitives();
 
     /// @brief Creates a new shader
-    /// @param shader_id
+    /// @param program_id
     /// @param name
     /// @return
-    virtual bool create_shader(const uint32_t shader_id, const char* name);
+    virtual bool create_program(const uint32_t program_id, const Path& vs_path, const Path& frag_path);
 
-    virtual bool set_shaders(const uint32_t vertex_id, const uint32_t fragment_id);
+    virtual bool set_program(const uint32_t program_id);
 
     virtual bool create_uniform(const uint32_t u_id, const uint32_t size);
 

@@ -200,32 +200,41 @@ bool MetalGDI::set_index_buffer(const uint32_t vbuf_id)
     return GDI::set_index_buffer(vbuf_id);
 }
 
-bool MetalGDI::create_shader(const uint32_t shader_id, const char* name)
+bool MetalGDI::create_program(const uint32_t program_id, const Path& vs_path, const Path& frag_path)
 {
-    NSString* nsname = [NSString stringWithUTF8String:name];
-    id<MTLFunction> func = [library_ newFunctionWithName:nsname];
+    auto vs_src = fs::slurp_file(vs_path);
+    auto frag_src = fs::slurp_file(frag_path);
 
-    if ( func == nil ) {
-        SKY_ERROR("Shader", "Couldn't create shader with name %s", name);
+    char src[strlen(vs_src) + strlen(frag_src) + 1];
+    strcpy(src, vs_src);
+    strcat(src, frag_src);
+
+    NSError* err = nil;
+    id<MTLLibrary> lib = [device_ newLibraryWithSource:[NSString stringWithUTF8String:src]
+                                               options:nil
+                                                 error:&err];
+    
+    if ( lib == nil ) {
+        SKY_ERROR("Shader", "Couldn't load metal shader library (see NSError: %s)",
+                  [[err localizedDescription] UTF8String]);
         return false;
     }
-
-    shaders_.create(shader_id, func);
+    
+    MetalProgram program;
+    
+    program.program_id = program_id;
+    program.vertex_function = [library_ newFunctionWithName:[NSString stringWithUTF8String:vs_path.filename()]];
+    program.fragment_function = [library_ newFunctionWithName:[NSString stringWithUTF8String:frag_path.filename()]];
+    shaders_.create(program_id, program);
+    
     return true;
 }
 
 
-bool MetalGDI::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
+bool MetalGDI::set_program(const uint32_t program_id)
 {
-    if ( !shaders_.contains(vertex_id) || vertex_id == shaders_.invalid_id ) {
-        SKY_ERROR("Shader", "%" PRIu32 " is an invalid vertex shader ID", vertex_id);
-        return false;
-    }
-    if ( !shaders_.contains(fragment_id) || fragment_id == shaders_.invalid_id ) {
-        SKY_ERROR("Shader", "%" PRIu32 " is an invalid vertex shader ID", fragment_id);
-        return false;
-    }
-
+    auto* program = shaders_.lookup(program_id);
+    
     return false;
 }
 
@@ -325,7 +334,7 @@ void MetalGDI::present()
             return;
         }
 
-        id<CAMetalDrawable> drawable =[mtl_layer_ nextDrawable];
+        id<CAMetalDrawable> drawable = [mtl_layer_ nextDrawable];
         if ( drawable == nil ) {
             SKY_ERROR("Renderer", "Couldn't get next CAMetalDrawable");
             return;
@@ -336,7 +345,7 @@ void MetalGDI::present()
         rpd.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 0.0);
         rpd.colorAttachments[0].storeAction = MTLStoreActionStore;
 
-        render_encoder_ =[cmd_buffer renderCommandEncoderWithDescriptor:rpd];
+        render_encoder_ = [cmd_buffer renderCommandEncoderWithDescriptor:rpd];
 
         [render_encoder_ setRenderPipelineState:render_pipeline_];
 

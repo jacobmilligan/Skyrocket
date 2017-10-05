@@ -26,28 +26,24 @@ void GDI::process_commands()
         switch ( *next_cmd_type ) {
             case rc::CmdType::unknown: {
 
-            }
-                break;
+            } break;
 
             case rc::CmdType::init: {
 //                auto
 //                auto& view = static_cast<rc::SetViewport&>(next_cmd).viewport;
 //                initialize(view);
-            }
-                break;
+            } break;
 
             case rc::CmdType::set_viewport: {
                 auto cmd = cmd_buf.read<rc::SetViewport>();
                 auto view = cmd->viewport;
                 set_viewport(view);
-            }
-                break;
+            } break;
 
             case rc::CmdType::create_vertex_buffer: {
                 auto cmd = cmd_buf.read<rc::CreateVertexBuffer>();
                 create_vertex_buffer(cmd->buf_id, cmd->data, cmd->buf_usage);
-            }
-                break;
+            } break;
 
             case rc::CmdType::set_vertex_buffer: {
                 auto cmd = cmd_buf.read<rc::SetVertexBuffer>();
@@ -55,14 +51,12 @@ void GDI::process_commands()
                 target_.vertex_buffer = cmd->buf_id;
                 target_.vertex_count = cmd->count;
                 target_.vertex_offset = cmd->first_vertex;
-            }
-                break;
+            } break;
 
             case rc::CmdType::create_index_buffer: {
                 auto cmd = cmd_buf.read<rc::CreateIndexBuffer>();
                 create_index_buffer(cmd->buf_id, cmd->data);
-            }
-                break;
+            } break;
 
             case rc::CmdType::set_index_buffer: {
                 auto cmd = cmd_buf.read<rc::SetIndexBuffer>();
@@ -70,13 +64,11 @@ void GDI::process_commands()
                 target_.index_buffer = cmd->buf_id;
                 target_.index_count = cmd->count;
                 target_.index_offset = cmd->first_index;
-            }
-                break;
+            } break;
 
             case rc::CmdType::create_shader: {
 
-            }
-                break;
+            } break;
 
             case rc::CmdType::set_shaders: {
                 auto cmd = cmd_buf.read<rc::SetShaders>();
@@ -87,35 +79,30 @@ void GDI::process_commands()
                 if ( v_prog == invalid_handle || f_prog == invalid_handle ) {
 //                    printf("invali\n");
                 } else {
-                    set_shaders(v_prog, f_prog);
+                    set_program(v_prog);
                 }
 
-            }
-                break;
+            } break;
 
             case rc::CmdType::create_uniform: {
                 auto cmd = cmd_buf.read<rc::CreateUniform>();
                 create_uniform(cmd->uniform_id, cmd->size);
-            }
-                break;
+            } break;
 
             case rc::CmdType::set_uniform: {
                 auto cmd = cmd_buf.read<rc::SetUniform>();
                 set_uniform(cmd->uniform_id, cmd->uniform_index);
-            }
-                break;
+            } break;
 
             case rc::CmdType::update_uniform: {
                 auto cmd = cmd_buf.read<rc::UpdateUniform>();
                 update_uniform(cmd->uniform_id, cmd->new_data);
-            }
-                break;
+            } break;
 
             case rc::CmdType::draw_primitives: {
                 cmd_buf.read<rc::DrawPrimitives>();
                 draw_primitives();
-            }
-                break;
+            } break;
         }
     }
 }
@@ -155,13 +142,13 @@ bool GDI::set_index_buffer(const uint32_t /*ibuf_id*/)
     return false;
 }
 
-bool GDI::create_shader(const uint32_t  /*shader_id*/, const char*  /*name*/)
+bool GDI::create_program(const uint32_t /*program_id*/, const Path& /*vs_path*/, const Path& /*frag_path*/)
 {
     // no op
     return false;
 };
 
-bool GDI::set_shaders(const uint32_t  /*vertex_id*/, const uint32_t  /*fragment_id*/)
+bool GDI::set_program(const uint32_t)
 {
     // no op
     return false;
@@ -200,6 +187,7 @@ void GDI::present()
 {
     // no op
 }
+
 
 
 } // namespace sky

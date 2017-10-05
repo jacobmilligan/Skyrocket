@@ -20,6 +20,8 @@
 #import <Metal/Metal.h>
 #import <QuartzCore/CAMetalLayer.h>
 
+#include <unordered_map>
+
 namespace sky {
 
 template<uint16_t Size>
@@ -59,6 +61,12 @@ private:
     BufferUsage usage_;
 };
 
+struct MetalProgram {
+    uint32_t program_id;
+    id<MTLFunction> fragment_function;
+    id<MTLFunction> vertex_function;
+};
+
 
 class MetalGDI : public GDI {
 public:
@@ -79,9 +87,9 @@ public:
 
     bool set_index_buffer(const uint32_t ibuf_id) override;
 
-    bool create_shader(const uint32_t shader_id, const char* name) override;
+    bool create_program(const uint32_t shader_id, const Path& vs_path, const Path& frag_path) override;
 
-    bool set_shaders(const uint32_t vertex_id, const uint32_t fragment_id) override;
+    bool set_program(const uint32_t program_id) override;
 
     bool create_uniform(const uint32_t u_id, const uint32_t size) override;
 
@@ -98,6 +106,8 @@ public:
     void present() override;
 
 private:
+    static constexpr uint8_t lib_max_ = 8;
+
     id<MTLDevice> device_;
     id<MTLCommandQueue> command_queue_;
     id<MTLRenderPipelineState> render_pipeline_;
@@ -119,7 +129,7 @@ private:
     HandleTable<MetalBuffer<max_frames_in_flight>, vertex_buffer_max> vertex_buffers_;
     HandleTable<MetalBuffer<max_frames_in_flight>, index_buffer_max> index_buffers_;
     HandleTable<MetalBuffer<max_frames_in_flight>, uniform_buffer_max> uniform_buffers_;
-    HandleTable<id<MTLFunction>, shader_max> shaders_;
+    HandleTable<MetalProgram, shader_max> shaders_;
     HandleTable<id<MTLTexture>, texture_max> textures_;
 
     uint32_t buffer_index_{0};
