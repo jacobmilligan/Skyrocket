@@ -19,6 +19,7 @@
 #include <Skyrocket/Input/Keyboard.hpp>
 
 #include <iostream>
+#include <Skyrocket/Core/Hash.hpp>
 
 struct Cube {
     sky::Vector3f pos;

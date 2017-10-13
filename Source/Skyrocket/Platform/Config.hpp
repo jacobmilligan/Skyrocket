@@ -156,7 +156,9 @@ const auto target_compiler = Compiler::unknown;
 
 #define SKY_STRINGIFY(x) #x
 
+// Clang definitions
 #if SKY_COMPILER_CLANG == 1
+
 #define SKY_PUSH_WARNING _Pragma("clang diagnostic push")
 #define SKY_IGNORE_WARNING(x) _Pragma( SKY_STRINGIFY(clang diagnostic ignored #x) )
 #define SKY_POP_WARNING _Pragma("clang diagnostic pop")
@@ -164,7 +166,12 @@ const auto target_compiler = Compiler::unknown;
 #define SKY_FUNCTION_NAME __PRETTY_FUNCTION__
 
 #define SKY_DEBUG_BREAK() asm("int $3")
+
+#define SKY_FORCE_INLINE inline __attribute__((always_inline))
+
+// GCC definitions
 #elif SKY_COMPILER_GCC == 1
+
 #define SKY_PUSH_WARNING _Pragma( SKY_STRINGIFY(GCC diagnostic push)
 #define SKY_IGNORE_WARNING(x) _Pragma( SKY_STRINGIFY(GCC diagnostic ignored #x)
 #define SKY_POP_WARNING _Pragma( SKY_STRINGIFY(GCC diagnostic pop)
@@ -172,13 +179,20 @@ const auto target_compiler = Compiler::unknown;
 #define SKY_FUNCTION_NAME __PRETTY_FUNCTION__
 
 #define SKY_DEBUG_BREAK() asm("int $3")
+
+#define SKY_FORCE_INLINE inline __attribute__((always_inline))
+
+// MSVC definitions
 #elif SKY_COMPILER_MSVC == 1
+
 #define SKY_PUSH_WARNING _Pragma( SKY_STRINGIFY(warning( push ))
 #define SKY_IGNORE_WARNING(x) _Pragma( SKY_STRINGIFY(warning( disable: #x ))
 #define SKY_POP_WARNING _Pragma( SKY_STRINGIFY(warning( pop ))
 #define SKY_FUNCTION_NAME __FUNCTION__
 
 #define SKY_DEBUG_BREAK() __asm { int 3 }
+
+#define SKY_FORCE_INLINE __forceinline
 #endif
 
 ///////////////////////////////

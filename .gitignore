@@ -44,3 +44,4 @@ Bin/
 Docs/Generated
 cmake-build-debug
 
+!/tstfile
