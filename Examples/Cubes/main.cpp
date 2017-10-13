@@ -131,6 +131,11 @@ int main(int argc, char** argv)
         return 0;
     }
 
+    auto vert_path = root_path.relative_path("basic_vertex.metal");
+    auto frag_path = root_path.relative_path("basic_fragment.metal");
+    auto prog = driver.create_program(vert_path, frag_path);
+    driver.set_program(prog);
+
     std::array<Cube, 3> cubes;
     auto pos = 0.0f;
     for ( auto& c : cubes ) {
@@ -150,8 +155,6 @@ int main(int argc, char** argv)
     auto model_ubuf = driver.create_uniform(sky::UniformType::mat4, 1);
     auto view_ubuf = driver.create_uniform(sky::UniformType::mat4, 1);
     auto projection_ubuf = driver.create_uniform(sky::UniformType::mat4, 1);
-
-    driver.set_shaders(0, 0);
 
     // Main loop
     sky::Timespan dt;

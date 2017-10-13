@@ -19,8 +19,3 @@ vertex GraphicsData basic_vertex(device GraphicsData* vertices [[buffer(0)]],
     
     return out;
 }
-
-fragment float4 basic_fragment(GraphicsData in [[stage_in]])
-{
-    return in.color;
-}

@@ -92,15 +92,15 @@ public:
     void update_uniform(const uint32_t u_id, const MemoryBlock& data);
 
     /// @brief Sends a command to create a new shader
-    /// @param name
+    /// @param vs_path
     /// @return Handle ID to the shader
-    uint32_t create_shader(const char* name);
+    uint32_t create_program(const Path& vs_path, const Path& frag_path);
 
     /// @brief Sets the vertex and fragment shaders as the current ones
     /// @param vertex_id
     /// @param fragment_id
     /// @return
-    bool set_shaders(const uint32_t vertex_id, const uint32_t fragment_id);
+    bool set_program(const uint32_t program_id);
 
     /// @brief Sends a command to draw triangle primitives
     void draw_primitives();
@@ -113,8 +113,8 @@ private:
     ThreadSupport threading_;
     uint32_t next_vbuf_id_;
     uint32_t next_ibuf_id_;
-    uint32_t next_shader_id_;
     uint32_t next_uniform_id_;
+    uint32_t next_program_id_;
 
     std::unique_ptr<GDI> gdi_;
 

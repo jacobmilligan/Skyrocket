@@ -35,8 +35,7 @@ Path::Path(const char* path)
 }
 
 Path::Path(const Path& other)
-    :
-    path_(other.path_)
+    : path_(other.path_)
 {
     make_null_terminated();
     if ( exists() ) {
@@ -78,6 +77,23 @@ const char* Path::filename() const
     }
 
     return std::vector<char>(path_.begin() + last_slash + 1, path_.end()).data();
+}
+
+const char* Path::stem() const
+{
+    auto last_dot = last_char_pos('.');
+    if ( last_dot == -1 ) {
+        return path_.data();
+    }
+
+    auto last_slash = last_slash_pos();
+    if ( last_slash == -1 ) {
+        return path_.data();
+    }
+
+    auto result = std::vector<char>(path_.begin() + last_slash + 1, path_.begin() + last_dot);
+    result.push_back('\0');
+    return result.data();
 }
 
 const char* Path::parent() const
@@ -123,16 +139,21 @@ uint32_t Path::size() const
     return static_cast<uint32_t>(path_.size());
 }
 
-int32_t Path::last_slash_pos() const
+int32_t Path::last_char_pos(const char c) const
 {
     auto size = static_cast<int32_t>(path_.size()) - 1;
     for ( int32_t i = size; i > 0; --i ) {
-        if ( path_[i] == slash_ ) {
+        if ( path_[i] == c ) {
             return i;
         }
     }
 
     return -1;
+}
+
+int32_t Path::last_slash_pos() const
+{
+    return last_char_pos(slash_);
 }
 
 void Path::make_null_terminated()
@@ -146,12 +167,12 @@ void Path::make_null_terminated()
 namespace fs {
 
 
-const char* slurp_file(const Path& path)
+std::string slurp_file(const Path& path)
 {
     std::ifstream file(path.str());
 
     if ( !file ) {
-        SKY_ERROR("Slurping file", "No such file found with the specified name");
+        SKY_ERROR("Slurping file", "No such file found with the specified name %s", path.str());
         return "";
     }
 
@@ -159,7 +180,7 @@ const char* slurp_file(const Path& path)
     ss << file.rdbuf();
     file.close();
 
-    return ss.str().c_str();
+    return ss.str();
 }
 
 

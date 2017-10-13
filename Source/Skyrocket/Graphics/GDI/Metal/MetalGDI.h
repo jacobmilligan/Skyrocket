@@ -61,10 +61,20 @@ private:
     BufferUsage usage_;
 };
 
-struct MetalProgram {
-    uint32_t program_id;
-    id<MTLFunction> fragment_function;
-    id<MTLFunction> vertex_function;
+class MetalProgram {
+public:
+    MetalProgram() = default;
+    MetalProgram(const uint32_t program_id, id<MTLFunction> vs, id<MTLFunction> frag);
+    ~MetalProgram();
+
+    id<MTLRenderPipelineState> get_render_pipeline_state(id<MTLDevice> device);
+private:
+    static constexpr uint32_t default_state_flags = MTLPixelFormatBGRA8Unorm;
+
+    uint32_t program_id_;
+    id<MTLFunction> vs_;
+    id<MTLFunction> frag_;
+    std::unordered_map<uint32_t, id<MTLRenderPipelineState>> render_pipeline_states_;
 };
 
 
@@ -115,10 +125,9 @@ private:
     id<MTLCommandBuffer> command_buffer_[max_frames_in_flight];
     id<MTLRenderCommandEncoder> render_encoder_;
 
-    id<MTLLibrary> library_;
     id<MTLLibrary> default_library_;
-    id<MTLFunction> default_vshader_;
-    id<MTLFunction> default_fragshader_;
+
+    MetalProgram default_program_;
 
     id<MTLDepthStencilState> depth_stencil_state_;
 
@@ -129,7 +138,7 @@ private:
     HandleTable<MetalBuffer<max_frames_in_flight>, vertex_buffer_max> vertex_buffers_;
     HandleTable<MetalBuffer<max_frames_in_flight>, index_buffer_max> index_buffers_;
     HandleTable<MetalBuffer<max_frames_in_flight>, uniform_buffer_max> uniform_buffers_;
-    HandleTable<MetalProgram, shader_max> shaders_;
+    HandleTable<MetalProgram, shader_max> programs_;
     HandleTable<id<MTLTexture>, texture_max> textures_;
 
     uint32_t buffer_index_{0};

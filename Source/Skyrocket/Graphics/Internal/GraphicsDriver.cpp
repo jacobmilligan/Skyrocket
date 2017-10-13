@@ -24,8 +24,8 @@ GraphicsDriver::GraphicsDriver(const ThreadSupport threading)
     gdi_(GDI::create()),
     next_vbuf_id_(1),
     next_ibuf_id_(1),
-    next_shader_id_(1),
     next_uniform_id_(1),
+    next_program_id_(1),
     notified_(false),
     threading_(threading),
     active_(false),
@@ -99,22 +99,22 @@ void GraphicsDriver::set_index_buffer(const uint32_t ibuf_id, const uint32_t off
     gdi_->write_command<rc::SetIndexBuffer>(&cmd);
 }
 
-uint32_t GraphicsDriver::create_shader(const char* name)
+uint32_t GraphicsDriver::create_program(const Path& vs_path, const Path& frag_path)
 {
-    auto id = next_shader_id_;
-    ++next_shader_id_;
+    auto id = next_program_id_;
+    ++next_program_id_;
 
-    rc::CreateShader cmd(id, name);
+    rc::CreateProgram cmd(id, vs_path, frag_path);
 
-    gdi_->write_command<rc::CreateShader>(&cmd);
+    gdi_->write_command<rc::CreateProgram>(&cmd);
 
     return id;
 }
 
-bool GraphicsDriver::set_shaders(const uint32_t vertex_id, const uint32_t fragment_id)
+bool GraphicsDriver::set_program(const uint32_t program_id)
 {
-    rc::SetShaders cmd(vertex_id, fragment_id);
-    gdi_->write_command<rc::SetShaders>(&cmd);
+    rc::SetProgram cmd(program_id);
+    gdi_->write_command<rc::SetProgram>(&cmd);
 
     return true;
 }

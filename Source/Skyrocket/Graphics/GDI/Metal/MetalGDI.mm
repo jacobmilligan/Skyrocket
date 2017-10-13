@@ -9,14 +9,52 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
+#include "Skyrocket/Core/Hash.hpp"
 #include "Skyrocket/Graphics/GDI/Metal/MetalGDI.h"
 #include "Skyrocket/Graphics/Internal/Apple/MacViewport.h"
 #include "Skyrocket/Graphics/Internal/Apple/MetalView.h"
-#include "Skyrocket/Platform/Filesystem.hpp"
 
 //TODO(Jacob): Textures
 
 namespace sky {
+
+MetalProgram::MetalProgram(const uint32_t program_id, id<MTLFunction> vs, id<MTLFunction> frag)
+    : program_id_(program_id), vs_(vs), frag_(frag)
+{}
+
+MetalProgram::~MetalProgram()
+{}
+
+id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice> device)
+{
+    auto flags = program_id_ + default_state_flags;
+    auto hash = hash::murmur3_32(&flags, sizeof(uint32_t), 0);
+    auto rps = render_pipeline_states_.find(hash);
+    
+    if ( rps != render_pipeline_states_.end() ) {
+        return rps->second;
+    }
+
+    NSError* err = nil;
+    
+    MTLRenderPipelineDescriptor* pipeline_descriptor = [MTLRenderPipelineDescriptor new];
+    pipeline_descriptor.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm;
+    pipeline_descriptor.vertexFunction = vs_;
+    pipeline_descriptor.fragmentFunction = frag_;
+
+    id<MTLRenderPipelineState> new_rps = [device newRenderPipelineStateWithDescriptor:pipeline_descriptor
+                                                                                error:&err];
+    
+    if ( new_rps == nil ) {
+        SKY_ERROR("Cubes Device Interface",
+                  "Couldn't initialize main render pipeline state: NSError: %s",
+                  [[err localizedDescription] UTF8String]);
+        return nil;
+    }
+    
+    render_pipeline_states_.insert({hash, new_rps});
+    return new_rps;
+}
 
 MetalGDI::MetalGDI() = default;
 
@@ -96,37 +134,24 @@ fragment float4 basic_fragment(GraphicsData in [[stage_in]])
 
     NSString* nssrc = [NSString stringWithUTF8String:default_src];
 
-    default_library_ = [device_ newLibraryWithSource:nssrc
-                                             options:nil
-                                               error:&err];
-    if ( default_library_ == nil ) {
+    id<MTLLibrary> lib = [device_ newLibraryWithSource:nssrc
+                                               options:nil
+                                                 error:&err];
+    if ( lib == nil ) {
         SKY_ASSERT(default_library_ != nil,
                    "Default Metal Library loads correctly (see NSError: %s)",
                    [[err localizedDescription] UTF8String]);
         return false;
     }
 
-    default_vshader_ = [default_library_ newFunctionWithName:@"basic_vertex"];
-    default_fragshader_ = [default_library_ newFunctionWithName:@"basic_fragment"];
+    id<MTLFunction> vs = [lib newFunctionWithName:@"basic_vertex"];
+    id<MTLFunction> frag = [lib newFunctionWithName:@"basic_fragment"];
+    
+    default_program_ = MetalProgram(0, vs, frag);
 
     //--------------------------------
     //  Load main render pipeline
     //--------------------------------
-
-    MTLRenderPipelineDescriptor* pipeline_descriptor = [MTLRenderPipelineDescriptor new];
-    pipeline_descriptor.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm;
-    pipeline_descriptor.vertexFunction = default_vshader_;
-    pipeline_descriptor.fragmentFunction = default_fragshader_;
-
-    render_pipeline_ = [device_ newRenderPipelineStateWithDescriptor:pipeline_descriptor
-                                                               error:&err];
-
-    if ( render_pipeline_ == nil ) {
-        SKY_ERROR("Cubes Device Interface",
-                  "Couldn't initialize main render pipeline state: NSError: %s",
-                  [[err localizedDescription] UTF8String]);
-        return false;
-    }
 
     MTLDepthStencilDescriptor* ds_descriptor = [MTLDepthStencilDescriptor new];
     ds_descriptor.depthCompareFunction = MTLCompareFunctionLess;
@@ -202,42 +227,52 @@ bool MetalGDI::set_index_buffer(const uint32_t vbuf_id)
 
 bool MetalGDI::create_program(const uint32_t program_id, const Path& vs_path, const Path& frag_path)
 {
-    auto vs_src = fs::slurp_file(vs_path);
-    auto frag_src = fs::slurp_file(frag_path);
-
-    char src[strlen(vs_src) + strlen(frag_src) + 1];
-    strcpy(src, vs_src);
-    strcat(src, frag_src);
-
     NSError* err = nil;
-    id<MTLLibrary> lib = [device_ newLibraryWithSource:[NSString stringWithUTF8String:src]
-                                               options:nil
-                                                 error:&err];
+    id<MTLLibrary> lib = nil;
+
+    auto make_function = [&](const Path& path) {
+        id<MTLFunction> func = nil;
+        auto src = fs::slurp_file(path);
+
+        lib = [device_ newLibraryWithSource:[NSString stringWithUTF8String:src.c_str()]
+                                    options:nil
+                                      error:&err];
+        if ( lib == nil ) {
+            SKY_ERROR("Shader", "Couldn't load metal shader library (see NSError: %s)",
+                      [[err localizedDescription] UTF8String]);
+        } else {
+            std::string stem = path.stem();
+            NSString* func_name = [NSString stringWithUTF8String:stem.c_str()];
+            func = [lib newFunctionWithName:func_name];
+        }
+        
+        return func;
+    };
     
-    if ( lib == nil ) {
-        SKY_ERROR("Shader", "Couldn't load metal shader library (see NSError: %s)",
-                  [[err localizedDescription] UTF8String]);
-        return false;
-    }
-    
-    MetalProgram program;
-    
-    program.program_id = program_id;
-    program.vertex_function = [library_ newFunctionWithName:[NSString stringWithUTF8String:vs_path.filename()]];
-    program.fragment_function = [library_ newFunctionWithName:[NSString stringWithUTF8String:frag_path.filename()]];
-    shaders_.create(program_id, program);
-    
+    id<MTLFunction> vs = make_function(vs_path);
+    id<MTLFunction> frag = make_function(frag_path);
+
+    // Create program
+    MetalProgram program(program_id, vs, frag);
+    programs_.create(program_id, program);
     return true;
 }
 
 
 bool MetalGDI::set_program(const uint32_t program_id)
 {
-    auto* program = shaders_.lookup(program_id);
+    NSError* err = nil;
+    auto* program = programs_.lookup(program_id);
+    render_pipeline_ = program->get_render_pipeline_state(device_);
     
+    if ( render_pipeline_ == nil ) {
+        SKY_ERROR("GDI",
+                  "Couldn't initialize main render pipeline state: NSError: %s",
+                  [[err localizedDescription] UTF8String]);
+        return false;
+    }
     
-    
-    return false;
+    return true;
 }
 
 bool MetalGDI::create_uniform(const uint32_t u_id, const uint32_t size)
@@ -348,6 +383,10 @@ void MetalGDI::present()
         rpd.colorAttachments[0].storeAction = MTLStoreActionStore;
 
         render_encoder_ = [cmd_buffer renderCommandEncoderWithDescriptor:rpd];
+
+        if ( render_pipeline_ == nil ) {
+            render_pipeline_ = default_program_.get_render_pipeline_state(device_);
+        }
 
         [render_encoder_ setRenderPipelineState:render_pipeline_];
 

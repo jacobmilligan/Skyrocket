@@ -52,6 +52,11 @@ public:
     /// @return
     const char* parent() const;
 
+    /// @brief Gets the filename component of the path without the extension, i.e. given `File.txt`
+    /// this function would return `File`
+    /// @return
+    const char* stem() const;
+
     /// @brief Gets a modified version of this path with a new string appended to the end
     /// @param str
     /// @return
@@ -74,12 +79,13 @@ private:
 
     void make_null_terminated();
     int32_t last_slash_pos() const;
+    int32_t last_char_pos(const char c) const;
 };
 
 namespace fs {
 
 
-const char* slurp_file(const Path& filepath);
+std::string slurp_file(const Path& filepath);
 
 
 } // namespace fs

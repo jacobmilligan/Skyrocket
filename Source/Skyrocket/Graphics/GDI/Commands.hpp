@@ -13,6 +13,7 @@
 
 #include "Skyrocket/Graphics/GDI/Definitions.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
+#include "Skyrocket/Platform/Filesystem.hpp"
 
 namespace sky {
 namespace rc {
@@ -26,11 +27,11 @@ enum class CmdType : uint8_t {
     set_viewport,
     create_vertex_buffer,
     create_index_buffer,
-    create_shader,
+    create_program,
     create_uniform,
     set_vertex_buffer,
     set_index_buffer,
-    set_shaders,
+    set_program,
     set_uniform,
     update_uniform,
     draw_primitives
@@ -113,28 +114,26 @@ struct SetIndexBuffer : public Command {
     uint32_t count;
 };
 
-struct CreateShader : public Command {
-    CreateShader(const uint32_t shader_id, const char* shader_name)
-        :
-        Command(CmdType::create_shader),
-        sid(shader_id),
-        name(shader_name)
+struct CreateProgram : public Command {
+    CreateProgram(const uint32_t program_id, const Path& vs_path, const Path& frag_path)
+        : Command(CmdType::create_program),
+          prog_id(program_id),
+          vs(vs_path.str()),
+          frag(frag_path.str())
     {}
 
-    uint32_t sid;
-    const char* name;
+    uint32_t prog_id;
+    const char* vs;
+    const char* frag;
 };
 
-struct SetShaders : public Command {
-    SetShaders(const uint32_t vert_id, const uint32_t frag_id)
-        :
-        Command(CmdType::set_shaders),
-        vertex_program(vert_id),
-        fragment_program(frag_id)
+struct SetProgram : public Command {
+    explicit SetProgram(const uint32_t program_id)
+        : Command(CmdType::set_program),
+          prog_id(program_id)
     {}
 
-    uint32_t vertex_program;
-    uint32_t fragment_program;
+    uint32_t prog_id;
 };
 
 struct CreateUniform : public Command {

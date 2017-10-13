@@ -10,6 +10,7 @@
 //
 
 #include "Skyrocket/Graphics/GDI/GDI.hpp"
+#include "Skyrocket/Platform/Filesystem.hpp"
 
 namespace sky {
 
@@ -66,20 +67,26 @@ void GDI::process_commands()
                 target_.index_offset = cmd->first_index;
             } break;
 
-            case rc::CmdType::create_shader: {
+            case rc::CmdType::create_program: {
+                auto* cmd = cmd_buf.read<rc::CreateProgram>();
 
+                auto prog_id = cmd->prog_id;
+
+                Path vs(cmd->vs);
+                Path frag(cmd->frag);
+
+                create_program(prog_id, vs, frag);
             } break;
 
-            case rc::CmdType::set_shaders: {
-                auto cmd = cmd_buf.read<rc::SetShaders>();
+            case rc::CmdType::set_program: {
+                auto cmd = cmd_buf.read<rc::SetProgram>();
 
-                auto v_prog = cmd->vertex_program;
-                auto f_prog = cmd->fragment_program;
+                auto prog_id = cmd->prog_id;
 
-                if ( v_prog == invalid_handle || f_prog == invalid_handle ) {
+                if ( prog_id == invalid_handle ) {
 //                    printf("invali\n");
                 } else {
-                    set_program(v_prog);
+                    set_program(prog_id);
                 }
 
             } break;
