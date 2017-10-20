@@ -357,6 +357,28 @@ void MetalGDI::set_texture(const uint32_t t_id, const uint32_t index)
     [render_encoder_ setFragmentTexture:*tex atIndex:index];
 }
 
+void MetalGDI::set_state(const uint32_t flags)
+{
+    if ( ( 0 | RenderPipelineState::culling_none
+             | RenderPipelineState::culling_backface
+             | RenderPipelineState::culling_frontface)
+        & flags ) {
+
+        if ( RenderPipelineState::culling_none & flags ) {
+            [render_encoder_ setCullMode:MTLCullModeNone];
+        }
+
+        if ( RenderPipelineState::culling_backface & flags ) {
+            [render_encoder_ setCullMode:MTLCullModeBack];
+        }
+
+        if ( RenderPipelineState::culling_frontface & flags ) {
+            [render_encoder_ setCullMode:MTLCullModeFront];
+        }
+
+    }
+}
+
 bool MetalGDI::draw_primitives()
 {
     if ( target_.index_buffer > 0 ) {
@@ -414,7 +436,7 @@ void MetalGDI::present()
         [render_encoder_ setRenderPipelineState:render_pipeline_];
 
         [render_encoder_ setDepthStencilState:depth_stencil_state_];
-        [render_encoder_ setCullMode:MTLCullModeFront];
+        [render_encoder_ setCullMode:MTLCullModeBack];
 
         process_commands();
 

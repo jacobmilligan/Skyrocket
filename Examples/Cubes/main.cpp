@@ -176,6 +176,7 @@ int main(int argc, char** argv)
     auto prog = driver.create_program(vert_path, frag_path);
     driver.set_program(prog);
 
+
     std::array<Cube, 3> cubes;
     auto pos = 0.0f;
     for ( auto& c : cubes ) {
@@ -208,6 +209,8 @@ int main(int argc, char** argv)
     auto texture = driver.create_texture(cube_tex);
 
     while ( sky::Viewport::open_viewports() > 0 ) {
+        driver.set_state(sky::RenderPipelineState::culling_frontface);
+
         frame_start = sky::high_resolution_time();
 
         platform.poll_events();

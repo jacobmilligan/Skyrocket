@@ -36,7 +36,8 @@ enum class CmdType : uint8_t {
     set_uniform,
     set_texture,
     update_uniform,
-    draw_primitives
+    draw_primitives,
+    set_state
 };
 
 /// @brief Base command struct - all other render commands derive from this
@@ -200,6 +201,14 @@ struct DrawPrimitives : public Command {
     DrawPrimitives()
         : Command(CmdType::draw_primitives)
     {}
+};
+
+struct SetState : public Command {
+    SetState(const uint32_t state_flags)
+        : Command(CmdType::set_state), flags(state_flags)
+    {}
+
+    const uint32_t flags{};
 };
 
 

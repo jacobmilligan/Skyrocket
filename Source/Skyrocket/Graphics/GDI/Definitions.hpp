@@ -29,5 +29,11 @@ enum class UniformType {
     mat4
 };
 
+enum RenderPipelineState {
+    culling_none = 0x0,
+    culling_backface,
+    culling_frontface
+};
+
 
 }  // namespace sky

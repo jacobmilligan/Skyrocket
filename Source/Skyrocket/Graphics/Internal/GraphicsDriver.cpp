@@ -186,6 +186,12 @@ void GraphicsDriver::draw_primitives()
     gdi_->write_command<rc::DrawPrimitives>(&cmd);
 }
 
+void GraphicsDriver::set_state(const uint32_t state_flags)
+{
+    rc::SetState cmd(state_flags);
+    gdi_->write_command<rc::SetState>(&cmd);
+}
+
 void GraphicsDriver::present()
 {
     if ( threading_ == ThreadSupport::multithreaded ) {

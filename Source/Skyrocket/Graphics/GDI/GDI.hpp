@@ -138,6 +138,8 @@ public:
 
     virtual void set_texture(const uint32_t t_id, const uint32_t index);
 
+    virtual void set_state(const uint32_t flags);
+
     /// @brief Commits the current command buffer and processes all commands
     virtual void present();
 

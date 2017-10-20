@@ -11,14 +11,15 @@
 
 #pragma once
 
+#include "Skyrocket/Core/Diagnostics/Timespan.hpp"
 #include "Skyrocket/Graphics/GDI/Definitions.hpp"
 #include "Skyrocket/Graphics/GDI/GDI.hpp"
-#include "Skyrocket/Core/Diagnostics/Timespan.hpp"
+
+#include <Skyrocket/Graphics/Core/Image.hpp>
+#include <Skyrocket/Platform/Thread.hpp>
 
 #include <memory>
 #include <thread>
-#include <Skyrocket/Platform/Thread.hpp>
-#include <Skyrocket/Graphics/Core/Image.hpp>
 
 namespace sky {
 
@@ -106,6 +107,8 @@ public:
     uint32_t create_texture(const Image& img, const bool mipmapped = false);
 
     bool set_texture(const uint32_t texture, const uint32_t index);
+
+    void set_state(const uint32_t state_flags);
 
     /// @brief Sends a command to draw triangle primitives
     void draw_primitives();

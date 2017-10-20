@@ -106,14 +106,19 @@ void GDI::process_commands()
                 update_uniform(cmd->uniform_id, cmd->new_data);
             } break;
 
-            case rc::CmdType::create_texture:{
+            case rc::CmdType::create_texture: {
                 auto cmd = cmd_buf.read<rc::CreateTexture>();
                 create_texture(cmd->tid, cmd->data, cmd->width, cmd->height, cmd->bpp, cmd->mipmapped);
             } break;
 
-            case rc::CmdType::set_texture:{
+            case rc::CmdType::set_texture: {
                 auto cmd = cmd_buf.read<rc::SetTexture>();
                 set_texture(cmd->tid, cmd->index);
+            } break;
+
+            case rc::CmdType::set_state: {
+                auto cmd = cmd_buf.read<rc::SetState>();
+                set_state(cmd->flags);
             } break;
 
             case rc::CmdType::draw_primitives: {
@@ -203,6 +208,11 @@ bool GDI::draw_primitives()
 {
     // no op
     return false;
+}
+
+void GDI::set_state(const uint32_t flags)
+{
+    //no op
 }
 
 void GDI::present()

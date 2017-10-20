@@ -120,6 +120,8 @@ public:
 
     bool draw_primitives() override;
 
+    void set_state(const uint32_t flags) override;
+
     void present() override;
 
 private:
