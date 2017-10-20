@@ -24,16 +24,9 @@ template<typename T>
 struct Vector3 {
 
     union {
-        struct {
-            /// @brief The x coordinate of the Vector3
-            T x;
-
-            /// @brief The y coordinate of the Vector3
-            T y;
-
-            /// @brief The z coordinate of the Vector3
-            T z;
-        };
+        struct { T x, y, z; };
+        struct { T r, g, b; };
+        struct { T s, t, p; };
     };
 
     /// @brief Initializes a new Vector3 with all elements assigned the

@@ -29,13 +29,9 @@ template<typename T>
 struct Vector2 {
 
     union {
-        struct {
-            /// @brief The x coordinate of the Vector2
-            T x;
-
-            /// @brief  The y coordinate of the Vector2
-            T y;
-        };
+        struct { T x, y; };
+        struct { T r, g; };
+        struct { T s, t; };
     };
 
     /// @brief Initializes a new Vector2 with all elements assigned the

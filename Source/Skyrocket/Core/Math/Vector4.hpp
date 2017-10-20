@@ -24,19 +24,9 @@ template<typename T>
 struct Vector4 {
 
     union {
-        struct {
-            /// @brief The x coordinate of the Vector4
-            T x;
-
-            /// @brief The y coordinate of the Vector4
-            T y;
-
-            /// @brief The z coordinate of the Vector4
-            T z;
-
-            /// @brief The w coordinate of the Vector4
-            T w;
-        };
+        struct { T x, y, z, w; };
+        struct { T r, g, b, a; };
+        struct { T s, t, p, q; };
     };
 
     /// @brief Initializes a new Vector4 with all elements assigned the
