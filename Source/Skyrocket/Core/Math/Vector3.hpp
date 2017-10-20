@@ -32,7 +32,7 @@ struct Vector3 {
     /// @brief Initializes a new Vector3 with all elements assigned the
     /// specified value
     /// @param value Value to assign to all elements
-    Vector3(const T value)
+    explicit Vector3(const T value)
         :
         x(value), y(value), z(value)
     {}
@@ -56,7 +56,7 @@ struct Vector3 {
     /// coordinates
     /// @param vec2 Vector2 to use for x and y coordinates
     /// @param vz The z coordinate value
-    Vector3(const Vector2 <T>& vec2, const T vz)
+    Vector3(const Vector2<T>& vec2, const T vz)
         :
         x(vec2.x), y(vec2.y), z(vz)
     {}
@@ -110,7 +110,7 @@ struct Vector3 {
     /// @brief Normalizes the Vector3's elements to be of length 1 but retain their
     /// direction.
     /// @return The normalized version of the vector
-    Vector3<T> get_normalized()
+    Vector3<T> get_normalized() const
     {
         auto len = length();
         auto n = static_cast<T>(1) / ((len <= 0) ? 1 : len);

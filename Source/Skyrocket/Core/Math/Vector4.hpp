@@ -32,7 +32,7 @@ struct Vector4 {
     /// @brief Initializes a new Vector4 with all elements assigned the
     /// specified value
     /// @param value Value to assign to all elements
-    Vector4(const T value)
+    explicit Vector4(const T value)
         :
         x(value), y(value), z(value), w(value)
     {}
@@ -58,7 +58,7 @@ struct Vector4 {
     /// @param vec2 Vector2 to use for x and y coordinates
     /// @param vz The z coordinate value
     /// @param vw The w coordinate value
-    Vector4(const Vector2 <T>& vec2, const T vz, const T vw)
+    Vector4(const Vector2<T>& vec2, const T vz, const T vw)
         :
         x(vec2.x), y(vec2.y), z(vz), w(vw)
     {}
@@ -67,7 +67,7 @@ struct Vector4 {
     /// coordinates
     /// @param vec2 Vector3 to use for x, y, and z coordinates
     /// @param vw The w coordinate value
-    Vector4(const Vector3 <T>& vec3, const T vw)
+    Vector4(const Vector3<T>& vec3, const T vw)
         :
         x(vec3.x), y(vec3.y), z(vec3.z), w(vw)
     {}
@@ -122,7 +122,7 @@ struct Vector4 {
     /// @brief Normalizes the Vector4's elements to be of length 1 but retain their
     /// direction.
     /// @return The normalized version of the vector
-    Vector4<T> get_normalized()
+    Vector4<T> get_normalized() const
     {
         auto normalized = *this;
         auto len = length();

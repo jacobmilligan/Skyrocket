@@ -107,29 +107,29 @@ struct Matrix4 {
     }
 
     /// @brief Gets a scale matrix using this matrix and a column Vector3 as a basis
-    /// @param delta The column vector to scale the matrix by
+    /// @param v The column vector to scale the matrix by
     /// @return The scale matrix
-    Matrix4<T> scale(const Vector3 <T>& delta)
+    Matrix4<T> scale(const Vector3<T>& v)
     {
         auto result = *this;
 
-        result[0] *= delta.x;
-        result[1] *= delta.y;
-        result[2] *= delta.z;
+        result[0] *= v.x;
+        result[1] *= v.y;
+        result[2] *= v.z;
 
         return result;
     }
 
     /// @brief Gets a translation matrix using this matrix and a
     /// column Vector3 as a basis
-    /// @param delta The column vector to translate the matrix by
+    /// @param v The column vector to translate the matrix by
     /// @return The translation matrix
-    Matrix4<T> translate(const Vector3 <T>& delta)
+    Matrix4<T> translate(const Vector3<T>& v)
     {
         Matrix4<T> trans = *this;
-        trans[3][0] = delta.x;
-        trans[3][1] = delta.y;
-        trans[3][2] = delta.z;
+        trans[3][0] = v.x;
+        trans[3][1] = v.y;
+        trans[3][2] = v.z;
         return trans;
     }
 
@@ -168,12 +168,10 @@ struct Matrix4 {
     /// @param angle The angle at which to rotate
     /// @param axis_vec The vector representing an axis to rotate around
     /// @return The rotation matrix
-    Matrix4<T> rotate(const T angle, const Vector3 <T>& axis_vec)
+    Matrix4<T> rotate(const T angle, const Vector3<T>& axis_vec)
     {
-        auto axis = axis_vec;
+        auto axis = axis_vec.get_normalized();
         auto rotation = *this;
-
-        axis.normalize();
 
         auto dsin = static_cast<T>(sin(angle));
         auto dcos = static_cast<T>(cos(angle));

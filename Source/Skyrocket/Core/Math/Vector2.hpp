@@ -37,7 +37,7 @@ struct Vector2 {
     /// @brief Initializes a new Vector2 with all elements assigned the
     /// specified value
     /// @param value Value to assign to all elements
-    Vector2(const T value)
+    explicit Vector2(const T value)
         :
         x(value), y(value)
     {}
@@ -104,18 +104,13 @@ struct Vector2 {
     /// @brief Normalizes the Vector2's elements to be of length 1 but retain their
     /// direction.
     /// @return The normalized version of the vector
-    Vector2<T> get_normalized()
+    Vector2<T> get_normalized() const
     {
         auto normalized = *this;
         auto len = length();
         auto n = static_cast<T>(1) / ((len <= 0) ? 1 : len);
 
         return Vector2<T>(x * n, y * n);
-    }
-
-    Vector2<T> perpendicular() const
-    {
-        return Vector2<T>(-y, x);
     }
 
     /// @brief Clamps all of the Vector2's elements to remain within the given
