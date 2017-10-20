@@ -36,9 +36,14 @@ struct MetalBuffer {
         current_ = 0;
         usage_ = usage;
         for ( int i = 0; i < Size; ++i ) {
-            buffers_[i] = [device newBufferWithBytes:data
-                                              length:length
-                                             options:MTLResourceCPUCacheModeDefaultCache];
+            if ( data == nullptr ) {
+                buffers_[i] = [device newBufferWithLength:length
+                                                  options:MTLResourceCPUCacheModeDefaultCache];
+            } else {
+                buffers_[i] = [device newBufferWithBytes:data
+                                                  length:length
+                                                 options:MTLResourceCPUCacheModeDefaultCache];
+            }
         }
     }
 
@@ -110,6 +115,8 @@ public:
     void create_texture(const uint32_t t_id, const uint8_t* data, const int32_t width,
                         const int32_t height, const int32_t bytes_per_pixel,
                         const bool mipmapped) override;
+
+    void set_texture(const uint32_t t_id, const uint32_t index) override;
 
     bool draw_primitives() override;
 

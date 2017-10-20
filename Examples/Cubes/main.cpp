@@ -13,13 +13,14 @@
 #include <Skyrocket/Core/Diagnostics/Timespan.hpp>
 #include <Skyrocket/Core/Math.hpp>
 #include <Skyrocket/Graphics/Color.hpp>
-#include <Skyrocket/Graphics/Core/GraphicsData.hpp>
+#include <Skyrocket/Graphics/Core/Vertex.hpp>
 #include <Skyrocket/Graphics/Font.hpp>
 #include <Skyrocket/Graphics/GraphicsDriver.hpp>
 #include <Skyrocket/Input/Keyboard.hpp>
+#include <Skyrocket/Core/Hash.hpp>
 
 #include <iostream>
-#include <Skyrocket/Core/Hash.hpp>
+
 
 struct Cube {
     sky::Vector3f pos;
@@ -32,37 +33,82 @@ struct Cube {
     {
         driver_ = driver;
 
-        auto cube_width = 1.0f;
-        auto cube_height = 1.0f;
-        auto cube_depth = 1.0f;
+//        //Front
+//        auto a = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.25f);
+//        auto b = sky::Vertex(-1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.25f, 0.50f);
+//        auto c = sky::Vertex( 1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.50f, 0.50f);
+//        auto d = sky::Vertex( 1.0f,  1.0f,  1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.50f, 0.25f);
+//        //Left
+//        auto e = sky::Vertex(-1.0f,  1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.00f, 0.25f);
+//        auto f = sky::Vertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.00f, 0.50f);
+//        auto g = sky::Vertex(-1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.25f, 0.50f);
+//        auto h = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.25f, 0.25f);
+//        //Right
+//        auto i = sky::Vertex( 1.0f,  1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.50f, 0.25f);
+//        auto j = sky::Vertex( 1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.50f, 0.50f);
+//        auto k = sky::Vertex( 1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.75f, 0.50f);
+//        auto l = sky::Vertex( 1.0f,  1.0f, -1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.75f, 0.25f);
+//        //Top
+//        auto m = sky::Vertex(-1.0f,  1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.00f);
+//        auto n = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.25f, 0.25f);
+//        auto o = sky::Vertex( 1.0f,  1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.50f, 0.25f);
+//        auto p = sky::Vertex( 1.0f,  1.0f, -1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.50f, 0.00f);
+//        //Bottom
+//        auto q = sky::Vertex(-1.0f, -1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.50f);
+//        auto r = sky::Vertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.25f, 0.75f);
+//        auto s = sky::Vertex( 1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.50f, 0.75f);
+//        auto t = sky::Vertex( 1.0f, -1.0f,  1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.50f, 0.50f);
+//        //Back
+//        auto u = sky::Vertex( 1.0f,  1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.75f, 0.25f);
+//        auto v = sky::Vertex( 1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.75f, 0.50f);
+//        auto w = sky::Vertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.00f, 0.50f);
+//        auto x = sky::Vertex(-1.0f,  1.0f, -1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 1.00f, 0.25f);
+
+        //Front
+        auto a = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.25f);
+        auto b = sky::Vertex(-1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.25f, 0.50f);
+        auto c = sky::Vertex( 1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.50f, 0.50f);
+        auto d = sky::Vertex( 1.0f,  1.0f,  1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.50f, 0.25f);
+        //Left
+        auto e = sky::Vertex(-1.0f,  1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.00f, 0.25f);
+        auto f = sky::Vertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.00f, 0.50f);
+        auto g = sky::Vertex(-1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.25f, 0.50f);
+        auto h = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.25f, 0.25f);
+        //Right
+        auto i = sky::Vertex( 1.0f,  1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.50f, 0.25f);
+        auto j = sky::Vertex( 1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.50f, 0.50f);
+        auto k = sky::Vertex( 1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.75f, 0.50f);
+        auto l = sky::Vertex( 1.0f,  1.0f, -1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.75f, 0.25f);
+        //Top
+        auto m = sky::Vertex(-1.0f,  1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.00f);
+        auto n = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.25f, 0.25f);
+        auto o = sky::Vertex( 1.0f,  1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.50f, 0.25f);
+        auto p = sky::Vertex( 1.0f,  1.0f, -1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.50f, 0.00f);
+        //Bottom
+        auto q = sky::Vertex(-1.0f, -1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.50f);
+        auto r = sky::Vertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.25f, 0.75f);
+        auto s = sky::Vertex( 1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.50f, 0.75f);
+        auto t = sky::Vertex( 1.0f, -1.0f,  1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.50f, 0.50f);
+        //Back
+        auto u = sky::Vertex( 1.0f,  1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.75f, 0.25f);
+        auto v = sky::Vertex( 1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.75f, 0.50f);
+        auto w = sky::Vertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.00f, 0.50f);
+        auto x = sky::Vertex(-1.0f,  1.0f, -1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 1.00f, 0.25f);
+
         vertices_ = {
-            sky::GraphicsData(-cube_width,-cube_height,-cube_depth, 1.0f, 0.0f,1.0f,1.0f,1.0f),
-            sky::GraphicsData( cube_width,-cube_height,-cube_depth, 1.0f, 0.0f,0.0f,1.0f,1.0f),
-            sky::GraphicsData( cube_width, cube_height,-cube_depth, 1.0f, 1.0f,0.0f,1.0f,1.0f),
-            sky::GraphicsData(-cube_width, cube_height,-cube_depth, 1.0f, 1.0f,1.0f,1.0f,1.0f),
-            sky::GraphicsData(-cube_width,-cube_height, cube_depth, 1.0f, 0.0f,1.0f,0.0f,1.0f),
-            sky::GraphicsData( cube_width,-cube_height, cube_depth, 1.0f, 0.0f,0.0f,0.0f,1.0f),
-            sky::GraphicsData( cube_width, cube_height, cube_depth, 1.0f, 1.0f,0.0f,0.0f,1.0f),
-            sky::GraphicsData(-cube_width, cube_height, cube_depth, 1.0f, 1.0f,1.0f,0.0f,1.0f)
+            a, b, c, a, c, d,   //front
+            e, f, g, e, g, h,   //left
+            i, j, k, i, k, l,   //right
+            m, n, o, m, o, p,   //top
+            q, r, s, q, s, t,   //bot
+            u, v, w, u, w, x    //back
         };
 
-        indices_ = {
-            0, 1, 3, 3, 1, 2,
-            1, 5, 2, 2, 5, 6,
-            5, 4, 6, 6, 4, 7,
-            4, 0, 7, 7, 0, 3,
-            3, 2, 7, 7, 2, 6,
-            4, 5, 0, 0, 5, 1
-        };
-
-        auto vertices_size = static_cast<uint32_t>(sizeof(sky::GraphicsData) * vertices_.size());
-        auto indices_size = static_cast<uint32_t>(sizeof(uint32_t) * indices_.size());
+        auto vertices_size = static_cast<uint32_t>(sizeof(sky::Vertex) * vertices_.size());
 
         auto vbuf_mem = sky::MemoryBlock { vertices_size, vertices_.data() };
-        auto ibuf_mem = sky::MemoryBlock { indices_size, indices_.data() };
 
         vbuf_id_ = driver->create_vertex_buffer(vbuf_mem, sky::BufferUsage::staticbuf);
-        ibuf_id_ = driver->create_index_buffer(ibuf_mem);
 
         xaxis_ = sky::Vector3f(0.0f, 1.0f, 0.0f);
         yaxis_ = sky::Vector3f(1.0f, 0.0f, 0.0f);
@@ -84,27 +130,18 @@ struct Cube {
     void render()
     {
         auto vertices_size = static_cast<uint32_t>(vertices_.size());
-        auto indices_size = static_cast<uint32_t>(indices_.size());
 
         driver_->set_vertex_buffer(vbuf_id_, 0, vertices_size);
-        driver_->set_index_buffer(ibuf_id_, 0, indices_size);
         driver_->draw_primitives();
     }
 
 private:
     sky::GraphicsDriver* driver_{};
-    std::vector<sky::GraphicsData> vertices_;
-    std::vector<uint32_t> indices_;
-    uint32_t vbuf_id_{}, ibuf_id_{};
+    std::vector<sky::Vertex> vertices_;
+    uint32_t vbuf_id_{};
     sky::Vector3f xaxis_, yaxis_;
 
     sky::Matrix4f identity_, transform_;
-};
-
-struct ModelViewProjection {
-    ModelViewProjection() = default;
-    sky::Matrix4f model_view;
-    sky::Matrix4f projection;
 };
 
 int main(int argc, char** argv)
@@ -112,6 +149,9 @@ int main(int argc, char** argv)
     // Setup paths and string data
     const char* app_name = "Skyrocket Cubes Example";
     auto root_path = sky::Path::executable_path().relative_path("../../../../Examples/Cubes");
+    if ( sky::target_platform == sky::OS::macos ) {
+        root_path = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples/Cubes");
+    }
     root_path.make_real();
 
     // Skyrocket platform and input handling data
@@ -162,6 +202,11 @@ int main(int argc, char** argv)
     auto cam_speed = 10.0f;
     auto target_frametime = 16.6;
 
+    sky::Image cube_tex;
+    cube_tex.load_from_file(root_path.relative_path("cube.png"));
+
+    auto texture = driver.create_texture(cube_tex);
+
     while ( sky::Viewport::open_viewports() > 0 ) {
         frame_start = sky::high_resolution_time();
 
@@ -189,6 +234,7 @@ int main(int argc, char** argv)
         driver.update_uniform(projection_ubuf, sky::MemoryBlock{ sizeof(sky::Matrix4f), &projection_mat});
         driver.set_uniform(view_ubuf, 2);
         driver.set_uniform(projection_ubuf, 3);
+        driver.set_texture(texture, 0);
 
         for ( auto& c : cubes ) {
             driver.set_uniform(model_ubuf, 1);

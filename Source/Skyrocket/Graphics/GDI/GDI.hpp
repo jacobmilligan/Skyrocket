@@ -136,6 +136,8 @@ public:
                                 const int32_t height,const int32_t bytes_per_pixel,
                                 const bool mipmapped);
 
+    virtual void set_texture(const uint32_t t_id, const uint32_t index);
+
     /// @brief Commits the current command buffer and processes all commands
     virtual void present();
 

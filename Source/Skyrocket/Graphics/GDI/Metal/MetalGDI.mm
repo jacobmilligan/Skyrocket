@@ -34,6 +34,18 @@ id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice>
     if ( rps != render_pipeline_states_.end() ) {
         return rps->second;
     }
+    
+    if ( vs_ == nil ) {
+        SKY_ERROR("Render Pipeline",
+                  "Cannot get new render pipeline state: Vertex function is nil");
+        return nil;
+    }
+    
+    if ( frag_ == nil ) {
+        SKY_ERROR("Render Pipeline",
+                  "Cannot get new render pipeline state: Fragment function is nil");
+        return nil;
+    }
 
     NSError* err = nil;
     
@@ -46,7 +58,7 @@ id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice>
                                                                                 error:&err];
     
     if ( new_rps == nil ) {
-        SKY_ERROR("Cubes Device Interface",
+        SKY_ERROR("Render Pipeline",
                   "Couldn't initialize main render pipeline state: NSError: %s",
                   [[err localizedDescription] UTF8String]);
         return nil;
@@ -108,25 +120,25 @@ bool MetalGDI::initialize(Viewport* viewport)
 
 using namespace metal;
 
-struct GraphicsData {
+struct Vertex {
     float4 position [[position]];
     float4 color;
 };
 
-vertex GraphicsData basic_vertex(device GraphicsData* vertices [[buffer(0)]],
+vertex Vertex basic_vertex(device Vertex* vertices [[buffer(0)]],
                            constant float4x4& model [[buffer(1)]],
                            constant float4x4& view [[buffer(2)]],
                            constant float4x4& projection [[buffer(3)]],
                            uint vid [[vertex_id]] )
 {
-    GraphicsData out;
+    Vertex out;
     out.position = projection * view * model * vertices[vid].position;
     out.color = vertices[vid].color;
 
     return out;
 }
 
-fragment float4 basic_fragment(GraphicsData in [[stage_in]])
+fragment float4 basic_fragment(Vertex in [[stage_in]])
 {
     return in.color;
 }
@@ -177,7 +189,7 @@ bool MetalGDI::create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& i
     auto vbuf = vertex_buffers_.lookup(vbuf_id);
 
     if ( vbuf == nullptr ) {
-        SKY_ERROR("GraphicsData Buffer", "Could not create a new vertex buffer with id %"
+        SKY_ERROR("Vertex Buffer", "Could not create a new vertex buffer with id %"
             PRIu32, vbuf_id);
         return false;
     }
@@ -192,7 +204,7 @@ bool MetalGDI::set_vertex_buffer(const uint32_t vbuf_id)
     auto vbuf = vertex_buffers_.lookup(vbuf_id);
 
     if ( vbuf == nullptr ) {
-        SKY_ERROR("GraphicsData Buffer", "Invalid vertex buffer specified with ID %"
+        SKY_ERROR("Vertex Buffer", "Invalid vertex buffer specified with ID %"
             PRIu32, vbuf_id);
         return false;
     }
@@ -334,6 +346,17 @@ void MetalGDI::create_texture(const uint32_t t_id, const uint8_t* data, const in
             bytesPerRow:bpr];
 }
 
+void MetalGDI::set_texture(const uint32_t t_id, const uint32_t index)
+{
+    auto* tex = textures_.lookup(t_id);
+    if ( t_id == textures_.invalid_id ) {
+        SKY_ERROR("Texture", "Invalid texture ID specified");
+        return;
+    }
+    
+    [render_encoder_ setFragmentTexture:*tex atIndex:index];
+}
+
 bool MetalGDI::draw_primitives()
 {
     if ( target_.index_buffer > 0 ) {
@@ -364,7 +387,7 @@ void MetalGDI::present()
     @autoreleasepool {
         id < MTLCommandBuffer > cmd_buffer = [command_queue_ commandBufferWithUnretainedReferences];
 
-        MTLRenderPassDescriptor * rpd =[MTLRenderPassDescriptor renderPassDescriptor];
+        MTLRenderPassDescriptor* rpd =[MTLRenderPassDescriptor renderPassDescriptor];
 
         if ( rpd == nil ) {
             SKY_ERROR("Renderer", "Couldn't create a RenderPassDescriptor");
@@ -391,7 +414,7 @@ void MetalGDI::present()
         [render_encoder_ setRenderPipelineState:render_pipeline_];
 
         [render_encoder_ setDepthStencilState:depth_stencil_state_];
-        [render_encoder_ setCullMode:MTLCullModeBack];
+        [render_encoder_ setCullMode:MTLCullModeFront];
 
         process_commands();
 

@@ -14,7 +14,6 @@
 #include "Skyrocket/Core/Math.hpp"
 
 #include <condition_variable>
-#include <Skyrocket/Graphics/Core/GraphicsData.hpp>
 
 namespace sky {
 
@@ -26,6 +25,7 @@ GraphicsDriver::GraphicsDriver(const ThreadSupport threading)
     next_ibuf_id_(1),
     next_uniform_id_(1),
     next_program_id_(1),
+    next_texture_id_(1),
     notified_(false),
     threading_(threading),
     active_(false),
@@ -160,6 +160,24 @@ void GraphicsDriver::update_uniform(const uint32_t u_id, const MemoryBlock& data
 {
     rc::UpdateUniform cmd(u_id, data);
     gdi_->write_command(&cmd);
+}
+
+uint32_t GraphicsDriver::create_texture(const Image& img, const bool mipmapped)
+{
+    auto id = next_texture_id_;
+    ++next_texture_id_;
+
+    rc::CreateTexture cmd(id, img.data, img.width, img.height, img.bytes_per_pixel, mipmapped);
+    gdi_->write_command<rc::CreateTexture>(&cmd);
+
+    return id;
+}
+
+bool GraphicsDriver::set_texture(const uint32_t texture, const uint32_t index)
+{
+    rc::SetTexture cmd(texture, index);
+    gdi_->write_command<rc::SetTexture>(&cmd);
+    return true;
 }
 
 void GraphicsDriver::draw_primitives()

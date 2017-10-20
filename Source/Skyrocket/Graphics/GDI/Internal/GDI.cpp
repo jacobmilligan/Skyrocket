@@ -106,6 +106,16 @@ void GDI::process_commands()
                 update_uniform(cmd->uniform_id, cmd->new_data);
             } break;
 
+            case rc::CmdType::create_texture:{
+                auto cmd = cmd_buf.read<rc::CreateTexture>();
+                create_texture(cmd->tid, cmd->data, cmd->width, cmd->height, cmd->bpp, cmd->mipmapped);
+            } break;
+
+            case rc::CmdType::set_texture:{
+                auto cmd = cmd_buf.read<rc::SetTexture>();
+                set_texture(cmd->tid, cmd->index);
+            } break;
+
             case rc::CmdType::draw_primitives: {
                 cmd_buf.read<rc::DrawPrimitives>();
                 draw_primitives();
@@ -177,9 +187,14 @@ void GDI::update_uniform(const uint32_t  /*u_id*/, const MemoryBlock&  /*data*/)
     // no op
 }
 
-void GDI::create_texture(const uint32_t t_id, const uint8_t* data, const int32_t width,
-                         const int32_t height, const int32_t bytes_per_pixel,
-                         const bool mipmapped)
+void GDI::create_texture(const uint32_t  /*t_id*/, const uint8_t* /*data*/, const int32_t /*width*/,
+                         const int32_t  /*height*/, const int32_t /*bytes_per_pixel*/,
+                         const bool  /*mipmapped*/)
+{
+    // no op
+}
+
+void GDI::set_texture(const uint32_t /*t_id*/, const uint32_t /*index*/)
 {
     // no op
 }

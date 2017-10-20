@@ -18,6 +18,7 @@
 #include <memory>
 #include <thread>
 #include <Skyrocket/Platform/Thread.hpp>
+#include <Skyrocket/Graphics/Core/Image.hpp>
 
 namespace sky {
 
@@ -102,6 +103,10 @@ public:
     /// @return
     bool set_program(const uint32_t program_id);
 
+    uint32_t create_texture(const Image& img, const bool mipmapped = false);
+
+    bool set_texture(const uint32_t texture, const uint32_t index);
+
     /// @brief Sends a command to draw triangle primitives
     void draw_primitives();
 
@@ -115,6 +120,7 @@ private:
     uint32_t next_ibuf_id_;
     uint32_t next_uniform_id_;
     uint32_t next_program_id_;
+    uint32_t next_texture_id_;
 
     std::unique_ptr<GDI> gdi_;
 
