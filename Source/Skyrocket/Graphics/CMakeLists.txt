@@ -35,7 +35,6 @@ endif ()
 ######################################
 
 add_subdirectory(GDI)
-add_subdirectory(Core)
 
 if (APPLE)
     add_subdirectory(Apple)

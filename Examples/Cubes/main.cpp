@@ -14,7 +14,7 @@
 #include <Skyrocket/Core/Hash.hpp>
 #include <Skyrocket/Core/Math.hpp>
 #include <Skyrocket/Graphics/Color.hpp>
-#include <Skyrocket/Graphics/Core/Vertex.hpp>
+#include <Skyrocket/Graphics/Vertex.hpp>
 #include <Skyrocket/Resource/Font.hpp>
 #include <Skyrocket/Graphics/GraphicsDriver.hpp>
 #include <Skyrocket/Input/Keyboard.hpp>
