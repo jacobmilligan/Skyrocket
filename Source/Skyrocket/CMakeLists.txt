@@ -1,6 +1,6 @@
 add_subdirectory(Core)
 add_subdirectory(Platform)
-add_subdirectory(Framework)
 add_subdirectory(Graphics)
 add_subdirectory(Input)
+add_subdirectory(Framework)
 add_subdirectory(Resource)

@@ -11,10 +11,7 @@
 
 #pragma once
 
-#include "Skyrocket/Input/Keycodes.hpp"
-
-#include <memory>
-#include <Skyrocket/Graphics/GDI/GDI.hpp>
+#include "Skyrocket/Graphics/GraphicsDriver.hpp"
 
 namespace sky {
 
@@ -22,7 +19,7 @@ namespace sky {
 
 class Application {
 public:
-    Application(const char* name);
+    explicit Application(const char* name);
     ~Application();
 
     inline const char* app_name()
@@ -30,26 +27,28 @@ public:
         return name_;
     }
 
-    void start();
-    void shutdown();
+    void start(const GraphicsDriver::ThreadSupport graphics_threading);
 
     virtual void on_startup(int argc, const char** argv) = 0;
     virtual void on_update() = 0;
-    virtual void on_render() = 0;
-    virtual void on_keydown(sky::Key keycode) = 0;
-    virtual void on_keyup(sky::Key keycode) = 0;
-    virtual void on_mouse() = 0;
+    virtual void on_shutdown() = 0;
 protected:
-    std::unique_ptr<GDI> graphics_driver;
+    GraphicsDriver graphics_driver;
+    Platform platform;
+    Viewport primary_view;
 private:
     //std::unique_ptr<Platform> platform_;
     const char* name_;
     bool active_;
 
+    uint64_t frame_start = 0;
+    sky::Timespan frame_time;
+
+    void shutdown();
 };
 
 
-}
+}  // namespace sky
 
 
 

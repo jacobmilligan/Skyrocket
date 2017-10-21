@@ -18,10 +18,11 @@ namespace sky {
 
 PlatformEvents Platform::events_;
 
-void Platform::launch(const char* app_title)
+void Platform::launch(const char* app_title, update_callback_t update_callback)
 {
     if ( !initialized_ ) {
         app_title_ = app_title;
+        update_ = update_callback;
         native_init();
         initialized_ = true;
     }

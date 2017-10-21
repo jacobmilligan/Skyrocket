@@ -23,16 +23,19 @@
 
 namespace sky {
 
+class Application;
 
 /// @brief Platform initializes the native application and window and manages OS-specific
 /// application calls.
 class Platform {
 public:
+    using update_callback_t = void (Application::*)();
+
     Platform() = default;
 
     /// @brief Launches a new application and window for the current platform
     /// @param app_title
-    void launch(const char* app_title);
+    void launch(const char* app_title, update_callback_t update_callback);
 
     /// @brief Creates a new native window object, returning it as a void*
     /// @param caption
@@ -65,6 +68,7 @@ private:
     static PlatformEvents events_;
 
     const char* app_title_{};
+    update_callback_t update_{};
 
     void native_init();
     void native_poll_events();

@@ -9,42 +9,63 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
+#include <Skyrocket/Graphics/Color.hpp>
 #include "Skyrocket/Framework/Application.hpp"
-#include "Skyrocket/Platform/Platform.hpp"
 
 namespace sky {
 
 
 Application::Application(const char* name)
-    :
-    name_(name),
-    active_(false)
+    : name_(name),
+      active_(false)
 {}
 
-Application::~Application()
-{}
+Application::~Application() = default;
 
-void Application::start()
+void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
 {
-    //platform_->startup(name_);
+    {
+        AssertGuard ag("Application start", name_);
 
-    graphics_driver = std::make_unique<GDI>();
-//    graphics_driver->initialize();
+        platform.launch(name_, &Application::on_update);
 
-    active_ = true;
+        primary_view.open(name_, 800, 600);
+        primary_view.set_backing_color(sky::Color::gray);
 
-    while ( active_ ) {
-        //platform_->poll_events();
-        on_update();
-        on_render();
-        // TODO: only update active view
+        auto graphics_init_success = graphics_driver.initialize(graphics_threading, &primary_view);
+
+        SKY_ASSERT(graphics_init_success, "GraphicsDriver initialized successfully");
+
+        on_startup(0, nullptr);
+
+        active_ = true;
     }
+
+    auto target_frametime = 16.6;
+
+    while ( Viewport::open_viewports() > 0 ) {
+        frame_start = high_resolution_time();
+        platform.poll_events();
+
+        on_update();
+
+        frame_time = sky::Timespan(high_resolution_time() - frame_start);
+
+        if ( frame_time.total_milliseconds() < target_frametime) {
+            auto diff = target_frametime - frame_time.total_milliseconds();
+            auto sleep_time = sky::Timespan(static_cast<uint64_t>(diff * sky::Timespan::ticks_per_millisecond));
+            sky::thread_sleep(sleep_time);
+        }
+    }
+
+    shutdown();
 }
 
 void Application::shutdown()
 {
     active_ = false;
+    on_shutdown();
 }
 
 
-}
+}  // namespace sky

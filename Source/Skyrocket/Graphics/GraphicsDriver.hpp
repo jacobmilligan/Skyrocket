@@ -38,18 +38,18 @@ public:
 
     /// @brief Creates a new graphics driver
     /// @param threading Either single or multithreaded
-    explicit GraphicsDriver(const ThreadSupport threading);
+    explicit GraphicsDriver();
     ~GraphicsDriver();
 
     /// @brief Initializes the graphics driver and render thread, creating the native graphics API
     /// context
     /// @param view The view to associate the graphics device with
     /// @return True if successful initialization, false otherwise
-    bool initialize(Viewport& view);
+    bool initialize(const ThreadSupport threading, Viewport* view);
 
     /// @brief Attaches this graphics driver to the specified viewport
     /// @param viewport
-    void set_viewport(Viewport& viewport);
+    void set_viewport(Viewport* viewport);
 
     /// @brief Sends a command to create a new vertex buffer resource
     /// @param initial_data The initial data to copy into the buffer

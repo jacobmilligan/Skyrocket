@@ -18,10 +18,7 @@ namespace sky {
 
 class Keyboard {
 public:
-    Keyboard()
-    {
-
-    }
+    Keyboard() = default;
 
     bool key_down(const Key key);
     bool key_typed(const Key key);
@@ -29,4 +26,4 @@ private:
 };
 
 
-}
+}  // namespace sky

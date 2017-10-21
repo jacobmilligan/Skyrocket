@@ -21,7 +21,7 @@ namespace sky {
 
 Path::Path()
 {
-    make_real();
+    make_null_terminated();
 }
 
 Path::Path(const char* path)
@@ -158,7 +158,7 @@ int32_t Path::last_slash_pos() const
 
 void Path::make_null_terminated()
 {
-    if ( path_.back() != '\0' ) {
+    if ( path_.size() <= 0 || path_.back() != '\0' ) {
         path_.push_back('\0');
     }
 }

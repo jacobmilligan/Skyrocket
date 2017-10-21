@@ -18,19 +18,17 @@
 namespace sky {
 
 
-GraphicsDriver::GraphicsDriver(const ThreadSupport threading)
-    :
-    gdi_(GDI::create()),
-    next_vbuf_id_(1),
-    next_ibuf_id_(1),
-    next_uniform_id_(1),
-    next_program_id_(1),
-    next_texture_id_(1),
-    notified_(false),
-    threading_(threading),
-    active_(false),
-    dt_(high_resolution_time()),
-    sem(gdi_->max_frames_in_flight)
+GraphicsDriver::GraphicsDriver()
+    : gdi_(GDI::create()),
+      next_vbuf_id_(1),
+      next_ibuf_id_(1),
+      next_uniform_id_(1),
+      next_program_id_(1),
+      next_texture_id_(1),
+      notified_(false),
+      active_(false),
+      dt_(high_resolution_time()),
+      sem(gdi_->max_frames_in_flight)
 {}
 
 GraphicsDriver::~GraphicsDriver()
@@ -44,10 +42,12 @@ GraphicsDriver::~GraphicsDriver()
     }
 }
 
-bool GraphicsDriver::initialize(Viewport& view)
+bool GraphicsDriver::initialize(const ThreadSupport threading, Viewport* view)
 {
+    threading_ = threading;
+
 //    gdi_->write_command(RenderCommand(RenderCommand::Type::init));
-    auto success = gdi_->initialize(&view);
+    auto success = gdi_->initialize(view);
 
     if ( threading_ == ThreadSupport::multithreaded ) {
         render_thread_ = std::thread(&GraphicsDriver::frame, this);
@@ -56,9 +56,9 @@ bool GraphicsDriver::initialize(Viewport& view)
     return success;
 }
 
-void GraphicsDriver::set_viewport(Viewport& viewport)
+void GraphicsDriver::set_viewport(Viewport* viewport)
 {
-    rc::SetViewport cmd(&viewport);
+    rc::SetViewport cmd(viewport);
     gdi_->write_command<rc::SetViewport>(&cmd);
 }
 

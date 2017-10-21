@@ -14,10 +14,12 @@
 #include <Skyrocket/Core/Hash.hpp>
 #include <Skyrocket/Core/Math.hpp>
 #include <Skyrocket/Graphics/Color.hpp>
-#include <Skyrocket/Graphics/Vertex.hpp>
-#include <Skyrocket/Resource/Font.hpp>
 #include <Skyrocket/Graphics/GraphicsDriver.hpp>
+#include <Skyrocket/Graphics/Vertex.hpp>
 #include <Skyrocket/Input/Keyboard.hpp>
+#include <Skyrocket/Resource/Font.hpp>
+
+#include <Skyrocket/Framework/Application.hpp>
 
 #include <iostream>
 #include <random>
@@ -114,109 +116,93 @@ private:
     sky::Matrix4f identity_, transform_;
 };
 
-int main(int argc, char** argv)
-{
-    std::random_device rd;
-    std::mt19937 rand_gen(rd());
-    std::uniform_real_distribution<float> neg_dist(-1.0f, 1.0f);
-    std::uniform_real_distribution<float> dist(0.04f, 0.07f);
-    std::uniform_real_distribution<float> big_dist(-300.0f, 300.0f);
-
-    // Setup paths and string data
-    const char* app_name = "Skyrocket Cubes Example";
-    auto root_path = sky::Path::executable_path().relative_path("../../../../Examples/Cubes");
-    if ( sky::target_platform == sky::OS::macos ) {
-        root_path = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples/Cubes");
-    }
-    root_path.make_real();
-
-    // Skyrocket platform and input handling data
-    sky::Platform platform;
-    sky::Viewport view;
-    sky::Keyboard keyboard;
-
-    platform.launch(app_name);
-
-    view.open(app_name, 800, 600);
-    view.set_backing_color(sky::Color::gray);
-
-    sky::GraphicsDriver driver(sky::GraphicsDriver::ThreadSupport::multithreaded);
-
-    if ( !driver.initialize(view) ) {
-        SKY_ERROR(app_name, "Couldn't initialize graphics device interface");
-        return 0;
+class CubeApp : public sky::Application {
+public:
+    CubeApp()
+        : sky::Application("Skyrocket Cubes Example"),
+          rand_gen(rd()),
+          neg_dist(-1.0f, 1.0f),
+          dist(0.04f, 0.07f),
+          big_dist(-300.0f, 300.0f),
+          cam_pos_(0.0f, 0.0f, 250.0f),
+          cam_front_(0.0f, 0.0f, -1.0f),
+          cam_up_(0.0f, 1.0f, 0.0f),
+          cam_speed_(10.0f)
+    {
+        root_path_ = sky::Path::executable_path().relative_path("../../../../Examples/Cubes");
+        if ( sky::target_platform == sky::OS::macos ) {
+            root_path_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples/Cubes");
+        }
+        root_path_.make_real();
     }
 
-    auto vert_path = root_path.relative_path("basic_vertex.metal");
-    auto frag_path = root_path.relative_path("basic_fragment.metal");
-    auto prog = driver.create_program(vert_path, frag_path);
-    driver.set_program(prog);
+    void on_startup(int argc, const char** argv) override
+    {
+        auto vert_path = root_path_.relative_path("basic_vertex.metal");
+        auto frag_path = root_path_.relative_path("basic_fragment.metal");
+        program_ = graphics_driver.create_program(vert_path, frag_path);
+        graphics_driver.set_program(program_);
 
+        auto pos = 0.0f;
+        for ( auto& c : cubes ) {
+            c.init(&graphics_driver);
+            c.pos = sky::Vector3f(pos + big_dist(rand_gen), pos + big_dist(rand_gen), pos + big_dist(rand_gen));
+            pos += 100.0f;
+        }
 
-    std::array<Cube, 3> cubes;
-    auto pos = 0.0f;
-    for ( auto& c : cubes ) {
-        c.init(&driver);
-        c.pos = sky::Vector3f(pos + big_dist(rand_gen), pos + big_dist(rand_gen), pos + big_dist(rand_gen));
-        pos += 100.0f;
+        sky::Matrix4f identity, view_mat;
+        auto fovy = static_cast<float>(sky::math::to_radians(90.0f));
+
+        auto aspect = primary_view.size().x / primary_view.size().y;
+        projection_mat_ = identity.perspective(fovy, aspect, 0.1f, 5000.0f);
+
+        model_ubuf_ = graphics_driver.create_uniform(sky::UniformType::mat4, 1);
+        view_ubuf_ = graphics_driver.create_uniform(sky::UniformType::mat4, 1);
+        projection_ubuf_ = graphics_driver.create_uniform(sky::UniformType::mat4, 1);
+
+        // Main loop
+        sky::Timespan dt;
+        uint64_t frame_start = 0;
+        auto cam_speed = 10.0f;
+        auto target_frametime = 16.6;
+
+        sky::Image cube_tex;
+        cube_tex.load_from_file(root_path_.relative_path("cube.png"));
+
+        texture_ = graphics_driver.create_texture(cube_tex);
     }
 
-    sky::Matrix4f identity, view_mat;
-    auto fovy = static_cast<float>(sky::math::to_radians(90.0f));
+    void on_update() override
+    {
+        graphics_driver.set_state(sky::RenderPipelineState::culling_frontface);
 
-    auto cam_pos = sky::Vector3f(0.0f, 0.0f, 250.0f);
-    auto cam_front = sky::Vector3f(0.0f, 0.0f, -1.0f);
-    auto cam_up = sky::Vector3f(0.0f, 1.0f, 0.0f);
-
-    auto projection_mat = identity.perspective(fovy, view.size().x / view.size().y, 0.1f, 5000.0f);
-    auto model_ubuf = driver.create_uniform(sky::UniformType::mat4, 1);
-    auto view_ubuf = driver.create_uniform(sky::UniformType::mat4, 1);
-    auto projection_ubuf = driver.create_uniform(sky::UniformType::mat4, 1);
-
-    // Main loop
-    sky::Timespan dt;
-    uint64_t frame_start = 0;
-    auto cam_speed = 10.0f;
-    auto target_frametime = 16.6;
-
-    sky::Image cube_tex;
-    cube_tex.load_from_file(root_path.relative_path("cube.png"));
-
-    auto texture = driver.create_texture(cube_tex);
-
-    while ( sky::Viewport::open_viewports() > 0 ) {
-        driver.set_state(sky::RenderPipelineState::culling_frontface);
-
-        frame_start = sky::high_resolution_time();
-
-        platform.poll_events();
-
-        if ( keyboard.key_down(sky::Key::escape) || view.close_requested() ) {
-            break;
-        }
-        if ( keyboard.key_down(sky::Key::up) ) {
-            cam_pos += (cam_front * cam_speed);
-        }
-        if ( keyboard.key_down(sky::Key::down) ) {
-            cam_pos -= (cam_front * cam_speed);
-        }
-        if ( keyboard.key_down(sky::Key::left) ) {
-            cam_pos -= (cam_front.cross(cam_up) * cam_speed);
-        }
-        if ( keyboard.key_down(sky::Key::right) ) {
-            cam_pos += (cam_front.cross(cam_up) * cam_speed);
+        if ( keyboard_.key_down(sky::Key::escape) || primary_view.close_requested() ) {
+            primary_view.close();
         }
 
-        view_mat = identity.look_at(cam_pos, cam_pos + cam_front, cam_up);
+        if ( keyboard_.key_down(sky::Key::up) ) {
+            cam_pos_ += (cam_front_ * cam_speed_);
+        }
+        if ( keyboard_.key_down(sky::Key::down) ) {
+            cam_pos_ -= (cam_front_ * cam_speed_);
+        }
+        if ( keyboard_.key_down(sky::Key::left) ) {
+            cam_pos_ -= (cam_front_.cross(cam_up_) * cam_speed_);
+        }
+        if ( keyboard_.key_down(sky::Key::right) ) {
+            cam_pos_ += (cam_front_.cross(cam_up_) * cam_speed_);
+        }
 
-        driver.update_uniform(view_ubuf, sky::MemoryBlock{ sizeof(sky::Matrix4f), &view_mat});
-        driver.update_uniform(projection_ubuf, sky::MemoryBlock{ sizeof(sky::Matrix4f), &projection_mat});
-        driver.set_uniform(view_ubuf, 2);
-        driver.set_uniform(projection_ubuf, 3);
-        driver.set_texture(texture, 0);
+        view_mat_ = identity_.look_at(cam_pos_, cam_pos_ + cam_front_, cam_up_);
+
+        graphics_driver.update_uniform(view_ubuf_, sky::MemoryBlock{ sizeof(sky::Matrix4f), &view_mat_});
+        graphics_driver.update_uniform(projection_ubuf_, sky::MemoryBlock{ sizeof(sky::Matrix4f), &projection_mat_});
+        graphics_driver.set_uniform(view_ubuf_, 2);
+        graphics_driver.set_uniform(projection_ubuf_, 3);
+        graphics_driver.set_texture(texture_, 0);
 
         for ( auto& c : cubes ) {
-            driver.set_uniform(model_ubuf, 1);
+            graphics_driver.set_uniform(model_ubuf_, 1);
             c.angle += dist(rand_gen);
 
             sky::MemoryBlock mb {
@@ -224,19 +210,165 @@ int main(int argc, char** argv)
                 &c.get_transform()
             };
 
-            driver.update_uniform(model_ubuf, mb);
+            graphics_driver.update_uniform(model_ubuf_, mb);
             c.render();
         }
 
-        driver.present();
-        dt = sky::Timespan(sky::high_resolution_time() - frame_start);
-
-        if ( dt.total_milliseconds() < target_frametime) {
-            auto diff = target_frametime - dt.total_milliseconds();
-            auto sleep_time = sky::Timespan(static_cast<uint64_t>(diff * sky::Timespan::ticks_per_millisecond));
-            sky::thread_sleep(sleep_time);
-        }
+        graphics_driver.present();
     }
+
+    void on_shutdown() override
+    {
+
+    }
+
+private:
+    sky::Viewport view_;
+    sky::Keyboard keyboard_;
+
+    sky::Path root_path_;
+
+    std::random_device rd;
+    std::mt19937 rand_gen;
+    std::uniform_real_distribution<float> neg_dist;
+    std::uniform_real_distribution<float> dist;
+    std::uniform_real_distribution<float> big_dist;
+
+    sky::Vector3f cam_pos_, cam_front_, cam_up_;
+    sky::Matrix4f identity_, view_mat_, projection_mat_;
+    float cam_speed_;
+
+    uint32_t program_, model_ubuf_, projection_ubuf_, view_ubuf_, texture_;
+    std::array<Cube, 3> cubes;
+};
+
+int main(int argc, char** argv)
+{
+//    std::random_device rd;
+//    std::mt19937 rand_gen(rd());
+//    std::uniform_real_distribution<float> neg_dist(-1.0f, 1.0f);
+//    std::uniform_real_distribution<float> dist(0.04f, 0.07f);
+//    std::uniform_real_distribution<float> big_dist(-300.0f, 300.0f);
+//
+//    // Setup paths and string data
+//    const char* app_name = "Skyrocket Cubes Example";
+//    auto root_path = sky::Path::executable_path().relative_path("../../../../Examples/Cubes");
+//    if ( sky::target_platform == sky::OS::macos ) {
+//        root_path = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples/Cubes");
+//    }
+//    root_path.make_real();
+//
+//    // Skyrocket platform and input handling data
+//    sky::Platform platform;
+//    sky::Viewport view;
+//    sky::Keyboard keyboard;
+//
+//    CubeApp app;
+//
+//    platform.launch(app_name, &app.on_update);
+//
+//    view.open(app_name, 800, 600);
+//    view.set_backing_color(sky::Color::gray);
+//
+//    sky::GraphicsDriver driver;
+//
+//    if ( !driver.initialize(sky::GraphicsDriver::ThreadSupport::multithreaded, &view) ) {
+//        SKY_ERROR(app_name, "Couldn't initialize graphics device interface");
+//        return 0;
+//    }
+//
+//    auto vert_path = root_path.relative_path("basic_vertex.metal");
+//    auto frag_path = root_path.relative_path("basic_fragment.metal");
+//    auto prog = driver.create_program(vert_path, frag_path);
+//    driver.set_program(prog);
+//
+//    std::array<Cube, 3> cubes;
+//    auto pos = 0.0f;
+//    for ( auto& c : cubes ) {
+//        c.init(&driver);
+//        c.pos = sky::Vector3f(pos + big_dist(rand_gen), pos + big_dist(rand_gen), pos + big_dist(rand_gen));
+//        pos += 100.0f;
+//    }
+//
+//    sky::Matrix4f identity, view_mat;
+//    auto fovy = static_cast<float>(sky::math::to_radians(90.0f));
+//
+//    auto cam_pos = sky::Vector3f(0.0f, 0.0f, 250.0f);
+//    auto cam_front = sky::Vector3f(0.0f, 0.0f, -1.0f);
+//    auto cam_up = sky::Vector3f(0.0f, 1.0f, 0.0f);
+//
+//    auto projection_mat = identity.perspective(fovy, view.size().x / view.size().y, 0.1f, 5000.0f);
+//    auto model_ubuf = driver.create_uniform(sky::UniformType::mat4, 1);
+//    auto view_ubuf = driver.create_uniform(sky::UniformType::mat4, 1);
+//    auto projection_ubuf = driver.create_uniform(sky::UniformType::mat4, 1);
+//
+//    // Main loop
+//    sky::Timespan dt;
+//    uint64_t frame_start = 0;
+//    auto cam_speed = 10.0f;
+//    auto target_frametime = 16.6;
+//
+//    sky::Image cube_tex;
+//    cube_tex.load_from_file(root_path.relative_path("cube.png"));
+//
+//    auto texture = driver.create_texture(cube_tex);
+//
+//    while ( sky::Viewport::open_viewports() > 0 ) {
+//        driver.set_state(sky::RenderPipelineState::culling_frontface);
+//
+//        frame_start = sky::high_resolution_time();
+//
+//        platform.poll_events();
+//
+//        if ( keyboard.key_down(sky::Key::escape) || view.close_requested() ) {
+//            break;
+//        }
+//        if ( keyboard.key_down(sky::Key::up) ) {
+//            cam_pos += (cam_front * cam_speed);
+//        }
+//        if ( keyboard.key_down(sky::Key::down) ) {
+//            cam_pos -= (cam_front * cam_speed);
+//        }
+//        if ( keyboard.key_down(sky::Key::left) ) {
+//            cam_pos -= (cam_front.cross(cam_up) * cam_speed);
+//        }
+//        if ( keyboard.key_down(sky::Key::right) ) {
+//            cam_pos += (cam_front.cross(cam_up) * cam_speed);
+//        }
+//
+//        view_mat = identity.look_at(cam_pos, cam_pos + cam_front, cam_up);
+//
+//        driver.update_uniform(view_ubuf, sky::MemoryBlock{ sizeof(sky::Matrix4f), &view_mat});
+//        driver.update_uniform(projection_ubuf, sky::MemoryBlock{ sizeof(sky::Matrix4f), &projection_mat});
+//        driver.set_uniform(view_ubuf, 2);
+//        driver.set_uniform(projection_ubuf, 3);
+//        driver.set_texture(texture, 0);
+//
+//        for ( auto& c : cubes ) {
+//            driver.set_uniform(model_ubuf, 1);
+//            c.angle += dist(rand_gen);
+//
+//            sky::MemoryBlock mb {
+//                sizeof(sky::Matrix4f),
+//                &c.get_transform()
+//            };
+//
+//            driver.update_uniform(model_ubuf, mb);
+//            c.render();
+//        }
+//
+//        driver.present();
+//        dt = sky::Timespan(sky::high_resolution_time() - frame_start);
+//
+//        if ( dt.total_milliseconds() < target_frametime) {
+//            auto diff = target_frametime - dt.total_milliseconds();
+//            auto sleep_time = sky::Timespan(static_cast<uint64_t>(diff * sky::Timespan::ticks_per_millisecond));
+//            sky::thread_sleep(sleep_time);
+//        }
+//    }
+
+    CubeApp app;
+    app.start(sky::GraphicsDriver::ThreadSupport::single_thread);
 
     return 0;
 }
