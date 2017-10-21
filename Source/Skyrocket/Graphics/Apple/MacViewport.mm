@@ -12,11 +12,11 @@
 #include "Skyrocket/Platform/Config.hpp"
 #include "Skyrocket/Graphics/Color.hpp"
 #include "Skyrocket/Graphics/GDI/GDI.hpp"
-#include "Skyrocket/Graphics/Internal/Apple/MacViewport.h"
+#include "MacViewport.h"
 
 #if SKY_GRAPHICS_API_METAL
 
-#include "Skyrocket/Graphics/Internal/Apple/MetalView.h"
+#include "MetalView.h"
 
 #endif
 

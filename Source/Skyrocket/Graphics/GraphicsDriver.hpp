@@ -15,7 +15,7 @@
 #include "Skyrocket/Graphics/GDI/Definitions.hpp"
 #include "Skyrocket/Graphics/GDI/GDI.hpp"
 
-#include <Skyrocket/Graphics/Core/Image.hpp>
+#include <Skyrocket/Resource/Image.hpp>
 #include <Skyrocket/Platform/Thread.hpp>
 
 #include <memory>

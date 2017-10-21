@@ -11,7 +11,7 @@
 
 #include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Core/Diagnostics/Error.hpp"
-#include "Skyrocket/Platform/Internal/PlatformEvents.hpp"
+#include "PlatformEvents.hpp"
 
 namespace sky {
 

@@ -14,7 +14,7 @@
 // Include platform headers
 #include "Skyrocket/Platform/Time.hpp"
 
-#include "Skyrocket/Platform/Internal/PlatformEvents.hpp"
+#include "PlatformEvents.hpp"
 #include "Skyrocket/Platform/Config.hpp"
 #include "Skyrocket/Input/Keycodes.hpp"
 

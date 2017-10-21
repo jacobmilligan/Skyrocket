@@ -1,4 +1,4 @@
-add_subdirectory(Internal)
+skyrocket_add_sources(GDI.cpp)
 
 if (skyrocket_graphics_api STREQUAL "Metal")
     add_subdirectory(Metal)

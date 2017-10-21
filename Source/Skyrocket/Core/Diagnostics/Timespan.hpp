@@ -254,4 +254,4 @@ Timespan get_timespan(const double duration);
 
 } // namespace sky
 
-#include "Skyrocket/Core/Diagnostics/Internal/Timespan.inl"
+#include "Timespan.inl"

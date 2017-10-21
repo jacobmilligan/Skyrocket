@@ -10,7 +10,7 @@
 //
 
 
-#include "Skyrocket/Platform/Internal/PlatformEvents.hpp"
+#include "Skyrocket/Platform/PlatformEvents.hpp"
 #include "Skyrocket/Platform/macOS/CocoaWindow.h"
 
 @implementation CocoaView

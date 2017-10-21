@@ -9,7 +9,7 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Skyrocket/Platform/Internal/PlatformEvents.hpp"
+#include "Skyrocket/Platform/PlatformEvents.hpp"
 
 namespace sky {
 

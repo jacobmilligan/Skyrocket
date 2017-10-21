@@ -11,7 +11,7 @@
 
 #include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Platform/macOS/CocoaWindow.h"
-#include "Skyrocket/Graphics/Internal/Apple/MetalView.h"
+#include "MetalView.h"
 
 #import <AppKit/AppKit.h>
 

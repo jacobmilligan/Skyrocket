@@ -10,7 +10,7 @@
 //
 
 #include "Skyrocket/Core/Diagnostics/Error.hpp"
-#include "Skyrocket/Graphics/Font.hpp"
+#include "Font.hpp"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H

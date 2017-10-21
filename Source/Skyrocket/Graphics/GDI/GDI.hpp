@@ -163,4 +163,4 @@ protected:
 } // namespace sky
 
 
-#include "Skyrocket/Graphics/GDI/Internal/GDI.inl"
+#include "GDI.inl"

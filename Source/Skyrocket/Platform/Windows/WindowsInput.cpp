@@ -9,7 +9,7 @@
 //
 
 #include "Skyrocket/Platform/Platform.hpp"
-#include "Skyrocket/Platform/Internal/PlatformEvents.hpp"
+#include "Skyrocket/Platform/PlatformEvents.hpp"
 
 #include <windows.h>
 

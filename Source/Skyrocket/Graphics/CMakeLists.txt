@@ -31,12 +31,25 @@ if (APPLE)
 endif ()
 
 ######################################
-## Add subdirectories and sources
+## Subdirectories
 ######################################
 
-add_subdirectory(Internal)
 add_subdirectory(GDI)
 add_subdirectory(Core)
+
+if (APPLE)
+    add_subdirectory(Apple)
+elseif (WIN32)
+    add_subdirectory(Windows)
+endif ()
+
+######################################
+## Sources
+######################################
+
+skyrocket_add_sources(Color.cpp
+        GraphicsDriver.cpp
+        Viewport.cpp)
 
 ######################################
 ## Add library and link dependencies
@@ -44,22 +57,12 @@ add_subdirectory(Core)
 
 skyrocket_add_library(${lib_name} STATIC)
 
-# Add external deps
-
-find_package(FreeType REQUIRED)
-if (FREETYPE_FOUND)
-    target_include_directories(${lib_name} PUBLIC ${FREETYPE_INCLUDE_DIRS})
-    target_link_libraries(${lib_name} ${FREETYPE_LIBRARIES})
-endif ()
-
 # Add internal deps
 target_link_libraries(${lib_name}
         SkyrocketCore
         SkyrocketPlatform)
 
 target_link_libraries(${lib_name} "${dependencies}")
-
-target_include_directories(${lib_name} PUBLIC ${skyrocket_root_directory}/Deps/stb_image)
 
 skyrocket_configure_platform(compile_flags)
 target_compile_options(${lib_name} PRIVATE "${compile_flags}")

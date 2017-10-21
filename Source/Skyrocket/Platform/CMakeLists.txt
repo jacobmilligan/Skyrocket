@@ -11,12 +11,6 @@ set(dependencies)
 
 list(APPEND dependencies SkyrocketCore)
 
-######################################
-## Add subdirectories and sources
-######################################
-
-add_subdirectory(Internal)
-
 ###########################################
 ## Platform-specific configurations
 ###########################################
@@ -29,6 +23,16 @@ if (${skyrocket_platform} STREQUAL "macOS")
 elseif (${skyrocket_platform} STREQUAL "Windows")
     add_subdirectory(Windows)
 endif ()
+
+######################################
+## Add sources
+######################################
+
+skyrocket_add_sources(Platform.cpp
+        PlatformEvents.cpp
+        Filesystem.cpp
+        Time.cpp
+        Thread.cpp)
 
 ######################################
 ## Add library and link dependencies

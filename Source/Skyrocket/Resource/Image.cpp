@@ -9,7 +9,7 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Skyrocket/Graphics/Core/Image.hpp"
+#include "Image.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>

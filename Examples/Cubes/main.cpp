@@ -11,15 +11,16 @@
 
 #include <Skyrocket/Core/Containers/HandleTable.hpp>
 #include <Skyrocket/Core/Diagnostics/Timespan.hpp>
+#include <Skyrocket/Core/Hash.hpp>
 #include <Skyrocket/Core/Math.hpp>
 #include <Skyrocket/Graphics/Color.hpp>
 #include <Skyrocket/Graphics/Core/Vertex.hpp>
-#include <Skyrocket/Graphics/Font.hpp>
+#include <Skyrocket/Resource/Font.hpp>
 #include <Skyrocket/Graphics/GraphicsDriver.hpp>
 #include <Skyrocket/Input/Keyboard.hpp>
-#include <Skyrocket/Core/Hash.hpp>
 
 #include <iostream>
+#include <random>
 
 
 struct Cube {
@@ -32,37 +33,6 @@ struct Cube {
     void init(sky::GraphicsDriver* driver)
     {
         driver_ = driver;
-
-//        //Front
-//        auto a = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.25f);
-//        auto b = sky::Vertex(-1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.25f, 0.50f);
-//        auto c = sky::Vertex( 1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.50f, 0.50f);
-//        auto d = sky::Vertex( 1.0f,  1.0f,  1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.50f, 0.25f);
-//        //Left
-//        auto e = sky::Vertex(-1.0f,  1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.00f, 0.25f);
-//        auto f = sky::Vertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.00f, 0.50f);
-//        auto g = sky::Vertex(-1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.25f, 0.50f);
-//        auto h = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.25f, 0.25f);
-//        //Right
-//        auto i = sky::Vertex( 1.0f,  1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.50f, 0.25f);
-//        auto j = sky::Vertex( 1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.50f, 0.50f);
-//        auto k = sky::Vertex( 1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.75f, 0.50f);
-//        auto l = sky::Vertex( 1.0f,  1.0f, -1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.75f, 0.25f);
-//        //Top
-//        auto m = sky::Vertex(-1.0f,  1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.00f);
-//        auto n = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.25f, 0.25f);
-//        auto o = sky::Vertex( 1.0f,  1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.50f, 0.25f);
-//        auto p = sky::Vertex( 1.0f,  1.0f, -1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.50f, 0.00f);
-//        //Bottom
-//        auto q = sky::Vertex(-1.0f, -1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.50f);
-//        auto r = sky::Vertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.25f, 0.75f);
-//        auto s = sky::Vertex( 1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.50f, 0.75f);
-//        auto t = sky::Vertex( 1.0f, -1.0f,  1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.50f, 0.50f);
-//        //Back
-//        auto u = sky::Vertex( 1.0f,  1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.75f, 0.25f);
-//        auto v = sky::Vertex( 1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.75f, 0.50f);
-//        auto w = sky::Vertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.00f, 0.50f);
-//        auto x = sky::Vertex(-1.0f,  1.0f, -1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 1.00f, 0.25f);
 
         //Front
         auto a = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.25f);
@@ -146,6 +116,12 @@ private:
 
 int main(int argc, char** argv)
 {
+    std::random_device rd;
+    std::mt19937 rand_gen(rd());
+    std::uniform_real_distribution<float> neg_dist(-1.0f, 1.0f);
+    std::uniform_real_distribution<float> dist(0.04f, 0.07f);
+    std::uniform_real_distribution<float> big_dist(-300.0f, 300.0f);
+
     // Setup paths and string data
     const char* app_name = "Skyrocket Cubes Example";
     auto root_path = sky::Path::executable_path().relative_path("../../../../Examples/Cubes");
@@ -164,7 +140,7 @@ int main(int argc, char** argv)
     view.open(app_name, 800, 600);
     view.set_backing_color(sky::Color::gray);
 
-    sky::GraphicsDriver driver(sky::GraphicsDriver::ThreadSupport::single_thread);
+    sky::GraphicsDriver driver(sky::GraphicsDriver::ThreadSupport::multithreaded);
 
     if ( !driver.initialize(view) ) {
         SKY_ERROR(app_name, "Couldn't initialize graphics device interface");
@@ -181,7 +157,7 @@ int main(int argc, char** argv)
     auto pos = 0.0f;
     for ( auto& c : cubes ) {
         c.init(&driver);
-        c.pos = sky::Vector3f(pos, pos, 1.0f);
+        c.pos = sky::Vector3f(pos + big_dist(rand_gen), pos + big_dist(rand_gen), pos + big_dist(rand_gen));
         pos += 100.0f;
     }
 
@@ -241,13 +217,18 @@ int main(int argc, char** argv)
 
         for ( auto& c : cubes ) {
             driver.set_uniform(model_ubuf, 1);
-            c.angle += 0.02f;
-            driver.update_uniform(model_ubuf, sky::MemoryBlock{ sizeof(sky::Matrix4f), &c.get_transform()});
+            c.angle += dist(rand_gen);
+
+            sky::MemoryBlock mb {
+                sizeof(sky::Matrix4f),
+                &c.get_transform()
+            };
+
+            driver.update_uniform(model_ubuf, mb);
             c.render();
         }
 
         driver.present();
-
         dt = sky::Timespan(sky::high_resolution_time() - frame_start);
 
         if ( dt.total_milliseconds() < target_frametime) {

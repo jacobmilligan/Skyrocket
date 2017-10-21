@@ -11,8 +11,8 @@
 
 #include "Skyrocket/Core/Hash.hpp"
 #include "Skyrocket/Graphics/GDI/Metal/MetalGDI.h"
-#include "Skyrocket/Graphics/Internal/Apple/MacViewport.h"
-#include "Skyrocket/Graphics/Internal/Apple/MetalView.h"
+#include "Skyrocket/Graphics/Apple/MacViewport.h"
+#include "Skyrocket/Graphics/Apple/MetalView.h"
 
 //TODO(Jacob): Textures
 
