@@ -51,11 +51,13 @@ void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
 
         frame_time = sky::Timespan(high_resolution_time() - frame_start);
 
-        if ( frame_time.total_milliseconds() < target_frametime) {
-            auto diff = target_frametime - frame_time.total_milliseconds();
-            auto sleep_time = sky::Timespan(static_cast<uint64_t>(diff * sky::Timespan::ticks_per_millisecond));
-            sky::thread_sleep(sleep_time);
-        }
+        printf("Frame time: %f\n", frame_time.total_milliseconds());
+
+//        if ( frame_time.total_milliseconds() < target_frametime) {
+//            auto diff = target_frametime - frame_time.total_milliseconds();
+//            auto sleep_time = sky::Timespan(static_cast<uint64_t>(diff * sky::Timespan::ticks_per_millisecond));
+//            sky::thread_sleep(sleep_time);
+//        }
     }
 
     shutdown();
