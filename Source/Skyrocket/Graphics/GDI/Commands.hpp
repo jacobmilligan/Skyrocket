@@ -114,14 +114,17 @@ struct SetIndexBuffer : public Command {
 struct CreateProgram : public Command {
     CreateProgram(const uint32_t program_id, const Path& vs_path, const Path& frag_path)
         : Command(CmdType::create_program),
-          prog_id(program_id),
-          vs(vs_path.str()),
-          frag(frag_path.str())
-    {}
+          prog_id(program_id)
+    {
+        vs = static_cast<char*>( malloc(strlen(vs_path.str()) + 1) );
+        frag = static_cast<char*>( malloc(strlen(frag_path.str()) + 1) );
+        strcpy(vs, vs_path.str());
+        strcpy(frag, frag_path.str());
+    }
 
     uint32_t prog_id;
-    const char* vs;
-    const char* frag;
+    char* vs;
+    char* frag;
 };
 
 struct SetProgram : public Command {

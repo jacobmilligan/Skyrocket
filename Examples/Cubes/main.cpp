@@ -126,8 +126,7 @@ public:
           big_dist(-300.0f, 300.0f),
           cam_pos_(0.0f, 0.0f, 250.0f),
           cam_front_(0.0f, 0.0f, -1.0f),
-          cam_up_(0.0f, 1.0f, 0.0f),
-          cam_speed_(10.0f)
+          cam_up_(0.0f, 1.0f, 0.0f)
     {
         root_path_ = sky::Path::executable_path().relative_path("../../../../Examples/Cubes");
         if ( sky::target_platform == sky::OS::macos ) {
@@ -236,9 +235,9 @@ private:
 
     sky::Vector3f cam_pos_, cam_front_, cam_up_;
     sky::Matrix4f identity_, view_mat_, projection_mat_;
-    float cam_speed_;
+    float cam_speed_{10.0f};
 
-    uint32_t program_, model_ubuf_, projection_ubuf_, view_ubuf_, texture_;
+    uint32_t program_{}, model_ubuf_{}, projection_ubuf_{}, view_ubuf_{}, texture_{};
     std::array<Cube, 3> cubes;
 };
 
