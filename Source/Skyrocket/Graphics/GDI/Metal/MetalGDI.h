@@ -110,7 +110,7 @@ public:
 
     void set_uniform(const uint32_t u_id, const uint32_t index) override;
 
-    void update_uniform(const uint32_t u_id, const MemoryBlock& data) override;
+    void update_uniform(const uint32_t u_id, const MemoryBlock& data, const uint32_t offset) override;
 
     void create_texture(const uint32_t t_id, const uint8_t* data, const int32_t width,
                         const int32_t height, const int32_t bytes_per_pixel,
@@ -118,7 +118,9 @@ public:
 
     void set_texture(const uint32_t t_id, const uint32_t index) override;
 
-    bool draw_primitives() override;
+    bool draw() override;
+
+    bool draw_instanced(const uint32_t instance) override;
 
     void set_state(const uint32_t flags) override;
 

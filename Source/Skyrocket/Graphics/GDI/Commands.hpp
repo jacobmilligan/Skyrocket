@@ -36,7 +36,8 @@ enum class CmdType : uint8_t {
     set_uniform,
     set_texture,
     update_uniform,
-    draw_primitives,
+    draw,
+    draw_instanced,
     set_state
 };
 
@@ -161,13 +162,15 @@ struct SetUniform : public Command {
 };
 
 struct UpdateUniform : public Command {
-    UpdateUniform(const uint32_t u_id, const MemoryBlock& data)
+    UpdateUniform(const uint32_t u_id, const uint32_t buffer_offset, const MemoryBlock& data)
         : Command(CmdType::update_uniform),
           uniform_id(u_id),
+          offset(buffer_offset),
           new_data(data)
     {}
 
     uint32_t uniform_id;
+    uint32_t offset;
     MemoryBlock new_data;
 };
 
@@ -200,10 +203,19 @@ struct SetTexture : public Command {
     const uint32_t index;
 };
 
-struct DrawPrimitives : public Command {
-    DrawPrimitives()
-        : Command(CmdType::draw_primitives)
+struct Draw : public Command {
+    Draw()
+        : Command(CmdType::draw)
     {}
+};
+
+struct DrawInstanced : public Command {
+    DrawInstanced(const uint32_t draw_instance)
+        : Command(CmdType::draw_instanced),
+          instance(draw_instance)
+    {}
+
+    const uint32_t instance;
 };
 
 struct SetState : public Command {

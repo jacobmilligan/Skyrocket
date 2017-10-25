@@ -156,9 +156,10 @@ void GraphicsDriver::set_uniform(const uint32_t u_id, const uint32_t index)
     gdi_->write_command(&cmd);
 }
 
-void GraphicsDriver::update_uniform(const uint32_t u_id, const MemoryBlock& data)
+void GraphicsDriver::update_uniform(const uint32_t u_id, const MemoryBlock& data,
+                                    const uint32_t offset)
 {
-    rc::UpdateUniform cmd(u_id, data);
+    rc::UpdateUniform cmd(u_id, offset, data);
     gdi_->write_command(&cmd);
 }
 
@@ -180,10 +181,16 @@ bool GraphicsDriver::set_texture(const uint32_t texture, const uint32_t index)
     return true;
 }
 
-void GraphicsDriver::draw_primitives()
+void GraphicsDriver::draw()
 {
-    rc::DrawPrimitives cmd;
-    gdi_->write_command<rc::DrawPrimitives>(&cmd);
+    rc::Draw cmd;
+    gdi_->write_command<rc::Draw>(&cmd);
+}
+
+void GraphicsDriver::draw_instanced(const uint32_t instances)
+{
+    rc::DrawInstanced cmd(instances);
+    gdi_->write_command<rc::DrawInstanced>(&cmd);
 }
 
 void GraphicsDriver::set_state(const uint32_t state_flags)

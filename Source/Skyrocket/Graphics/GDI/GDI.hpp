@@ -116,7 +116,11 @@ public:
 
     /// @brief Draws primitive triangle data
     /// @return
-    virtual bool draw_primitives();
+    virtual bool draw();
+
+    /// @brief Draws primitive triangle data
+    /// @return
+    virtual bool draw_instanced(const uint32_t instance);
 
     /// @brief Creates a new shader
     /// @param program_id
@@ -130,7 +134,7 @@ public:
 
     virtual void set_uniform(const uint32_t u_id, const uint32_t index);
 
-    virtual void update_uniform(const uint32_t u_id, const MemoryBlock& data);
+    virtual void update_uniform(const uint32_t u_id, const MemoryBlock& data, const uint32_t offset);
 
     virtual void create_texture(const uint32_t t_id, const uint8_t* data, const int32_t width,
                                 const int32_t height,const int32_t bytes_per_pixel,

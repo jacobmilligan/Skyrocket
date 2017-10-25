@@ -317,7 +317,7 @@ void MetalGDI::set_uniform(const uint32_t u_id, const uint32_t index)
                              atIndex:index];
 }
 
-void MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data)
+void MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data, const uint32_t offset)
 {
     auto ubuf = uniform_buffers_.lookup(u_id);
 
@@ -326,8 +326,8 @@ void MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data)
         return;
     }
 
-    memcpy([ubuf->current() contents], data.data, data.size);
-    ubuf->swap();
+    auto* dest = static_cast<uint8_t*>([ubuf->current() contents]);
+    memcpy(dest + offset, data.data, data.size);
 }
 
 void MetalGDI::create_texture(const uint32_t t_id, const uint8_t* data, const int32_t width,
@@ -379,7 +379,7 @@ void MetalGDI::set_state(const uint32_t flags)
     }
 }
 
-bool MetalGDI::draw_primitives()
+bool MetalGDI::draw()
 {
     if ( target_.index_buffer > 0 ) {
         [render_encoder_ drawIndexedPrimitives:MTLPrimitiveTypeTriangle
@@ -391,7 +391,26 @@ bool MetalGDI::draw_primitives()
         [render_encoder_ drawPrimitives:MTLPrimitiveTypeTriangle
                             vertexStart:target_.vertex_offset
                             vertexCount:target_.vertex_count
-                          instanceCount:target_.vertex_count / 3];
+                          instanceCount:1];
+    }
+
+    return true;
+}
+
+bool MetalGDI::draw_instanced(const uint32_t instance)
+{
+    if ( target_.index_buffer > 0 ) {
+        [render_encoder_ drawIndexedPrimitives:MTLPrimitiveTypeTriangle
+                                    indexCount:target_.index_count
+                                     indexType:MTLIndexTypeUInt32
+                                   indexBuffer:index_buffers_.lookup(target_.index_buffer)->current()
+                             indexBufferOffset:target_.index_offset
+                                 instanceCount:instance];
+    } else {
+        [render_encoder_ drawPrimitives:MTLPrimitiveTypeTriangle
+                            vertexStart:target_.vertex_offset
+                            vertexCount:target_.vertex_count
+                          instanceCount:instance];
     }
 
     return true;

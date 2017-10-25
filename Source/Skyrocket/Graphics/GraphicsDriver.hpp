@@ -91,7 +91,7 @@ public:
     /// @brief Sends a command to update the data associated with a shader uniform
     /// @param u_id
     /// @param data
-    void update_uniform(const uint32_t u_id, const MemoryBlock& data);
+    void update_uniform(const uint32_t u_id, const MemoryBlock& data, const uint32_t offset = 0);
 
     /// @brief Sends a command to create a new shader
     /// @param vs_path
@@ -111,7 +111,9 @@ public:
     void set_state(const uint32_t state_flags);
 
     /// @brief Sends a command to draw triangle primitives
-    void draw_primitives();
+    void draw();
+
+    void draw_instanced(const uint32_t instances);
 
     /// @brief Commits the current command buffer and syncs up the render and main threads
     /// before swapping internal buffers, kicking the render thread and processing all commands

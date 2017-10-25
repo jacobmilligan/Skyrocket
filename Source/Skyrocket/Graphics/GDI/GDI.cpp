@@ -103,7 +103,9 @@ void GDI::process_commands()
 
             case rc::CmdType::update_uniform: {
                 auto cmd = cmd_buf.read<rc::UpdateUniform>();
-                update_uniform(cmd->uniform_id, cmd->new_data);
+                if ( cmd->type != rc::CmdType::unknown ) {
+                    update_uniform(cmd->uniform_id, cmd->new_data, cmd->offset);
+                }
             } break;
 
             case rc::CmdType::create_texture: {
@@ -121,9 +123,14 @@ void GDI::process_commands()
                 set_state(cmd->flags);
             } break;
 
-            case rc::CmdType::draw_primitives: {
-                cmd_buf.read<rc::DrawPrimitives>();
-                draw_primitives();
+            case rc::CmdType::draw: {
+                cmd_buf.read<rc::Draw>();
+                draw();
+            } break;
+
+            case rc::CmdType::draw_instanced: {
+                auto cmd = cmd_buf.read<rc::DrawInstanced>();
+                draw_instanced(cmd->instance);
             } break;
         }
     }
@@ -187,7 +194,7 @@ void GDI::set_uniform(const uint32_t  /*u_id*/, const uint32_t  /*index*/)
     // no op
 }
 
-void GDI::update_uniform(const uint32_t  /*u_id*/, const MemoryBlock&  /*data*/)
+void GDI::update_uniform(const uint32_t  /*u_id*/, const MemoryBlock&  /*data*/, const uint32_t /*offset*/)
 {
     // no op
 }
@@ -204,7 +211,13 @@ void GDI::set_texture(const uint32_t /*t_id*/, const uint32_t /*index*/)
     // no op
 }
 
-bool GDI::draw_primitives()
+bool GDI::draw()
+{
+    // no op
+    return false;
+}
+
+bool GDI::draw_instanced(const uint32_t instance)
 {
     // no op
     return false;
