@@ -30,11 +30,70 @@ struct Cube {
     sky::Vector3f scale;
     sky::Vector2f angle;
 
-    Cube() = default;
-
-    void init(sky::GraphicsDriver* driver)
+    Cube()
     {
-        driver_ = driver;
+        xaxis_ = sky::Vector3f(0.0f, 1.0f, 0.0f);
+        yaxis_ = sky::Vector3f(1.0f, 0.0f, 0.0f);
+        pos = sky::Vector3f(0.0f, 0.0f, 0.0f);
+        scale = sky::Vector3f(100.0f, 100.0f, 100.0f);
+    }
+
+    sky::Matrix4f& get_transform()
+    {
+        auto translation_mat = identity_.translate(pos);
+        auto scale_mat = identity_.scale(scale);
+        auto rotation_mat = identity_.rotate(angle.x, xaxis_) * identity_.rotate(angle.y, yaxis_);
+
+        transform_ = translation_mat * rotation_mat * scale_mat;
+
+        return transform_;
+    }
+
+private:
+    sky::Vector3f xaxis_, yaxis_;
+    sky::Matrix4f identity_, transform_;
+
+};
+
+class CubeApp : public sky::Application {
+public:
+    CubeApp()
+        : sky::Application("Skyrocket Cubes Example"),
+          rand_gen(rd()),
+          neg_dist(-1.0f, 1.0f),
+          dist(0.04f, 0.07f),
+          big_dist(-300.0f, 300.0f),
+          cam_pos_(5000.0f, 5000.0f, 2000.0f),
+          cam_front_(0.0f, 0.0f, -1.0f),
+          cam_up_(0.0f, 1.0f, 0.0f)
+    {
+        root_path_ = sky::Path::executable_path().relative_path("../../../../Examples/Cubes");
+        if ( sky::target_platform == sky::OS::macos ) {
+            root_path_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples/Cubes");
+        }
+        root_path_.make_real();
+    }
+
+    void on_startup(int argc, const char** argv) override
+    {
+        auto vert_path = root_path_.relative_path("basic_vertex.metal");
+        auto frag_path = root_path_.relative_path("basic_fragment.metal");
+        program_ = graphics_driver.create_program(vert_path, frag_path);
+        graphics_driver.set_program(program_);
+
+        auto xpos = 0;
+        auto ypos = 0;
+
+        for ( int i = 0; i < cubes.size(); ++i ) {
+            xpos += 500;
+            if ( xpos > num_cubes_ * 2 ) {
+                ypos += 500;
+                xpos = 0;
+            }
+            cubes[i].pos = sky::Vector3f(xpos, ypos, 0.0f);
+        }
+
+        // Cube vertices
 
         //Front
         auto a = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.25f);
@@ -76,78 +135,11 @@ struct Cube {
             u, v, w, u, w, x    //back
         };
 
-        xaxis_ = sky::Vector3f(0.0f, 1.0f, 0.0f);
-        yaxis_ = sky::Vector3f(1.0f, 0.0f, 0.0f);
-        pos = sky::Vector3f(0.0f, 0.0f, 0.0f);
-        scale = sky::Vector3f(100.0f, 100.0f, 100.0f);
-    }
-
-    sky::Matrix4f& get_transform()
-    {
-        auto translation_mat = identity_.translate(pos);
-        auto scale_mat = identity_.scale(scale);
-        auto rotation_mat = identity_.rotate(angle.x, xaxis_) * identity_.rotate(angle.y, yaxis_);
-
-        transform_ = translation_mat * rotation_mat * scale_mat;
-
-        return transform_;
-    }
-
-    std::vector<sky::Vertex>& vertices()
-    {
-        return vertices_;
-    }
-
-private:
-    sky::GraphicsDriver* driver_{};
-    std::vector<sky::Vertex> vertices_;
-    sky::Vector3f xaxis_, yaxis_;
-
-    sky::Matrix4f identity_, transform_;
-};
-
-class CubeApp : public sky::Application {
-public:
-    CubeApp()
-        : sky::Application("Skyrocket Cubes Example"),
-          rand_gen(rd()),
-          neg_dist(-1.0f, 1.0f),
-          dist(0.04f, 0.07f),
-          big_dist(-300.0f, 300.0f),
-          cam_pos_(5000.0f, 5000.0f, 2000.0f),
-          cam_front_(0.0f, 0.0f, -1.0f),
-          cam_up_(0.0f, 1.0f, 0.0f)
-    {
-        root_path_ = sky::Path::executable_path().relative_path("../../../../Examples/Cubes");
-        if ( sky::target_platform == sky::OS::macos ) {
-            root_path_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples/Cubes");
-        }
-        root_path_.make_real();
-    }
-
-    void on_startup(int argc, const char** argv) override
-    {
-        auto vert_path = root_path_.relative_path("basic_vertex.metal");
-        auto frag_path = root_path_.relative_path("basic_fragment.metal");
-        program_ = graphics_driver.create_program(vert_path, frag_path);
-        graphics_driver.set_program(program_);
-
-        auto x = 0;
-        auto y = 0;
-
-        for ( int i = 0; i < cubes.size(); ++i ) {
-            x += 500;
-            if ( x > num_cubes_ * 2 ) {
-                y += 500;
-                x = 0;
-            }
-            cubes[i].init(&graphics_driver);
-            cubes[i].pos = sky::Vector3f(x, y, 0.0f);
-        }
+        // Setup matrices
 
         auto vbuf_mem = sky::MemoryBlock {
-            static_cast<uint32_t>(sizeof(sky::Vertex) * cubes[0].vertices().size()),
-            cubes[0].vertices().data()
+            static_cast<uint32_t>(sizeof(sky::Vertex) * vertices_.size()),
+            vertices_.data()
         };
         vbuf_id_ = graphics_driver.create_vertex_buffer(vbuf_mem, sky::BufferUsage::staticbuf);
 
@@ -178,7 +170,7 @@ public:
     {
         graphics_driver.set_state(sky::RenderPipelineState::culling_frontface);
 
-        graphics_driver.set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(cubes[0].vertices().size()));
+        graphics_driver.set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(vertices_.size()));
 
         graphics_driver.set_uniform(model_ubuf_, 1);
         graphics_driver.set_uniform(view_ubuf_, 2);
@@ -208,6 +200,7 @@ public:
         graphics_driver.update_uniform(projection_ubuf_, sky::MemoryBlock{ sizeof(sky::Matrix4f), &projection_mat_});
 
         uint32_t cube_index = 0;
+        
         for ( auto& c : cubes ) {
             c.angle += dist(rand_gen);
 
@@ -221,7 +214,7 @@ public:
             cube_index++;
         }
 
-        graphics_driver.draw_instanced(num_cubes_);
+        graphics_driver.draw_instanced(cube_index);
         graphics_driver.commit();
     }
 
@@ -249,13 +242,14 @@ private:
     float cam_speed_{10.0f};
 
     uint32_t program_{}, vbuf_id_{}, model_ubuf_{}, projection_ubuf_{}, view_ubuf_{}, texture_{};
+    std::vector<sky::Vertex> vertices_;
     std::array<Cube, num_cubes_> cubes;
 };
 
 int main(int argc, char** argv)
 {
     CubeApp app;
-    app.start(sky::GraphicsDriver::ThreadSupport::multithreaded);
+    app.start(sky::GraphicsDriver::ThreadSupport::single_thread);
 
     return 0;
 }

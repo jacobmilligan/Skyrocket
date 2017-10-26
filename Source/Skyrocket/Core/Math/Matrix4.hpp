@@ -10,10 +10,10 @@
 
 #pragma once
 
-#include <array>
-
 #include "Vector3.hpp"
 #include "Vector4.hpp"
+
+#include <array>
 
 namespace sky {
 
@@ -343,17 +343,17 @@ Vector4 <T> operator*(const Matrix4<T>& mat, const Vector4 <T>& vec)
 template<typename T>
 Matrix4<T> operator*(const Matrix4<T>& left, const Matrix4<T>& right)
 {
-    Matrix4<T> result(static_cast<T>(0));
+    Matrix4<T> result;
 
-    auto A1 = left[0];
-    auto A2 = left[1];
-    auto A3 = left[2];
-    auto A4 = left[3];
+    auto& A1 = left[0];
+    auto& A2 = left[1];
+    auto& A3 = left[2];
+    auto& A4 = left[3];
 
-    auto B1 = right[0];
-    auto B2 = right[1];
-    auto B3 = right[2];
-    auto B4 = right[3];
+    auto& B1 = right[0];
+    auto& B2 = right[1];
+    auto& B3 = right[2];
+    auto& B4 = right[3];
 
     result[0] = A1 * B1[0] + A2 * B1[1] + A3 * B1[2] + A4 * B1[3];
     result[1] = A1 * B2[0] + A2 * B2[1] + A3 * B2[2] + A4 * B2[3];

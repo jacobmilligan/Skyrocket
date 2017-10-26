@@ -123,6 +123,16 @@ struct CreateProgram : public Command {
         strcpy(frag, frag_path.str());
     }
 
+    void destroy()
+    {
+        if ( vs != nullptr ) {
+            free(vs);
+        }
+        if ( frag != nullptr ) {
+            free(frag);
+        }
+    }
+
     uint32_t prog_id;
     char* vs;
     char* frag;

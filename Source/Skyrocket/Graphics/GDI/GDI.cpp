@@ -76,6 +76,7 @@ void GDI::process_commands()
                 Path frag(cmd->frag);
 
                 create_program(prog_id, vs, frag);
+                cmd->destroy();
             } break;
 
             case rc::CmdType::set_program: {

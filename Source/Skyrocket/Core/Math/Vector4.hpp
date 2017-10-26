@@ -33,8 +33,7 @@ struct Vector4 {
     /// specified value
     /// @param value Value to assign to all elements
     explicit Vector4(const T value)
-        :
-        x(value), y(value), z(value), w(value)
+        : x(value), y(value), z(value), w(value)
     {}
 
     /// @brief Initializes a new Vector4 with all elements assigned a value of zero

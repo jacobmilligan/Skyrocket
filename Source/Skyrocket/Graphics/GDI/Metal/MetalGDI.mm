@@ -56,6 +56,8 @@ id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice>
 
     id<MTLRenderPipelineState> new_rps = [device newRenderPipelineStateWithDescriptor:pipeline_descriptor
                                                                                 error:&err];
+
+
     
     if ( new_rps == nil ) {
         SKY_ERROR("Render Pipeline",
@@ -209,7 +211,8 @@ bool MetalGDI::set_vertex_buffer(const uint32_t vbuf_id)
         return false;
     }
 
-    [render_encoder_ setVertexBuffer:vbuf->current()
+    [render_encoder_ setVertexBuffer:
+    vbuf->raw_buffer()
                               offset:0
                              atIndex:0];
     return true;
@@ -312,7 +315,8 @@ void MetalGDI::set_uniform(const uint32_t u_id, const uint32_t index)
         return;
     }
 
-    [render_encoder_ setVertexBuffer:ubuf->current()
+    [render_encoder_ setVertexBuffer:
+    ubuf->raw_buffer()
                               offset:0
                              atIndex:index];
 }
@@ -326,7 +330,7 @@ void MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data, cons
         return;
     }
 
-    auto* dest = static_cast<uint8_t*>([ubuf->current() contents]);
+    auto* dest = static_cast<uint8_t*>([ubuf->raw_buffer() contents]);
     memcpy(dest + offset, data.data, data.size);
 }
 
@@ -385,7 +389,8 @@ bool MetalGDI::draw()
         [render_encoder_ drawIndexedPrimitives:MTLPrimitiveTypeTriangle
                                     indexCount:target_.index_count
                                      indexType:MTLIndexTypeUInt32
-                                   indexBuffer:index_buffers_.lookup(target_.index_buffer)->current()
+                                   indexBuffer:
+        index_buffers_.lookup(target_.index_buffer)->raw_buffer()
                              indexBufferOffset:target_.index_offset];
     } else {
         [render_encoder_ drawPrimitives:MTLPrimitiveTypeTriangle
@@ -403,7 +408,8 @@ bool MetalGDI::draw_instanced(const uint32_t instance)
         [render_encoder_ drawIndexedPrimitives:MTLPrimitiveTypeTriangle
                                     indexCount:target_.index_count
                                      indexType:MTLIndexTypeUInt32
-                                   indexBuffer:index_buffers_.lookup(target_.index_buffer)->current()
+                                   indexBuffer:
+        index_buffers_.lookup(target_.index_buffer)->raw_buffer()
                              indexBufferOffset:target_.index_offset
                                  instanceCount:instance];
     } else {

@@ -154,7 +154,7 @@ public:
     }
 
 protected:
-    Multibuffer<UINT32_MAX - 1, max_frames_in_flight> cmdbufs_;
+    Multibuffer<UINT16_MAX * 10, max_frames_in_flight> cmdbufs_;
 
     RenderState target_;
 

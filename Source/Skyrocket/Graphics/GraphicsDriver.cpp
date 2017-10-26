@@ -204,9 +204,9 @@ void GraphicsDriver::commit()
     if ( threading_ == ThreadSupport::multithreaded ) {
         std::unique_lock<std::mutex> lock(mut_);
 
-        sem_.wait();
         notified_ = true;
         cv_.notify_one();
+        sem_.wait();
         gdi_->flip();
     } else {
         gdi_->flip();

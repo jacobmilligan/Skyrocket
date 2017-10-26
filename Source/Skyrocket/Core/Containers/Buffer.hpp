@@ -27,15 +27,7 @@ class Buffer {
 public:
     Buffer()
     {
-        data_ = static_cast<uint8_t*>(malloc(Size));
         clear();
-    }
-
-    ~Buffer()
-    {
-        if ( data_ != nullptr ) {
-            free(data_);
-        }
     }
 
     /// @brief Writes data of any type to the buffer via copy
@@ -123,7 +115,7 @@ public:
 private:
     uint32_t end_{0};
     uint32_t cursor_{0};
-    uint8_t* data_;
+    uint8_t data_[Size];
 };
 
 /// @brief A simple multi-buffer that allows for switching buffers for multi-threading

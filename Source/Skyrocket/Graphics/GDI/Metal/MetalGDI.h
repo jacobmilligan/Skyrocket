@@ -35,33 +35,23 @@ struct MetalBuffer {
     {
         current_ = 0;
         usage_ = usage;
-        for ( int i = 0; i < Size; ++i ) {
-            if ( data == nullptr ) {
-                buffers_[i] = [device newBufferWithLength:length
-                                                  options:MTLResourceCPUCacheModeDefaultCache];
-            } else {
-                buffers_[i] = [device newBufferWithBytes:data
-                                                  length:length
-                                                 options:MTLResourceCPUCacheModeDefaultCache];
-            }
+        if ( data == nullptr ) {
+            buf_ = [device newBufferWithLength:length
+            options:MTLResourceCPUCacheModeDefaultCache];
+        } else {
+            buf_ = [device newBufferWithBytes:data
+            length:length
+            options:MTLResourceCPUCacheModeDefaultCache];
         }
     }
 
-    void swap()
+    id<MTLBuffer>& raw_buffer()
     {
-        ++current_;
-        if ( current_ >= Size ) {
-            current_ = 0;
-        }
-    }
-
-    id<MTLBuffer>& current()
-    {
-        return buffers_[current_];
+        return buf_;
     }
 
 private:
-    id<MTLBuffer> buffers_[Size];
+    id<MTLBuffer> buf_;
     uint16_t current_;
     BufferUsage usage_;
 };
