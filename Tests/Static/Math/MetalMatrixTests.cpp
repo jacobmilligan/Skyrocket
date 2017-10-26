@@ -67,6 +67,13 @@ TEST_CASE("test_speed", "[matrix]")
     auto mtl_end = sky::Timespan(sky::high_resolution_time() - start);
 
     printf("Metal: %f, Skyrocket: %f\n", mtl_end.total_milliseconds(), end.total_milliseconds());
+
+    sky::Vector3f cam_pos(5000.0f, 5000.0f, 2000.0f);
+    sky::Vector3f cam_front(0.0f, 0.0f, -1.0f);
+    sky::Vector3f cam_up(0.0f, 1.0f, 0.0f);
+    auto view_mat = identity.look_at(cam_pos, cam_pos + cam_front, cam_up);
+
+    printf("%s\n", view_mat.to_string().c_str());
 }
 
 TEST_CASE("test_projection_matrices", "[matrix]")
