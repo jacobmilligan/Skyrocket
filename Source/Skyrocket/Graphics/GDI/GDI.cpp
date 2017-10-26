@@ -26,7 +26,7 @@ void GDI::process_commands()
 
         switch ( *next_cmd_type ) {
             case rc::CmdType::unknown: {
-
+                cmd_buf.read<rc::Command>();
             } break;
 
             case rc::CmdType::init: {
@@ -228,7 +228,7 @@ void GDI::set_state(const uint32_t flags)
     //no op
 }
 
-void GDI::present()
+void GDI::commit()
 {
     // no op
 }

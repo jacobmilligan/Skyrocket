@@ -416,19 +416,19 @@ bool MetalGDI::draw_instanced(const uint32_t instance)
     return true;
 }
 
-void MetalGDI::present()
+void MetalGDI::commit()
 {
     dispatch_semaphore_wait(buf_sem_, DISPATCH_TIME_FOREVER);
 
     if ( mtl_layer_ == nil ) {
-        SKY_ERROR("Drawing", "Could not present - no Metal layer specified");
+        SKY_ERROR("Drawing", "Could not commit - no Metal layer specified");
         return;
     }
 
     @autoreleasepool {
-        id < MTLCommandBuffer > cmd_buffer = [command_queue_ commandBufferWithUnretainedReferences];
+        id<MTLCommandBuffer> cmd_buffer = [command_queue_ commandBufferWithUnretainedReferences];
 
-        MTLRenderPassDescriptor* rpd =[MTLRenderPassDescriptor renderPassDescriptor];
+        MTLRenderPassDescriptor* rpd = [MTLRenderPassDescriptor renderPassDescriptor];
 
         if ( rpd == nil ) {
             SKY_ERROR("Renderer", "Couldn't create a RenderPassDescriptor");

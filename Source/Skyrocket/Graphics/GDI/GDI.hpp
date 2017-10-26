@@ -145,7 +145,7 @@ public:
     virtual void set_state(const uint32_t flags);
 
     /// @brief Commits the current command buffer and processes all commands
-    virtual void present();
+    virtual void commit();
 
     /// @brief Flips the internal command buffers
     void flip()
@@ -154,7 +154,7 @@ public:
     }
 
 protected:
-    Multibuffer<UINT16_MAX, max_frames_in_flight> cmdbufs_;
+    Multibuffer<UINT32_MAX - 1, max_frames_in_flight> cmdbufs_;
 
     RenderState target_;
 

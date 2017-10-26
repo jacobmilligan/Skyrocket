@@ -124,7 +124,7 @@ public:
 
     void set_state(const uint32_t flags) override;
 
-    void present() override;
+    void commit() override;
 
 private:
     static constexpr uint8_t lib_max_ = 8;

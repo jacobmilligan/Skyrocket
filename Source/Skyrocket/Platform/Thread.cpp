@@ -11,8 +11,9 @@
 
 #include "Skyrocket/Core/Diagnostics/Timespan.hpp"
 #include "Skyrocket/Platform/Thread.hpp"
+#include "Skyrocket/Platform/Time.hpp"
 
-#include <ctime>
+#include <thread>
 
 namespace sky {
 
@@ -24,9 +25,6 @@ void Semaphore::wait()
         return count_ > 0;
     });
     --count_;
-    if ( count_ < 0 ) {
-        count_ = 0;
-    }
 }
 
 void Semaphore::signal()
@@ -47,9 +45,7 @@ void thread_sleep(const Timespan& time)
     sleep_time.tv_sec = 0;
     sleep_time.tv_nsec = static_cast<int64_t>(time.ticks());
 
-    while ( sleep_time.tv_sec + sleep_time.tv_nsec > 0 ) {
-        nanosleep(&sleep_time, &remaining);
-
+    while ( nanosleep(&sleep_time, &remaining) == 1 && errno == EINTR ) {
         sleep_time.tv_sec = remaining.tv_sec;
         sleep_time.tv_nsec = remaining.tv_nsec;
     }

@@ -28,14 +28,14 @@ GraphicsDriver::GraphicsDriver()
       notified_(false),
       active_(false),
       dt_(high_resolution_time()),
-      sem(gdi_->max_frames_in_flight)
+      sem_(gdi_->max_frames_in_flight)
 {}
 
 GraphicsDriver::~GraphicsDriver()
 {
     if ( threading_ == ThreadSupport::multithreaded ) {
         active_ = false;
-        present();
+        commit();
         render_thread_.join();
         if ( render_thread_.joinable() ) {
         }
@@ -199,38 +199,34 @@ void GraphicsDriver::set_state(const uint32_t state_flags)
     gdi_->write_command<rc::SetState>(&cmd);
 }
 
-void GraphicsDriver::present()
+void GraphicsDriver::commit()
 {
     if ( threading_ == ThreadSupport::multithreaded ) {
-        kick_render_thread();
-        sem.wait();
+        std::unique_lock<std::mutex> lock(mut_);
+
+        sem_.wait();
+        notified_ = true;
+        cv_.notify_one();
+        gdi_->flip();
     } else {
         gdi_->flip();
-        gdi_->present();
+        gdi_->commit();
     }
-}
-
-void GraphicsDriver::kick_render_thread()
-{
-    notified_ = true;
-    cv_.notify_one();
 }
 
 void GraphicsDriver::frame()
 {
     active_ = true;
-    std::mutex mut;
 
     while ( active_ ) {
-        std::unique_lock<std::mutex> lock(mut);
+        std::unique_lock<std::mutex> lock(mut_);
 
         cv_.wait(lock, [this]() { return notified_; });
         notified_ = false;
 
         if ( gdi_ != nullptr ) {
-            gdi_->flip();
-            gdi_->present();
-            sem.signal();
+            gdi_->commit();
+            sem_.signal();
         }
     }
 }

@@ -117,7 +117,7 @@ public:
 
     /// @brief Commits the current command buffer and syncs up the render and main threads
     /// before swapping internal buffers, kicking the render thread and processing all commands
-    void present();
+    void commit();
 
 private:
     ThreadSupport threading_;
@@ -131,13 +131,13 @@ private:
 
     bool notified_;
     bool active_;
+    std::mutex mut_;
     std::condition_variable cv_;
     std::thread render_thread_;
 
     Timespan dt_;
-    Semaphore sem; // TODO(Jacob): rename
+    Semaphore sem_; // TODO(Jacob): rename
 
-    void kick_render_thread();
     void frame();
 };
 

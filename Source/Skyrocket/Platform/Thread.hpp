@@ -20,10 +20,9 @@ struct Timespan;
 
 /// @brief A basic semaphore object that allows up to UINT16_MAX resources
 struct Semaphore {
-    explicit Semaphore(const uint16_t max_count)
-        :
-        max_count_(max_count),
-        count_(max_count)
+    explicit Semaphore(const int16_t max_count)
+        : max_count_(max_count),
+          count_(max_count)
     {}
 
     /// @brief Puts the calling thread to sleep until a new resource is available
@@ -32,8 +31,8 @@ struct Semaphore {
     /// @brief Releases a resource and notifies the next waiting thread
     void signal();
 private:
-    uint16_t max_count_;
-    std::atomic<uint16_t> count_;
+    int16_t max_count_;
+    std::atomic<int16_t> count_;
     std::mutex mut_;
     std::condition_variable cv_;
 };

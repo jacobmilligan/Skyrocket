@@ -25,7 +25,18 @@ namespace sky {
 template<uint32_t Size>
 class Buffer {
 public:
-    Buffer() = default;
+    Buffer()
+    {
+        data_ = static_cast<uint8_t*>(malloc(Size));
+        clear();
+    }
+
+    ~Buffer()
+    {
+        if ( data_ != nullptr ) {
+            free(data_);
+        }
+    }
 
     /// @brief Writes data of any type to the buffer via copy
     /// @tparam T The type of data being written allows for specifying byte size
@@ -35,7 +46,7 @@ public:
     {
         auto size = sizeof(T);
 
-        SKY_ASSERT(cursor_ + size < Size, "sizeof T (%lu) is small enough to fit in buffer", size);
+        SKY_ASSERT(cursor_ + size < Size, "sizeof data (%lu) doesn't exceed buffer size", size);
 
         memcpy(&data_[cursor_], data, size);
         cursor_ += size;
@@ -112,7 +123,7 @@ public:
 private:
     uint32_t end_{0};
     uint32_t cursor_{0};
-    uint8_t data_[Size]{};
+    uint8_t* data_;
 };
 
 /// @brief A simple multi-buffer that allows for switching buffers for multi-threading

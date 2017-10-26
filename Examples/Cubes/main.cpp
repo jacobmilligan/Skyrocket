@@ -114,7 +114,7 @@ public:
           neg_dist(-1.0f, 1.0f),
           dist(0.04f, 0.07f),
           big_dist(-300.0f, 300.0f),
-          cam_pos_(4000.0f, 2500.0f, 2000.0f),
+          cam_pos_(5000.0f, 5000.0f, 2000.0f),
           cam_front_(0.0f, 0.0f, -1.0f),
           cam_up_(0.0f, 1.0f, 0.0f)
     {
@@ -132,16 +132,17 @@ public:
         program_ = graphics_driver.create_program(vert_path, frag_path);
         graphics_driver.set_program(program_);
 
-        auto x = 0.0f;
+        auto x = 0;
         auto y = 0;
-        auto z = 0.0f;
 
-        auto index = 0;
         for ( int i = 0; i < cubes.size(); ++i ) {
-            index = i * 300;
+            x += 500;
+            if ( x > num_cubes_ * 2 ) {
+                y += 500;
+                x = 0;
+            }
             cubes[i].init(&graphics_driver);
-            cubes[i].pos = sky::Vector3f(index % 10000, y, z);
-            y = (y + 200) % 5000;
+            cubes[i].pos = sky::Vector3f(x, y, 0.0f);
         }
 
         auto vbuf_mem = sky::MemoryBlock {
@@ -170,11 +171,19 @@ public:
         cube_tex.load_from_file(root_path_.relative_path("cube.png"));
 
         texture_ = graphics_driver.create_texture(cube_tex);
+        graphics_driver.commit();
     }
 
     void on_update() override
     {
         graphics_driver.set_state(sky::RenderPipelineState::culling_frontface);
+
+        graphics_driver.set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(cubes[0].vertices().size()));
+
+        graphics_driver.set_uniform(model_ubuf_, 1);
+        graphics_driver.set_uniform(view_ubuf_, 2);
+        graphics_driver.set_uniform(projection_ubuf_, 3);
+        graphics_driver.set_texture(texture_, 0);
 
         if ( keyboard_.key_down(sky::Key::escape) || primary_view.close_requested() ) {
             primary_view.close();
@@ -198,14 +207,6 @@ public:
         graphics_driver.update_uniform(view_ubuf_, sky::MemoryBlock{ sizeof(sky::Matrix4f), &view_mat_});
         graphics_driver.update_uniform(projection_ubuf_, sky::MemoryBlock{ sizeof(sky::Matrix4f), &projection_mat_});
 
-        graphics_driver.set_uniform(model_ubuf_, 1);
-        graphics_driver.set_uniform(view_ubuf_, 2);
-        graphics_driver.set_uniform(projection_ubuf_, 3);
-
-        graphics_driver.set_texture(texture_, 0);
-
-        graphics_driver.set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(cubes[0].vertices().size()));
-
         uint32_t cube_index = 0;
         for ( auto& c : cubes ) {
             c.angle += dist(rand_gen);
@@ -221,9 +222,7 @@ public:
         }
 
         graphics_driver.draw_instanced(num_cubes_);
-
-
-        graphics_driver.present();
+        graphics_driver.commit();
     }
 
     void on_shutdown() override
@@ -232,7 +231,7 @@ public:
     }
 
 private:
-    static constexpr uint32_t num_cubes_ = 1000;
+    static constexpr uint32_t num_cubes_ = 5000;
 
     sky::Viewport view_;
     sky::Keyboard keyboard_;
@@ -256,7 +255,7 @@ private:
 int main(int argc, char** argv)
 {
     CubeApp app;
-    app.start(sky::GraphicsDriver::ThreadSupport::single_thread);
+    app.start(sky::GraphicsDriver::ThreadSupport::multithreaded);
 
     return 0;
 }
