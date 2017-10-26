@@ -26,7 +26,7 @@ namespace sky {
 template<typename T>
 struct Matrix4 {
     /// @brief The column vector elements of the matrix
-    float columns[16]{};
+    float entries[16]{};
 
     /// @brief Default constructor - initializes the Matrix as the identity
     /// matrix, that is the main diagonal elements are initialized to 1
@@ -40,14 +40,14 @@ struct Matrix4 {
     /// @param value Value to initialize the matrix's main diagonal elements to
     explicit Matrix4(const T value)
     {
-        for ( auto& c : columns ) {
+        for ( auto& c : entries ) {
             c = static_cast<T>(0);
         }
 
-        columns[0] = value;
-        columns[5] = value;
-        columns[10] = value;
-        columns[15] = value;
+        entries[0] = value;
+        entries[5] = value;
+        entries[10] = value;
+        entries[15] = value;
     }
 
     /// @brief Constructs a new matrix with the specified column vectors used to
@@ -59,25 +59,25 @@ struct Matrix4 {
     Matrix4(const Vector4 <T>& col1, const Vector4 <T>& col2,
             const Vector4 <T>& col3, const Vector4 <T>& col4)
     {
-        columns[0] = col1.x;
-        columns[1] = col1.y;
-        columns[2] = col1.z;
-        columns[3] = col1.w;
+        entries[0] = col1.x;
+        entries[1] = col1.y;
+        entries[2] = col1.z;
+        entries[3] = col1.w;
 
-        columns[4] = col2.x;
-        columns[5] = col2.y;
-        columns[6] = col2.z;
-        columns[7] = col2.w;
+        entries[4] = col2.x;
+        entries[5] = col2.y;
+        entries[6] = col2.z;
+        entries[7] = col2.w;
 
-        columns[8] = col3.x;
-        columns[9] = col3.y;
-        columns[10] = col3.z;
-        columns[11] = col3.w;
+        entries[8] = col3.x;
+        entries[9] = col3.y;
+        entries[10] = col3.z;
+        entries[11] = col3.w;
 
-        columns[12] = col4.x;
-        columns[13] = col4.y;
-        columns[14] = col4.z;
-        columns[15] = col4.w;
+        entries[12] = col4.x;
+        entries[13] = col4.y;
+        entries[14] = col4.z;
+        entries[15] = col4.w;
     }
 
     /// @brief Constructs a new matrix with the specified element values in
@@ -105,25 +105,25 @@ struct Matrix4 {
         const T w0, const T w1, const T w2, const T w3
     )
     {
-        columns[0] = x0;
-        columns[1] = y0;
-        columns[2] = z0;
-        columns[3] = w0;
+        entries[0] = x0;
+        entries[1] = y0;
+        entries[2] = z0;
+        entries[3] = w0;
 
-        columns[4] = x1;
-        columns[5] = y1;
-        columns[6] = z1;
-        columns[7] = w1;
+        entries[4] = x1;
+        entries[5] = y1;
+        entries[6] = z1;
+        entries[7] = w1;
 
-        columns[8] = x2;
-        columns[9] = y2;
-        columns[10] = z2;
-        columns[11] = w2;
+        entries[8] = x2;
+        entries[9] = y2;
+        entries[10] = z2;
+        entries[11] = w2;
 
-        columns[12] = x3;
-        columns[13] = y3;
-        columns[14] = z3;
-        columns[15] = w3;
+        entries[12] = x3;
+        entries[13] = y3;
+        entries[14] = z3;
+        entries[15] = w3;
     }
 
     /// @brief Gets a string representation of the matrix
@@ -132,10 +132,10 @@ struct Matrix4 {
     {
         std::stringstream ss;
 
-        ss << columns[0] << " " << columns[4] << " " << columns[8] << " " << columns[12] << "\n"
-           << columns[1] << " " << columns[5] << " " << columns[9] << " " << columns[13] << "\n"
-           << columns[2] << " " << columns[6] << " " << columns[10] << " " << columns[14] << "\n"
-           << columns[3] << " " << columns[7] << " " << columns[11] << " " << columns[15] << "\n";
+        ss << entries[0] << " " << entries[4] << " " << entries[8] << " " << entries[12] << "\n"
+           << entries[1] << " " << entries[5] << " " << entries[9] << " " << entries[13] << "\n"
+           << entries[2] << " " << entries[6] << " " << entries[10] << " " << entries[14] << "\n"
+           << entries[3] << " " << entries[7] << " " << entries[11] << " " << entries[15] << "\n";
 
         return ss.str();
     }
@@ -147,9 +147,9 @@ struct Matrix4 {
     {
         auto result = *this;
 
-        result.columns[0] *= v.x;
-        result.columns[5] *= v.y;
-        result.columns[10] *= v.z;
+        result.entries[0] *= v.x;
+        result.entries[5] *= v.y;
+        result.entries[10] *= v.z;
 
         return result;
     }
@@ -161,9 +161,9 @@ struct Matrix4 {
     Matrix4<T> translate(const Vector3<T>& v)
     {
         Matrix4<T> trans = *this;
-        trans.columns[12] = v.x;
-        trans.columns[13] = v.y;
-        trans.columns[14] = v.z;
+        trans.entries[12] = v.x;
+        trans.entries[13] = v.y;
+        trans.entries[14] = v.z;
         return trans;
     }
 
@@ -174,24 +174,24 @@ struct Matrix4 {
         auto start = *this;
         auto result = start;
 
-        result.columns[1] = columns[4];
-        result.columns[2] = columns[8];
-        result.columns[3] = columns[12];
+        result.entries[1] = entries[4];
+        result.entries[2] = entries[8];
+        result.entries[3] = entries[12];
 
-        result.columns[4] = columns[1];
-        result.columns[5] = columns[5];
-        result.columns[6] = columns[9];
-        result.columns[7] = columns[13];
+        result.entries[4] = entries[1];
+        result.entries[5] = entries[5];
+        result.entries[6] = entries[9];
+        result.entries[7] = entries[13];
 
-        result.columns[8] = columns[2];
-        result.columns[9] = columns[6];
-        result.columns[10] = columns[10];
-        result.columns[11] = columns[14];
+        result.entries[8] = entries[2];
+        result.entries[9] = entries[6];
+        result.entries[10] = entries[10];
+        result.entries[11] = entries[14];
 
-        result.columns[12] = columns[3];
-        result.columns[13] = columns[7];
-        result.columns[14] = columns[11];
-        result.columns[15] = columns[15];
+        result.entries[12] = entries[3];
+        result.entries[13] = entries[7];
+        result.entries[14] = entries[11];
+        result.entries[15] = entries[15];
 
         return result;
     }
@@ -213,34 +213,17 @@ struct Matrix4 {
         auto omega_ysquared = (omega.y * omega.y);
         auto omega_zsquared = (omega.z * omega.z);
 
-//        auto dsin = static_cast<T>(sin(angle));
-//        auto dcos = static_cast<T>(cos(angle));
-//        auto ocos = static_cast<T>(1.0 - dcos);
-//
-//        // Rodrigues' Rotation Formula
-//        rotation[0][0] = dcos + (omega.x * omega.x) * ocos;
-//        rotation[0][1] = omega.y * omega.x + omega.z * dsin;
-//        rotation[0][2] = omega.z * omega.x * ocos - omega.y * dsin;
-//
-//        rotation[1][0] = omega.x * omega.y * ocos - omega.z * dsin;
-//        rotation[1][1] = dcos + (omega.y * omega.y) * ocos;
-//        rotation[1][2] = omega.z * omega.y * ocos - omega.x * dsin;
-//
-//        rotation[2][0] = omega.x * omega.z * ocos + omega.y * dsin;
-//        rotation[2][1] = omega.y * omega.z * ocos + omega.x * dsin;
-//        rotation[2][2] = dcos + (omega.z * omega.z) * ocos;
+        rotation.entries[0] = costheta + omega_xsquared * (one - costheta);
+        rotation.entries[1] = omega.z * sintheta + omega.x * omega.y * (one - costheta);
+        rotation.entries[2] = -omega.y * sintheta + omega.x * omega.z * (one - costheta);
 
-        rotation.columns[0] = costheta + omega_xsquared * (one - costheta);
-        rotation.columns[1] = omega.z * sintheta + omega.x * omega.y * (one - costheta);
-        rotation.columns[2] = -omega.y * sintheta + omega.x * omega.z * (one - costheta);
+        rotation.entries[4] = omega.x * omega.y * (one - costheta) - omega.z * sintheta;
+        rotation.entries[5] = costheta + omega_ysquared * (one - costheta);
+        rotation.entries[6] = -omega.x * sintheta + omega.y * omega.z * (one - costheta);
 
-        rotation.columns[4] = omega.x * omega.y * (one - costheta) - omega.z * sintheta;
-        rotation.columns[5] = costheta + omega_ysquared * (one - costheta);
-        rotation.columns[6] = omega.x * sintheta + omega.y * omega.z * (one - costheta);
-
-        rotation.columns[8] = omega.y * sintheta + omega.x * omega.z * (one - costheta);
-        rotation.columns[9] = -omega.x * sintheta + omega.y * omega.z * (one - costheta);
-        rotation.columns[10] = costheta * omega_zsquared * (one - costheta);
+        rotation.entries[8] = omega.y * sintheta + omega.x * omega.z * (one - costheta);
+        rotation.entries[9] = omega.x * sintheta + omega.y * omega.z * (one - costheta);
+        rotation.entries[10] = costheta + omega_zsquared * (one - costheta);
 
         return rotation;
     }
@@ -260,22 +243,22 @@ struct Matrix4 {
         Matrix4<T> result;
 
         // Width and height
-        result.columns[0] = static_cast<T>(2) / (right - left);
-        result.columns[5] = static_cast<T>(2) / (top - bottom);
+        result.entries[0] = static_cast<T>(2) / (right - left);
+        result.entries[5] = static_cast<T>(2) / (top - bottom);
 #if SKY_GRAPHICS_API_OPENGL == 1
         // OpenGL expects a lhs for the perspective divide stage
         // so the z coordinate needs to be negated to flip it
-        result.columns[10] = static_cast<T>(-2) / (far - near);
-        result.columns[12] = -(right + left) / (right - left);
-        result.columns[13] = -(top + bottom) / (top - bottom);
-        result.columns[14] = -(far + near) / (far - near); // f + n instead of just n in numer for gl compatibility
+        result.entries[10] = static_cast<T>(-2) / (far - near);
+        result.entries[12] = -(right + left) / (right - left);
+        result.entries[13] = -(top + bottom) / (top - bottom);
+        result.entries[14] = -(far + near) / (far - near); // f + n instead of just n in numer for gl compatibility
 #elif SKY_GRAPHICS_API_METAL == 1
         auto mtl_near = static_cast<T>(0.0);
 
-        result.columns[10] = static_cast<T>(1) / (far - mtl_near);
-        result.columns[12] = (right + left) / (left - right);
-        result.columns[13] = (top + bottom) / (bottom - top);
-        result.columns[14] = mtl_near / (far - mtl_near);
+        result.entries[10] = static_cast<T>(1) / (far - mtl_near);
+        result.entries[12] = (right + left) / (left - right);
+        result.entries[13] = (top + bottom) / (bottom - top);
+        result.entries[14] = mtl_near / (far - mtl_near);
 #endif
 
         return result;
@@ -297,12 +280,12 @@ struct Matrix4 {
         auto x_scale = y_scale / aspect;
         auto q = -(z_far + z_near) / (z_far - z_near);
 
-        result.columns[0] = x_scale;
-        result.columns[5] = y_scale;
+        result.entries[0] = x_scale;
+        result.entries[5] = y_scale;
 
-        result.columns[10] = q;
-        result.columns[11] = static_cast<T>(-1);
-        result.columns[14] = static_cast<T>(-2) * z_far * z_near / (z_far - z_near);
+        result.entries[10] = q;
+        result.entries[11] = static_cast<T>(-1);
+        result.entries[14] = static_cast<T>(-2) * z_far * z_near / (z_far - z_near);
 #endif
 
         return result;
@@ -328,24 +311,24 @@ struct Matrix4 {
         auto u = s.cross(f); // pointing up
 
         // Up
-        result.columns[1] = u.x;
-        result.columns[5] = u.y;
-        result.columns[9] = u.z;
+        result.entries[1] = u.x;
+        result.entries[5] = u.y;
+        result.entries[9] = u.z;
 
         // Right
-        result.columns[0] = s.x;
-        result.columns[4] = s.y;
-        result.columns[8] = s.z;
+        result.entries[0] = s.x;
+        result.entries[4] = s.y;
+        result.entries[8] = s.z;
 
         // Negative target for rhs
-        result.columns[2] = -f.x;
-        result.columns[6] = -f.y;
-        result.columns[10] = -f.z;
+        result.entries[2] = -f.x;
+        result.entries[6] = -f.y;
+        result.entries[10] = -f.z;
 
         // Calculate translations - always in 4th column
-        result.columns[12] = -s.dot(eye); // -position.x
-        result.columns[13] = -u.dot(eye); // -position.y
-        result.columns[14] = f.dot(eye); // z for rhs instead of -z
+        result.entries[12] = -s.dot(eye); // -position.x
+        result.entries[13] = -u.dot(eye); // -position.y
+        result.entries[14] = f.dot(eye); // z for rhs instead of -z
 
         return result;
     }
@@ -356,7 +339,7 @@ struct Matrix4 {
     /// @return The column vector
     T* operator[](const int i)
     {
-        return &columns[i];
+        return &entries[i * 4];
     }
 
     /// @brief Defines subscript operator for accessing the column vector elements
@@ -365,7 +348,7 @@ struct Matrix4 {
     /// @return The column vector
     const T* operator[](const int i) const
     {
-        return &columns[i];
+        return &entries[i * 4];
     }
 };
 
@@ -379,10 +362,10 @@ template<typename T>
 Vector4 <T> operator*(const Matrix4<T>& mat, const Vector4 <T>& vec)
 {
     return Vector4<T>(
-        mat.columns[0] * vec[0] + mat.columns[1] * vec[0] + mat.columns[2] * vec[0] + mat.columns[3] * vec[0],
-        mat.columns[4] * vec[1] + mat.columns[5] * vec[1] + mat.columns[6] * vec[1] + mat.columns[7] * vec[1],
-        mat.columns[8] * vec[2] + mat.columns[9] * vec[2] + mat.columns[10] * vec[2] + mat.columns[11] * vec[2],
-        mat.columns[12] * vec[3] + mat.columns[13] * vec[3] + mat.columns[14] * vec[3] + mat.columns[15] * vec[3]
+        mat.entries[0] * vec[0] + mat.entries[1] * vec[0] + mat.entries[2] * vec[0] + mat.entries[3] * vec[0],
+        mat.entries[4] * vec[1] + mat.entries[5] * vec[1] + mat.entries[6] * vec[1] + mat.entries[7] * vec[1],
+        mat.entries[8] * vec[2] + mat.entries[9] * vec[2] + mat.entries[10] * vec[2] + mat.entries[11] * vec[2],
+        mat.entries[12] * vec[3] + mat.entries[13] * vec[3] + mat.entries[14] * vec[3] + mat.entries[15] * vec[3]
     );
 }
 
@@ -395,45 +378,31 @@ template<typename T>
 Matrix4<T> operator*(const Matrix4<T>& left, const Matrix4<T>& right)
 {
     Matrix4<T> result;
+    auto* A = left.entries;
+    auto* B = right.entries;
 
-//    auto& A1 = left[0];
-//    auto& A2 = left[1];
-//    auto& A3 = left[2];
-//    auto& A4 = left[3];
-//
-//    auto& B1 = right[0];
-//    auto& B2 = right[1];
-//    auto& B3 = right[2];
-//    auto& B4 = right[3];
-//
-//    result[0] = A1 * B1[0] + A2 * B1[1] + A3 * B1[2] + A4 * B1[3];
-//    result[1] = A1 * B2[0] + A2 * B2[1] + A3 * B2[2] + A4 * B2[3];
-//    result[2] = A1 * B3[0] + A2 * B3[1] + A3 * B3[2] + A4 * B3[3];
-//    result[3] = A1 * B4[0] + A2 * B4[1] + A3 * B4[2] + A4 * B4[3];
+    result.entries[0] = B[0] * A[0] + B[1] * A[4] + B[2] * A[8] + B[3] * A[12];
+    result.entries[1] = B[0] * A[1] + B[1] * A[5] + B[2] * A[9] + B[3] * A[13];
+    result.entries[2] = B[0] * A[2] + B[1] * A[6] + B[2] * A[10] + B[3] * A[14];
+    result.entries[3] = B[0] * A[3] + B[1] * A[7] + B[2] * A[11] + B[3] * A[15];
 
-    result.columns[0] = right.columns[0] * left.columns[0] + right.columns[1] * left.columns[4] + right.columns[2] * left.columns[8] + right.columns[3] * left.columns[12];
-    result.columns[1] = right.columns[0] * left.columns[1] + right.columns[1] * left.columns[5] + right.columns[2] * left.columns[9] + right.columns[3] * left.columns[13];
-    result.columns[2] = right.columns[0] * left.columns[2] + right.columns[1] * left.columns[6] + right.columns[2] * left.columns[10] + right.columns[3] * left.columns[14];
-    result.columns[3] = right.columns[0] * left.columns[3] + right.columns[1] * left.columns[7] + right.columns[2] * left.columns[11] + right.columns[3] * left.columns[15];
+    result.entries[4] = B[4] * A[0] + B[5] * A[4] + B[6] * A[8] + B[7] * A[12];
+    result.entries[5] = B[4] * A[1] + B[5] * A[5] + B[6] * A[9] + B[7] * A[13];
+    result.entries[6] = B[4] * A[2] + B[5] * A[6] + B[6] * A[10] + B[7] * A[14];
+    result.entries[7] = B[4] * A[3] + B[5] * A[7] + B[6] * A[11] + B[7] * A[15];
 
-    result.columns[4] = right.columns[4] * left.columns[0] + right.columns[5] * left.columns[4] + right.columns[6] * left.columns[8] + right.columns[7] * left.columns[12];
-    result.columns[5] = right.columns[4] * left.columns[1] + right.columns[5] * left.columns[5] + right.columns[6] * left.columns[9] + right.columns[7] * left.columns[13];
-    result.columns[6] = right.columns[4] * left.columns[2] + right.columns[5] * left.columns[6] + right.columns[6] * left.columns[10] + right.columns[7] * left.columns[14];
-    result.columns[7] = right.columns[4] * left.columns[3] + right.columns[5] * left.columns[7] + right.columns[6] * left.columns[11] + right.columns[7] * left.columns[15];
+    result.entries[8] =  B[8] * A[0] + B[9] * A[4] + B[10] * A[8] + B[11] * A[12];
+    result.entries[9] =  B[8] * A[1] + B[9] * A[5] + B[10] * A[9] + B[11] * A[13];
+    result.entries[10] = B[8] * A[2] + B[9] * A[6] + B[10] * A[10] + B[11] * A[14];
+    result.entries[11] = B[8] * A[3] + B[9] * A[7] + B[10] * A[11] + B[11] * A[15];
 
-    result.columns[8] =  right.columns[8] * left.columns[0] + right.columns[9] * left.columns[4] + right.columns[10] * left.columns[8] + right.columns[11] * left.columns[12];
-    result.columns[9] =  right.columns[8] * left.columns[1] + right.columns[9] * left.columns[5] + right.columns[10] * left.columns[9] + right.columns[11] * left.columns[13];
-    result.columns[10] = right.columns[8] * left.columns[2] + right.columns[9] * left.columns[6] + right.columns[10] * left.columns[10] + right.columns[11] * left.columns[14];
-    result.columns[11] = right.columns[8] * left.columns[3] + right.columns[9] * left.columns[7] + right.columns[10] * left.columns[11] + right.columns[11] * left.columns[15];
-
-    result.columns[12] =  right.columns[12] * left.columns[0] + right.columns[13] * left.columns[4] + right.columns[14] * left.columns[8] + right.columns[15] * left.columns[12];
-    result.columns[13] =  right.columns[12] * left.columns[1] + right.columns[13] * left.columns[5] + right.columns[14] * left.columns[9] + right.columns[15] * left.columns[13];
-    result.columns[14] =  right.columns[12] * left.columns[2] + right.columns[13] * left.columns[6] + right.columns[14] * left.columns[10] + right.columns[15] * left.columns[14];
-    result.columns[15] =  right.columns[12] * left.columns[3] + right.columns[13] * left.columns[7] + right.columns[14] * left.columns[11] + right.columns[15] * left.columns[15];
+    result.entries[12] =  B[12] * A[0] + B[13] * A[4] + B[14] * A[8] + B[15] * A[12];
+    result.entries[13] =  B[12] * A[1] + B[13] * A[5] + B[14] * A[9] + B[15] * A[13];
+    result.entries[14] =  B[12] * A[2] + B[13] * A[6] + B[14] * A[10] + B[15] * A[14];
+    result.entries[15] =  B[12] * A[3] + B[13] * A[7] + B[14] * A[11] + B[15] * A[15];
 
     return result;
 }
-
 
 /// @defgroup mat4aliases Vector3 Aliases
 /// @{

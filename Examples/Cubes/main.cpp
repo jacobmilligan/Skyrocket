@@ -224,7 +224,7 @@ public:
     }
 
 private:
-    static constexpr uint32_t num_cubes_ = 5000;
+    static constexpr uint32_t num_cubes_ = 10000;
 
     sky::Viewport view_;
     sky::Keyboard keyboard_;

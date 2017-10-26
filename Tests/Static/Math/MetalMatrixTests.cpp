@@ -72,8 +72,6 @@ TEST_CASE("test_speed", "[matrix]")
     sky::Vector3f cam_front(0.0f, 0.0f, -1.0f);
     sky::Vector3f cam_up(0.0f, 1.0f, 0.0f);
     auto view_mat = identity.look_at(cam_pos, cam_pos + cam_front, cam_up);
-
-    printf("%s\n", view_mat.to_string().c_str());
 }
 
 TEST_CASE("test_projection_matrices", "[matrix]")
