@@ -26,7 +26,7 @@ namespace sky {
 template<typename T>
 struct Matrix4 {
     /// @brief The column vector elements of the matrix
-    float entries[16]{};
+    T entries[16]{};
 
     /// @brief Default constructor - initializes the Matrix as the identity
     /// matrix, that is the main diagonal elements are initialized to 1

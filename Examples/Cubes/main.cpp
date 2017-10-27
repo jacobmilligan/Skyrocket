@@ -249,7 +249,7 @@ private:
 int main(int argc, char** argv)
 {
     CubeApp app;
-    app.start(sky::GraphicsDriver::ThreadSupport::single_thread);
+    app.start(sky::GraphicsDriver::ThreadSupport::multithreaded);
 
     return 0;
 }
