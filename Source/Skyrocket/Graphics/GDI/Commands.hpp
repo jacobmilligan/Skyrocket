@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include "Skyrocket/Core/Geometry/Rectangle.hpp"
 #include "Skyrocket/Graphics/GDI/Definitions.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Platform/Filesystem.hpp"
@@ -30,6 +31,7 @@ enum class CmdType : uint8_t {
     create_program,
     create_uniform,
     create_texture,
+    create_texture_region,
     set_vertex_buffer,
     set_index_buffer,
     set_program,
@@ -185,23 +187,37 @@ struct UpdateUniform : public Command {
 };
 
 struct CreateTexture : public Command {
-    CreateTexture(const uint32_t tex_id, const uint8_t* img_data, const int32_t img_width,
-                  const int32_t img_height, const int32_t img_bpp, const bool img_mipmapped)
+    CreateTexture(const uint32_t tex_id, const uint32_t img_width, const uint32_t img_height,
+                  const PixelFormat::Enum pixel_format, const bool img_mipmapped)
         : Command(CmdType::create_texture),
           tid(tex_id),
-          data(img_data),
           width(img_width),
           height(img_height),
-          bpp(img_bpp),
+          format(pixel_format),
           mipmapped(img_mipmapped)
     {}
 
     const uint32_t tid;
-    const uint8_t* data;
-    const int32_t width;
-    const int32_t height;
-    const int32_t bpp;
+    const uint32_t width;
+    const uint32_t height;
+    const PixelFormat::Enum format;
     const bool mipmapped;
+};
+
+struct CreateTextureRegion : public Command {
+    CreateTextureRegion(const uint32_t texture, const UIntRect& region,
+                        const PixelFormat::Enum pixel_format, uint8_t* region_data)
+        : Command(CmdType::create_texture_region),
+          tex_id(texture),
+          rect(region),
+          format(pixel_format),
+          data(region_data)
+    {}
+
+    const uint32_t tex_id;
+    const UIntRect rect;
+    const PixelFormat::Enum format;
+    uint8_t* data;
 };
 
 struct SetTexture : public Command {

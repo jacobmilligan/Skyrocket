@@ -381,21 +381,25 @@ Matrix4<T> operator*(const Matrix4<T>& left, const Matrix4<T>& right)
     auto* A = left.entries;
     auto* B = right.entries;
 
+    // Column 1
     result.entries[0] = B[0] * A[0] + B[1] * A[4] + B[2] * A[8] + B[3] * A[12];
     result.entries[1] = B[0] * A[1] + B[1] * A[5] + B[2] * A[9] + B[3] * A[13];
     result.entries[2] = B[0] * A[2] + B[1] * A[6] + B[2] * A[10] + B[3] * A[14];
     result.entries[3] = B[0] * A[3] + B[1] * A[7] + B[2] * A[11] + B[3] * A[15];
 
+    // Column 2
     result.entries[4] = B[4] * A[0] + B[5] * A[4] + B[6] * A[8] + B[7] * A[12];
     result.entries[5] = B[4] * A[1] + B[5] * A[5] + B[6] * A[9] + B[7] * A[13];
     result.entries[6] = B[4] * A[2] + B[5] * A[6] + B[6] * A[10] + B[7] * A[14];
     result.entries[7] = B[4] * A[3] + B[5] * A[7] + B[6] * A[11] + B[7] * A[15];
 
+    // Column 3
     result.entries[8] =  B[8] * A[0] + B[9] * A[4] + B[10] * A[8] + B[11] * A[12];
     result.entries[9] =  B[8] * A[1] + B[9] * A[5] + B[10] * A[9] + B[11] * A[13];
     result.entries[10] = B[8] * A[2] + B[9] * A[6] + B[10] * A[10] + B[11] * A[14];
     result.entries[11] = B[8] * A[3] + B[9] * A[7] + B[10] * A[11] + B[11] * A[15];
 
+    // Column 4
     result.entries[12] =  B[12] * A[0] + B[13] * A[4] + B[14] * A[8] + B[15] * A[12];
     result.entries[13] =  B[12] * A[1] + B[13] * A[5] + B[14] * A[9] + B[15] * A[13];
     result.entries[14] =  B[12] * A[2] + B[13] * A[6] + B[14] * A[10] + B[15] * A[14];

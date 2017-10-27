@@ -53,6 +53,13 @@ id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice>
     pipeline_descriptor.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm;
     pipeline_descriptor.vertexFunction = vs_;
     pipeline_descriptor.fragmentFunction = frag_;
+    pipeline_descriptor.colorAttachments[0].blendingEnabled = YES;
+    pipeline_descriptor.colorAttachments[0].rgbBlendOperation = MTLBlendOperationAdd;
+    pipeline_descriptor.colorAttachments[0].alphaBlendOperation = MTLBlendOperationAdd;
+    pipeline_descriptor.colorAttachments[0].sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
+    pipeline_descriptor.colorAttachments[0].sourceAlphaBlendFactor = MTLBlendFactorSourceAlpha;
+    pipeline_descriptor.colorAttachments[0].destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+    pipeline_descriptor.colorAttachments[0].destinationAlphaBlendFactor = MTLBlendFactorOneMinusBlendAlpha;
 
     id<MTLRenderPipelineState> new_rps = [device newRenderPipelineStateWithDescriptor:pipeline_descriptor
                                                                                 error:&err];
@@ -69,6 +76,16 @@ id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice>
     render_pipeline_states_.insert({hash, new_rps});
     return new_rps;
 }
+    
+//---------------------
+//  GDI Implementation
+//---------------------
+
+#if SKY_COMPILER_MSVC != 1
+
+constexpr MTLPixelFormat MetalGDI::mtl_pixel_formats[];
+
+#endif
 
 MetalGDI::MetalGDI() = default;
 
@@ -334,17 +351,26 @@ void MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data, cons
     memcpy(dest + offset, data.data, data.size);
 }
 
-void MetalGDI::create_texture(const uint32_t t_id, const uint8_t* data, const int32_t width,
-                              const int32_t height, const int32_t bytes_per_pixel, const bool mipmapped)
+void MetalGDI::create_texture(const uint32_t t_id, const uint32_t width,
+                              const uint32_t height, const PixelFormat::Enum pixel_format,
+                              const bool mipmapped)
 {
-    auto* descriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
+    auto mtl_format = mtl_pixel_formats[pixel_format];
+    auto* descriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:mtl_format
                                                                           width:width
                                                                          height:height
                                                                       mipmapped:mipmapped];
     textures_.create(t_id, [device_ newTextureWithDescriptor:descriptor]);
-    auto tex = textures_.lookup(t_id);
-    auto bpr = bytes_per_pixel * width;
-    [*tex replaceRegion:MTLRegionMake2D(0, 0, width, height)
+}
+
+void MetalGDI::create_texture_region(const uint32_t tex_id, const UIntRect& region,
+                                     const PixelFormat::Enum pixel_format, uint8_t* data)
+{
+    auto bytes_per_pixel = PixelFormat::bytes_per_pixel(pixel_format);
+    auto tex = textures_.lookup(tex_id);
+    auto bpr = bytes_per_pixel * region.width;
+    MTLRegion mtl_region = MTLRegionMake2D(region.position.x, region.position.y, region.width, region.height);
+    [*tex replaceRegion:mtl_region
             mipmapLevel:0
               withBytes:data
             bytesPerRow:bpr];

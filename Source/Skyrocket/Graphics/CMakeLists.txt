@@ -48,7 +48,8 @@ endif ()
 
 skyrocket_add_sources(Color.cpp
         GraphicsDriver.cpp
-        Viewport.cpp)
+        Viewport.cpp
+        Image.cpp)
 
 ######################################
 ## Add library and link dependencies
@@ -63,5 +64,8 @@ target_link_libraries(${lib_name}
 
 target_link_libraries(${lib_name} "${dependencies}")
 
+target_include_directories(${lib_name} PUBLIC ${skyrocket_root_directory}/Deps/stb_image)
+
 skyrocket_configure_platform(compile_flags)
 target_compile_options(${lib_name} PRIVATE "${compile_flags}")
+

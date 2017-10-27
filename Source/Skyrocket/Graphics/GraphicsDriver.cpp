@@ -163,12 +163,13 @@ void GraphicsDriver::update_uniform(const uint32_t u_id, const MemoryBlock& data
     gdi_->write_command(&cmd);
 }
 
-uint32_t GraphicsDriver::create_texture(const Image& img, const bool mipmapped)
+uint32_t GraphicsDriver::create_texture(const uint32_t width, const uint32_t height,
+                                        const PixelFormat::Enum pixel_format, const bool mipmapped)
 {
     auto id = next_texture_id_;
     ++next_texture_id_;
 
-    rc::CreateTexture cmd(id, img.data, img.width, img.height, img.bytes_per_pixel, mipmapped);
+    rc::CreateTexture cmd(id, width, height, pixel_format, mipmapped);
     gdi_->write_command<rc::CreateTexture>(&cmd);
 
     return id;
@@ -179,6 +180,13 @@ bool GraphicsDriver::set_texture(const uint32_t texture, const uint32_t index)
     rc::SetTexture cmd(texture, index);
     gdi_->write_command<rc::SetTexture>(&cmd);
     return true;
+}
+
+void GraphicsDriver::create_texture_region(const uint32_t texture, const UIntRect& region,
+                                           const PixelFormat::Enum pixel_format, uint8_t* data)
+{
+    rc::CreateTextureRegion cmd(texture, region, pixel_format, data);
+    gdi_->write_command<rc::CreateTextureRegion>(&cmd);
 }
 
 void GraphicsDriver::draw()

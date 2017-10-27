@@ -90,6 +90,8 @@ struct Color {
     static const Color green;
     /// @brief Predefined blue color
     static const Color blue;
+    /// @brief Predefined cornflower blue color
+    static const Color cornflower_blue;
     /// @brief Predefined purple color
     static const Color purple;
     /// @brief Predefined gray color

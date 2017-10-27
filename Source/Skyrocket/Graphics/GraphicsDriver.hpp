@@ -15,11 +15,12 @@
 #include "Skyrocket/Graphics/GDI/Definitions.hpp"
 #include "Skyrocket/Graphics/GDI/GDI.hpp"
 
-#include <Skyrocket/Resource/Image.hpp>
+#include <Skyrocket/Graphics/Image.hpp>
 #include <Skyrocket/Platform/Thread.hpp>
 
 #include <memory>
 #include <thread>
+#include <Skyrocket/Core/Geometry/Rectangle.hpp>
 
 namespace sky {
 
@@ -104,7 +105,11 @@ public:
     /// @return
     bool set_program(const uint32_t program_id);
 
-    uint32_t create_texture(const Image& img, const bool mipmapped = false);
+    uint32_t create_texture(const uint32_t width, const uint32_t height,
+                            const PixelFormat::Enum pixel_format, const bool mipmapped = false);
+
+    void create_texture_region(const uint32_t texture, const UIntRect& region,
+                               const PixelFormat::Enum pixel_format, uint8_t* data);
 
     bool set_texture(const uint32_t texture, const uint32_t index);
 

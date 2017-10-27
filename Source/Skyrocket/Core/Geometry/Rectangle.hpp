@@ -10,8 +10,8 @@
 
 #pragma once
 
-#include "Skyrocket/Graphics/RenderCore/Color.hpp"
 #include "Skyrocket/Core/Math/Vector2.hpp"
+#include "Skyrocket/Graphics/Color.hpp"
 
 namespace sky {
 
@@ -149,7 +149,8 @@ struct Rectangle {
 
 
 using IntRect = Rectangle<int>;
+using UIntRect = Rectangle<unsigned long>;
 using FloatRect = Rectangle<float>;
 using DoubleRect = Rectangle<double>;
 
-}
+}  // namespace sky

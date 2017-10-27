@@ -18,8 +18,9 @@ const Color Color::red(255, 0, 0);
 const Color Color::orange(255, 127, 0);
 const Color Color::green(0, 255, 0);
 const Color Color::blue(0, 0, 255);
+const Color Color::cornflower_blue(100, 149, 237);
 const Color Color::purple(137, 30, 135);
 const Color Color::gray(43, 43, 43);
 const Color Color::transparent(0, 0, 0, 0);
 
-}
+} // namespace sky

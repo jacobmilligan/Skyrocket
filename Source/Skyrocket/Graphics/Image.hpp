@@ -24,9 +24,9 @@ struct Image {
     void load_from_file(const Path& path);
 
     uint8_t* data {nullptr};
-    int32_t width {0};
-    int32_t height {0};
-    int32_t bytes_per_pixel {0};
+    uint32_t width {0};
+    uint32_t height {0};
+    PixelFormat::Enum pixel_format;
 };
 
 

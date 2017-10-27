@@ -102,9 +102,12 @@ public:
 
     void update_uniform(const uint32_t u_id, const MemoryBlock& data, const uint32_t offset) override;
 
-    void create_texture(const uint32_t t_id, const uint8_t* data, const int32_t width,
-                        const int32_t height, const int32_t bytes_per_pixel,
+    void create_texture(const uint32_t t_id, const uint32_t width,
+                        const uint32_t height, const PixelFormat::Enum pixel_format,
                         const bool mipmapped) override;
+
+    void create_texture_region(const uint32_t tex_id, const UIntRect& region,
+                               const PixelFormat::Enum pixel_format, uint8_t* data) override;
 
     void set_texture(const uint32_t t_id, const uint32_t index) override;
 
@@ -118,6 +121,23 @@ public:
 
 private:
     static constexpr uint8_t lib_max_ = 8;
+
+    static constexpr MTLPixelFormat mtl_pixel_formats[] = {
+        MTLPixelFormatR8Unorm, // r8
+        MTLPixelFormatR16Unorm, // r16
+        MTLPixelFormatR32Float, // r32
+        MTLPixelFormatRG8Unorm, // rg8
+        MTLPixelFormatRG16Unorm, // rg16
+        MTLPixelFormatRG32Float, // rg32
+        MTLPixelFormatRGBA8Unorm, // rgb8
+        MTLPixelFormatBGRA8Unorm, // bgra8
+        MTLPixelFormatRGBA8Unorm, // rgba8
+        MTLPixelFormatRGBA16Unorm, // rgba16
+        MTLPixelFormatRGBA32Float, // rgba32
+        MTLPixelFormatDepth32Float, // depth
+        MTLPixelFormatStencil8, // stencil
+        MTLPixelFormatInvalid // unknown
+    };
 
     id<MTLDevice> device_;
     id<MTLCommandQueue> command_queue_;
@@ -143,6 +163,8 @@ private:
     HandleTable<id<MTLTexture>, texture_max> textures_;
 
     uint32_t buffer_index_{0};
+
+    void setup_pixel_formats();
 };
 
 

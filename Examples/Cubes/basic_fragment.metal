@@ -14,5 +14,6 @@ fragment float4 basic_fragment(Vertex in [[stage_in]],
 {
     constexpr sampler s(mag_filter::linear, min_filter::linear);
     const float4 tex_sample = texture.sample(s, in.tex_coords);
+    
     return tex_sample;
 }

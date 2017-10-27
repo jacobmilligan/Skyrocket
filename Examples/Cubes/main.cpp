@@ -76,6 +76,7 @@ public:
 
     void on_startup(int argc, const char** argv) override
     {
+        primary_view.set_backing_color(sky::Color::cornflower_blue);
         auto vert_path = root_path_.relative_path("basic_vertex.metal");
         auto frag_path = root_path_.relative_path("basic_fragment.metal");
         program_ = graphics_driver.create_program(vert_path, frag_path);
@@ -159,10 +160,11 @@ public:
         auto cam_speed = 10.0f;
         auto target_frametime = 16.6;
 
-        sky::Image cube_tex;
-        cube_tex.load_from_file(root_path_.relative_path("cube.png"));
+        sky::Image img;
+        img.load_from_file(root_path_.relative_path("cube.png"));
 
-        texture_ = graphics_driver.create_texture(cube_tex);
+        texture_ = graphics_driver.create_texture(img.width, img.height, img.pixel_format);
+        graphics_driver.create_texture_region(texture_, sky::UIntRect(0, 0, img.width, img.height), img.pixel_format, img.data);
         graphics_driver.commit();
     }
 
@@ -192,6 +194,8 @@ public:
         }
         if ( keyboard_.key_down(sky::Key::right) ) {
             cam_pos_ += (cam_front_.cross(cam_up_) * cam_speed_);
+        }
+        if ( keyboard_.key_down(sky::Key::Q) ) {
         }
 
         view_mat_ = identity_.look_at(cam_pos_, cam_pos_ + cam_front_, cam_up_);

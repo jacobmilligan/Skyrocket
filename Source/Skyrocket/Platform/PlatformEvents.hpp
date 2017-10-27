@@ -22,8 +22,7 @@ class Viewport;
 
 struct KeyState {
     KeyState()
-        :
-        is_down(false), state_changes(0)
+        : is_down(false), state_changes(0)
     {}
 
     bool is_down;
@@ -32,8 +31,7 @@ struct KeyState {
 
 struct KeyboardState {
     KeyboardState()
-        :
-        this_frame_mask_(0), last_frame_mask_(0)
+        : this_frame_mask_(0), last_frame_mask_(0)
     {}
 
     KeyState key_states[static_cast<uint16_t>(Key::last)];
@@ -43,8 +41,7 @@ struct KeyboardState {
 
 struct WindowData {
     WindowData()
-        :
-        close_requested(false)
+        : close_requested(false)
     {}
 
     bool close_requested;

@@ -136,9 +136,12 @@ public:
 
     virtual void update_uniform(const uint32_t u_id, const MemoryBlock& data, const uint32_t offset);
 
-    virtual void create_texture(const uint32_t t_id, const uint8_t* data, const int32_t width,
-                                const int32_t height,const int32_t bytes_per_pixel,
+    virtual void create_texture(const uint32_t t_id, const uint32_t width,
+                                const uint32_t height, const PixelFormat::Enum pixel_format,
                                 const bool mipmapped);
+
+    virtual void create_texture_region(const uint32_t tex_id, const UIntRect& region,
+                                       const PixelFormat::Enum pixel_format, uint8_t* data);
 
     virtual void set_texture(const uint32_t t_id, const uint32_t index);
 

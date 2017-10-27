@@ -11,6 +11,8 @@
 
 #pragma once
 
+#include <cstdint>
+
 namespace sky {
 
 
@@ -33,6 +35,27 @@ enum RenderPipelineState {
     culling_none = 0x0,
     culling_backface,
     culling_frontface
+};
+
+struct PixelFormat {
+    enum Enum {
+        r8,
+        r16,
+        r32,
+        rg8,
+        rg16,
+        rg32,
+        rgb8,
+        bgra8,
+        rgba8,
+        rgba16,
+        rgba32,
+        depth,
+        stencil,
+        unknown
+    };
+
+    static uint32_t bytes_per_pixel(const Enum& format);
 };
 
 

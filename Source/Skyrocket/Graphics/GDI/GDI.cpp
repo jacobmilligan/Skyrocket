@@ -111,7 +111,12 @@ void GDI::process_commands()
 
             case rc::CmdType::create_texture: {
                 auto cmd = cmd_buf.read<rc::CreateTexture>();
-                create_texture(cmd->tid, cmd->data, cmd->width, cmd->height, cmd->bpp, cmd->mipmapped);
+                create_texture(cmd->tid, cmd->width, cmd->height, cmd->format, cmd->mipmapped);
+            } break;
+
+            case rc::CmdType::create_texture_region: {
+                auto cmd = cmd_buf.read<rc::CreateTextureRegion>();
+                create_texture_region(cmd->tex_id, cmd->rect, cmd->format, cmd->data);
             } break;
 
             case rc::CmdType::set_texture: {
@@ -200,9 +205,15 @@ void GDI::update_uniform(const uint32_t  /*u_id*/, const MemoryBlock&  /*data*/,
     // no op
 }
 
-void GDI::create_texture(const uint32_t  /*t_id*/, const uint8_t* /*data*/, const int32_t /*width*/,
-                         const int32_t  /*height*/, const int32_t /*bytes_per_pixel*/,
+void GDI::create_texture(const uint32_t  /*t_id*/, const uint32_t /*width*/,
+                         const uint32_t  /*height*/, const PixelFormat::Enum /*pixel_format*/,
                          const bool  /*mipmapped*/)
+{
+    // no op
+}
+
+void GDI::create_texture_region(const uint32_t /*tex_id*/, const UIntRect& /*region*/,
+                                const PixelFormat::Enum /*pixel_format*/, uint8_t* /*data*/)
 {
     // no op
 }
