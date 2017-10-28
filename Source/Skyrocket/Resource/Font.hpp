@@ -21,9 +21,9 @@ struct FontService;
 
 struct Glyph {
     float offset;
-    Vector2f size;
-    Vector2f bearing;
-    Vector2f advance;
+    Vector2i size;
+    Vector2i bearing;
+    Vector2<int32_t> advance;
     uint8_t* data;
 };
 
@@ -37,9 +37,32 @@ struct Font {
     Glyph get_glyph(const char character);
 
     void set_pixel_size(const uint32_t size);
+
+    inline uint32_t width()
+    {
+        return width_;
+    }
+
+    inline uint32_t height()
+    {
+        return height_;
+    }
+
+    Glyph* begin()
+    {
+        return &glyphs_[0];
+    }
+
+    Glyph* end()
+    {
+        return &(*glyphs_.end());
+    }
 private:
     std::unique_ptr<FontService> service;
     std::vector<Glyph> glyphs_;
+
+    uint32_t width_{0};
+    uint32_t height_{0};
 
     void init_library();
     void reset_glyphs();

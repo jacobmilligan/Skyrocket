@@ -27,6 +27,11 @@ public:
         return name_;
     }
 
+    inline void set_frame_limit(const double fps)
+    {
+        target_frametime_ = (1.0 / fps) * 1000.0;
+    }
+
     void start(const GraphicsDriver::ThreadSupport graphics_threading);
 
     virtual void on_startup(int argc, const char** argv) = 0;
@@ -37,12 +42,9 @@ protected:
     Platform platform;
     Viewport primary_view;
 private:
-    //std::unique_ptr<Platform> platform_;
     const char* name_;
     bool active_;
-
-    uint64_t frame_start = 0;
-    sky::Timespan frame_time;
+    double target_frametime_;
 
     void shutdown();
 };

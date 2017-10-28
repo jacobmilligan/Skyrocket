@@ -17,8 +17,11 @@ namespace sky {
 
 Application::Application(const char* name)
     : name_(name),
+      target_frametime_(0.0),
       active_(false)
-{}
+{
+    set_frame_limit(144.0);
+}
 
 Application::~Application() = default;
 
@@ -41,7 +44,8 @@ void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
         active_ = true;
     }
 
-    auto target_frametime = 16.6;
+    uint64_t frame_start = 0;
+    sky::Timespan frame_time;
 
     while ( Viewport::open_viewports() > 0 ) {
         frame_start = high_resolution_time();
@@ -50,14 +54,16 @@ void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
         on_update();
 
         frame_time = sky::Timespan(high_resolution_time() - frame_start);
-        auto diff = target_frametime - frame_time.total_milliseconds();
 
-//        if ( frame_time.total_milliseconds() < target_frametime ) {
-//            auto sleep_time = sky::Timespan(static_cast<uint64_t>(diff * sky::Timespan::ticks_per_millisecond));
-//            sky::thread_sleep(sleep_time);
-//        }
+        printf("Frame time: %f\n", frame_time.total_milliseconds());
 
-        printf("Frame time: %f\n", sky::Timespan(high_resolution_time() - frame_start).total_milliseconds());
+        if ( frame_time.total_milliseconds() < target_frametime_ ) {
+            auto diff = target_frametime_ - frame_time.total_milliseconds();
+            auto sleep_time = sky::Timespan(static_cast<uint64_t>(diff * sky::Timespan::ticks_per_millisecond));
+            sky::thread_sleep(sleep_time);
+        }
+
+//        printf("Frame time: %f\n", sky::Timespan(high_resolution_time() - frame_start).total_milliseconds());
     }
 
     shutdown();

@@ -51,8 +51,7 @@ struct FontService {
 FT_Library FontService::lib = nullptr;
 
 Font::Font()
-    :
-    service(std::make_unique<FontService>())
+    : service(std::make_unique<FontService>())
 {}
 
 Font::~Font() = default;
@@ -61,7 +60,7 @@ void Font::init_library()
 {
     if ( service->lib == nullptr ) {
         auto err = FT_Init_FreeType(&service->lib);
-        if ( err != 0 ) {
+        if ( err == 1 ) {
             SKY_ERROR("FontService", "Unable to initialize freetype: %s", FT_errors[err].msg);
             return;
         }
@@ -74,13 +73,13 @@ void Font::load_from_file(const Path& path, const float pixel_size)
     // This loads from file but we should allow loading from memory. The above
     // code is therefore redundant
     auto err = FT_New_Face(service->lib, path.str(), 0, &service->face);
-    if ( err != 0 ) {
+    if ( err == 1 ) {
         SKY_ERROR("Font", "Unable to load font '%s': %s", path.str(), FT_errors[err].msg);
         return;
     }
 
     glyphs_.resize(static_cast<uint64_t>(service->face->num_glyphs));
-    reset_glyphs();
+    set_pixel_size(12);
 }
 
 void Font::load_from_memory(uint8_t* memory, const float pixel_size)
@@ -103,7 +102,7 @@ void Font::set_pixel_size(const uint32_t size)
 
     auto err = FT_Set_Pixel_Sizes(service->face, size, size);
 
-    if ( err != 0 ) {
+    if ( err == 1) {
         SKY_ERROR("Font", "Unable to set font pixel size");
         return;
     }
@@ -113,14 +112,15 @@ void Font::set_pixel_size(const uint32_t size)
 
 void Font::reset_glyphs()
 {
-    float offset = 0;
+    uint32_t offset = 0;
     uint32_t c = 32;
     FT_Error err;
     auto glyph = service->face->glyph;
 
+    height_ = 0;
     for ( auto& g : glyphs_ ) {
         err = FT_Load_Char(service->face, c, FT_LOAD_RENDER);
-        if ( err != 0 ) {
+        if ( err == 1 ) {
             continue;
         }
 
@@ -129,13 +129,16 @@ void Font::reset_glyphs()
         g.size.y = glyph->bitmap.rows;
         g.bearing.x = glyph->bitmap_left;
         g.bearing.y = glyph->bitmap_top;
-        g.advance.x = glyph->advance.x >> 6;
-        g.advance.y = glyph->advance.y >> 6;
+        g.advance.x = static_cast<int32_t>(glyph->advance.x >> 6);
+        g.advance.y = static_cast<int32_t>(glyph->advance.y >> 6);
         g.data = glyph->bitmap.buffer;
 
         ++c;
         offset += g.size.x;
+        height_ = std::max(height_, glyph->bitmap.rows);
     }
+
+    width_ = offset;
 }
 
 
