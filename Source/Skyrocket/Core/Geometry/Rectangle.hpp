@@ -148,8 +148,8 @@ struct Rectangle {
 };
 
 
-using IntRect = Rectangle<int>;
-using UIntRect = Rectangle<unsigned long>;
+using IntRect = Rectangle<int32_t>;
+using UIntRect = Rectangle<uint32_t>;
 using FloatRect = Rectangle<float>;
 using DoubleRect = Rectangle<double>;
 

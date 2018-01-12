@@ -9,8 +9,9 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include <Skyrocket/Graphics/Color.hpp>
 #include "Skyrocket/Framework/Application.hpp"
+
+#include <Jobrocket/Jobrocket.hpp>
 
 namespace sky {
 
@@ -39,6 +40,15 @@ void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
 
         SKY_ASSERT(graphics_init_success, "GraphicsDriver initialized successfully");
 
+        if ( graphics_threading == GraphicsDriver::ThreadSupport::multithreaded ) {
+            jobrocket::startup(jobrocket::Scheduler::auto_thread_count,
+                               jobrocket::Scheduler::auto_thread_count + 1);
+            SKY_ASSERT(jobrocket::current_scheduler()->num_workers() > 0,
+                       "Job scheduler initialized with correct number of workers")
+            SKY_ASSERT(jobrocket::current_scheduler()->num_main_threads() == 2,
+                       "Job scheduler initialized with simulation and render threads")
+        }
+
         on_startup(0, nullptr);
 
         active_ = true;
@@ -55,7 +65,7 @@ void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
 
         frame_time = sky::Timespan(high_resolution_time() - frame_start);
 
-        printf("Frame time: %f\n", frame_time.total_milliseconds());
+//        printf("Frame time: %f\n", frame_time.total_milliseconds());
 
         if ( frame_time.total_milliseconds() < target_frametime_ ) {
             auto diff = target_frametime_ - frame_time.total_milliseconds();

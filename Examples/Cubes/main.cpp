@@ -23,6 +23,7 @@
 
 #include <iostream>
 #include <random>
+#include <Skyrocket/Framework/Camera.hpp>
 
 
 struct Cube {
@@ -62,10 +63,7 @@ public:
           rand_gen(rd()),
           neg_dist(-1.0f, 1.0f),
           dist(0.04f, 0.07f),
-          big_dist(-300.0f, 300.0f),
-          cam_pos_(5000.0f, 5000.0f, 2000.0f),
-          cam_front_(0.0f, 0.0f, -1.0f),
-          cam_up_(0.0f, 1.0f, 0.0f)
+          big_dist(-300.0f, 300.0f)
     {
         root_path_ = sky::Path::executable_path().relative_path("../../../../Examples/Cubes");
         if ( sky::target_platform == sky::OS::macos ) {
@@ -144,15 +142,16 @@ public:
         };
         vbuf_id_ = graphics_driver.create_vertex_buffer(vbuf_mem, sky::BufferUsage::staticbuf);
 
-        sky::Matrix4f identity, view_mat;
+        sky::Matrix4f identity;
         auto fovy = static_cast<float>(sky::math::to_radians(90.0f));
 
         auto aspect = primary_view.size().x / primary_view.size().y;
-        projection_mat_ = identity.perspective(fovy, aspect, 0.1f, 5000.0f);
+
+        cam_.set_position(sky::Vector3f(5000.0f, 5000.0f, 2000.0f));
+        cam_.setup(90.0f, aspect, 0.1f, 5000.5f);
 
         model_ubuf_ = graphics_driver.create_uniform(sky::UniformType::mat4, num_cubes_);
-        view_ubuf_ = graphics_driver.create_uniform(sky::UniformType::mat4, num_cubes_);
-        projection_ubuf_ = graphics_driver.create_uniform(sky::UniformType::mat4, num_cubes_);
+        view_proj_ubuf_ = graphics_driver.create_uniform(sky::UniformType::mat4, num_cubes_);
 
         // Main loop
         sky::Timespan dt;
@@ -175,33 +174,32 @@ public:
         graphics_driver.set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(vertices_.size()));
 
         graphics_driver.set_uniform(model_ubuf_, 1);
-        graphics_driver.set_uniform(view_ubuf_, 2);
-        graphics_driver.set_uniform(projection_ubuf_, 3);
+        graphics_driver.set_uniform(view_proj_ubuf_, 2);
         graphics_driver.set_texture(texture_, 0);
 
         if ( keyboard_.key_down(sky::Key::escape) || primary_view.close_requested() ) {
             primary_view.close();
         }
 
+        sky::Vector3f cam_movement;
         if ( keyboard_.key_down(sky::Key::up) ) {
-            cam_pos_ += (cam_front_ * cam_speed_);
+            cam_movement.z -= 1.0f;
         }
         if ( keyboard_.key_down(sky::Key::down) ) {
-            cam_pos_ -= (cam_front_ * cam_speed_);
+            cam_movement.z += 1.0f;
         }
         if ( keyboard_.key_down(sky::Key::left) ) {
-            cam_pos_ -= (cam_front_.cross(cam_up_) * cam_speed_);
+            cam_movement.x -= 1.0f;
         }
         if ( keyboard_.key_down(sky::Key::right) ) {
-            cam_pos_ += (cam_front_.cross(cam_up_) * cam_speed_);
-        }
-        if ( keyboard_.key_down(sky::Key::Q) ) {
+            cam_movement.x += 1.0f;
         }
 
-        view_mat_ = identity_.look_at(cam_pos_, cam_pos_ + cam_front_, cam_up_);
+        cam_.move(cam_movement * cam_speed_);
 
-        graphics_driver.update_uniform(view_ubuf_, sky::MemoryBlock{ sizeof(sky::Matrix4f), &view_mat_});
-        graphics_driver.update_uniform(projection_ubuf_, sky::MemoryBlock{ sizeof(sky::Matrix4f), &projection_mat_});
+        auto cam_mat = cam_.get_matrix();
+
+        graphics_driver.update_uniform(view_proj_ubuf_, sky::alloc(sizeof(sky::Matrix4f), &cam_mat));
 
         uint32_t cube_index = 0;
         
@@ -229,8 +227,6 @@ public:
 
 private:
     static constexpr uint32_t num_cubes_ = 10000;
-
-    sky::Viewport view_;
     sky::Keyboard keyboard_;
 
     sky::Path root_path_;
@@ -241,11 +237,10 @@ private:
     std::uniform_real_distribution<float> dist;
     std::uniform_real_distribution<float> big_dist;
 
-    sky::Vector3f cam_pos_, cam_front_, cam_up_;
-    sky::Matrix4f identity_, view_mat_, projection_mat_;
+    sky::Camera cam_;
     float cam_speed_{10.0f};
 
-    uint32_t program_{}, vbuf_id_{}, model_ubuf_{}, projection_ubuf_{}, view_ubuf_{}, texture_{};
+    uint32_t program_{}, vbuf_id_{}, model_ubuf_{}, view_proj_ubuf_{}, texture_{};
     std::vector<sky::Vertex> vertices_;
     std::array<Cube, num_cubes_> cubes;
 };

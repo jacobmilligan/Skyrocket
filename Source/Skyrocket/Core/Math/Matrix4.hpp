@@ -277,15 +277,12 @@ struct Matrix4 {
         auto y_scale = static_cast<T>(1) / tan(fov_y * 0.5);
 
 #if SKY_GRAPHICS_API_METAL == 1
-        auto x_scale = y_scale / aspect;
-        auto q = -(z_far + z_near) / (z_far - z_near);
-
-        result.entries[0] = x_scale;
+        result.entries[0] = y_scale / aspect;
         result.entries[5] = y_scale;
 
-        result.entries[10] = q;
+        result.entries[10] = -(z_far + z_near) / (z_far - z_near);
         result.entries[11] = static_cast<T>(-1);
-        result.entries[14] = static_cast<T>(-2) * z_far * z_near / (z_far - z_near);
+        result.entries[14] = -(static_cast<T>(2) * z_far * z_near) / (z_far - z_near);
 #endif
 
         return result;

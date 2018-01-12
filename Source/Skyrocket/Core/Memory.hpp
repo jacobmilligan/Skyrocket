@@ -23,5 +23,7 @@ struct MemoryBlock {
     void* data{nullptr};
 };
 
+MemoryBlock alloc(uint32_t size, void* data);
+
 
 } // namespace sky

@@ -12,6 +12,7 @@
 #pragma once
 
 #include "Skyrocket/Core/Math/Vector2.hpp"
+#include "Skyrocket/Core/Geometry/Rectangle.hpp"
 #include "Skyrocket/Platform/Filesystem.hpp"
 
 namespace sky {
@@ -20,11 +21,12 @@ namespace sky {
 struct FontService;
 
 struct Glyph {
-    float offset;
-    Vector2i size;
-    Vector2i bearing;
+    UIntRect bounds;
+    uint8_t* data{};
+    char character{};
+    float s, t, s2, t2;
+    Vector2<int32_t> bearing;
     Vector2<int32_t> advance;
-    uint8_t* data;
 };
 
 struct Font {
@@ -48,6 +50,16 @@ struct Font {
         return height_;
     }
 
+    inline uint32_t glyph_count()
+    {
+        return static_cast<uint32_t>(glyphs_.size());
+    }
+
+    inline uint32_t size()
+    {
+        return size_;
+    }
+
     Glyph* begin()
     {
         return &glyphs_[0];
@@ -63,6 +75,7 @@ private:
 
     uint32_t width_{0};
     uint32_t height_{0};
+    uint32_t size_{0};
 
     void init_library();
     void reset_glyphs();

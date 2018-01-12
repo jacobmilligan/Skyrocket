@@ -9,11 +9,12 @@ struct Vertex {
 };
 
 
-fragment float4 basic_fragment(Vertex in [[stage_in]],
-                               texture2d<float> texture [[texture(0)]])
+fragment half4 basic_fragment(Vertex in [[stage_in]],
+                               texture2d<half> texture [[texture(0)]])
 {
-    constexpr sampler s(mag_filter::linear, min_filter::linear);
-    const float4 tex_sample = texture.sample(s, in.tex_coords);
+    constexpr sampler s(filter::linear);
+    const half tex_sample = texture.sample(s, in.tex_coords).r;
     
-    return tex_sample;
+//    return tex_sample;
+    return half4(in.color.r, in.color.g, in.color.b, tex_sample);
 }

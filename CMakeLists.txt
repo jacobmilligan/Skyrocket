@@ -39,3 +39,8 @@ add_library(${PROJECT_NAME} STATIC
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 
 target_link_libraries(${PROJECT_NAME} ${skyrocket_libraries})
+
+# Dependencies
+add_subdirectory(Deps/Jobrocket)
+target_link_libraries(${PROJECT_NAME} Jobrocket)
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Deps/Jobrocket/Source)

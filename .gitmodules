@@ -1,0 +1,3 @@
+[submodule "Deps/Jobrocket"]
+	path = Deps/Jobrocket
+	url = https://github.com/jacobmilligan/Jobrocket.git

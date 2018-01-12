@@ -10,7 +10,7 @@
 //
 
 #include "Skyrocket/Core/Diagnostics/Error.hpp"
-#include "Font.hpp"
+#include "Skyrocket/Resource/Font.hpp"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -79,7 +79,7 @@ void Font::load_from_file(const Path& path, const float pixel_size)
     }
 
     glyphs_.resize(static_cast<uint64_t>(service->face->num_glyphs));
-    set_pixel_size(12);
+    set_pixel_size(48);
 }
 
 void Font::load_from_memory(uint8_t* memory, const float pixel_size)
@@ -89,10 +89,9 @@ void Font::load_from_memory(uint8_t* memory, const float pixel_size)
 
 Glyph Font::get_glyph(const char character)
 {
-    auto index = static_cast<uint32_t>(character - 32);
-    SKY_ASSERT(index > glyphs_.size(),
-               "Font face doesn't contain a definition for '%c'",
-               character);
+    auto index = static_cast<uint32_t>(character);
+    SKY_ASSERT(index < glyphs_.size(),
+               "Font face doesn't contain a definition for '%c'", character);
     return glyphs_[index];
 }
 
@@ -100,45 +99,97 @@ void Font::set_pixel_size(const uint32_t size)
 {
     SKY_ASSERT(service->face != nullptr, "Font face has been loaded before assigning pixel size");
 
-    auto err = FT_Set_Pixel_Sizes(service->face, size, size);
+    auto err = FT_Set_Pixel_Sizes(service->face, 0, size);
 
     if ( err == 1) {
         SKY_ERROR("Font", "Unable to set font pixel size");
         return;
     }
 
+    size_ = size;
+
     reset_glyphs();
 }
 
 void Font::reset_glyphs()
 {
-    uint32_t offset = 0;
-    uint32_t c = 32;
+    width_ = 0;
+    uint32_t c = 0;
+    size_t bitmap_size = 0;
     FT_Error err;
-    auto glyph = service->face->glyph;
+    auto face = service->face;
 
     height_ = 0;
+    uint32_t row = 0;
+    uint32_t col = 0;
+    uint32_t cur_row_height = 0;
     for ( auto& g : glyphs_ ) {
-        err = FT_Load_Char(service->face, c, FT_LOAD_RENDER);
+        auto index = FT_Get_Char_Index(face, c);
+
+        err = FT_Load_Glyph(face, index, FT_LOAD_RENDER);
         if ( err == 1 ) {
+            SKY_ERROR("Font", "Unable to load glyph for character %c: %s",
+                      static_cast<char>(c), FT_errors[err].msg)
             continue;
         }
 
-        g.offset = offset;
-        g.size.x = glyph->bitmap.width;
-        g.size.y = glyph->bitmap.rows;
-        g.bearing.x = glyph->bitmap_left;
-        g.bearing.y = glyph->bitmap_top;
-        g.advance.x = static_cast<int32_t>(glyph->advance.x >> 6);
-        g.advance.y = static_cast<int32_t>(glyph->advance.y >> 6);
-        g.data = glyph->bitmap.buffer;
+        err = FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL);
+        if ( err == 1 ) {
+            SKY_ERROR("Font", "Unable to render glyph for character %c: %s",
+                      static_cast<char>(c), FT_errors[err].msg)
+            continue;
+        }
+
+        bitmap_size = face->glyph->bitmap.width * face->glyph->bitmap.rows;
 
         ++c;
-        offset += g.size.x;
-        height_ = std::max(height_, glyph->bitmap.rows);
+
+        if ( index == 0 ) {
+            g.bounds.width = 0;
+            g.bounds.height = 0;
+            g.data = nullptr;
+            g.character = '\0';
+            continue;
+        }
+
+        g.data = static_cast<uint8_t*>(malloc(bitmap_size));
+        memcpy(g.data, face->glyph->bitmap.buffer, bitmap_size);
+
+        g.character = static_cast<char>(c);
+
+        g.bounds.width = face->glyph->bitmap.width;
+        g.bounds.height = face->glyph->bitmap.rows;
+
+        g.bearing.x = face->glyph->bitmap_left;
+        g.bearing.y = face->glyph->bitmap_top;
+        g.advance.x = static_cast<int32_t>(face->glyph->advance.x >> 6);
+        g.advance.y = static_cast<int32_t>(face->glyph->advance.y >> 6);
+
+        g.bounds.position.x = col;
+        g.bounds.position.y = row;
+
+        col += g.bounds.width + 1;
+
+        if ( col > width_ ) {
+            width_ = col;
+        }
+
+        if ( col >= 4096 ) {
+            col = 0;
+            row += cur_row_height;
+            cur_row_height = 0;
+        }
+
+        cur_row_height = std::max(cur_row_height, g.bounds.height);
+        height_ = std::max(height_, g.bounds.position.y + g.bounds.height);
     }
 
-    width_ = offset;
+    for ( auto& g : glyphs_ ) {
+        g.s = static_cast<float>(g.bounds.position.x) / static_cast<float>(width_);
+        g.t = static_cast<float>(g.bounds.position.y) / static_cast<float>(height_);
+        g.s2 = static_cast<float>(g.bounds.position.x + g.bounds.width) / static_cast<float>(width_);
+        g.t2 = static_cast<float>(g.bounds.position.y + g.bounds.height) / static_cast<float>(height_);
+    }
 }
 
 

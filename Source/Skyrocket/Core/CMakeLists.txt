@@ -4,7 +4,8 @@ set(lib_name SkyrocketCore)
 
 skyrocket_add_sources(Diagnostics/Error.cpp
         Diagnostics/Timespan.cpp
-        Hash.cpp)
+        Hash.cpp
+        Memory.cpp)
 
 skyrocket_add_library(${lib_name} STATIC)
 target_link_libraries(${lib_name} SkyrocketPlatform)
