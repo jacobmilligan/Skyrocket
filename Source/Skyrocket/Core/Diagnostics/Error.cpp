@@ -11,7 +11,7 @@
 #include "Skyrocket/Core/Diagnostics/Error.hpp"
 
 namespace sky {
-namespace impl {
+namespace detail {
 
 struct AssertMessage {
     const char* action;
@@ -56,20 +56,20 @@ void __sky_print_error(const char* func, const char* file, const int line,
 }
 
 
-} // namespace impl
+} // namespace detail
 
 
 #if SKY_DEBUG
 
 AssertGuard::AssertGuard(const char* action, const char* data)
 {
-    impl::assert_guards.push_back({action, data});
+    detail::assert_guards.push_back({action, data});
 }
 
 AssertGuard::~AssertGuard()
 {
-    if ( !impl::assert_guards.empty() ) {
-        impl::assert_guards.pop_back();
+    if ( !detail::assert_guards.empty() ) {
+        detail::assert_guards.pop_back();
     }
 }
 

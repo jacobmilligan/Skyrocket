@@ -42,8 +42,7 @@ void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
         SKY_ASSERT(graphics_init_success, "GraphicsDriver initialized successfully");
 
         if ( graphics_threading == GraphicsDriver::ThreadSupport::multithreaded ) {
-            jobrocket::startup(jobrocket::Scheduler::auto_thread_count,
-                               jobrocket::Scheduler::auto_thread_count + 1);
+            jobrocket::startup(jobrocket::Scheduler::auto_thread_count, 1);
             SKY_ASSERT(jobrocket::current_scheduler()->num_workers() > 0,
                        "Job scheduler initialized with correct number of workers")
             SKY_ASSERT(jobrocket::current_scheduler()->num_main_threads() == 2,

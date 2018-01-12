@@ -19,8 +19,7 @@
 #include <cstdarg>
 
 namespace sky {
-
-namespace impl {
+namespace detail {
 
 
 /// @brief Prints a Skyrocket-formatted error message to the console
@@ -40,7 +39,7 @@ void __sky_print_error(const char* func, const char* file, const int line,
 void __sky_assert_handler(const char* function, const char* file, const int line,
                           const char* expr, const char* msgformat, ...);
 
-}  // namespace impl
+}  // namespace detail
 
 
 #if SKY_DEBUG
@@ -52,7 +51,7 @@ void __sky_assert_handler(const char* function, const char* file, const int line
 #define SKY_ASSERT(expr, msgformat, ...)\
     {\
         if(!(expr)) {\
-            sky::impl::__sky_assert_handler(SKY_FUNCTION_NAME, __FILE__, __LINE__, \
+            sky::detail::__sky_assert_handler(SKY_FUNCTION_NAME, __FILE__, __LINE__, \
                                         #expr, msgformat, ##__VA_ARGS__);\
             SKY_DEBUG_BREAK();\
         }\
@@ -63,7 +62,7 @@ void __sky_assert_handler(const char* function, const char* file, const int line
 
 /// @brief Prints an error message with the line and file it occurred on
 /// @param msg Error message to print
-#define SKY_ERROR(type, msg, ...) sky::impl::__sky_print_error(SKY_FUNCTION_NAME, \
+#define SKY_ERROR(type, msg, ...) sky::detail::__sky_print_error(SKY_FUNCTION_NAME, \
                                                     __FILE__, __LINE__, type, msg, ##__VA_ARGS__);
 
 /// @brief Creates a scoped context for a set of assertions. AssertGuards are stored in a
