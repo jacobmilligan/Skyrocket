@@ -11,7 +11,6 @@
 #include "Skyrocket/Core/Diagnostics/Error.hpp"
 
 namespace sky {
-
 namespace impl {
 
 struct AssertMessage {
@@ -19,17 +18,16 @@ struct AssertMessage {
     const char* data;
 };
 
-std::vector<AssertMessage> assert_guards;
+thread_local std::vector<AssertMessage> assert_guards;
 
 void __sky_assert_handler(const char* function, const char* file, const int line,
                           const char* expr, const char* msgformat, ...)
 {
     fprintf(stderr, "--- Skyrocket ---\n");
 
-    while ( !assert_guards.empty() ) {
-        fprintf(stderr, "When %s: %s\n", assert_guards.back().action,
-                assert_guards.back().data);
-        assert_guards.pop_back();
+    // print all asserts from oldest to newest
+    for ( auto& msg : assert_guards ) {
+        fprintf(stderr, "When %s: %s\n", msg.action, msg.data);
     }
 
     va_list args;
@@ -38,6 +36,8 @@ void __sky_assert_handler(const char* function, const char* file, const int line
     vfprintf(stderr, msgformat, args);
     fprintf(stderr, "\n\tAt File:%s:%d in Function: %s\n", file, line, function);
     va_end(args);
+
+    assert_guards.clear();
 }
 
 void __sky_print_error(const char* func, const char* file, const int line,
@@ -56,7 +56,7 @@ void __sky_print_error(const char* func, const char* file, const int line,
 }
 
 
-}
+} // namespace impl
 
 
 #if SKY_DEBUG
@@ -68,7 +68,7 @@ AssertGuard::AssertGuard(const char* action, const char* data)
 
 AssertGuard::~AssertGuard()
 {
-    if ( impl::assert_guards.size() > 0 ) {
+    if ( !impl::assert_guards.empty() ) {
         impl::assert_guards.pop_back();
     }
 }
@@ -82,4 +82,4 @@ AssertGuard::~AssertGuard() {}
 #endif
 
 
-}
+} // namespace sky
