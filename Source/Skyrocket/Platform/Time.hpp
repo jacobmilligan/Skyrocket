@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "Skyrocket/Platform/Config.hpp"
+#include "Skyrocket/Core/Config.hpp"
 
 #include <cstdint>
 

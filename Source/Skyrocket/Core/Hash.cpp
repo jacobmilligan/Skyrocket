@@ -10,7 +10,7 @@
 //
 
 #include "Skyrocket/Core/Hash.hpp"
-#include "Skyrocket/Platform/Config.hpp"
+#include "Config.hpp"
 
 #if SKY_COMPILER_MSVC == 1
 

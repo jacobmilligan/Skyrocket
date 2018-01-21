@@ -9,7 +9,7 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Skyrocket/Platform/Config.hpp"
+#include "Skyrocket/Core/Config.hpp"
 #include "Skyrocket/Graphics/Color.hpp"
 #include "Skyrocket/Graphics/GDI/GDI.hpp"
 #include "MacViewport.h"

@@ -15,7 +15,7 @@
 #include "Skyrocket/Platform/Time.hpp"
 
 #include "PlatformEvents.hpp"
-#include "Skyrocket/Platform/Config.hpp"
+#include "Skyrocket/Core/Config.hpp"
 #include "Skyrocket/Input/Keycodes.hpp"
 
 #include <cstdint>
