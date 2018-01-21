@@ -12,7 +12,7 @@
 #include "Skyrocket/Core/Config.hpp"
 #include "Skyrocket/Graphics/Color.hpp"
 #include "Skyrocket/Graphics/GDI/GDI.hpp"
-#include "MacViewport.h"
+#include "Skyrocket/Graphics/Apple/MacViewport.h"
 
 #if SKY_GRAPHICS_API_METAL
 
@@ -23,8 +23,7 @@
 namespace sky {
 
 
-Viewport::Viewport()
-{}
+Viewport::Viewport() = default;
 
 Viewport::~Viewport()
 {
@@ -35,8 +34,7 @@ void Viewport::create_native_viewport()
 {
     handle_ = std::make_unique<NativeViewport>();
 
-    CocoaWindow * window = (CocoaWindow * )
-    Platform::create_native_window(caption_, width_, height_);
+    auto* window = (CocoaWindow * )Platform::create_native_window(caption_, width_, height_);
     NSRect frame = [window frame];
     CocoaView * view = [[[CocoaView alloc] initWithFrame:frame] autorelease];
 

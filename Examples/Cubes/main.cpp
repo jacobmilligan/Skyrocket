@@ -148,7 +148,7 @@ public:
         auto aspect = primary_view.size().x / primary_view.size().y;
 
         cam_.set_position(sky::Vector3f(5000.0f, 5000.0f, 2000.0f));
-        cam_.setup(90.0f, aspect, 0.1f, 5000.5f);
+        cam_.setup(90.0f, aspect, 0.1f, 20000.0f);
 
         model_ubuf_ = graphics_driver.create_uniform(sky::UniformType::mat4, num_cubes_);
         view_proj_ubuf_ = graphics_driver.create_uniform(sky::UniformType::mat4, num_cubes_);
