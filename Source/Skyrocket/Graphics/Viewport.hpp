@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "Skyrocket/Core/Memory.hpp"
+#include "Skyrocket/Core/Memory/Memory.hpp"
 #include "Skyrocket/Platform/Platform.hpp"
 #include "Skyrocket/Core/Math/Vector2.hpp"
 

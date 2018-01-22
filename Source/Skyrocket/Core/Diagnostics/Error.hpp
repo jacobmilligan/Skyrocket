@@ -27,7 +27,7 @@ namespace detail {
 /// @param msgformat The format string for the message
 /// @param ... Format parameters
 void __sky_print_error(const char* func, const char* file, const int line,
-                       const char* type, const char* msgformat, ...);
+                       const char* type, const char* msgformat, ...) SKY_PRINTFLIKE(5, 6);
 
 /// @brief Handles the assertion macro. Prints the format assertion string to stderr
 /// @param function The function the assertion occurred in
@@ -37,7 +37,7 @@ void __sky_print_error(const char* func, const char* file, const int line,
 /// @param msgformat The message format string
 /// @param ... Format arguments
 void __sky_assert_handler(const char* function, const char* file, const int line,
-                          const char* expr, const char* msgformat, ...);
+                          const char* expr, const char* msgformat, ...) SKY_PRINTFLIKE(5, 6);
 
 }  // namespace detail
 
@@ -63,7 +63,7 @@ void __sky_assert_handler(const char* function, const char* file, const int line
 /// @brief Prints an error message with the line and file it occurred on
 /// @param msg Error message to print
 #define SKY_ERROR(type, msg, ...) sky::detail::__sky_print_error(SKY_FUNCTION_NAME, \
-                                                    __FILE__, __LINE__, type, msg, ##__VA_ARGS__);
+        __FILE__, __LINE__, type, msg, ##__VA_ARGS__);
 
 /// @brief Creates a scoped context for a set of assertions. AssertGuards are stored in a
 /// stack which gets unwound if any assert occurs. This allows for nesting assertion scopes

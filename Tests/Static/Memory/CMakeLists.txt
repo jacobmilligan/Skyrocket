@@ -1,0 +1,3 @@
+skyrocket_add_test(AllocatorTests Allocator.cpp)
+
+skyrocket_add_test(MemoryTests Align.cpp)

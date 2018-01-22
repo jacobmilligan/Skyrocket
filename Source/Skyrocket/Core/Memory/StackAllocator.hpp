@@ -1,0 +1,95 @@
+//
+//  StackAllocator.hpp
+//  Skyrocket
+//
+//  --------------------------------------------------------------
+//
+//  Created by
+//  Jacob Milligan on 21/01/2018
+//  Copyright (c) 2016 Jacob Milligan. All rights reserved.
+//
+
+#pragma once
+
+#include "Skyrocket/Core/Diagnostics/Error.hpp"
+#include "Skyrocket/Core/Memory/Memory.hpp"
+#include "Skyrocket/Core/Memory/Allocator.hpp"
+
+namespace sky {
+
+
+class FixedStackAllocator : public Allocator {
+public:
+    explicit FixedStackAllocator(const size_t capacity)
+        : cursor_(0), capacity_(capacity), buffer_(nullptr)
+    {}
+
+    void initialize()
+    {
+        buffer_ = new uint8_t[capacity_];
+    }
+
+    ~FixedStackAllocator()
+    {
+        delete [] buffer_;
+    }
+
+    void* allocate(const size_t byte_size, const size_t alignment) override
+    {
+        if (cursor_ + byte_size >= capacity_) {
+            SKY_ERROR("FixedStackAllocator",
+                      "Unable to allocate more memory than the allocator has available");
+            return nullptr;
+        }
+
+        if (!is_power_of_two(alignment)) {
+            SKY_ERROR("FixedStackAllocator", "Alignment must be a power of two");
+            return nullptr;
+        }
+
+        auto ptr = align(&buffer_[cursor_], alignment);
+        cursor_ = static_cast<uint8_t*>(ptr) - buffer_;
+        return ptr;
+    }
+
+    void free(void* ptr) override
+    {
+        // No op for stack allocator
+    }
+
+    void free_to_cursor(const size_t cursor)
+    {
+        if (cursor >= cursor_) {
+            SKY_ERROR("FixedStackAllocator",
+                      "Cannot free to cursor (%zu) larger than the allocators current "
+                          "size (%zu) or capacity (%zu)",
+                      cursor, cursor_, capacity_);
+            return;
+        }
+
+        cursor_ = cursor;
+    }
+
+    void reset() override
+    {
+        free_to_cursor(0);
+    }
+
+    bool is_valid(void* ptr) const override
+    {
+        return ptr >= buffer_ && ptr <= buffer_ + capacity_;
+    }
+
+    inline size_t get_cursor() const
+    {
+        return cursor_;
+    }
+
+private:
+    size_t cursor_;
+    size_t capacity_;
+    uint8_t* buffer_;
+};
+
+
+}

@@ -9,7 +9,7 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Skyrocket/Core/Memory.hpp"
+#include "Memory.hpp"
 
 #include <cstdlib>
 #include <cstring>
@@ -26,6 +26,12 @@ MemoryBlock alloc(uint32_t size, void* data)
     memcpy(mb.data, data, size);
 
     return mb;
+}
+
+void* align(void* ptr, size_t alignment)
+{
+    const auto intptr = reinterpret_cast<uintptr_t>(ptr);
+    return reinterpret_cast<void*>((intptr + alignment - 1) & -alignment);
 }
 
 
