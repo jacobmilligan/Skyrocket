@@ -20,6 +20,8 @@ namespace sky {
 
 class FixedStackAllocator : public Allocator {
 public:
+    using Allocator::allocate;
+
     explicit FixedStackAllocator(const size_t capacity)
         : cursor_(0), capacity_(capacity), buffer_(nullptr)
     {}
@@ -48,7 +50,7 @@ public:
         }
 
         auto ptr = align(&buffer_[cursor_], alignment);
-        cursor_ = static_cast<uint8_t*>(ptr) - buffer_;
+        cursor_ = (static_cast<uint8_t*>(ptr) - buffer_) + byte_size;
         return ptr;
     }
 
@@ -68,6 +70,7 @@ public:
         }
 
         cursor_ = cursor;
+        memset(buffer_ + cursor_, 0, capacity_ - cursor_);
     }
 
     void reset() override
@@ -80,7 +83,7 @@ public:
         return ptr >= buffer_ && ptr <= buffer_ + capacity_;
     }
 
-    inline size_t get_cursor() const
+    inline size_t cursor() const
     {
         return cursor_;
     }

@@ -13,10 +13,73 @@
 
 #include "catch.hpp"
 
-TEST_CASE("FixedStackAllocator aligns memory correctly", "[fixed_stack_allocator]")
+TEST_CASE("Allocated memory is aligned correctly", "[FixedStackAllocator]")
 {
-    sky::FixedStackAllocator allocator(1024);
+    constexpr size_t alignment = 4;
+    sky::FixedStackAllocator allocator(sky::mebibytes(2));
     allocator.initialize();
-    auto mem = allocator.allocate(sizeof(int), 4);
-    auto mem2 = allocator.allocate(sizeof(int), 4);
+
+    auto mem = allocator.allocate(sizeof(int), alignment);
+    REQUIRE(sky::is_aligned(mem, alignment));
+
+    mem = allocator.allocate(sizeof(int), alignment);
+    REQUIRE(sky::is_aligned(mem, alignment));
+}
+
+TEST_CASE("Allocated memory can only be aligned to powers of 2", "[FixedStackAllocator]")
+{
+    sky::FixedStackAllocator allocator(sky::mebibytes(2));
+    allocator.initialize();
+
+    auto mem = allocator.allocate(sizeof(int), 5);
+    REQUIRE(mem == nullptr);
+
+    mem = allocator.allocate(sizeof(int), 21);
+    REQUIRE(mem == nullptr);
+}
+
+TEST_CASE("Allocation is sequential", "[FixedStackAllocator]")
+{
+    constexpr size_t num_ptrs = 12;
+    constexpr size_t alignment = 8;
+    constexpr size_t increment = alignment / sizeof(int);
+
+    sky::FixedStackAllocator allocator(sky::mebibytes(2));
+    allocator.initialize();
+
+    int* mem[num_ptrs];
+    for (auto& i : mem) {
+        i = nullptr;
+        i = static_cast<int*>(allocator.allocate(sizeof(int), alignment));
+    }
+
+    for (int i = 1; i < num_ptrs; ++i) {
+        INFO("Index: " << i);
+        REQUIRE(mem[i] == mem[i - 1] + increment);
+    }
+}
+
+TEST_CASE("Freeing to cursor resets memory correctly", "[FixedStackAllocator]")
+{
+    sky::FixedStackAllocator allocator(sky::mebibytes(2));
+    allocator.initialize();
+
+    // Test if memory resets to zero on reset()
+    auto mem1 = static_cast<int*>(allocator.allocate(sizeof(int)));
+    *mem1 = 25;
+    allocator.reset();
+    mem1 = static_cast<int*>(allocator.allocate(sizeof(int)));
+    REQUIRE(*mem1 == 0);
+
+    // Test if memory resets to zero with char
+    auto cursor = allocator.cursor();
+    auto mem2 = static_cast<char*>(allocator.allocate(sizeof(char)));
+    REQUIRE(*mem2 == '\0');
+
+    // Test if memory resets to zero for all memory after cursor but not before
+    *mem1 = 25;
+    allocator.free_to_cursor(cursor);
+    REQUIRE(*mem1 == 25);
+    mem2 = static_cast<char*>(allocator.allocate(sizeof(char)));
+    REQUIRE(*mem2 == '\0');
 }
