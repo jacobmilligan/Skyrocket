@@ -57,6 +57,8 @@ public:
     void free(void* ptr) override
     {
         // No op for stack allocator
+        SKY_ERROR("FixedStackAllocator", "Stack allocators disallow freeing memory ad-hoc. "
+            "All frees must be stack-based and done via `free_to_cursor`");
     }
 
     void free_to_cursor(const size_t cursor)
