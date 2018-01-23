@@ -24,17 +24,17 @@ struct MemoryBlock {
     void* data{nullptr};
 };
 
-constexpr uint64_t kibibytes(const uint64_t amount)
+constexpr uint64_t kibibytes(const uint64_t amount) noexcept
 {
     return 1024 * amount;
 }
 
-constexpr uint64_t mebibytes(const uint64_t amount)
+constexpr uint64_t mebibytes(const uint64_t amount) noexcept
 {
     return (1024 * 1024) * amount;
 }
 
-constexpr uint64_t gibibytes(const uint64_t amount)
+constexpr uint64_t gibibytes(const uint64_t amount) noexcept
 {
     return (1024 * 1024 * 1024) * amount;
 }
@@ -44,7 +44,7 @@ inline bool is_aligned(const void* ptr, const size_t alignment) noexcept
     return (reinterpret_cast<uintptr_t>(ptr) % alignment) == 0;
 }
 
-inline bool is_power_of_two(size_t num)
+inline bool is_power_of_two(size_t num) noexcept
 {
     return (num && (num & (num - 1)) == 0) || num == 1;
 }

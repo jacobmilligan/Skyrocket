@@ -17,6 +17,9 @@
 namespace sky {
 
 
+#define SKY_MAX_PATH 256
+
+
 /// @brief The path class is a lightweight path utility class for navigating the platforms
 /// filesystem
 class Path {

@@ -13,7 +13,7 @@
 
 #include "Skyrocket/Core/Containers/Buffer.hpp"
 #include "Skyrocket/Core/Memory/Memory.hpp"
-#include "Skyrocket/Graphics/GDI/Commands.hpp"
+#include "Skyrocket/Graphics/GDI/CommandData.hpp"
 #include "Skyrocket/Graphics/GDI/Definitions.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
 
