@@ -35,53 +35,59 @@ public:
 
 //        font_.load_from_file(root_path_.relative_path("Go-Regular.ttf"), 23);
         font_.load_from_file(root_path_.relative_path("Arial.ttf"), 23);
-        tex_ = graphics_driver.create_texture(font_.width(), font_.height(),
-                                              sky::PixelFormat::Enum::r8);
 
-        auto padding = 0;
-        auto row = 0;
-        for ( auto& g : font_ ) {
-            if ( g.bounds.width <= 0 || g.bounds.height <= 0 || g.data == nullptr ) {
-                continue;
+        auto cmdbuf = graphics_driver.make_command_buffer();
+        cmdbuf->begin();
+        {
+            tex_ = cmdbuf->create_texture(font_.width(), font_.height(),
+                                                  sky::PixelFormat::Enum::r8);
+
+            auto padding = 0;
+            auto row = 0;
+            for ( auto& g : font_ ) {
+                if ( g.bounds.width <= 0 || g.bounds.height <= 0 || g.data == nullptr ) {
+                    continue;
+                }
+                cmdbuf->create_texture_region(tex_, g.bounds, sky::PixelFormat::Enum::r8, g.data);
             }
-            graphics_driver.create_texture_region(tex_, g.bounds, sky::PixelFormat::Enum::r8, g.data);
+
+            std::string str = "Hello World!";
+            auto x = 0.0f;
+            auto y = 0.0f;
+
+            sky::Glyph glyph;
+            for ( auto& c : str ) {
+                glyph = font_.get_glyph(c);
+                auto& bounds = glyph.bounds;
+
+                auto ypos = y - (glyph.bounds.height - glyph.bearing.y);
+                auto xpos = x;
+
+                vertices_.emplace_back(xpos, ypos + bounds.height, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s, glyph.t);
+                vertices_.emplace_back(xpos, ypos, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s, glyph.t2);
+                vertices_.emplace_back(xpos + bounds.width, ypos, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s2, glyph.t2);
+
+                vertices_.emplace_back(xpos, ypos + bounds.height, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s, glyph.t);
+                vertices_.emplace_back(xpos + bounds.width, ypos, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s2, glyph.t2);
+                vertices_.emplace_back(xpos + bounds.width, ypos + bounds.height, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s2, glyph.t);
+
+                x += glyph.advance.x;
+            }
+
+            cam_.set_position(sky::Vector3f(0.0f, 0.0f, font_.size()));
+
+            auto mb = sky::alloc(sizeof(sky::Vertex) * vertices_.size(), vertices_.data());
+            vbuf_ = cmdbuf->create_vertex_buffer(mb, sky::BufferUsage::staticbuf);
+            viewproj_ = cmdbuf->create_uniform(sky::UniformType::mat4, sizeof(sky::Matrix4f));
+            cmdbuf->set_vertex_buffer(vbuf_, 0, static_cast<uint32_t>(vertices_.size()));
+
+            auto vert_path = root_path_.relative_path("basic_vertex.metal");
+            auto frag_path = root_path_.relative_path("basic_fragment.metal");
+            program_ = cmdbuf->create_program(vert_path, frag_path);
+            cmdbuf->set_program(program_);
         }
-
-        std::string str = "Hello World!";
-        auto x = 0.0f;
-        auto y = 0.0f;
-
-        sky::Glyph glyph;
-        for ( auto& c : str ) {
-            glyph = font_.get_glyph(c);
-            auto& bounds = glyph.bounds;
-
-            auto ypos = y - (glyph.bounds.height - glyph.bearing.y);
-            auto xpos = x;
-
-            vertices_.emplace_back(xpos, ypos + bounds.height, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s, glyph.t);
-            vertices_.emplace_back(xpos, ypos, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s, glyph.t2);
-            vertices_.emplace_back(xpos + bounds.width, ypos, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s2, glyph.t2);
-
-            vertices_.emplace_back(xpos, ypos + bounds.height, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s, glyph.t);
-            vertices_.emplace_back(xpos + bounds.width, ypos, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s2, glyph.t2);
-            vertices_.emplace_back(xpos + bounds.width, ypos + bounds.height, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s2, glyph.t);
-
-            x += glyph.advance.x;
-        }
-
-        cam_.set_position(sky::Vector3f(0.0f, 0.0f, font_.size()));
-
-        auto mb = sky::alloc(sizeof(sky::Vertex) * vertices_.size(), vertices_.data());
-        vbuf_ = graphics_driver.create_vertex_buffer(mb, sky::BufferUsage::staticbuf);
-        viewproj_ = graphics_driver.create_uniform(sky::UniformType::mat4, 1);
-        graphics_driver.set_vertex_buffer(vbuf_, 0, vertices_.size());
-
-        auto vert_path = root_path_.relative_path("basic_vertex.metal");
-        auto frag_path = root_path_.relative_path("basic_fragment.metal");
-        program_ = graphics_driver.create_program(vert_path, frag_path);
-        graphics_driver.set_program(program_);
-        graphics_driver.commit();
+        cmdbuf->end();
+        graphics_driver.submit_command_buffer(cmdbuf);
     }
 
     void on_update() override
@@ -90,35 +96,45 @@ public:
             primary_view.close();
         }
 
-        graphics_driver.set_state(sky::RenderPipelineState::culling_frontface);
-
-        graphics_driver.set_program(program_);
-        graphics_driver.set_uniform(viewproj_, 1);
-        graphics_driver.set_vertex_buffer(vbuf_, 0, vertices_.size());
-        graphics_driver.set_texture(tex_, 0);
-
-        if ( keyboard_.key_down(sky::Key::down) ) {
-            cam_.move(sky::Vector3f(0.0f, 0.0f, 1.0f));
+        auto cmdbuf = graphics_driver.make_command_buffer();
+        while (cmdbuf == nullptr) {
+            cmdbuf = graphics_driver.make_command_buffer();
         }
 
-        if ( keyboard_.key_down(sky::Key::up) ) {
-            cam_.move(sky::Vector3f(0.0f, 0.0f, -1.0f));
+        cmdbuf->begin();
+        {
+            cmdbuf->set_state(sky::RenderPipelineState::culling_frontface);
+
+            cmdbuf->set_program(program_);
+            cmdbuf->set_uniform(viewproj_, 1);
+            cmdbuf->set_vertex_buffer(vbuf_, 0, static_cast<uint32_t>(vertices_.size()));
+            cmdbuf->set_texture(tex_, 0);
+
+            if (keyboard_.key_down(sky::Key::down)) {
+                cam_.move(sky::Vector3f(0.0f, 0.0f, 1.0f));
+            }
+
+            if (keyboard_.key_down(sky::Key::up)) {
+                cam_.move(sky::Vector3f(0.0f, 0.0f, -1.0f));
+            }
+
+            if (keyboard_.key_down(sky::Key::left)) {
+                cam_.move(sky::Vector3f(-1.0f, 0.0f, 0.0f));
+            }
+
+            if (keyboard_.key_down(sky::Key::right)) {
+                cam_.move(sky::Vector3f(1.0f, 0.0f, 0.0f));
+            }
+
+            auto cam_mat = cam_.get_matrix();
+
+            cmdbuf->update_uniform(viewproj_, sky::alloc(sizeof(sky::Matrix4f), &cam_mat));
+
+            cmdbuf->draw();
         }
 
-        if ( keyboard_.key_down(sky::Key::left) ) {
-            cam_.move(sky::Vector3f(-1.0f, 0.0f, 0.0f));
-        }
-
-        if ( keyboard_.key_down(sky::Key::right) ) {
-            cam_.move(sky::Vector3f(1.0f, 0.0f, 0.0f));
-        }
-
-        auto cam_mat = cam_.get_matrix();
-
-        graphics_driver.update_uniform(viewproj_, sky::alloc(sizeof(sky::Matrix4f), &cam_mat));
-
-        graphics_driver.draw();
-        graphics_driver.commit();
+        cmdbuf->end();
+        graphics_driver.submit_command_buffer(cmdbuf);
     }
 
     void on_shutdown() override

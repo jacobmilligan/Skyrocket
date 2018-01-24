@@ -177,8 +177,8 @@ public:
     void on_update() override
     {
         auto cmdbuf = graphics_driver.make_command_buffer();
-        if (cmdbuf == nullptr) {
-            return;
+        while (cmdbuf == nullptr) {
+            cmdbuf = graphics_driver.make_command_buffer();
         }
 
         cmdbuf->begin();
