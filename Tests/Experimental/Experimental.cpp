@@ -25,11 +25,9 @@ public:
 
     void on_startup(int argc, const char** argv) override
     {
-        gd_.init(&primary_view);
-
         root_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Tests/Experimental");
 
-        auto cmdbuf = gd_.make_command_buffer();
+        auto cmdbuf = graphics_driver.make_command_buffer();
         if (cmdbuf != nullptr) {
             cmdbuf->begin();
 
@@ -40,13 +38,13 @@ public:
                                              root_.relative_path("basic_fragment.metal"));
 
             cmdbuf->end();
-            gd_.submit_command_buffer(cmdbuf);
+            graphics_driver.submit_command_buffer(cmdbuf);
         }
     }
 
     void on_update() override
     {
-        auto cmdbuf = gd_.make_command_buffer();
+        auto cmdbuf = graphics_driver.make_command_buffer();
 
         if (cmdbuf != nullptr) {
             cmdbuf->begin();
@@ -57,7 +55,7 @@ public:
 
             cmdbuf->end();
 
-            gd_.submit_command_buffer(cmdbuf);
+            graphics_driver.submit_command_buffer(cmdbuf);
         }
     }
 
@@ -68,7 +66,6 @@ public:
 
 private:
     sky::Path root_;
-    sky::experimental::GraphicsDriver gd_;
     uint32_t vbuf_;
     uint32_t shader_;
     sky::Vertex vertices_[3];

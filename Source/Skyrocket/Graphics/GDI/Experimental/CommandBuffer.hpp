@@ -168,6 +168,16 @@ public:
         cursor_ = 0;
     }
 
+    inline size_t cursor() const
+    {
+        return cursor_;
+    }
+
+    inline size_t size() const
+    {
+        return size_;
+    }
+
     void set_viewport(Viewport* viewport);
 
     /// @brief Sends a command to create a new vertex buffer resource
@@ -200,7 +210,7 @@ public:
     /// @param type The type of structure or data associated with the uniform
     /// @param count The number of instances of `type` associated with the uniform
     /// @return Handle id to the shader uniform resource
-    uint32_t create_uniform(UniformType type, uint16_t count);
+    uint32_t create_uniform(UniformType type, uint32_t size);
 
     /// @brief Sets the uniform associated with the given ID as the current one
     /// @param u_id
@@ -239,10 +249,11 @@ public:
     void draw_instanced(uint32_t instances);
 
 private:
-    static constexpr auto buffer_capacity_ = kibibytes(64);
+    static constexpr auto buffer_capacity_ = mebibytes(1);
 
     State state_{State::ready};
     size_t cursor_{0};
+    size_t size_{0};
     uint8_t buffer_[buffer_capacity_]{};
 
     static uint32_t next_handle_;
@@ -270,6 +281,7 @@ private:
         // Make sure cursor is read and incremented before any other threads see the change
         auto c = cursor_;
         cursor_ += sizeof(Command) + sizeof(CommandType);
+        size_ = cursor_;
 
         std::atomic_thread_fence(std::memory_order_release);
 
@@ -297,6 +309,7 @@ private:
         // Make sure cursor is read and incremented before any other threads see the change
         auto c = cursor_;
         cursor_ += sizeof(CommandType);
+        size_ = cursor_;
 
         std::atomic_thread_fence(std::memory_order_release);
 

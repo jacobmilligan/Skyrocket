@@ -12,22 +12,23 @@
 #include "Skyrocket/Graphics/GDI/Experimental/GDI_EX.hpp"
 #include "Skyrocket/Graphics/GDI/Experimental/CommandBuffer.hpp"
 
+
 namespace sky {
 namespace experimental {
 
 
 void GDI_EX::execute_commands(CommandBuffer* cmdbuf)
 {
-    CommandType* type = nullptr;
+    CommandType* typeptr = nullptr;
 
-    while (true) {
+    while (cmdbuf->cursor() <= cmdbuf->size()) {
 
-        type = cmdbuf->read<CommandType>();
-        if (type == nullptr) {
+        typeptr = cmdbuf->read<CommandType>();
+        if (typeptr == nullptr) {
             break;
         }
 
-        switch (*type) {
+        switch (*typeptr) {
             case CommandType::unknown: {
 
             } break;

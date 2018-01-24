@@ -26,7 +26,7 @@ class GraphicsDriver {
 public:
     GraphicsDriver();
     ~GraphicsDriver();
-    void init(Viewport* viewport);
+    bool init(Viewport* viewport);
 
     CommandBuffer* make_command_buffer();
     void free_command_buffer(CommandBuffer*& buf);

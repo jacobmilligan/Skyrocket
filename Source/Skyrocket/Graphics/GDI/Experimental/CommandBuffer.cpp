@@ -32,6 +32,7 @@ void CommandBuffer::clear()
 {
     state_ = State::ready;
     cursor_ = 0;
+    size_ = 0;
     memset(buffer_, 0, buffer_capacity_);
 }
 
@@ -75,7 +76,7 @@ void CommandBuffer::set_index_buffer(const uint32_t ibuf_id, const uint32_t offs
     });
 }
 
-uint32_t CommandBuffer::create_uniform(const UniformType type, const uint16_t size)
+uint32_t CommandBuffer::create_uniform(const UniformType type, const uint32_t size)
 {
     auto handle = make_handle();
     write_command(CommandType::create_uniform, CreateUniformData {

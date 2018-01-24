@@ -35,7 +35,7 @@ void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
         primary_view.open(name_, 800, 600);
         primary_view.set_backing_color(sky::Color::gray);
 
-        auto graphics_init_success = graphics_driver.initialize(graphics_threading, &primary_view);
+        auto graphics_init_success = graphics_driver.init(&primary_view);
 
         SKY_ASSERT(graphics_init_success, "GraphicsDriver initialized successfully");
 
@@ -71,7 +71,7 @@ void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
             sky::thread_sleep(sleep_time);
         }
 
-//        printf("Frame time: %f\n", sky::Timespan(high_resolution_time() - frame_start).total_milliseconds());
+        printf("Frame time: %f\n", sky::Timespan(high_resolution_time() - frame_start).total_milliseconds());
     }
 
     shutdown();

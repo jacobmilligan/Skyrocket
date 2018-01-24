@@ -74,150 +74,168 @@ public:
 
     void on_startup(int argc, const char** argv) override
     {
-        primary_view.set_backing_color(sky::Color::cornflower_blue);
-        auto vert_path = root_path_.relative_path("basic_vertex.metal");
-        auto frag_path = root_path_.relative_path("basic_fragment.metal");
-        program_ = graphics_driver.create_program(vert_path, frag_path);
-        graphics_driver.set_program(program_);
+        auto cmdbuf = graphics_driver.make_command_buffer();
+        cmdbuf->begin();
+        {
 
-        auto xpos = 0;
-        auto ypos = 0;
+            primary_view.set_backing_color(sky::Color::cornflower_blue);
+            auto vert_path = root_path_.relative_path("basic_vertex.metal");
+            auto frag_path = root_path_.relative_path("basic_fragment.metal");
+            program_ = cmdbuf->create_program(vert_path, frag_path);
+            cmdbuf->set_program(program_);
 
-        for ( int i = 0; i < cubes.size(); ++i ) {
-            xpos += 500;
-            if ( xpos > num_cubes_ * 2 ) {
-                ypos += 500;
-                xpos = 0;
+            auto xpos = 0;
+            auto ypos = 0;
+
+            for ( int i = 0; i < cubes.size(); ++i ) {
+                xpos += 500;
+                if ( xpos > num_cubes_ * 2 ) {
+                    ypos += 500;
+                    xpos = 0;
+                }
+                cubes[i].pos = sky::Vector3f(xpos, ypos, 0.0f);
             }
-            cubes[i].pos = sky::Vector3f(xpos, ypos, 0.0f);
+
+            // Cube vertices
+
+            //Front
+            auto a = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.25f);
+            auto b = sky::Vertex(-1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.25f, 0.50f);
+            auto c = sky::Vertex( 1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.50f, 0.50f);
+            auto d = sky::Vertex( 1.0f,  1.0f,  1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.50f, 0.25f);
+            //Left
+            auto e = sky::Vertex(-1.0f,  1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.00f, 0.25f);
+            auto f = sky::Vertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.00f, 0.50f);
+            auto g = sky::Vertex(-1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.25f, 0.50f);
+            auto h = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.25f, 0.25f);
+            //Right
+            auto i = sky::Vertex( 1.0f,  1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.50f, 0.25f);
+            auto j = sky::Vertex( 1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.50f, 0.50f);
+            auto k = sky::Vertex( 1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.75f, 0.50f);
+            auto l = sky::Vertex( 1.0f,  1.0f, -1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.75f, 0.25f);
+            //Top
+            auto m = sky::Vertex(-1.0f,  1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.00f);
+            auto n = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.25f, 0.25f);
+            auto o = sky::Vertex( 1.0f,  1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.50f, 0.25f);
+            auto p = sky::Vertex( 1.0f,  1.0f, -1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.50f, 0.00f);
+            //Bottom
+            auto q = sky::Vertex(-1.0f, -1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.50f);
+            auto r = sky::Vertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.25f, 0.75f);
+            auto s = sky::Vertex( 1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.50f, 0.75f);
+            auto t = sky::Vertex( 1.0f, -1.0f,  1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.50f, 0.50f);
+            //Back
+            auto u = sky::Vertex( 1.0f,  1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.75f, 0.25f);
+            auto v = sky::Vertex( 1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.75f, 0.50f);
+            auto w = sky::Vertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.00f, 0.50f);
+            auto x = sky::Vertex(-1.0f,  1.0f, -1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 1.00f, 0.25f);
+
+            vertices_ = {
+                a, b, c, a, c, d,   //front
+                e, f, g, e, g, h,   //left
+                i, j, k, i, k, l,   //right
+                m, n, o, m, o, p,   //top
+                q, r, s, q, s, t,   //bot
+                u, v, w, u, w, x    //back
+            };
+
+            // Setup matrices
+
+            auto vbuf_mem = sky::MemoryBlock {
+                static_cast<uint32_t>(sizeof(sky::Vertex) * vertices_.size()),
+                vertices_.data()
+            };
+            vbuf_id_ = cmdbuf->create_vertex_buffer(vbuf_mem, sky::BufferUsage::staticbuf);
+
+            sky::Matrix4f identity;
+            auto fovy = static_cast<float>(sky::math::to_radians(90.0f));
+
+            auto aspect = primary_view.size().x / primary_view.size().y;
+
+            cam_.set_position(sky::Vector3f(5000.0f, 5000.0f, 2000.0f));
+            cam_.setup(90.0f, aspect, 0.1f, 20000.0f);
+
+            model_ubuf_ = cmdbuf->create_uniform(sky::UniformType::mat4, num_cubes_ * sizeof(sky::Matrix4f));
+            view_proj_ubuf_ = cmdbuf->create_uniform(sky::UniformType::mat4, num_cubes_ * sizeof(sky::Matrix4f));
+
+            // Main loop
+            sky::Timespan dt;
+            uint64_t frame_start = 0;
+            auto cam_speed = 10.0f;
+            auto target_frametime = 16.6;
+
+            sky::Image img;
+            img.load_from_file(root_path_.relative_path("cube.png"));
+
+            texture_ = cmdbuf->create_texture(img.width, img.height, img.pixel_format);
+            cmdbuf->create_texture_region(texture_, sky::UIntRect(0, 0, img.width, img.height), img.pixel_format, img.data);
+
         }
-
-        // Cube vertices
-
-        //Front
-        auto a = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.25f);
-        auto b = sky::Vertex(-1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.25f, 0.50f);
-        auto c = sky::Vertex( 1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.50f, 0.50f);
-        auto d = sky::Vertex( 1.0f,  1.0f,  1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.50f, 0.25f);
-        //Left
-        auto e = sky::Vertex(-1.0f,  1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.00f, 0.25f);
-        auto f = sky::Vertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.00f, 0.50f);
-        auto g = sky::Vertex(-1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.25f, 0.50f);
-        auto h = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.25f, 0.25f);
-        //Right
-        auto i = sky::Vertex( 1.0f,  1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.50f, 0.25f);
-        auto j = sky::Vertex( 1.0f, -1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.50f, 0.50f);
-        auto k = sky::Vertex( 1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.75f, 0.50f);
-        auto l = sky::Vertex( 1.0f,  1.0f, -1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.75f, 0.25f);
-        //Top
-        auto m = sky::Vertex(-1.0f,  1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.00f);
-        auto n = sky::Vertex(-1.0f,  1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.25f, 0.25f);
-        auto o = sky::Vertex( 1.0f,  1.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.50f, 0.25f);
-        auto p = sky::Vertex( 1.0f,  1.0f, -1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.50f, 0.00f);
-        //Bottom
-        auto q = sky::Vertex(-1.0f, -1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.25f, 0.50f);
-        auto r = sky::Vertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.25f, 0.75f);
-        auto s = sky::Vertex( 1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.50f, 0.75f);
-        auto t = sky::Vertex( 1.0f, -1.0f,  1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 0.50f, 0.50f);
-        //Back
-        auto u = sky::Vertex( 1.0f,  1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.75f, 0.25f);
-        auto v = sky::Vertex( 1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.75f, 0.50f);
-        auto w = sky::Vertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.00f, 0.50f);
-        auto x = sky::Vertex(-1.0f,  1.0f, -1.0f, 1.0f, 0.1f, 0.6f, 0.4f, 1.0f, 1.00f, 0.25f);
-
-        vertices_ = {
-            a, b, c, a, c, d,   //front
-            e, f, g, e, g, h,   //left
-            i, j, k, i, k, l,   //right
-            m, n, o, m, o, p,   //top
-            q, r, s, q, s, t,   //bot
-            u, v, w, u, w, x    //back
-        };
-
-        // Setup matrices
-
-        auto vbuf_mem = sky::MemoryBlock {
-            static_cast<uint32_t>(sizeof(sky::Vertex) * vertices_.size()),
-            vertices_.data()
-        };
-        vbuf_id_ = graphics_driver.create_vertex_buffer(vbuf_mem, sky::BufferUsage::staticbuf);
-
-        sky::Matrix4f identity;
-        auto fovy = static_cast<float>(sky::math::to_radians(90.0f));
-
-        auto aspect = primary_view.size().x / primary_view.size().y;
-
-        cam_.set_position(sky::Vector3f(5000.0f, 5000.0f, 2000.0f));
-        cam_.setup(90.0f, aspect, 0.1f, 20000.0f);
-
-        model_ubuf_ = graphics_driver.create_uniform(sky::UniformType::mat4, num_cubes_);
-        view_proj_ubuf_ = graphics_driver.create_uniform(sky::UniformType::mat4, num_cubes_);
-
-        // Main loop
-        sky::Timespan dt;
-        uint64_t frame_start = 0;
-        auto cam_speed = 10.0f;
-        auto target_frametime = 16.6;
-
-        sky::Image img;
-        img.load_from_file(root_path_.relative_path("cube.png"));
-
-        texture_ = graphics_driver.create_texture(img.width, img.height, img.pixel_format);
-        graphics_driver.create_texture_region(texture_, sky::UIntRect(0, 0, img.width, img.height), img.pixel_format, img.data);
-        graphics_driver.commit();
+        cmdbuf->end();
+        graphics_driver.submit_command_buffer(cmdbuf);
     }
 
     void on_update() override
     {
-        graphics_driver.set_state(sky::RenderPipelineState::culling_frontface);
-
-        graphics_driver.set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(vertices_.size()));
-
-        graphics_driver.set_uniform(model_ubuf_, 1);
-        graphics_driver.set_uniform(view_proj_ubuf_, 2);
-        graphics_driver.set_texture(texture_, 0);
-
-        if ( keyboard_.key_down(sky::Key::escape) || primary_view.close_requested() ) {
-            primary_view.close();
+        auto cmdbuf = graphics_driver.make_command_buffer();
+        if (cmdbuf == nullptr) {
+            return;
         }
 
-        sky::Vector3f cam_movement;
-        if ( keyboard_.key_down(sky::Key::up) ) {
-            cam_movement.z -= 1.0f;
+        cmdbuf->begin();
+        {
+
+            cmdbuf->set_state(sky::RenderPipelineState::culling_frontface);
+
+            cmdbuf->set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(vertices_.size()));
+
+            cmdbuf->set_uniform(model_ubuf_, 1);
+            cmdbuf->set_uniform(view_proj_ubuf_, 2);
+            cmdbuf->set_texture(texture_, 0);
+
+            if ( keyboard_.key_down(sky::Key::escape) || primary_view.close_requested() ) {
+                primary_view.close();
+            }
+
+            sky::Vector3f cam_movement;
+            if ( keyboard_.key_down(sky::Key::up) ) {
+                cam_movement.z -= 1.0f;
+            }
+            if ( keyboard_.key_down(sky::Key::down) ) {
+                cam_movement.z += 1.0f;
+            }
+            if ( keyboard_.key_down(sky::Key::left) ) {
+                cam_movement.x -= 1.0f;
+            }
+            if ( keyboard_.key_down(sky::Key::right) ) {
+                cam_movement.x += 1.0f;
+            }
+
+            cam_.move(cam_movement * cam_speed_);
+
+            auto cam_mat = cam_.get_matrix();
+
+            cmdbuf->update_uniform(view_proj_ubuf_, sky::alloc(sizeof(sky::Matrix4f), &cam_mat));
+
+            uint32_t cube_index = 0;
+
+            for ( auto& c : cubes ) {
+                c.angle += dist(rand_gen);
+
+                sky::MemoryBlock mb {
+                    sizeof(sky::Matrix4f),
+                    &c.get_transform()
+                };
+
+                cmdbuf->update_uniform(model_ubuf_, mb, cube_index * sizeof(sky::Matrix4f));
+
+                cube_index++;
+            }
+
+            cmdbuf->draw_instanced(cube_index);
+
         }
-        if ( keyboard_.key_down(sky::Key::down) ) {
-            cam_movement.z += 1.0f;
-        }
-        if ( keyboard_.key_down(sky::Key::left) ) {
-            cam_movement.x -= 1.0f;
-        }
-        if ( keyboard_.key_down(sky::Key::right) ) {
-            cam_movement.x += 1.0f;
-        }
-
-        cam_.move(cam_movement * cam_speed_);
-
-        auto cam_mat = cam_.get_matrix();
-
-        graphics_driver.update_uniform(view_proj_ubuf_, sky::alloc(sizeof(sky::Matrix4f), &cam_mat));
-
-        uint32_t cube_index = 0;
-        
-        for ( auto& c : cubes ) {
-            c.angle += dist(rand_gen);
-
-            sky::MemoryBlock mb {
-                sizeof(sky::Matrix4f),
-                &c.get_transform()
-            };
-
-            graphics_driver.update_uniform(model_ubuf_, mb, cube_index * sizeof(sky::Matrix4f));
-
-            cube_index++;
-        }
-
-        graphics_driver.draw_instanced(cube_index);
-        graphics_driver.commit();
+        cmdbuf->end();
+        graphics_driver.submit_command_buffer(cmdbuf);
     }
 
     void on_shutdown() override

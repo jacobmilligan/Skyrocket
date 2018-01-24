@@ -29,7 +29,7 @@ GraphicsDriver::~GraphicsDriver()
     }
 }
 
-void GraphicsDriver::init(Viewport* viewport)
+bool GraphicsDriver::init(Viewport* viewport)
 {
     cmdbuf_pool_ = FixedPoolAllocator(sizeof(CommandBuffer), cmdbuf_max_);
 
@@ -39,6 +39,8 @@ void GraphicsDriver::init(Viewport* viewport)
     render_thread_active_ = true;
     render_thread_notified_ = false;
     render_thread_ = std::thread(&GraphicsDriver::render_thread_proc, this);
+
+    return true;
 }
 
 CommandBuffer* GraphicsDriver::make_command_buffer()
