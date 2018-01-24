@@ -24,6 +24,7 @@
 
 namespace sky {
 
+
 template<uint16_t Size>
 struct MetalBuffer {
     MetalBuffer()
@@ -59,7 +60,7 @@ private:
 class MetalProgram {
 public:
     MetalProgram() = default;
-    MetalProgram(const uint32_t program_id, id<MTLFunction> vs, id<MTLFunction> frag);
+    MetalProgram(uint32_t program_id, id<MTLFunction> vs, id<MTLFunction> frag);
     ~MetalProgram();
 
     id<MTLRenderPipelineState> get_render_pipeline_state(id<MTLDevice> device);
@@ -79,46 +80,45 @@ public:
 
     ~MetalGDI() override;
 
-    bool initialize(Viewport* viewport) override;
+    bool init(Viewport* viewport) override;
+
+    void commit(CommandBuffer* cmdbuf) override;
 
     void set_viewport(Viewport* viewport) override;
 
-    bool create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& initial_data,
-                              const BufferUsage usage) override;
+    bool create_vertex_buffer(uint32_t vbuf_id, const MemoryBlock& initial_data,
+                              BufferUsage usage) override;
 
-    bool set_vertex_buffer(const uint32_t vbuf_id) override;
+    bool set_vertex_buffer(uint32_t vbuf_id) override;
 
-    bool create_index_buffer(const uint32_t ibuf_id, const MemoryBlock& initial_data) override;
+    bool create_index_buffer(uint32_t ibuf_id, const MemoryBlock& initial_data) override;
 
-    bool set_index_buffer(const uint32_t ibuf_id) override;
+    bool set_index_buffer(uint32_t ibuf_id) override;
 
-    bool create_program(const uint32_t shader_id, const Path& vs_path, const Path& frag_path) override;
+    bool create_program(uint32_t shader_id, const Path& vs_path, const Path& frag_path) override;
 
-    bool set_program(const uint32_t program_id) override;
+    bool set_program(uint32_t program_id) override;
 
-    bool create_uniform(const uint32_t u_id, const uint32_t size) override;
+    bool create_uniform(uint32_t u_id, uint32_t size) override;
 
-    void set_uniform(const uint32_t u_id, const uint32_t index) override;
+    void set_uniform(uint32_t u_id, uint32_t index) override;
 
-    void update_uniform(const uint32_t u_id, const MemoryBlock& data, const uint32_t offset) override;
+    void update_uniform(uint32_t u_id, const MemoryBlock& data, uint32_t offset) override;
 
-    void create_texture(const uint32_t t_id, const uint32_t width,
-                        const uint32_t height, const PixelFormat::Enum pixel_format,
-                        const bool mipmapped) override;
+    void create_texture(uint32_t t_id, uint32_t width,
+                        uint32_t height, PixelFormat::Enum pixel_format,
+                        bool mipmapped) override;
 
-    void create_texture_region(const uint32_t tex_id, const UIntRect& region,
-                               const PixelFormat::Enum pixel_format, uint8_t* data) override;
+    void create_texture_region(uint32_t tex_id, const UIntRect& region,
+                               PixelFormat::Enum pixel_format, uint8_t* data) override;
 
-    void set_texture(const uint32_t t_id, const uint32_t index) override;
+    void set_texture(uint32_t t_id, uint32_t index) override;
 
     bool draw() override;
 
-    bool draw_instanced(const uint32_t instance) override;
+    bool draw_instanced(uint32_t instance) override;
 
-    void set_state(const uint32_t flags) override;
-
-    void commit() override;
-
+    void set_state(uint32_t flags) override;
 private:
     static constexpr uint8_t lib_max_ = 8;
 

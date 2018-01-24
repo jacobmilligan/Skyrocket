@@ -5,24 +5,21 @@
 //  --------------------------------------------------------------
 //
 //  Created by
-//  Jacob Milligan on 15/07/2017
+//  Jacob Milligan on 23/01/2018
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
 #pragma once
 
-#include "Skyrocket/Core/Containers/Buffer.hpp"
-#include "Skyrocket/Core/Memory/Memory.hpp"
-#include "Skyrocket/Graphics/GDI/CommandData.hpp"
+#include "Skyrocket/Core/Geometry/Rectangle.hpp"
 #include "Skyrocket/Graphics/GDI/Definitions.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
-
-#include <memory>
-#include <queue>
 
 namespace sky {
 
 class Path;
+
+class CommandBuffer;
 
 /// @brief Contains the current state of the graphics device - buffers,
 /// shaders, indices etc. being used currently
@@ -51,10 +48,6 @@ struct RenderState {
     uint32_t index_offset{0};
 };
 
-/// @brief The Graphics Device Interface (GDI) is the main interface to the native
-/// graphics API being currently used - each one with its own GDI deriving from this
-/// class with all functions directly calling API-specific operations synchronously.
-/// The GDI should only be created via the create() static member function.
 class GDI {
 public:
     static constexpr uint32_t invalid_handle = 0;
@@ -72,20 +65,19 @@ public:
     /// @brief Creates a new API-specific GDI. A GDI cannot be created without calling
     /// this method
     /// @return Unique pointer to the GDI
-    static std::unique_ptr<GDI> create();
-
-    /// @brief Writes a new render command to the internal write buffer
-    /// @tparam T The type of render command being written
-    /// @param cmd Pointer to the command structure
-    template<typename T>
-    void write_command(T* cmd);
+    static std::unique_ptr<GDI> create() noexcept;
 
     /// @brief Initializes the graphics device, allocating resources and creating a
     /// device context
     /// @param viewport The viewport to attach the graphics device to
     /// @return Successful initialization if true, false otherwise
-    virtual bool initialize(Viewport* viewport);
+    virtual bool init(Viewport* viewport);
 
+    virtual void commit(CommandBuffer* cmdbuf);
+protected:
+    RenderState state_;
+
+    void execute_commands(CommandBuffer* cmdbuf);
     /// @brief Sets the viewport as the active viewport for this graphics device
     /// @param viewport
     virtual void set_viewport(Viewport* viewport);
@@ -95,24 +87,24 @@ public:
     /// @param initial_data The data to copy into the buffer
     /// @param usage
     /// @return Success if true, false otherwise
-    virtual bool create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& initial_data,
-                                      const BufferUsage usage);
+    virtual bool create_vertex_buffer(uint32_t vbuf_id, const MemoryBlock& initial_data,
+                                      BufferUsage usage);
 
     /// @brief Sets the vertex buffer associated with the given id as the current one
     /// @param vbuf_id
     /// @return Success if true, false otherwise
-    virtual bool set_vertex_buffer(const uint32_t vbuf_id);
+    virtual bool set_vertex_buffer(uint32_t vbuf_id);
 
     /// @brief Creates a new index buffer
     /// @param ibuf_id The id handle of the buffer to create
     /// @param initial_data
     /// @return
-    virtual bool create_index_buffer(const uint32_t ibuf_id, const MemoryBlock& initial_data);
+    virtual bool create_index_buffer(uint32_t ibuf_id, const MemoryBlock& initial_data);
 
     /// @brief Sets the index buffer associated with the given id as the current one
     /// @param ibuf_id
     /// @return Success if true, false otherwise
-    virtual bool set_index_buffer(const uint32_t ibuf_id);
+    virtual bool set_index_buffer(uint32_t ibuf_id);
 
     /// @brief Draws primitive triangle data
     /// @return
@@ -120,54 +112,33 @@ public:
 
     /// @brief Draws primitive triangle data
     /// @return
-    virtual bool draw_instanced(const uint32_t instance);
+    virtual bool draw_instanced(uint32_t instance);
 
     /// @brief Creates a new shader
     /// @param program_id
     /// @param name
     /// @return
-    virtual bool create_program(const uint32_t program_id, const Path& vs_path, const Path& frag_path);
+    virtual bool create_program(uint32_t program_id, const Path& vs_path, const Path& frag_path);
 
-    virtual bool set_program(const uint32_t program_id);
+    virtual bool set_program(uint32_t program_id);
 
-    virtual bool create_uniform(const uint32_t u_id, const uint32_t size);
+    virtual bool create_uniform(uint32_t u_id, uint32_t size);
 
-    virtual void set_uniform(const uint32_t u_id, const uint32_t index);
+    virtual void set_uniform(uint32_t u_id, uint32_t index);
 
-    virtual void update_uniform(const uint32_t u_id, const MemoryBlock& data, const uint32_t offset);
+    virtual void update_uniform(uint32_t u_id, const MemoryBlock& data, uint32_t offset);
 
-    virtual void create_texture(const uint32_t t_id, const uint32_t width,
-                                const uint32_t height, const PixelFormat::Enum pixel_format,
-                                const bool mipmapped);
+    virtual void create_texture(uint32_t t_id, uint32_t width,
+                                uint32_t height, PixelFormat::Enum pixel_format,
+                                bool mipmapped);
 
-    virtual void create_texture_region(const uint32_t tex_id, const UIntRect& region,
-                                       const PixelFormat::Enum pixel_format, uint8_t* data);
+    virtual void create_texture_region(uint32_t tex_id, const UIntRect& region,
+                                       PixelFormat::Enum pixel_format, uint8_t* data);
 
-    virtual void set_texture(const uint32_t t_id, const uint32_t index);
+    virtual void set_texture(uint32_t t_id, uint32_t index);
 
-    virtual void set_state(const uint32_t flags);
-
-    /// @brief Commits the current command buffer and processes all commands
-    virtual void commit();
-
-    /// @brief Flips the internal command buffers
-    void flip()
-    {
-        cmdbufs_.flip();
-    }
-
-protected:
-    Multibuffer<UINT16_MAX * 10, max_frames_in_flight> cmdbufs_;
-
-    RenderState target_;
-
-    /// @brief Empties the current read command buffer of all commands, calling the
-    /// relevant member functions
-    void process_commands();
+    virtual void set_state(uint32_t flags);
 };
 
 
 } // namespace sky
-
-
-#include "GDI.inl"

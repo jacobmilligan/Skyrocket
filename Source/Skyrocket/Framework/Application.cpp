@@ -10,6 +10,8 @@
 //
 
 #include "Skyrocket/Framework/Application.hpp"
+#include "Skyrocket/Core/Diagnostics/Timespan.hpp"
+#include "Skyrocket/Platform/Thread.hpp"
 
 #include <Jobrocket/Jobrocket.hpp>
 
@@ -35,11 +37,11 @@ void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
         primary_view.open(name_, 800, 600);
         primary_view.set_backing_color(sky::Color::gray);
 
-        auto graphics_init_success = graphics_driver.init(&primary_view);
+        auto graphics_init_success = graphics_driver.init(graphics_threading, &primary_view);
 
         SKY_ASSERT(graphics_init_success, "GraphicsDriver initialized successfully");
 
-        if ( graphics_threading == GraphicsDriver::ThreadSupport::multithreaded ) {
+        if ( graphics_threading == GraphicsDriver::ThreadSupport::multi_threaded ) {
             jobrocket::startup(jobrocket::Scheduler::auto_thread_count, 1);
             SKY_ASSERT(jobrocket::current_scheduler()->num_workers() > 0,
                        "Job scheduler initialized with correct number of workers")

@@ -10,10 +10,9 @@
 //
 
 #include "Skyrocket/Graphics/Viewport.hpp"
-#include "Skyrocket/Graphics/GDI/Experimental/CommandBuffer.hpp"
+#include "CommandBuffer.hpp"
 
 namespace sky {
-namespace experimental {
 
 
 uint32_t CommandBuffer::next_handle_ = 1;
@@ -160,5 +159,4 @@ void CommandBuffer::draw_instanced(const uint32_t instances)
 }
 
 
-} // namespace experimental
 } // namespace sky

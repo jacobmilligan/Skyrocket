@@ -1,150 +1,154 @@
 //
-//  GenericDriver.cpp
+//  GDI.cpp
 //  Skyrocket
 //
 //  --------------------------------------------------------------
 //
 //  Created by
-//  Jacob Milligan on 26/07/2017
+//  Jacob Milligan on 24/01/2018
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Skyrocket/Graphics/GDI/GDI.hpp"
-#include "Skyrocket/Platform/Filesystem.hpp"
+#include "GDI.hpp"
+#include "CommandBuffer.hpp"
+
 
 namespace sky {
 
-void GDI::process_commands()
+
+void GDI::execute_commands(CommandBuffer* cmdbuf)
 {
-    auto& cmd_buf = cmdbufs_.get_read();
+    CommandType* typeptr = nullptr;
 
-    rc::CmdType* next_cmd_type = nullptr;
+    while (cmdbuf->cursor() <= cmdbuf->size()) {
 
-    while ( cmd_buf.cursor_pos() < cmd_buf.end() ) {
+        typeptr = cmdbuf->read<CommandType>();
+        if (typeptr == nullptr) {
+            break;
+        }
 
-        next_cmd_type = cmd_buf.read<rc::CmdType>();
+        switch (*typeptr) {
+            case CommandType::unknown: {
 
-        switch ( *next_cmd_type ) {
-            case rc::CmdType::unknown: {
-                cmd_buf.read<rc::Command>();
             } break;
 
-            case rc::CmdType::init: {
+            case CommandType::init: {
 //                auto
 //                auto& view = static_cast<rc::SetViewport&>(next_cmd).viewport;
 //                initialize(view);
             } break;
 
-            case rc::CmdType::set_viewport: {
-                auto cmd = cmd_buf.read<rc::SetViewport>();
-                auto view = cmd->viewport;
-                set_viewport(view);
+            case CommandType::set_viewport: {
+                auto view = cmdbuf->read<Viewport*>();
+                set_viewport(*view);
             } break;
 
-            case rc::CmdType::create_vertex_buffer: {
-                auto cmd = cmd_buf.read<rc::CreateVertexBuffer>();
-                create_vertex_buffer(cmd->buf_id, cmd->data, cmd->buf_usage);
+            case CommandType::create_vertex_buffer: {
+                auto data = cmdbuf->read<CreateVertexBufferData>();
+                create_vertex_buffer(data->buf_id, data->data, data->buf_usage);
             } break;
 
-            case rc::CmdType::set_vertex_buffer: {
-                auto cmd = cmd_buf.read<rc::SetVertexBuffer>();
-                set_vertex_buffer(cmd->buf_id);
-                target_.vertex_buffer = cmd->buf_id;
-                target_.vertex_count = cmd->count;
-                target_.vertex_offset = cmd->first_vertex;
+            case CommandType::set_vertex_buffer: {
+                auto data = cmdbuf->read<SetVertexBufferData>();
+                set_vertex_buffer(data->buf_id);
+                state_.vertex_buffer = data->buf_id;
+                state_.vertex_count = data->count;
+                state_.vertex_offset = data->first_vertex;
             } break;
 
-            case rc::CmdType::create_index_buffer: {
-                auto cmd = cmd_buf.read<rc::CreateIndexBuffer>();
-                create_index_buffer(cmd->buf_id, cmd->data);
+            case CommandType::create_index_buffer: {
+                auto data = cmdbuf->read<CreateIndexBufferData>();
+                create_index_buffer(data->buf_id, data->data);
             } break;
 
-            case rc::CmdType::set_index_buffer: {
-                auto cmd = cmd_buf.read<rc::SetIndexBuffer>();
-                set_index_buffer(cmd->buf_id);
-                target_.index_buffer = cmd->buf_id;
-                target_.index_count = cmd->count;
-                target_.index_offset = cmd->first_index;
+            case CommandType::set_index_buffer: {
+                auto data = cmdbuf->read<SetIndexBufferData>();
+                set_index_buffer(data->buf_id);
+                state_.index_buffer = data->buf_id;
+                state_.index_count = data->count;
+                state_.index_offset = data->first_index;
             } break;
 
-            case rc::CmdType::create_program: {
-                auto* cmd = cmd_buf.read<rc::CreateProgram>();
+            case CommandType::create_program: {
+                auto* data = cmdbuf->read<CreateProgramData>();
 
-                auto prog_id = cmd->prog_id;
+                auto prog_id = data->prog_id;
 
-                Path vs(cmd->vs);
-                Path frag(cmd->frag);
+                Path vs(data->vs);
+                Path frag(data->frag);
 
                 create_program(prog_id, vs, frag);
-                cmd->destroy();
             } break;
 
-            case rc::CmdType::set_program: {
-                auto cmd = cmd_buf.read<rc::SetProgram>();
+            case CommandType::set_program: {
+                auto idptr = cmdbuf->read<uint32_t>();
 
-                auto prog_id = cmd->prog_id;
-
-                if ( prog_id == invalid_handle ) {
+                if ( *idptr == invalid_handle ) {
 //                    printf("invali\n");
                 } else {
-                    set_program(prog_id);
+                    set_program(*idptr);
                 }
 
             } break;
 
-            case rc::CmdType::create_uniform: {
-                auto cmd = cmd_buf.read<rc::CreateUniform>();
-                create_uniform(cmd->uniform_id, cmd->size);
+            case CommandType::create_uniform: {
+                auto data = cmdbuf->read<CreateUniformData>();
+                create_uniform(data->uniform_id, data->size);
             } break;
 
-            case rc::CmdType::set_uniform: {
-                auto cmd = cmd_buf.read<rc::SetUniform>();
-                set_uniform(cmd->uniform_id, cmd->uniform_index);
+            case CommandType::set_uniform: {
+                auto data = cmdbuf->read<SetUniformData>();
+                set_uniform(data->uniform_id, data->uniform_index);
             } break;
 
-            case rc::CmdType::update_uniform: {
-                auto cmd = cmd_buf.read<rc::UpdateUniform>();
-                if ( cmd->type != rc::CmdType::unknown ) {
-                    update_uniform(cmd->uniform_id, cmd->new_data, cmd->offset);
-                }
+            case CommandType::update_uniform: {
+                auto data = cmdbuf->read<UpdateUniformData>();
+//                if ( data->type != CommandType::unknown ) {
+                update_uniform(data->uniform_id, data->new_data, data->offset);
+//                }
             } break;
 
-            case rc::CmdType::create_texture: {
-                auto cmd = cmd_buf.read<rc::CreateTexture>();
+            case CommandType::create_texture: {
+                auto cmd = cmdbuf->read<CreateTextureData>();
                 create_texture(cmd->tid, cmd->width, cmd->height, cmd->format, cmd->mipmapped);
             } break;
 
-            case rc::CmdType::create_texture_region: {
-                auto cmd = cmd_buf.read<rc::CreateTextureRegion>();
+            case CommandType::create_texture_region: {
+                auto cmd = cmdbuf->read<CreateTextureRegionData>();
                 create_texture_region(cmd->tex_id, cmd->rect, cmd->format, cmd->data);
             } break;
 
-            case rc::CmdType::set_texture: {
-                auto cmd = cmd_buf.read<rc::SetTexture>();
+            case CommandType::set_texture: {
+                auto cmd = cmdbuf->read<SetTextureData>();
                 set_texture(cmd->tid, cmd->index);
             } break;
 
-            case rc::CmdType::set_state: {
-                auto cmd = cmd_buf.read<rc::SetState>();
-                set_state(cmd->flags);
+            case CommandType::set_state: {
+                auto flagsptr = cmdbuf->read<uint32_t>();
+                set_state(*flagsptr);
             } break;
 
-            case rc::CmdType::draw: {
-                cmd_buf.read<rc::Draw>();
+            case CommandType::draw: {
                 draw();
             } break;
 
-            case rc::CmdType::draw_instanced: {
-                auto cmd = cmd_buf.read<rc::DrawInstanced>();
-                draw_instanced(cmd->instance);
+            case CommandType::draw_instanced: {
+                auto instanceptr = cmdbuf->read<uint32_t>();
+                draw_instanced(*instanceptr);
             } break;
         }
     }
 }
 
-bool GDI::initialize(Viewport*  /*viewport*/)
+
+bool GDI::init(Viewport*  /*viewport*/)
 {
     return false;
+}
+
+void GDI::commit(CommandBuffer* cmdbuf)
+{
+    execute_commands(cmdbuf);
 }
 
 void GDI::set_viewport(Viewport*  /*viewport*/)
@@ -229,22 +233,16 @@ bool GDI::draw()
     return false;
 }
 
-bool GDI::draw_instanced(const uint32_t instance)
+bool GDI::draw_instanced(const uint32_t /*instance*/)
 {
     // no op
     return false;
 }
 
-void GDI::set_state(const uint32_t flags)
+void GDI::set_state(const uint32_t /*flags*/)
 {
     //no op
 }
-
-void GDI::commit()
-{
-    // no op
-}
-
 
 
 } // namespace sky

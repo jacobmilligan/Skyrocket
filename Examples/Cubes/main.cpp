@@ -24,6 +24,7 @@
 #include <iostream>
 #include <random>
 #include <Skyrocket/Framework/Camera.hpp>
+#include <Skyrocket/Graphics/Image.hpp>
 
 
 struct Cube {
@@ -266,7 +267,7 @@ private:
 int main(int argc, char** argv)
 {
     CubeApp app;
-    app.start(sky::GraphicsDriver::ThreadSupport::multithreaded);
+    app.start(sky::GraphicsDriver::ThreadSupport::multi_threaded);
 
     return 0;
 }

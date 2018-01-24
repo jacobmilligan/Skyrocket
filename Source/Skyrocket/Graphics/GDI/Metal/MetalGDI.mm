@@ -10,13 +10,16 @@
 //
 
 #include "Skyrocket/Core/Hash.hpp"
-#include "Skyrocket/Graphics/GDI/Metal/MetalGDI.h"
+#include "MetalGDI.h"
+#include "Skyrocket/Graphics/GDI/GDI.hpp"
 #include "Skyrocket/Graphics/Apple/MacViewport.h"
 #include "Skyrocket/Graphics/Apple/MetalView.h"
+#include "Skyrocket/Platform/Filesystem.hpp"
 
 //TODO(Jacob): Textures
 
 namespace sky {
+
 
 MetalProgram::MetalProgram(const uint32_t program_id, id<MTLFunction> vs, id<MTLFunction> frag)
     : program_id_(program_id), vs_(vs), frag_(frag)
@@ -30,17 +33,17 @@ id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice>
     auto flags = program_id_ + default_state_flags;
     auto hash = hash::murmur3_32(&flags, sizeof(uint32_t), 0);
     auto rps = render_pipeline_states_.find(hash);
-    
+
     if ( rps != render_pipeline_states_.end() ) {
         return rps->second;
     }
-    
+
     if ( vs_ == nil ) {
         SKY_ERROR("Render Pipeline",
                   "Cannot get new render pipeline state: Vertex function is nil");
         return nil;
     }
-    
+
     if ( frag_ == nil ) {
         SKY_ERROR("Render Pipeline",
                   "Cannot get new render pipeline state: Fragment function is nil");
@@ -48,7 +51,7 @@ id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice>
     }
 
     NSError* err = nil;
-    
+
     MTLRenderPipelineDescriptor* pipeline_descriptor = [MTLRenderPipelineDescriptor new];
     pipeline_descriptor.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm;
     pipeline_descriptor.vertexFunction = vs_;
@@ -62,24 +65,24 @@ id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice>
     pipeline_descriptor.colorAttachments[0].destinationAlphaBlendFactor = MTLBlendFactorOneMinusBlendAlpha;
 
     id<MTLRenderPipelineState> new_rps = [device newRenderPipelineStateWithDescriptor:pipeline_descriptor
-                                                                                error:&err];
+    error:&err];
 
 
-    
+
     if ( new_rps == nil ) {
         SKY_ERROR("Render Pipeline",
                   "Couldn't initialize main render pipeline state: NSError: %s",
                   [[err localizedDescription] UTF8String]);
         return nil;
     }
-    
+
     render_pipeline_states_.insert({hash, new_rps});
     return new_rps;
 }
-    
-//---------------------
-//  GDI Implementation
-//---------------------
+
+///////////////////////////
+///  GDI Implementation
+///////////////////////////
 
 #if SKY_COMPILER_MSVC != 1
 
@@ -96,12 +99,12 @@ MetalGDI::~MetalGDI()
     }
 }
 
-std::unique_ptr<GDI> GDI::create()
+std::unique_ptr<GDI> GDI::create() noexcept
 {
     return std::make_unique<MetalGDI>();
 }
 
-bool MetalGDI::initialize(Viewport* viewport)
+bool MetalGDI::init(Viewport* viewport)
 {
     //---------------------------------------
     //  Initialize device and command queue
@@ -161,8 +164,8 @@ fragment float4 basic_fragment(Vertex in [[stage_in]])
     NSString* nssrc = [NSString stringWithUTF8String:default_src];
 
     id<MTLLibrary> lib = [device_ newLibraryWithSource:nssrc
-                                               options:nil
-                                                 error:&err];
+    options:nil
+    error:&err];
     if ( lib == nil ) {
         SKY_ASSERT(default_library_ != nil,
                    "Default Metal Library loads correctly (see NSError: %s)",
@@ -172,7 +175,7 @@ fragment float4 basic_fragment(Vertex in [[stage_in]])
 
     id<MTLFunction> vs = [lib newFunctionWithName:@"basic_vertex"];
     id<MTLFunction> frag = [lib newFunctionWithName:@"basic_fragment"];
-    
+
     default_program_ = MetalProgram(0, vs, frag);
 
     //--------------------------------
@@ -187,7 +190,9 @@ fragment float4 basic_fragment(Vertex in [[stage_in]])
     return true;
 }
 
-void MetalGDI::commit()
+
+
+void MetalGDI::commit(CommandBuffer* cmdbuf)
 {
     dispatch_semaphore_wait(buf_sem_, DISPATCH_TIME_FOREVER);
 
@@ -228,7 +233,7 @@ void MetalGDI::commit()
         [render_encoder_ setDepthStencilState:depth_stencil_state_];
         [render_encoder_ setCullMode:MTLCullModeBack];
 
-        process_commands();
+        execute_commands(cmdbuf);
 
         [render_encoder_ endEncoding];
 
@@ -242,20 +247,20 @@ void MetalGDI::commit()
     };
 }
 
-/////////////////
-/// Commands
-/////////////////
+///////////////////////////
+///  GDI Commands
+///////////////////////////
 
 void MetalGDI::set_viewport(Viewport* viewport)
 {
     MetalView * mtl_view = (MetalView * )
-    viewport->get_native_viewport()->view;
+        viewport->get_native_viewport()->view;
     mtl_view.metalLayer.device = device_;
     mtl_layer_ = mtl_view.metalLayer;
 }
 
 bool MetalGDI::create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& initial_data,
-                                    const BufferUsage usage)
+                                       const BufferUsage usage)
 {
     vertex_buffers_.create(vbuf_id);
 
@@ -284,8 +289,8 @@ bool MetalGDI::set_vertex_buffer(const uint32_t vbuf_id)
 
     [render_encoder_ setVertexBuffer:
     vbuf->raw_buffer()
-                              offset:0
-                             atIndex:0];
+    offset:0
+    atIndex:0];
     return true;
 }
 
@@ -321,8 +326,8 @@ bool MetalGDI::create_program(const uint32_t program_id, const Path& vs_path, co
         auto src = fs::slurp_file(path);
 
         lib = [device_ newLibraryWithSource:[NSString stringWithUTF8String:src.c_str()]
-                                    options:nil
-                                      error:&err];
+        options:nil
+        error:&err];
         if ( lib == nil ) {
             SKY_ERROR("Shader", "Couldn't load metal shader library (see NSError: %s)",
                       [[err localizedDescription] UTF8String]);
@@ -331,10 +336,10 @@ bool MetalGDI::create_program(const uint32_t program_id, const Path& vs_path, co
             NSString* func_name = [NSString stringWithUTF8String:stem.c_str()];
             func = [lib newFunctionWithName:func_name];
         }
-        
+
         return func;
     };
-    
+
     id<MTLFunction> vs = make_function(vs_path);
     id<MTLFunction> frag = make_function(frag_path);
 
@@ -350,14 +355,14 @@ bool MetalGDI::set_program(const uint32_t program_id)
     NSError* err = nil;
     auto* program = programs_.lookup(program_id);
     render_pipeline_ = program->get_render_pipeline_state(device_);
-    
+
     if ( render_pipeline_ == nil ) {
         SKY_ERROR("GDI",
                   "Couldn't initialize main render pipeline state: NSError: %s",
                   [[err localizedDescription] UTF8String]);
         return false;
     }
-    
+
     return true;
 }
 
@@ -388,8 +393,8 @@ void MetalGDI::set_uniform(const uint32_t u_id, const uint32_t index)
 
     [render_encoder_ setVertexBuffer:
     ubuf->raw_buffer()
-                              offset:0
-                             atIndex:index];
+    offset:0
+    atIndex:index];
 }
 
 void MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data, const uint32_t offset)
@@ -406,28 +411,28 @@ void MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data, cons
 }
 
 void MetalGDI::create_texture(const uint32_t t_id, const uint32_t width,
-                              const uint32_t height, const PixelFormat::Enum pixel_format,
-                              const bool mipmapped)
+                                 const uint32_t height, const PixelFormat::Enum pixel_format,
+                                 const bool mipmapped)
 {
     auto mtl_format = mtl_pixel_formats[pixel_format];
     auto* descriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:mtl_format
-                                                                          width:width
-                                                                         height:height
-                                                                      mipmapped:mipmapped];
+    width:width
+    height:height
+    mipmapped:mipmapped];
     textures_.create(t_id, [device_ newTextureWithDescriptor:descriptor]);
 }
 
 void MetalGDI::create_texture_region(const uint32_t tex_id, const UIntRect& region,
-                                     const PixelFormat::Enum pixel_format, uint8_t* data)
+                                        const PixelFormat::Enum pixel_format, uint8_t* data)
 {
     auto bytes_per_pixel = PixelFormat::bytes_per_pixel(pixel_format);
     auto tex = textures_.lookup(tex_id);
     auto bpr = bytes_per_pixel * region.width;
     MTLRegion mtl_region = MTLRegionMake2D(region.position.x, region.position.y, region.width, region.height);
     [*tex replaceRegion:mtl_region
-            mipmapLevel:0
-              withBytes:data
-            bytesPerRow:bpr];
+    mipmapLevel:0
+    withBytes:data
+    bytesPerRow:bpr];
 }
 
 void MetalGDI::set_texture(const uint32_t t_id, const uint32_t index)
@@ -437,15 +442,15 @@ void MetalGDI::set_texture(const uint32_t t_id, const uint32_t index)
         SKY_ERROR("Texture", "Invalid texture ID specified");
         return;
     }
-    
+
     [render_encoder_ setFragmentTexture:*tex atIndex:index];
 }
 
 void MetalGDI::set_state(const uint32_t flags)
 {
     if ( ( 0 | RenderPipelineState::culling_none
-             | RenderPipelineState::culling_backface
-             | RenderPipelineState::culling_frontface)
+        | RenderPipelineState::culling_backface
+        | RenderPipelineState::culling_frontface)
         & flags ) {
 
         if ( RenderPipelineState::culling_none & flags ) {
@@ -465,18 +470,18 @@ void MetalGDI::set_state(const uint32_t flags)
 
 bool MetalGDI::draw()
 {
-    if ( target_.index_buffer > 0 ) {
+    if ( state_.index_buffer > 0 ) {
         [render_encoder_ drawIndexedPrimitives:MTLPrimitiveTypeTriangle
-                                    indexCount:target_.index_count
-                                     indexType:MTLIndexTypeUInt32
-                                   indexBuffer:
-        index_buffers_.lookup(target_.index_buffer)->raw_buffer()
-                             indexBufferOffset:target_.index_offset];
+        indexCount:state_.index_count
+        indexType:MTLIndexTypeUInt32
+        indexBuffer:
+        index_buffers_.lookup(state_.index_buffer)->raw_buffer()
+        indexBufferOffset:state_.index_offset];
     } else {
         [render_encoder_ drawPrimitives:MTLPrimitiveTypeTriangle
-                            vertexStart:target_.vertex_offset
-                            vertexCount:target_.vertex_count
-                          instanceCount:1];
+        vertexStart:state_.vertex_offset
+        vertexCount:state_.vertex_count
+        instanceCount:1];
     }
 
     return true;
@@ -484,19 +489,19 @@ bool MetalGDI::draw()
 
 bool MetalGDI::draw_instanced(const uint32_t instance)
 {
-    if ( target_.index_buffer > 0 ) {
+    if ( state_.index_buffer > 0 ) {
         [render_encoder_ drawIndexedPrimitives:MTLPrimitiveTypeTriangle
-                                    indexCount:target_.index_count
-                                     indexType:MTLIndexTypeUInt32
-                                   indexBuffer:
-        index_buffers_.lookup(target_.index_buffer)->raw_buffer()
-                             indexBufferOffset:target_.index_offset
-                                 instanceCount:instance];
+        indexCount:state_.index_count
+        indexType:MTLIndexTypeUInt32
+        indexBuffer:
+        index_buffers_.lookup(state_.index_buffer)->raw_buffer()
+        indexBufferOffset:state_.index_offset
+        instanceCount:instance];
     } else {
         [render_encoder_ drawPrimitives:MTLPrimitiveTypeTriangle
-                            vertexStart:target_.vertex_offset
-                            vertexCount:target_.vertex_count
-                          instanceCount:instance];
+        vertexStart:state_.vertex_offset
+        vertexCount:state_.vertex_count
+        instanceCount:instance];
     }
 
     return true;

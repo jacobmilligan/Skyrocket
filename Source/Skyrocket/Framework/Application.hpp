@@ -11,8 +11,9 @@
 
 #pragma once
 
-#include <Skyrocket/Graphics/GDI/Experimental/GraphicsDriver.hpp>
 #include "Skyrocket/Graphics/GraphicsDriver.hpp"
+#include "Skyrocket/Platform/Platform.hpp"
+#include "Skyrocket/Graphics/Viewport.hpp"
 
 namespace sky {
 
@@ -40,7 +41,7 @@ public:
     virtual void on_shutdown() = 0;
 protected:
 //    GraphicsDriver graphics_driver;
-    experimental::GraphicsDriver graphics_driver;
+    GraphicsDriver graphics_driver;
     Platform platform;
     Viewport primary_view;
 private:

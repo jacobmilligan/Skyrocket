@@ -10,7 +10,7 @@
 //
 
 #include <Skyrocket/Framework/Application.hpp>
-#include <Skyrocket/Graphics/GDI/Experimental/GraphicsDriver.hpp>
+#include <Skyrocket/Graphics/GraphicsDriver.hpp>
 #include <Skyrocket/Graphics/Vertex.hpp>
 
 class App : public sky::Application {
