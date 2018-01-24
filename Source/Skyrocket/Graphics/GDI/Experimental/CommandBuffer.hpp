@@ -20,6 +20,7 @@
 #include <array>
 
 namespace sky {
+namespace experimental {
 
 class CommandBuffer;
 
@@ -112,6 +113,7 @@ struct SetTextureData {
 
 class CommandBuffer {
 public:
+    // TODO(Jacob): Does it need a state for unallocated to prevent multiple threads getting the same buffer if allocating before begin() was called?
     enum class State {
         unknown,
         ready,
@@ -119,9 +121,21 @@ public:
         processing
     };
 
+    CommandBuffer()
+    {
+        reset();
+    }
+
     void begin();
 
     void end();
+
+    inline State state()
+    {
+        return state_;
+    }
+
+    void reset();
 
     /// @brief Sends a command to create a new vertex buffer resource
     /// @param initial_data The initial data to copy into the buffer
@@ -260,4 +274,5 @@ private:
 };
 
 
+} // namespace experimental
 } // namespace sky

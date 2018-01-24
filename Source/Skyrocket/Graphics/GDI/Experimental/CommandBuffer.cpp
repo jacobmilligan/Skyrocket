@@ -12,6 +12,8 @@
 #include "CommandBuffer.hpp"
 
 namespace sky {
+namespace experimental {
+
 
 uint32_t CommandBuffer::next_handle_ = 1;
 
@@ -23,6 +25,13 @@ void CommandBuffer::begin()
 void CommandBuffer::end()
 {
     state_ = State::ready;
+}
+
+void CommandBuffer::reset()
+{
+    state_ = State::ready;
+    cursor_ = 0;
+    memset(buffer_, 0, buffer_capacity_);
 }
 
 uint32_t CommandBuffer::create_vertex_buffer(const MemoryBlock& initial_data,
@@ -144,4 +153,5 @@ void CommandBuffer::draw_instanced(const uint32_t instances)
 }
 
 
+} // namespace experimental
 } // namespace sky

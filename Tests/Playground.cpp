@@ -10,7 +10,7 @@
 //
 
 #include <Skyrocket/Framework/Application.hpp>
-#include <Skyrocket/Graphics/GDI/Experimental/CommandBuffer.hpp>
+#include <Skyrocket/Graphics/GDI/Experimental/GraphicsDriver.hpp>
 
 class App : public sky::Application {
 public:
@@ -20,11 +20,11 @@ public:
 
     void on_startup(int argc, const char** argv) override
     {
-        sky::CommandBuffer buf{};
-
-        buf.begin();
-        buf.draw();
-        buf.end();
+        sky::experimental::GraphicsDriver gd;
+        auto cmdbuf = gd.make_command_buffer();
+        cmdbuf->begin();
+        cmdbuf->draw();
+        cmdbuf->end();
     }
 
     void on_update() override
