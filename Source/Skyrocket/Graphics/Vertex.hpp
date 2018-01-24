@@ -20,6 +20,8 @@ namespace sky {
 
 /// @brief Packed graphics vertex. 16 byte aligned for Metal support.
 struct alignas(16) Vertex {
+    Vertex() = default;
+
     Vertex(const float x, const float y, const float z, const float w,
            const float r, const float g, const float b, const float a,
            const float s, const float t)

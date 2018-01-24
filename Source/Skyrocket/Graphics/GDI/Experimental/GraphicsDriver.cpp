@@ -46,7 +46,6 @@ CommandBuffer* GraphicsDriver::make_command_buffer()
     auto buf = static_cast<CommandBuffer*>(cmdbuf_pool_.allocate());
 
     if (buf == nullptr) {
-        SKY_ERROR("GraphicsDriver", "Could not make new command buffer");
         return nullptr;
     }
 
@@ -91,7 +90,9 @@ void GraphicsDriver::render_thread_proc()
     while (render_thread_active_) {
         if (cmdbuf_queue_.empty()) {
             std::unique_lock<std::mutex> lock(render_thread_mutex_);
-            render_thread_cv_.wait(lock);
+            render_thread_cv_.wait(lock, [&]() {
+                return render_thread_notified_;
+            });
             render_thread_notified_ = false;
         }
 
@@ -107,9 +108,9 @@ void GraphicsDriver::render_thread_proc()
 
         if (cmdbuf != nullptr) {
             cmdbuf->reset_cursor();
-            gdi_->process_command_buffer(cmdbuf);
+            gdi_->commit(cmdbuf);
             cmdbuf->end_processing();
-            cmdbuf_pool_.free(cmdbuf);
+            free_command_buffer(cmdbuf);
         }
     }
 }

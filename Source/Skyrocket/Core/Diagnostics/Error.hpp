@@ -57,7 +57,7 @@ void __sky_assert_handler(const char* function, const char* file, const int line
         }\
     }
 #else
-#define SKY_ASSERT(expr, msgformat, ...) ((void)0)
+#define SKY_ASSERT(expr, msgformat, ...)
 #endif
 
 /// @brief Prints an error message with the line and file it occurred on

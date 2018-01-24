@@ -3,5 +3,6 @@ skyrocket_tests_init()
 
 add_subdirectory(Static)
 
-add_executable(Playground Playground.cpp)
-target_link_libraries(Playground Skyrocket)
+if (SKYROCKET_EXPERIMENTAL)
+    add_subdirectory(Experimental)
+endif ()

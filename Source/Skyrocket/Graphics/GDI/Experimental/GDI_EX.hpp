@@ -23,8 +23,43 @@ namespace experimental {
 
 class CommandBuffer;
 
+/// @brief Contains the current state of the graphics device - buffers,
+/// shaders, indices etc. being used currently
+struct RenderState {
+    RenderState()
+    {
+        reset();
+    }
+
+    /// @brief Resets all values back to zero
+    void reset()
+    {
+        vertex_buffer = 0;
+        vertex_count = 0;
+        vertex_offset = 0;
+        index_count = 0;
+        index_buffer = 0;
+        index_offset = 0;
+    }
+
+    uint32_t vertex_buffer{0};
+    uint32_t vertex_count{0};
+    uint32_t vertex_offset{0};
+    uint32_t index_buffer{0};
+    uint32_t index_count{0};
+    uint32_t index_offset{0};
+};
+
 class GDI_EX {
 public:
+    static constexpr uint32_t invalid_handle = 0;
+    static constexpr uint16_t vertex_buffer_max = 1024;
+    static constexpr uint16_t index_buffer_max = 1024;
+    static constexpr uint16_t uniform_buffer_max = 512;
+    static constexpr uint16_t shader_max = 512;
+    static constexpr uint16_t texture_max = 512;
+    static constexpr uint16_t max_frames_in_flight = 3;
+
     GDI_EX() = default;
 
     virtual ~GDI_EX() = default;
@@ -40,8 +75,11 @@ public:
     /// @return Successful initialization if true, false otherwise
     virtual bool init(Viewport* viewport);
 
-    void process_command_buffer(CommandBuffer* cmdbuf);
+    virtual void commit(CommandBuffer* cmdbuf);
 protected:
+    RenderState state_;
+
+    void execute_commands(CommandBuffer* cmdbuf);
     /// @brief Sets the viewport as the active viewport for this graphics device
     /// @param viewport
     virtual void set_viewport(Viewport* viewport);

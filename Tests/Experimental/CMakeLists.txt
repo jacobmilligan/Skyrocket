@@ -1,0 +1,2 @@
+add_executable(Experimental Experimental.cpp)
+target_link_libraries(Experimental Skyrocket)

@@ -42,7 +42,6 @@ void Path::make_real()
     auto ptr = realpath(path_.data(), nullptr);
 
     if ( ptr == nullptr ) {
-        SKY_ERROR("Path", "Trying to make real pathname: %s", std::strerror(errno));
         return;
     }
 

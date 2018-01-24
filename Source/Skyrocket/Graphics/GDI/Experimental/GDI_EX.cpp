@@ -15,12 +15,8 @@
 namespace sky {
 namespace experimental {
 
-std::unique_ptr<GDI_EX> GDI_EX::create() noexcept
-{
-    return std::make_unique<GDI_EX>();
-}
 
-void GDI_EX::process_command_buffer(CommandBuffer* cmdbuf)
+void GDI_EX::execute_commands(CommandBuffer* cmdbuf)
 {
     CommandType* type = nullptr;
 
@@ -48,16 +44,16 @@ void GDI_EX::process_command_buffer(CommandBuffer* cmdbuf)
             } break;
 
             case CommandType::create_vertex_buffer: {
-//                auto cmd = cmd_buf.read<rc::CreateVertexBuffer>();
-//                create_vertex_buffer(cmd->buf_id, cmd->data, cmd->buf_usage);
+                auto data = cmdbuf->read<CreateVertexBufferData>();
+                create_vertex_buffer(data->buf_id, data->data, data->buf_usage);
             } break;
 
             case CommandType::set_vertex_buffer: {
-//                auto cmd = cmd_buf.read<rc::SetVertexBuffer>();
-//                set_vertex_buffer(cmd->buf_id);
-//                target_.vertex_buffer = cmd->buf_id;
-//                target_.vertex_count = cmd->count;
-//                target_.vertex_offset = cmd->first_vertex;
+                auto data = cmdbuf->read<SetVertexBufferData>();
+                set_vertex_buffer(data->buf_id);
+                state_.vertex_buffer = data->buf_id;
+                state_.vertex_count = data->count;
+                state_.vertex_offset = data->first_vertex;
             } break;
 
             case CommandType::create_index_buffer: {
@@ -74,27 +70,24 @@ void GDI_EX::process_command_buffer(CommandBuffer* cmdbuf)
             } break;
 
             case CommandType::create_program: {
-//                auto* cmd = cmd_buf.read<rc::CreateProgram>();
-//
-//                auto prog_id = cmd->prog_id;
-//
-//                Path vs(cmd->vs);
-//                Path frag(cmd->frag);
-//
-//                create_program(prog_id, vs, frag);
-//                cmd->destroy();
+                auto* data = cmdbuf->read<CreateProgramData>();
+
+                auto prog_id = data->prog_id;
+
+                Path vs(data->vs);
+                Path frag(data->frag);
+
+                create_program(prog_id, vs, frag);
             } break;
 
             case CommandType::set_program: {
-//                auto cmd = cmd_buf.read<rc::SetProgram>();
-//
-//                auto prog_id = cmd->prog_id;
-//
-//                if ( prog_id == invalid_handle ) {
-////                    printf("invali\n");
-//                } else {
-//                    set_program(prog_id);
-//                }
+                auto program_id = cmdbuf->read<uint32_t>();
+
+                if ( *program_id == invalid_handle ) {
+//                    printf("invali\n");
+                } else {
+                    set_program(*program_id);
+                }
 
             } break;
 
@@ -151,6 +144,11 @@ void GDI_EX::process_command_buffer(CommandBuffer* cmdbuf)
 bool GDI_EX::init(Viewport*  /*viewport*/)
 {
     return false;
+}
+
+void GDI_EX::commit(CommandBuffer* cmdbuf)
+{
+    execute_commands(cmdbuf);
 }
 
 void GDI_EX::set_viewport(Viewport*  /*viewport*/)
