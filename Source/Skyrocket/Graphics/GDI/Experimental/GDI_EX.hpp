@@ -11,21 +11,37 @@
 
 #pragma once
 
+#include "Skyrocket/Core/Geometry/Rectangle.hpp"
+#include "Skyrocket/Graphics/GDI/Definitions.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
-#include "Skyrocket/Graphics/GDI/Experimental/CommandBuffer.hpp"
 
 namespace sky {
+
+class Path;
+
 namespace experimental {
 
+class CommandBuffer;
 
-class GDI {
+class GDI_EX {
 public:
+    GDI_EX() = default;
+
+    virtual ~GDI_EX() = default;
+
+    /// @brief Creates a new API-specific GDI. A GDI cannot be created without calling
+    /// this method
+    /// @return Unique pointer to the GDI
+    static std::unique_ptr<GDI_EX> create() noexcept;
+
     /// @brief Initializes the graphics device, allocating resources and creating a
     /// device context
     /// @param viewport The viewport to attach the graphics device to
     /// @return Successful initialization if true, false otherwise
-    virtual bool initialize(Viewport* viewport);
+    virtual bool init(Viewport* viewport);
 
+    void process_command_buffer(CommandBuffer* cmdbuf);
+protected:
     /// @brief Sets the viewport as the active viewport for this graphics device
     /// @param viewport
     virtual void set_viewport(Viewport* viewport);
@@ -76,8 +92,9 @@ public:
 
     virtual void update_uniform(uint32_t u_id, const MemoryBlock& data, uint32_t offset);
 
-    virtual void create_texture(uint32_t t_id, uint32_t width, uint32_t height,
-                                PixelFormat::Enum pixel_format, bool mipmapped);
+    virtual void create_texture(uint32_t t_id, uint32_t width,
+                                uint32_t height, PixelFormat::Enum pixel_format,
+                                bool mipmapped);
 
     virtual void create_texture_region(uint32_t tex_id, const UIntRect& region,
                                        PixelFormat::Enum pixel_format, uint8_t* data);

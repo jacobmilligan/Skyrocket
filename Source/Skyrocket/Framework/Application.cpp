@@ -28,10 +28,8 @@ Application::~Application() = default;
 
 void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
 {
-    AssertGuard ag("Application is running", name_);
+    AssertGuard ag("Application is starting", name_);
     {
-        AssertGuard ag2("Application is starting", name_);
-
         platform.launch(name_, &Application::on_update);
 
         primary_view.open(name_, 800, 600);

@@ -20,6 +20,9 @@
 #include <array>
 
 namespace sky {
+
+class Viewport;
+
 namespace experimental {
 
 class CommandBuffer;
@@ -123,19 +126,49 @@ public:
 
     CommandBuffer()
     {
-        reset();
+        clear();
     }
 
     void begin();
 
     void end();
 
+    inline void start_processing()
+    {
+        state_ = State::processing;
+    }
+
+    inline void end_processing()
+    {
+        state_ = State::ready;
+    }
+
     inline State state()
     {
         return state_;
     }
 
-    void reset();
+    /// Reads the number of bytes equal to sizeof(T) into `dest` and increments the internal cursor
+    template <typename T>
+    T* read()
+    {
+        if (cursor_ + sizeof(T) > buffer_capacity_) {
+            return nullptr;
+        }
+
+        auto src = reinterpret_cast<T*>(&buffer_[cursor_]);
+        cursor_ += sizeof(T);
+        return src;
+    }
+
+    void clear();
+
+    inline void reset_cursor()
+    {
+        cursor_ = 0;
+    }
+
+    void set_viewport(Viewport* viewport);
 
     /// @brief Sends a command to create a new vertex buffer resource
     /// @param initial_data The initial data to copy into the buffer

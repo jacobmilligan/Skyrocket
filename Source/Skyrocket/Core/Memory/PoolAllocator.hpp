@@ -84,6 +84,7 @@ public:
             return nullptr;
         }
 
+
         ++blocks_initialized_;
 
         uint8_t* block = next_;

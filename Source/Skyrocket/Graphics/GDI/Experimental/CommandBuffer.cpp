@@ -9,7 +9,8 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "CommandBuffer.hpp"
+#include "Skyrocket/Graphics/Viewport.hpp"
+#include "Skyrocket/Graphics/GDI/Experimental/CommandBuffer.hpp"
 
 namespace sky {
 namespace experimental {
@@ -27,11 +28,16 @@ void CommandBuffer::end()
     state_ = State::ready;
 }
 
-void CommandBuffer::reset()
+void CommandBuffer::clear()
 {
     state_ = State::ready;
     cursor_ = 0;
     memset(buffer_, 0, buffer_capacity_);
+}
+
+void CommandBuffer::set_viewport(Viewport* viewport)
+{
+    write_command(CommandType::set_viewport, viewport);
 }
 
 uint32_t CommandBuffer::create_vertex_buffer(const MemoryBlock& initial_data,

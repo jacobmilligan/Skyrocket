@@ -24,11 +24,9 @@ public:
 
     explicit FixedStackAllocator(const size_t capacity)
         : cursor_(0), capacity_(capacity), buffer_(nullptr)
-    {}
-
-    void initialize()
     {
         buffer_ = new uint8_t[capacity_];
+        reset();
     }
 
     ~FixedStackAllocator()

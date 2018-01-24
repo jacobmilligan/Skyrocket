@@ -20,22 +20,26 @@ public:
 
     void on_startup(int argc, const char** argv) override
     {
-        sky::experimental::GraphicsDriver gd;
-        auto cmdbuf = gd.make_command_buffer();
-        cmdbuf->begin();
-        cmdbuf->draw();
-        cmdbuf->end();
+        gd_.init(&primary_view);
     }
 
     void on_update() override
     {
+        auto cmdbuf = gd_.make_command_buffer();
+        cmdbuf->begin();
+        cmdbuf->draw();
+        cmdbuf->end();
 
+        gd_.submit_command_buffer(cmdbuf);
     }
 
     void on_shutdown() override
     {
 
     }
+
+private:
+    sky::experimental::GraphicsDriver gd_;
 };
 
 int main(int argc, char** argv)
