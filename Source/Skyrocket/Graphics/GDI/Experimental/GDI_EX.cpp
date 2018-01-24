@@ -57,16 +57,16 @@ void GDI_EX::execute_commands(CommandBuffer* cmdbuf)
             } break;
 
             case CommandType::create_index_buffer: {
-//                auto cmd = cmd_buf.read<rc::CreateIndexBuffer>();
-//                create_index_buffer(cmd->buf_id, cmd->data);
+                auto data = cmdbuf->read<CreateIndexBufferData>();
+                create_index_buffer(data->buf_id, data->data);
             } break;
 
             case CommandType::set_index_buffer: {
-//                auto cmd = cmd_buf.read<rc::SetIndexBuffer>();
-//                set_index_buffer(cmd->buf_id);
-//                target_.index_buffer = cmd->buf_id;
-//                target_.index_count = cmd->count;
-//                target_.index_offset = cmd->first_index;
+                auto data = cmdbuf->read<SetIndexBufferData>();
+                set_index_buffer(data->buf_id);
+                state_.index_buffer = data->buf_id;
+                state_.index_count = data->count;
+                state_.index_offset = data->first_index;
             } break;
 
             case CommandType::create_program: {
@@ -81,51 +81,51 @@ void GDI_EX::execute_commands(CommandBuffer* cmdbuf)
             } break;
 
             case CommandType::set_program: {
-                auto program_id = cmdbuf->read<uint32_t>();
+                auto idptr = cmdbuf->read<uint32_t>();
 
-                if ( *program_id == invalid_handle ) {
+                if ( *idptr == invalid_handle ) {
 //                    printf("invali\n");
                 } else {
-                    set_program(*program_id);
+                    set_program(*idptr);
                 }
 
             } break;
 
             case CommandType::create_uniform: {
-//                auto cmd = cmd_buf.read<rc::CreateUniform>();
-//                create_uniform(cmd->uniform_id, cmd->size);
+                auto data = cmdbuf->read<CreateUniformData>();
+                create_uniform(data->uniform_id, data->size);
             } break;
 
             case CommandType::set_uniform: {
-//                auto cmd = cmd_buf.read<rc::SetUniform>();
-//                set_uniform(cmd->uniform_id, cmd->uniform_index);
+                auto data = cmdbuf->read<SetUniformData>();
+                set_uniform(data->uniform_id, data->uniform_index);
             } break;
 
             case CommandType::update_uniform: {
-//                auto cmd = cmd_buf.read<rc::UpdateUniform>();
-//                if ( cmd->type != CommandType::unknown ) {
-//                    update_uniform(cmd->uniform_id, cmd->new_data, cmd->offset);
+                auto data = cmdbuf->read<UpdateUniformData>();
+//                if ( data->type != CommandType::unknown ) {
+                update_uniform(data->uniform_id, data->new_data, data->offset);
 //                }
             } break;
 
             case CommandType::create_texture: {
-//                auto cmd = cmd_buf.read<rc::CreateTexture>();
-//                create_texture(cmd->tid, cmd->width, cmd->height, cmd->format, cmd->mipmapped);
+                auto cmd = cmdbuf->read<CreateTextureData>();
+                create_texture(cmd->tid, cmd->width, cmd->height, cmd->format, cmd->mipmapped);
             } break;
 
             case CommandType::create_texture_region: {
-//                auto cmd = cmd_buf.read<rc::CreateTextureRegion>();
-//                create_texture_region(cmd->tex_id, cmd->rect, cmd->format, cmd->data);
+                auto cmd = cmdbuf->read<CreateTextureRegionData>();
+                create_texture_region(cmd->tex_id, cmd->rect, cmd->format, cmd->data);
             } break;
 
             case CommandType::set_texture: {
-//                auto cmd = cmd_buf.read<rc::SetTexture>();
-//                set_texture(cmd->tid, cmd->index);
+                auto cmd = cmdbuf->read<SetTextureData>();
+                set_texture(cmd->tid, cmd->index);
             } break;
 
             case CommandType::set_state: {
-//                auto cmd = cmd_buf.read<rc::SetState>();
-//                set_state(cmd->flags);
+                auto flagsptr = cmdbuf->read<uint32_t>();
+                set_state(*flagsptr);
             } break;
 
             case CommandType::draw: {
@@ -133,8 +133,8 @@ void GDI_EX::execute_commands(CommandBuffer* cmdbuf)
             } break;
 
             case CommandType::draw_instanced: {
-//                auto cmd = cmd_buf.read<rc::DrawInstanced>();
-//                draw_instanced(cmd->instance);
+                auto instanceptr = cmdbuf->read<uint32_t>();
+                draw_instanced(*instanceptr);
             } break;
         }
     }
