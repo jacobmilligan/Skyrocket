@@ -22,7 +22,7 @@ public:
     Camera();
     Matrix4f get_matrix();
 
-    void setup(const float yfov, const float aspect, const float near_plane, const float far_plane);
+    void setup(float yfov, float aspect, float near_plane, float far_plane);
 
     void set_position(const Vector3f& pos);
     void move(const Vector3f& movement);
@@ -35,7 +35,13 @@ private:
 };
 
 class Camera2D {
+public:
+    Camera2D();
+    Matrix4f get_matrix();
 
+    void setup();
+private:
+    Matrix4f matrix_;
 };
 
 

@@ -40,9 +40,7 @@ struct Matrix4 {
     /// @param value Value to initialize the matrix's main diagonal elements to
     explicit Matrix4(const T value)
     {
-        for ( auto& c : entries ) {
-            c = static_cast<T>(0);
-        }
+        memset(entries, 0, sizeof(float) * 16);
 
         entries[0] = value;
         entries[5] = value;
@@ -140,12 +138,30 @@ struct Matrix4 {
         return ss.str();
     }
 
+    /// @brief Defines subscript operator for accessing the column vector elements
+    /// of the matrix
+    /// @param i The column vector to access
+    /// @return The column vector
+    T* operator[](const int i)
+    {
+        return &entries[i * 4];
+    }
+
+    /// @brief Defines subscript operator for accessing the column vector elements
+    /// of the matrix. Definition used for const accessing
+    /// @param i The column vector to access
+    /// @return The column vector
+    const T* operator[](const int i) const
+    {
+        return &entries[i * 4];
+    }
+
     /// @brief Gets a scale matrix using this matrix and a column Vector3 as a basis
     /// @param v The column vector to scale the matrix by
     /// @return The scale matrix
-    Matrix4<T> scale(const Vector3<T>& v)
+    static Matrix4<T> scale(const Vector3<T>& v)
     {
-        auto result = *this;
+        Matrix4<T> result;
 
         result.entries[0] *= v.x;
         result.entries[5] *= v.y;
@@ -158,9 +174,10 @@ struct Matrix4 {
     /// column Vector3 as a basis
     /// @param v The column vector to translate the matrix by
     /// @return The translation matrix
-    Matrix4<T> translate(const Vector3<T>& v)
+    static Matrix4<T> translate(const Vector3<T>& v)
     {
-        Matrix4<T> trans = *this;
+        Matrix4<T> trans;
+
         trans.entries[12] = v.x;
         trans.entries[13] = v.y;
         trans.entries[14] = v.z;
@@ -169,29 +186,28 @@ struct Matrix4 {
 
     /// @brief Transposes the matrix
     /// @return The matrix transpose
-    Matrix4<T> transpose()
+    static Matrix4<T> transpose(Matrix4<T>& mat)
     {
-        auto start = *this;
-        auto result = start;
+        auto result = mat;
 
-        result.entries[1] = entries[4];
-        result.entries[2] = entries[8];
-        result.entries[3] = entries[12];
+        result.entries[1] = mat.entries[4];
+        result.entries[2] = mat.entries[8];
+        result.entries[3] = mat.entries[12];
 
-        result.entries[4] = entries[1];
-        result.entries[5] = entries[5];
-        result.entries[6] = entries[9];
-        result.entries[7] = entries[13];
+        result.entries[4] = mat.entries[1];
+        result.entries[5] = mat.entries[5];
+        result.entries[6] = mat.entries[9];
+        result.entries[7] = mat.entries[13];
 
-        result.entries[8] = entries[2];
-        result.entries[9] = entries[6];
-        result.entries[10] = entries[10];
-        result.entries[11] = entries[14];
+        result.entries[8] = mat.entries[2];
+        result.entries[9] = mat.entries[6];
+        result.entries[10] = mat.entries[10];
+        result.entries[11] = mat.entries[14];
 
-        result.entries[12] = entries[3];
-        result.entries[13] = entries[7];
-        result.entries[14] = entries[11];
-        result.entries[15] = entries[15];
+        result.entries[12] = mat.entries[3];
+        result.entries[13] = mat.entries[7];
+        result.entries[14] = mat.entries[11];
+        result.entries[15] = mat.entries[15];
 
         return result;
     }
@@ -201,9 +217,9 @@ struct Matrix4 {
     /// @param theta The angle at which to rotate
     /// @param axis The vector representing an axis to rotate around
     /// @return The rotation matrix
-    Matrix4<T> rotate(const T theta, const Vector3<T>& axis)
+    static Matrix4<T> rotate(const T theta, const Vector3<T>& axis)
     {
-        auto rotation = *this;
+        Matrix4<T> rotation;
 
         auto omega = axis.get_normalized();
         auto costheta = static_cast<T>(cos(theta));
@@ -237,7 +253,7 @@ struct Matrix4 {
     /// @param near The closest point of the viewing area
     /// @param far The furthest point of the viewing area
     /// @return The orthographic projection matrix
-    Matrix4<T> ortho(const T left, const T right, const T bottom,
+    static Matrix4<T> ortho(const T left, const T right, const T bottom,
                      const T top, const T near, const T far)
     {
         Matrix4<T> result;
@@ -270,9 +286,9 @@ struct Matrix4 {
     /// @param z_near
     /// @param z_far
     /// @return
-    Matrix4<T> perspective(const T fov_y, const T aspect, const T z_near, const T z_far)
+    static Matrix4<T> perspective(const T fov_y, const T aspect, const T z_near, const T z_far)
     {
-        Matrix4<T> result(0);
+        Matrix4<T> result;
 
         auto y_scale = static_cast<T>(1) / tan(fov_y * 0.5);
 
@@ -294,7 +310,7 @@ struct Matrix4 {
     /// @param target The new point in 3D space to look at
     /// @param up The vector pointing upwards in 3D space relative to the eye point
     /// @return The look_at matrix
-    Matrix4<T> look_at(const Vector3 <T>& eye, const Vector3 <T>& target,
+    static Matrix4<T> look_at(const Vector3 <T>& eye, const Vector3 <T>& target,
                        const Vector3 <T>& up)
     {
         Matrix4<T> result;
@@ -329,24 +345,6 @@ struct Matrix4 {
 
         return result;
     }
-
-    /// @brief Defines subscript operator for accessing the column vector elements
-    /// of the matrix
-    /// @param i The column vector to access
-    /// @return The column vector
-    T* operator[](const int i)
-    {
-        return &entries[i * 4];
-    }
-
-    /// @brief Defines subscript operator for accessing the column vector elements
-    /// of the matrix. Definition used for const accessing
-    /// @param i The column vector to access
-    /// @return The column vector
-    const T* operator[](const int i) const
-    {
-        return &entries[i * 4];
-    }
 };
 
 /// @brief Operator* overload for multiplying a matrix by a column vector and
@@ -374,7 +372,7 @@ Vector4 <T> operator*(const Matrix4<T>& mat, const Vector4 <T>& vec)
 template<typename T>
 Matrix4<T> operator*(const Matrix4<T>& left, const Matrix4<T>& right)
 {
-    Matrix4<T> result;
+    auto result = left;
     auto* A = left.entries;
     auto* B = right.entries;
 
@@ -420,5 +418,6 @@ using Matrix4u = Matrix4<unsigned int>;
 using Matrix4b = Matrix4<bool>;
 
 /// @}
+
 
 }  // namespace sky

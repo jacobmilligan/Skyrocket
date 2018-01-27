@@ -29,12 +29,12 @@ Camera::Camera()
 
 void Camera::update_matrix()
 {
-    perspective_ = I_.perspective(yfov_, aspect_, near_, far_);
+    perspective_ = Matrix4f::perspective(yfov_, aspect_, near_, far_);
 }
 
 Matrix4f Camera::get_matrix()
 {
-    auto view = I_.look_at(pos_, pos_ + front_, up_);
+    auto view = Matrix4f::look_at(pos_, pos_ + front_, up_);
     return perspective_ * view;
 }
 
@@ -57,6 +57,21 @@ void Camera::move(const Vector3f& movement)
 {
     pos_ += movement;
     pos_ += front_.cross(up_) * movement;
+}
+
+Camera2D::Camera2D()
+{
+
+}
+
+Matrix4f Camera2D::get_matrix()
+{
+    return {};
+}
+
+void Camera2D::setup()
+{
+
 }
 
 

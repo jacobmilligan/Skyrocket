@@ -37,8 +37,8 @@ struct Vector4 {
     {}
 
     /// @brief Initializes a new Vector4 with all elements assigned a value of zero
-    Vector4() :
-        Vector4(0.0f)
+    Vector4()
+        : Vector4(0.0f)
     {}
 
     /// @brief Initializes a new Vector4 with each element assigned the

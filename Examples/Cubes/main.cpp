@@ -42,9 +42,9 @@ struct Cube {
 
     sky::Matrix4f& get_transform()
     {
-        auto translation_mat = identity_.translate(pos);
-        auto scale_mat = identity_.scale(scale);
-        auto rotation_mat = identity_.rotate(angle.x, xaxis_) * identity_.rotate(angle.y, yaxis_);
+        auto translation_mat = sky::Matrix4f::translate(pos);
+        auto scale_mat = sky::Matrix4f::scale(scale);
+        auto rotation_mat = sky::Matrix4f::rotate(angle.x, xaxis_) * sky::Matrix4f::rotate(angle.y, yaxis_);
 
         transform_ = translation_mat * rotation_mat * scale_mat;
 
@@ -53,7 +53,7 @@ struct Cube {
 
 private:
     sky::Vector3f xaxis_, yaxis_;
-    sky::Matrix4f identity_, transform_;
+    sky::Matrix4f transform_;
 
 };
 

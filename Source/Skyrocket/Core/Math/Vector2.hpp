@@ -52,8 +52,7 @@ struct Vector2 {
     /// @param vx Value to assign to the x element (element[0])
     /// @param vy Value to assign to the y element (element[1])
     Vector2(const T vx, const T vy)
-        :
-        x(vx), y(vy)
+        : x(vx), y(vy)
     {}
 
     /// @brief Outputs a string representation of the Vector2 elements in the form

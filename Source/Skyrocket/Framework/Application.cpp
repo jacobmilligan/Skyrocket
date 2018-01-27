@@ -83,6 +83,7 @@ void Application::shutdown()
 {
     active_ = false;
     on_shutdown();
+    jobrocket::shutdown();
 }
 
 

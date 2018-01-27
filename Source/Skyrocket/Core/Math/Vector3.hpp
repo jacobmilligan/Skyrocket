@@ -33,13 +33,12 @@ struct Vector3 {
     /// specified value
     /// @param value Value to assign to all elements
     explicit Vector3(const T value)
-        :
-        x(value), y(value), z(value)
+        : x(value), y(value), z(value)
     {}
 
     /// @brief Initializes a new Vector3 with all elements assigned a value of zero
-    Vector3() :
-        Vector3(0.0f)
+    Vector3()
+        : Vector3(0.0f)
     {}
 
     /// @brief Initializes a new Vector3 with each element assigned the

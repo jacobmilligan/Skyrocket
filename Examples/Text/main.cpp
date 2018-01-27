@@ -157,5 +157,5 @@ private:
 int main(int argc, const char** argv)
 {
     TextApplication app;
-    app.start(sky::GraphicsDriver::ThreadSupport::multithreaded);
+    app.start(sky::GraphicsDriver::ThreadSupport::multi_threaded);
 }
