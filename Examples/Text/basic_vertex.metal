@@ -9,11 +9,11 @@ struct Vertex {
 };
 
 vertex Vertex basic_vertex(device Vertex* vertices [[buffer(0)]],
-                           constant float4x4& view_projection [[ buffer(1) ]],
+                           constant float4x4& viewproj [[ buffer(1) ]],
                            uint vid [[vertex_id]])
 {
     Vertex out;
-    out.position = view_projection * vertices[vid].position;
+    out.position = viewproj * vertices[vid].position;
     out.color = vertices[vid].color;
     out.tex_coords = vertices[vid].tex_coords;
     return out;

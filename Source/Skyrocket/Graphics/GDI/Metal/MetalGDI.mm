@@ -65,7 +65,7 @@ id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice>
     pipeline_descriptor.colorAttachments[0].destinationAlphaBlendFactor = MTLBlendFactorOneMinusBlendAlpha;
 
     id<MTLRenderPipelineState> new_rps = [device newRenderPipelineStateWithDescriptor:pipeline_descriptor
-    error:&err];
+                                                                                error:&err];
 
 
 
@@ -164,8 +164,8 @@ fragment float4 basic_fragment(Vertex in [[stage_in]])
     NSString* nssrc = [NSString stringWithUTF8String:default_src];
 
     id<MTLLibrary> lib = [device_ newLibraryWithSource:nssrc
-    options:nil
-    error:&err];
+                                               options:nil
+                                                 error:&err];
     if ( lib == nil ) {
         SKY_ASSERT(default_library_ != nil,
                    "Default Metal Library loads correctly (see NSError: %s)",
@@ -192,7 +192,7 @@ fragment float4 basic_fragment(Vertex in [[stage_in]])
 
 
 
-void MetalGDI::commit(CommandBuffer* cmdbuf)
+void MetalGDI::commit(CommandQueue* cmdqueue)
 {
     dispatch_semaphore_wait(buf_sem_, DISPATCH_TIME_FOREVER);
 
@@ -233,7 +233,7 @@ void MetalGDI::commit(CommandBuffer* cmdbuf)
         [render_encoder_ setDepthStencilState:depth_stencil_state_];
         [render_encoder_ setCullMode:MTLCullModeBack];
 
-        execute_commands(cmdbuf);
+        execute_commands(cmdqueue);
 
         [render_encoder_ endEncoding];
 
@@ -253,8 +253,7 @@ void MetalGDI::commit(CommandBuffer* cmdbuf)
 
 void MetalGDI::set_viewport(Viewport* viewport)
 {
-    MetalView * mtl_view = (MetalView * )
-        viewport->get_native_viewport()->view;
+    MetalView* mtl_view = (MetalView*)viewport->get_native_viewport()->view;
     mtl_view.metalLayer.device = device_;
     mtl_layer_ = mtl_view.metalLayer;
 }
@@ -288,9 +287,9 @@ bool MetalGDI::set_vertex_buffer(const uint32_t vbuf_id)
     }
 
     [render_encoder_ setVertexBuffer:
-    vbuf->raw_buffer()
-    offset:0
-    atIndex:0];
+                         vbuf->raw_buffer()
+                              offset:0
+                             atIndex:0];
     return true;
 }
 
@@ -326,8 +325,8 @@ bool MetalGDI::create_program(const uint32_t program_id, const Path& vs_path, co
         auto src = fs::slurp_file(path);
 
         lib = [device_ newLibraryWithSource:[NSString stringWithUTF8String:src.c_str()]
-        options:nil
-        error:&err];
+                                    options:nil
+                                      error:&err];
         if ( lib == nil ) {
             SKY_ERROR("Shader", "Couldn't load metal shader library (see NSError: %s)",
                       [[err localizedDescription] UTF8String]);
@@ -392,9 +391,9 @@ void MetalGDI::set_uniform(const uint32_t u_id, const uint32_t index)
     }
 
     [render_encoder_ setVertexBuffer:
-    ubuf->raw_buffer()
-    offset:0
-    atIndex:index];
+                         ubuf->raw_buffer()
+                              offset:0
+                             atIndex:index];
 }
 
 void MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data, const uint32_t offset)
@@ -416,9 +415,9 @@ void MetalGDI::create_texture(const uint32_t t_id, const uint32_t width,
 {
     auto mtl_format = mtl_pixel_formats[pixel_format];
     auto* descriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:mtl_format
-    width:width
-    height:height
-    mipmapped:mipmapped];
+                                                                          width:width
+                                                                         height:height
+                                                                      mipmapped:mipmapped];
     textures_.create(t_id, [device_ newTextureWithDescriptor:descriptor]);
 }
 
@@ -430,9 +429,9 @@ void MetalGDI::create_texture_region(const uint32_t tex_id, const UIntRect& regi
     auto bpr = bytes_per_pixel * region.width;
     MTLRegion mtl_region = MTLRegionMake2D(region.position.x, region.position.y, region.width, region.height);
     [*tex replaceRegion:mtl_region
-    mipmapLevel:0
-    withBytes:data
-    bytesPerRow:bpr];
+            mipmapLevel:0
+              withBytes:data
+            bytesPerRow:bpr];
 }
 
 void MetalGDI::set_texture(const uint32_t t_id, const uint32_t index)
@@ -472,16 +471,16 @@ bool MetalGDI::draw()
 {
     if ( state_.index_buffer > 0 ) {
         [render_encoder_ drawIndexedPrimitives:MTLPrimitiveTypeTriangle
-        indexCount:state_.index_count
-        indexType:MTLIndexTypeUInt32
-        indexBuffer:
-        index_buffers_.lookup(state_.index_buffer)->raw_buffer()
-        indexBufferOffset:state_.index_offset];
+                                    indexCount:state_.index_count
+                                     indexType:MTLIndexTypeUInt32
+                                   indexBuffer:
+                                       index_buffers_.lookup(state_.index_buffer)->raw_buffer()
+                             indexBufferOffset:state_.index_offset];
     } else {
         [render_encoder_ drawPrimitives:MTLPrimitiveTypeTriangle
-        vertexStart:state_.vertex_offset
-        vertexCount:state_.vertex_count
-        instanceCount:1];
+                            vertexStart:state_.vertex_offset
+                            vertexCount:state_.vertex_count
+                          instanceCount:1];
     }
 
     return true;
@@ -491,17 +490,16 @@ bool MetalGDI::draw_instanced(const uint32_t instance)
 {
     if ( state_.index_buffer > 0 ) {
         [render_encoder_ drawIndexedPrimitives:MTLPrimitiveTypeTriangle
-        indexCount:state_.index_count
-        indexType:MTLIndexTypeUInt32
-        indexBuffer:
-        index_buffers_.lookup(state_.index_buffer)->raw_buffer()
-        indexBufferOffset:state_.index_offset
-        instanceCount:instance];
+                                    indexCount:state_.index_count
+                                     indexType:MTLIndexTypeUInt32
+                                   indexBuffer:index_buffers_.lookup(state_.index_buffer)->raw_buffer()
+                             indexBufferOffset:state_.index_offset
+                                 instanceCount:instance];
     } else {
         [render_encoder_ drawPrimitives:MTLPrimitiveTypeTriangle
-        vertexStart:state_.vertex_offset
-        vertexCount:state_.vertex_count
-        instanceCount:instance];
+                            vertexStart:state_.vertex_offset
+                            vertexCount:state_.vertex_count
+                          instanceCount:instance];
     }
 
     return true;

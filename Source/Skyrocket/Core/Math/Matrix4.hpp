@@ -258,9 +258,14 @@ struct Matrix4 {
     {
         Matrix4<T> result;
 
+        auto size_x = right - left;
+        auto size_y = top - bottom;
+        auto zoom_x = static_cast<T>(2) / size_x;
+        auto zoom_y = static_cast<T>(2) / size_y;
+
         // Width and height
-        result.entries[0] = static_cast<T>(2) / (right - left);
-        result.entries[5] = static_cast<T>(2) / (top - bottom);
+        result.entries[0] = zoom_x;
+        result.entries[5] = zoom_y;
 #if SKY_GRAPHICS_API_OPENGL == 1
         // OpenGL expects a lhs for the perspective divide stage
         // so the z coordinate needs to be negated to flip it
@@ -269,12 +274,10 @@ struct Matrix4 {
         result.entries[13] = -(top + bottom) / (top - bottom);
         result.entries[14] = -(far + near) / (far - near); // f + n instead of just n in numer for gl compatibility
 #elif SKY_GRAPHICS_API_METAL == 1
-        auto mtl_near = static_cast<T>(0.0);
-
-        result.entries[10] = static_cast<T>(1) / (far - mtl_near);
-        result.entries[12] = (right + left) / (left - right);
-        result.entries[13] = (top + bottom) / (bottom - top);
-        result.entries[14] = mtl_near / (far - mtl_near);
+        result.entries[10] = static_cast<T>(1) / (far - near);
+        result.entries[12] = -(right + left) / size_x;
+        result.entries[13] = -(top + bottom) / size_y;
+        result.entries[14] = -near / (far - near);
 #endif
 
         return result;

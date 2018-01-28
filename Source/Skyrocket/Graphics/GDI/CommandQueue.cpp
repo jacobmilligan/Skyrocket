@@ -1,5 +1,5 @@
 //
-//  CommandBuffer.cpp
+//  CommandQueue.cpp
 //  Skyrocket
 //
 //  --------------------------------------------------------------
@@ -10,24 +10,24 @@
 //
 
 #include "Skyrocket/Graphics/Viewport.hpp"
-#include "CommandBuffer.hpp"
+#include "CommandQueue.hpp"
 
 namespace sky {
 
 
-uint32_t CommandBuffer::next_handle_ = 1;
+uint32_t CommandQueue::next_handle_ = 1;
 
-void CommandBuffer::begin()
+void CommandQueue::start_recording()
 {
     state_ = State::recording;
 }
 
-void CommandBuffer::end()
+void CommandQueue::end_recording()
 {
     state_ = State::ready;
 }
 
-void CommandBuffer::clear()
+void CommandQueue::clear()
 {
     state_ = State::ready;
     cursor_ = 0;
@@ -35,12 +35,12 @@ void CommandBuffer::clear()
     memset(buffer_, 0, buffer_capacity_);
 }
 
-void CommandBuffer::set_viewport(Viewport* viewport)
+void CommandQueue::set_viewport(Viewport* viewport)
 {
     write_command(CommandType::set_viewport, viewport);
 }
 
-uint32_t CommandBuffer::create_vertex_buffer(const MemoryBlock& initial_data,
+uint32_t CommandQueue::create_vertex_buffer(const MemoryBlock& initial_data,
                                              const BufferUsage usage)
 {
     auto handle = make_handle();
@@ -50,7 +50,7 @@ uint32_t CommandBuffer::create_vertex_buffer(const MemoryBlock& initial_data,
     return handle;
 }
 
-void CommandBuffer::set_vertex_buffer(const uint32_t vbuf_id, const uint32_t offset,
+void CommandQueue::set_vertex_buffer(const uint32_t vbuf_id, const uint32_t offset,
                                       const uint32_t num_vertices)
 {
     write_command(CommandType::set_vertex_buffer, SetVertexBufferData {
@@ -58,7 +58,7 @@ void CommandBuffer::set_vertex_buffer(const uint32_t vbuf_id, const uint32_t off
     });
 }
 
-uint32_t CommandBuffer::create_index_buffer(const MemoryBlock& initial_data)
+uint32_t CommandQueue::create_index_buffer(const MemoryBlock& initial_data)
 {
     auto handle = make_handle();
     write_command(CommandType::create_index_buffer, CreateIndexBufferData {
@@ -67,7 +67,7 @@ uint32_t CommandBuffer::create_index_buffer(const MemoryBlock& initial_data)
     return handle;
 }
 
-void CommandBuffer::set_index_buffer(const uint32_t ibuf_id, const uint32_t offset,
+void CommandQueue::set_index_buffer(const uint32_t ibuf_id, const uint32_t offset,
                                      const uint32_t num_indices)
 {
     write_command(CommandType::set_index_buffer, SetVertexBufferData {
@@ -75,7 +75,7 @@ void CommandBuffer::set_index_buffer(const uint32_t ibuf_id, const uint32_t offs
     });
 }
 
-uint32_t CommandBuffer::create_uniform(const UniformType type, const uint32_t size)
+uint32_t CommandQueue::create_uniform(const UniformType type, const uint32_t size)
 {
     auto handle = make_handle();
     write_command(CommandType::create_uniform, CreateUniformData {
@@ -84,14 +84,14 @@ uint32_t CommandBuffer::create_uniform(const UniformType type, const uint32_t si
     return handle;
 }
 
-void CommandBuffer::set_uniform(const uint32_t u_id, const uint32_t index)
+void CommandQueue::set_uniform(const uint32_t u_id, const uint32_t index)
 {
     write_command(CommandType::set_uniform, SetUniformData {
         u_id, index
     });
 }
 
-void CommandBuffer::update_uniform(const uint32_t u_id, const MemoryBlock& data,
+void CommandQueue::update_uniform(const uint32_t u_id, const MemoryBlock& data,
                                    const uint32_t offset)
 {
     write_command(CommandType::update_uniform, UpdateUniformData {
@@ -99,7 +99,7 @@ void CommandBuffer::update_uniform(const uint32_t u_id, const MemoryBlock& data,
     });
 }
 
-uint32_t CommandBuffer::create_program(const Path& vs_path, const Path& frag_path)
+uint32_t CommandQueue::create_program(const Path& vs_path, const Path& frag_path)
 {
     CreateProgramData data{};
     data.prog_id = make_handle();
@@ -111,13 +111,13 @@ uint32_t CommandBuffer::create_program(const Path& vs_path, const Path& frag_pat
     return data.prog_id;
 }
 
-bool CommandBuffer::set_program(const uint32_t program_id)
+bool CommandQueue::set_program(const uint32_t program_id)
 {
     write_command(CommandType::set_program, program_id);
     return true;
 }
 
-uint32_t CommandBuffer::create_texture(const uint32_t width, const uint32_t height,
+uint32_t CommandQueue::create_texture(const uint32_t width, const uint32_t height,
                                        const PixelFormat::Enum pixel_format, const bool mipmapped)
 {
     auto handle = make_handle();
@@ -127,7 +127,7 @@ uint32_t CommandBuffer::create_texture(const uint32_t width, const uint32_t heig
     return handle;
 }
 
-void CommandBuffer::create_texture_region(const uint32_t texture, const UIntRect& region,
+void CommandQueue::create_texture_region(const uint32_t texture, const UIntRect& region,
                                           const PixelFormat::Enum pixel_format, uint8_t* data)
 {
     write_command(CommandType::create_texture_region, CreateTextureRegionData {
@@ -135,7 +135,7 @@ void CommandBuffer::create_texture_region(const uint32_t texture, const UIntRect
     });
 }
 
-bool CommandBuffer::set_texture(const uint32_t texture, const uint32_t index)
+bool CommandQueue::set_texture(const uint32_t texture, const uint32_t index)
 {
     write_command(CommandType::set_texture, SetTextureData {
         texture, index
@@ -143,17 +143,17 @@ bool CommandBuffer::set_texture(const uint32_t texture, const uint32_t index)
     return true;
 }
 
-void CommandBuffer::set_state(const uint32_t state_flags)
+void CommandQueue::set_state(const uint32_t state_flags)
 {
     write_command(CommandType::set_state, state_flags);
 }
 
-void CommandBuffer::draw()
+void CommandQueue::draw()
 {
     write_command(CommandType::draw);
 }
 
-void CommandBuffer::draw_instanced(const uint32_t instances)
+void CommandQueue::draw_instanced(const uint32_t instances)
 {
     write_command(CommandType::draw_instanced, instances);
 }

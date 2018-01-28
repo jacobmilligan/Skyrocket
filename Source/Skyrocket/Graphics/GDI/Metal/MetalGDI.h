@@ -82,8 +82,8 @@ public:
 
     bool init(Viewport* viewport) override;
 
-    void commit(CommandBuffer* cmdbuf) override;
-
+    void commit(CommandQueue* cmdqueue) override;
+protected:
     void set_viewport(Viewport* viewport) override;
 
     bool create_vertex_buffer(uint32_t vbuf_id, const MemoryBlock& initial_data,

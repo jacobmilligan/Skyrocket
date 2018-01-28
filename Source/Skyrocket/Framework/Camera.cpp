@@ -1,5 +1,5 @@
 //
-//  Camera.cpp
+//  Camera3d.cpp
 //  Skyrocket
 //
 //  --------------------------------------------------------------
@@ -15,30 +15,29 @@
 namespace sky {
 
 
-Camera::Camera()
+Camera3D::Camera3D()
     : yfov_(static_cast<float>(math::to_radians(90.0f))),
       aspect_(0.0f),
       near_(0.1f),
       far_(5000.0f),
       front_(0.0f, 0.0f, -1.0f),
-      up_(0.0f, 1.0f, 0.0f),
-      I_(1.0f)
+      up_(0.0f, 1.0f, 0.0f)
 {
     update_matrix();
 }
 
-void Camera::update_matrix()
+void Camera3D::update_matrix()
 {
-    perspective_ = Matrix4f::perspective(yfov_, aspect_, near_, far_);
+    projection_ = Matrix4f::perspective(yfov_, aspect_, near_, far_);
 }
 
-Matrix4f Camera::get_matrix()
+Matrix4f Camera3D::get_matrix()
 {
-    auto view = Matrix4f::look_at(pos_, pos_ + front_, up_);
-    return perspective_ * view;
+    auto view = Matrix4f::look_at(position_, position_ + front_, up_);
+    return projection_ * view;
 }
 
-void Camera::setup(const float yfov, const float aspect, const float near_plane, const float far_plane)
+void Camera3D::setup(const float yfov, const float aspect, const float near_plane, const float far_plane)
 {
     yfov_ = static_cast<float>(math::to_radians(yfov));
     aspect_ = aspect;
@@ -48,30 +47,46 @@ void Camera::setup(const float yfov, const float aspect, const float near_plane,
     update_matrix();
 }
 
-void Camera::set_position(const Vector3f& pos)
+void Camera3D::move(const Vector3f& movement)
 {
-    pos_ = pos;
-}
-
-void Camera::move(const Vector3f& movement)
-{
-    pos_ += movement;
-    pos_ += front_.cross(up_) * movement;
+    position_ += movement;
+    position_ += front_.cross(up_) * movement;
 }
 
 Camera2D::Camera2D()
+    : left_(0.0f),
+      right_(800.0f),
+      bottom_(0.0f),
+      top_(0.0f),
+      near_(0.0f),
+      far_(1.0f),
+      position_(0.0f),
+      front_(0.0f, 0.0f, 1.0f),
+      up_(0.0f, 0.0f, 0.0f)
 {
-
+    projection_ = Matrix4f::ortho(left_, right_, bottom_, top_, near_, far_);
 }
 
 Matrix4f Camera2D::get_matrix()
 {
-    return {};
+    return projection_ * Matrix4f::translate(position_);
 }
 
-void Camera2D::setup()
+void Camera2D::setup(Vector2f view, const float near, const float far)
 {
+    right_ = view.x;
+    top_ = view.y;
+    near_ = near;
+    far_ = far;
 
+    projection_ = Matrix4f::ortho(left_, right_, bottom_, top_, near_, far_);
+}
+
+void Camera2D::move(const Vector2f& movement)
+{
+    // Off
+    position_.x -= movement.x;
+    position_.y += movement.y;
 }
 
 

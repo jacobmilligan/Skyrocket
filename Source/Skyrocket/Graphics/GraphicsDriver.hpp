@@ -11,8 +11,7 @@
 
 #pragma once
 
-#include "Skyrocket/Core/Memory/PoolAllocator.hpp"
-#include "Skyrocket/Graphics/GDI/CommandBuffer.hpp"
+#include "Skyrocket/Graphics/GDI/CommandQueue.hpp"
 
 #include <queue>
 #include <thread>
@@ -32,18 +31,15 @@ public:
     ~GraphicsDriver();
     bool init(ThreadSupport threading, Viewport* viewport);
 
-    CommandBuffer* make_command_buffer();
-    void free_command_buffer(CommandBuffer*& buf);
-    void submit_command_buffer(CommandBuffer* buf);
-
+    CommandQueue* command_queue();
+    void submit_command_queue();
 private:
-    static constexpr size_t cmdbuf_max_ = 16;
+    static constexpr size_t cmdpool_size_ = 64;
 
     std::unique_ptr<GDI> gdi_;
 
-    FixedPoolAllocator cmdbuf_pool_;
-    std::queue<CommandBuffer*> cmdbuf_queue_;
-    std::mutex cmdbuf_queue_mutex_;
+    CommandQueue cmdpool_[cmdpool_size_];
+    size_t current_cmdqueue_{0};
 
     // Render thread properties/methods
     std::condition_variable render_thread_cv_;

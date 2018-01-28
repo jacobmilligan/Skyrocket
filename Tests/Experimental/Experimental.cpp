@@ -27,9 +27,9 @@ public:
     {
         root_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Tests/Experimental");
 
-        auto cmdbuf = graphics_driver.make_command_buffer();
+        auto cmdbuf = graphics_driver.command_queue();
         if (cmdbuf != nullptr) {
-            cmdbuf->begin();
+            cmdbuf->start_recording();
 
             vbuf_ = cmdbuf->create_vertex_buffer(sky::MemoryBlock{
                 sizeof(sky::Vertex) * 3, vertices_
@@ -38,16 +38,16 @@ public:
                                              root_.relative_path("basic_fragment.metal"));
 
             cmdbuf->end();
-            graphics_driver.submit_command_buffer(cmdbuf);
+            graphics_driver.submit_command_queue(cmdbuf);
         }
     }
 
     void on_update() override
     {
-        auto cmdbuf = graphics_driver.make_command_buffer();
+        auto cmdbuf = graphics_driver.command_queue();
 
         if (cmdbuf != nullptr) {
-            cmdbuf->begin();
+            cmdbuf->start_recording();
 
             cmdbuf->set_program(shader_);
             cmdbuf->set_vertex_buffer(vbuf_, 0, 3);
@@ -55,7 +55,7 @@ public:
 
             cmdbuf->end();
 
-            graphics_driver.submit_command_buffer(cmdbuf);
+            graphics_driver.submit_command_queue(cmdbuf);
         }
     }
 

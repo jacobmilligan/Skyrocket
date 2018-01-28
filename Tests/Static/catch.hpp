@@ -1721,7 +1721,7 @@ namespace Detail {
 //template<typename T, typename Allocator>
 //struct StringMaker<std::vector<T, Allocator> > {
 //    static std::string convert( std::vector<T,Allocator> const& v ) {
-//        return Detail::rangeToString( v.begin(), v.end() );
+//        return Detail::rangeToString( v.start_recording(), v.end() );
 //    }
 //};
 
@@ -10801,7 +10801,7 @@ namespace Catch {
             void printMessage() const {
                 if( !messageLabel.empty() )
                     stream << messageLabel << ':' << '\n';
-                for( std::vector<MessageInfo>::const_iterator it = messages.begin(), itEnd = messages.end();
+                for( std::vector<MessageInfo>::const_iterator it = messages.start_recording(), itEnd = messages.end();
                         it != itEnd;
                         ++it ) {
                     // If this assertion is a warning ignore any INFO messages

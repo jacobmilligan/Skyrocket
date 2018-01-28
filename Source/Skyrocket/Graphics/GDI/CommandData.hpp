@@ -20,7 +20,7 @@ namespace sky {
 
 
 class Viewport;
-class CommandBuffer;
+class CommandQueue;
 
 enum class CommandType : uint8_t {
     unknown,

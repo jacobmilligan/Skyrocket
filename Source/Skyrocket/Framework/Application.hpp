@@ -40,7 +40,6 @@ public:
     virtual void on_update() = 0;
     virtual void on_shutdown() = 0;
 protected:
-//    GraphicsDriver graphics_driver;
     GraphicsDriver graphics_driver;
     Platform platform;
     Viewport primary_view;
