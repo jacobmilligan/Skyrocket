@@ -37,10 +37,16 @@ enum class CommandType : uint8_t {
     set_program,
     set_uniform,
     set_texture,
+    update_vertex_buffer,
     update_uniform,
     draw,
     draw_instanced,
     set_state
+};
+
+struct UpdateBufferData {
+    uint32_t buf_id{0};
+    MemoryBlock data;
 };
 
 struct CreateVertexBufferData {

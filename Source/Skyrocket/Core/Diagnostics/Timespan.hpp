@@ -249,9 +249,9 @@ private:
 /// @param duration The duration in the specified Interval to assign to the Time unit
 /// @return The Time unit
 template<TimeInterval T>
-Timespan get_timespan(const double duration);
+Timespan get_timespan(double duration);
 
 
 } // namespace sky
 
-#include "Timespan.inl"
+#include "Skyrocket/Core/Diagnostics/Timespan.inl"

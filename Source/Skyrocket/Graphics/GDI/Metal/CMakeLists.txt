@@ -1,1 +1,2 @@
-skyrocket_add_sources(MetalGDI.mm)
+skyrocket_add_sources(MetalGDI.mm
+        MetalResource.mm)

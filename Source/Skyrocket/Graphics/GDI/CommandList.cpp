@@ -58,6 +58,13 @@ void CommandList::set_vertex_buffer(const uint32_t vbuf_id, const uint32_t offse
     });
 }
 
+void CommandList::update_vertex_buffer(uint32_t vbuf_id, const MemoryBlock& data)
+{
+    write_command(CommandType::update_vertex_buffer, UpdateBufferData{
+        vbuf_id, data
+    });
+}
+
 uint32_t CommandList::create_index_buffer(const MemoryBlock& initial_data)
 {
     auto handle = make_handle();

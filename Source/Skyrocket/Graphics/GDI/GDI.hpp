@@ -95,6 +95,8 @@ protected:
     /// @return Success if true, false otherwise
     virtual bool set_vertex_buffer(uint32_t vbuf_id);
 
+    virtual bool update_vertex_buffer(uint32_t vbuf_id, const MemoryBlock& data);
+
     /// @brief Creates a new index buffer
     /// @param ibuf_id The id handle of the buffer to create
     /// @param initial_data

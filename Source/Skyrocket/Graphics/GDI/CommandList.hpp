@@ -105,6 +105,8 @@ public:
     void set_vertex_buffer(uint32_t vbuf_id, uint32_t offset,
                            uint32_t num_vertices);
 
+    void update_vertex_buffer(uint32_t vbuf_id, const MemoryBlock& data);
+
     /// @brief Sends a command to create a new index buffer resource
     /// @param initial_data The initial data to copy into the buffer
     /// @return Handle id to the index buffer resource

@@ -56,6 +56,11 @@ void GDI::execute_commands(CommandList* cmdbuf)
                 state_.vertex_offset = data->first_vertex;
             } break;
 
+            case CommandType::update_vertex_buffer: {
+                auto data = cmdbuf->read<UpdateBufferData>();
+                update_vertex_buffer(data->buf_id, data->data);
+            } break;
+
             case CommandType::create_index_buffer: {
                 auto data = cmdbuf->read<CreateIndexBufferData>();
                 create_index_buffer(data->buf_id, data->data);
@@ -164,6 +169,12 @@ bool GDI::create_vertex_buffer(const uint32_t  /*vbuf_id*/, const MemoryBlock&  
 }
 
 bool GDI::set_vertex_buffer(const uint32_t  /*vbuf_id*/)
+{
+    // no op
+    return false;
+}
+
+bool GDI::update_vertex_buffer(uint32_t vbuf_id, const MemoryBlock& data)
 {
     // no op
     return false;

@@ -54,4 +54,4 @@ inline Timespan get_timespan<TimeInterval::hours>(const double hours)
 }
 
 
-}
+} // namepsace sky

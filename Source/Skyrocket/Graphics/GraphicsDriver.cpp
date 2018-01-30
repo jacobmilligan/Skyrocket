@@ -9,6 +9,8 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
+#include "Skyrocket/Core/Diagnostics/Timespan.hpp"
+#include "Skyrocket/Platform/Thread.hpp"
 #include "Skyrocket/Graphics/GraphicsDriver.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Graphics/GDI/GDI.hpp"
@@ -18,7 +20,7 @@ namespace sky {
 
 GraphicsDriver::GraphicsDriver()
     : cmdlist_allocator_(sizeof(CommandList), cmdpool_size_),
-      cmdqueue_allocator_(sizeof(MPSCQueue<CommandList*>::Node), cmdpool_size_),
+      cmdqueue_allocator_(sizeof(MPSCQueue<CommandList*>::Node), cmdpool_size_ * cmdpool_size_),
       cmdqueue_(cmdqueue_allocator_)
 {}
 
@@ -92,6 +94,10 @@ void GraphicsDriver::commit_command_list()
         render_thread_notified_ = true;
         render_thread_cv_.notify_one();
 
+    }
+
+    while (cmdlist_allocator_.blocks_initialized() > GDI::max_frames_in_flight) {
+        thread_sleep(Timespan(1));
     }
 }
 

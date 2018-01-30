@@ -15,63 +15,13 @@
 
 #include "Skyrocket/Core/Containers/HandleTable.hpp"
 #include "Skyrocket/Graphics/GDI/GDI.hpp"
+#include "Skyrocket/Graphics/GDI/Metal/MetalResource.h"
 
 #import <AppKit/AppKit.h>
 #import <Metal/Metal.h>
 #import <QuartzCore/CAMetalLayer.h>
 
-#include <unordered_map>
-
 namespace sky {
-
-
-template<uint16_t Size>
-struct MetalBuffer {
-    MetalBuffer()
-        :
-        current_(0), usage_(BufferUsage::none)
-    {}
-
-    void init(id<MTLDevice> device, void* data, const uint32_t length, const BufferUsage usage)
-    {
-        current_ = 0;
-        usage_ = usage;
-        if ( data == nullptr ) {
-            buf_ = [device newBufferWithLength:length
-            options:MTLResourceCPUCacheModeDefaultCache];
-        } else {
-            buf_ = [device newBufferWithBytes:data
-            length:length
-            options:MTLResourceCPUCacheModeDefaultCache];
-        }
-    }
-
-    id<MTLBuffer>& raw_buffer()
-    {
-        return buf_;
-    }
-
-private:
-    id<MTLBuffer> buf_;
-    uint16_t current_;
-    BufferUsage usage_;
-};
-
-class MetalProgram {
-public:
-    MetalProgram() = default;
-    MetalProgram(uint32_t program_id, id<MTLFunction> vs, id<MTLFunction> frag);
-    ~MetalProgram();
-
-    id<MTLRenderPipelineState> get_render_pipeline_state(id<MTLDevice> device);
-private:
-    static constexpr uint32_t default_state_flags = MTLPixelFormatBGRA8Unorm;
-
-    uint32_t program_id_;
-    id<MTLFunction> vs_;
-    id<MTLFunction> frag_;
-    std::unordered_map<uint32_t, id<MTLRenderPipelineState>> render_pipeline_states_;
-};
 
 
 class MetalGDI : public GDI {
@@ -90,6 +40,8 @@ protected:
                               BufferUsage usage) override;
 
     bool set_vertex_buffer(uint32_t vbuf_id) override;
+
+    bool update_vertex_buffer(uint32_t vbuf_id, const MemoryBlock& data) override;
 
     bool create_index_buffer(uint32_t ibuf_id, const MemoryBlock& initial_data) override;
 
