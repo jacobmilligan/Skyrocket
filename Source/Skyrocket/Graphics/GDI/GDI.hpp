@@ -19,7 +19,7 @@ namespace sky {
 
 class Path;
 
-class CommandQueue;
+class CommandList;
 
 /// @brief Contains the current state of the graphics device - buffers,
 /// shaders, indices etc. being used currently
@@ -73,11 +73,11 @@ public:
     /// @return Successful initialization if true, false otherwise
     virtual bool init(Viewport* viewport);
 
-    virtual void commit(CommandQueue* cmdbuf);
+    virtual void commit(CommandList* cmdbuf);
 protected:
     RenderState state_;
 
-    void execute_commands(CommandQueue* cmdbuf);
+    void execute_commands(CommandList* cmdbuf);
     /// @brief Sets the viewport as the active viewport for this graphics device
     /// @param viewport
     virtual void set_viewport(Viewport* viewport);

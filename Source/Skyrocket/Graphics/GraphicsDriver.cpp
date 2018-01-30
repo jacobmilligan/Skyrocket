@@ -16,7 +16,11 @@
 namespace sky {
 
 
-GraphicsDriver::GraphicsDriver() = default;
+GraphicsDriver::GraphicsDriver()
+    : cmdlist_allocator_(sizeof(CommandList), cmdpool_size_),
+      cmdqueue_allocator_(sizeof(MPSCQueue<CommandList*>::Node), cmdpool_size_),
+      cmdqueue_(cmdqueue_allocator_)
+{}
 
 GraphicsDriver::~GraphicsDriver()
 {
@@ -30,42 +34,70 @@ GraphicsDriver::~GraphicsDriver()
 
 bool GraphicsDriver::init(ThreadSupport threading, Viewport* viewport)
 {
+    threadsupport_ = threading;
     gdi_ = GDI::create();
     gdi_->init(viewport);
 
-    render_thread_active_ = true;
-    render_thread_notified_ = false;
-    render_thread_ = std::thread(&GraphicsDriver::render_thread_proc, this);
+    if (threadsupport_ == ThreadSupport::multi_threaded) {
+        render_thread_active_ = true;
+        render_thread_notified_ = false;
+        render_thread_ = std::thread(&GraphicsDriver::render_thread_proc, this);
+    }
 
-    cmdpool_[current_cmdqueue_].start_recording();
+    cmdlist_ = static_cast<CommandList*>(cmdlist_allocator_.allocate(0));
+    cmdlist_->start_recording();
 
     return true;
 }
 
-CommandQueue* GraphicsDriver::command_queue()
+CommandList* GraphicsDriver::command_list()
 {
-    if (cmdpool_[current_cmdqueue_].state() == CommandQueue::State::processing
-        || cmdpool_[current_cmdqueue_].state() == CommandQueue::State::unknown) {
-        SKY_ERROR("GraphicsDriver", "All available command queues are busy processing");
+    while (cmdlist_ == nullptr) {
+        cmdlist_ = static_cast<CommandList*>(cmdlist_allocator_.allocate(0));
+        if (cmdlist_ != nullptr) {
+            cmdlist_->start_recording();
+            break;
+        }
+    }
+
+    if (cmdlist_ != nullptr && cmdlist_->state() != CommandList::State::recording) {
+        SKY_ERROR("GraphicsDriver", "All available command lists are busy processing");
         return nullptr;
     }
-    return &cmdpool_[current_cmdqueue_];
+
+    return cmdlist_;
 }
 
-void GraphicsDriver::submit_command_queue()
+void GraphicsDriver::commit_command_list()
 {
-    cmdpool_[current_cmdqueue_].start_processing();
-    cmdpool_[current_cmdqueue_].reset_cursor();
-    current_cmdqueue_ = (current_cmdqueue_ + 1) & (cmdpool_size_ - 1);
-    cmdpool_[current_cmdqueue_].start_recording();
+    if (threadsupport_ == ThreadSupport::single_threaded) {
 
-    render_thread_notified_ = true;
-    render_thread_cv_.notify_one();
+        cmdlist_->reset_cursor();
+        cmdlist_->start_processing();
+        gdi_->commit(cmdlist_);
+        cmdlist_->end_processing();
+        cmdlist_->clear();
+        cmdlist_->start_recording();
+
+    } else {
+
+        cmdlist_->queue();
+        cmdqueue_.push(cmdlist_);
+
+        cmdlist_ = static_cast<CommandList*>(cmdlist_allocator_.allocate(0));
+        if (cmdlist_ != nullptr) {
+            cmdlist_->start_recording();
+        }
+
+        render_thread_notified_ = true;
+        render_thread_cv_.notify_one();
+
+    }
 }
 
 void GraphicsDriver::render_thread_proc()
 {
-    CommandQueue* cmdqueue = nullptr;
+    CommandList* cmdlist = nullptr;
 
     while (render_thread_active_) {
         {
@@ -76,11 +108,15 @@ void GraphicsDriver::render_thread_proc()
             render_thread_notified_ = false;
         }
 
-        cmdqueue = &cmdpool_[(current_cmdqueue_ - 1) & (cmdpool_size_ - 1)];
-
-        gdi_->commit(cmdqueue);
-        cmdqueue->end_processing();
-        cmdqueue->clear();
+        while (render_thread_active_ && cmdqueue_.pop(cmdlist)) {
+            cmdlist->reset_cursor();
+            cmdlist->start_processing();
+            gdi_->commit(cmdlist);
+            cmdlist->end_processing();
+            cmdlist->clear();
+            cmdlist->start_recording();
+            cmdlist_allocator_.free(cmdlist);
+        }
     }
 }
 

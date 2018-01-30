@@ -1,5 +1,5 @@
 //
-//  CommandQueue.hpp
+//  CommandList.hpp
 //  Skyrocket
 //
 //  --------------------------------------------------------------
@@ -19,17 +19,18 @@
 namespace sky {
 
 
-class CommandQueue {
+class CommandList {
 public:
     // TODO(Jacob): Does it need a state for unallocated to prevent multiple threads getting the same buffer if allocating before start_recording() was called?
     enum class State {
         unknown,
         ready,
+        queued,
         recording,
         processing
     };
 
-    CommandQueue()
+    CommandList()
     {
         clear();
     }
@@ -46,6 +47,11 @@ public:
     inline void end_processing()
     {
         state_ = State::ready;
+    }
+
+    inline void queue()
+    {
+        state_ = State::queued;
     }
 
     inline State state()
@@ -172,14 +178,14 @@ private:
     bool write_command(const CommandType type, const Command& cmd)
     {
         if (state_ != State::recording) {
-            SKY_ERROR("CommandQueue", "Buffer must be in the `recording` state in order "
+            SKY_ERROR("CommandList", "Command list must be in the `recording` state in order "
                 "to write commands, i.e. commands can only be written between "
                 "`start_recording` and `end` calls");
             return false;
         }
 
         if (cursor_ + sizeof(Command) + sizeof(CommandType) > buffer_capacity_) {
-            SKY_ERROR("CommandQueue", "Attempted to write to full command buffer");
+            SKY_ERROR("CommandList", "Attempted to write to full command buffer");
             return false;
         }
 
@@ -200,14 +206,14 @@ private:
     bool write_command(const CommandType type)
     {
         if (state_ != State::recording) {
-            SKY_ERROR("CommandQueue", "Buffer must be in the `recording` state in order "
+            SKY_ERROR("CommandList", "Buffer must be in the `recording` state in order "
                 "to write commands, i.e. commands can only be written between "
                 "`start_recording` and `end` calls");
             return false;
         }
 
         if (cursor_ + sizeof(CommandType) > buffer_capacity_) {
-            SKY_ERROR("CommandQueue", "Attempted to write to full command buffer");
+            SKY_ERROR("CommandList", "Attempted to write to full command buffer");
             return false;
         }
 

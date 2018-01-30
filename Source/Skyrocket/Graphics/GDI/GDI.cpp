@@ -10,13 +10,13 @@
 //
 
 #include "GDI.hpp"
-#include "CommandQueue.hpp"
+#include "CommandList.hpp"
 
 
 namespace sky {
 
 
-void GDI::execute_commands(CommandQueue* cmdbuf)
+void GDI::execute_commands(CommandList* cmdbuf)
 {
     CommandType* typeptr = nullptr;
 
@@ -146,7 +146,7 @@ bool GDI::init(Viewport*  /*viewport*/)
     return false;
 }
 
-void GDI::commit(CommandQueue* cmdbuf)
+void GDI::commit(CommandList* cmdbuf)
 {
     execute_commands(cmdbuf);
 }

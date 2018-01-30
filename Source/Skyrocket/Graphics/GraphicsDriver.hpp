@@ -11,10 +11,12 @@
 
 #pragma once
 
-#include "Skyrocket/Graphics/GDI/CommandQueue.hpp"
+#include "Skyrocket/Graphics/GDI/CommandList.hpp"
 
 #include <queue>
 #include <thread>
+#include <Skyrocket/Core/Memory/PoolAllocator.hpp>
+#include <Skyrocket/Core/Containers/MPSCQueue.hpp>
 
 namespace sky {
 
@@ -31,17 +33,21 @@ public:
     ~GraphicsDriver();
     bool init(ThreadSupport threading, Viewport* viewport);
 
-    CommandQueue* command_queue();
-    void submit_command_queue();
+    CommandList* command_list();
+    void commit_command_list();
 private:
     static constexpr size_t cmdpool_size_ = 64;
 
     std::unique_ptr<GDI> gdi_;
 
-    CommandQueue cmdpool_[cmdpool_size_];
-    size_t current_cmdqueue_{0};
+    FixedPoolAllocator cmdlist_allocator_;
+    CommandList* cmdlist_;
+
+    FixedPoolAllocator cmdqueue_allocator_;
+    MPSCQueue<CommandList*> cmdqueue_;
 
     // Render thread properties/methods
+    ThreadSupport threadsupport_;
     std::condition_variable render_thread_cv_;
     std::mutex render_thread_mutex_;
     bool render_thread_active_;

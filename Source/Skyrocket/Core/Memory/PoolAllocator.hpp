@@ -25,6 +25,8 @@ namespace sky {
 /// allocator is created at construction and deleted at destruction.
 class FixedPoolAllocator : public Allocator {
 public:
+    using Allocator::allocate;
+
     FixedPoolAllocator() = default;
 
     /// Initializes the allocator with `block_size` bytes allocated per memory block and
@@ -71,15 +73,7 @@ public:
 
     void* allocate(size_t byte_size, size_t alignment) override
     {
-        // no-op as all blocks are of fixed size
-        SKY_ERROR("FixedPoolAllocator", "All allocations must be of the same size and alignment as "
-            "specified in constructor. Use `allocate()` instead of allocate(size_t, size_t)");
-        return nullptr;
-    }
-
-    /// Allocates a new block of memory from the pool and returns a pointer to it
-    void* allocate()
-    {
+        // all blocks are of fixed size
         if ( blocks_initialized_ == max_blocks_ ) {
             return nullptr;
         }
@@ -134,7 +128,7 @@ public:
 
     bool is_valid(void* ptr) const override
     {
-        return ptr >= &memory_[0] && ptr < memory_ + (block_size_ * max_blocks_);
+        return ptr >= memory_ && ptr < memory_ + (block_size_ * max_blocks_);
     }
 
     /// Gets the maximum number of blocks the pool can allocate

@@ -37,7 +37,7 @@ public:
         font_.load_from_file(root_path_.relative_path("Go-Regular.ttf"), 23);
 //        font_.load_from_file(root_path_.relative_path("Arial.ttf"), 23);
 
-        auto cmdqueue = graphics_driver.command_queue();
+        auto cmdqueue = graphics_driver.command_list();
         tex_ = cmdqueue->create_texture(font_.width(), font_.height(),
                                       sky::PixelFormat::Enum::r8);
 
@@ -84,7 +84,7 @@ public:
         auto frag_path = root_path_.relative_path("basic_fragment.metal");
         program_ = cmdqueue->create_program(vert_path, frag_path);
         cmdqueue->set_program(program_);
-        graphics_driver.submit_command_queue();
+        graphics_driver.commit_command_list();
     }
 
     void on_update() override
@@ -96,7 +96,7 @@ public:
             primary_view.close();
         }
 
-        auto cmdqueue = graphics_driver.command_queue();
+        auto cmdqueue = graphics_driver.command_list();
 
         cmdqueue->set_state(sky::RenderPipelineState::culling_frontface);
 
@@ -129,7 +129,7 @@ public:
 
         cmdqueue->draw();
 
-        graphics_driver.submit_command_queue();
+        graphics_driver.commit_command_list();
     }
 
     void on_shutdown() override

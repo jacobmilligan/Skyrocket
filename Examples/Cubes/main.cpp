@@ -71,11 +71,13 @@ public:
             root_path_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples/Cubes");
         }
         root_path_.make_real();
+
+        set_frame_limit(120);
     }
 
     void on_startup(int argc, const char** argv) override
     {
-        auto cmdqueue = graphics_driver.command_queue();
+        auto cmdqueue = graphics_driver.command_list();
 
         primary_view.set_backing_color(sky::Color::cornflower_blue);
         auto vert_path = root_path_.relative_path("basic_vertex.metal");
@@ -168,20 +170,20 @@ public:
         texture_ = cmdqueue->create_texture(img.width, img.height, img.pixel_format);
         cmdqueue->create_texture_region(texture_, sky::UIntRect(0, 0, img.width, img.height), img.pixel_format, img.data);
 
-        graphics_driver.submit_command_queue();
+        graphics_driver.commit_command_list();
     }
 
     void on_update() override
     {
-        auto cmdbuf = graphics_driver.command_queue();
+        auto cmdlist = graphics_driver.command_list();
 
-        cmdbuf->set_state(sky::RenderPipelineState::culling_frontface);
+        cmdlist->set_state(sky::RenderPipelineState::culling_frontface);
 
-        cmdbuf->set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(vertices_.size()));
+        cmdlist->set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(vertices_.size()));
 
-        cmdbuf->set_uniform(model_ubuf_, 1);
-        cmdbuf->set_uniform(view_proj_ubuf_, 2);
-        cmdbuf->set_texture(texture_, 0);
+        cmdlist->set_uniform(model_ubuf_, 1);
+        cmdlist->set_uniform(view_proj_ubuf_, 2);
+        cmdlist->set_texture(texture_, 0);
 
         if ( keyboard_.key_down(sky::Key::escape) || primary_view.close_requested() ) {
             primary_view.close();
@@ -205,7 +207,7 @@ public:
 
         cam_mat_ = cam_.get_matrix();
 
-        cmdbuf->update_uniform(view_proj_ubuf_, sky::MemoryBlock {
+        cmdlist->update_uniform(view_proj_ubuf_, sky::MemoryBlock {
             sizeof(sky::Matrix4f), &cam_mat_
         });
 
@@ -219,14 +221,14 @@ public:
                 &c.get_transform()
             };
 
-            cmdbuf->update_uniform(model_ubuf_, mb, cube_index * sizeof(sky::Matrix4f));
+            cmdlist->update_uniform(model_ubuf_, mb, cube_index * sizeof(sky::Matrix4f));
 
             cube_index++;
         }
 
-        cmdbuf->draw_instanced(cube_index);
+        cmdlist->draw_instanced(cube_index);
 
-        graphics_driver.submit_command_queue();
+        graphics_driver.commit_command_list();
     }
 
     void on_shutdown() override
@@ -258,7 +260,7 @@ private:
 int main(int argc, char** argv)
 {
     auto app = std::make_unique<CubeApp>();
-    app->start(sky::GraphicsDriver::ThreadSupport::multi_threaded);
+    app->start(sky::GraphicsDriver::ThreadSupport::single_threaded);
 
     return 0;
 }

@@ -192,7 +192,7 @@ fragment float4 basic_fragment(Vertex in [[stage_in]])
 
 
 
-void MetalGDI::commit(CommandQueue* cmdqueue)
+void MetalGDI::commit(CommandList* cmdqueue)
 {
     dispatch_semaphore_wait(buf_sem_, DISPATCH_TIME_FOREVER);
 
