@@ -36,6 +36,11 @@ public:
 
     CommandList* command_list();
     void commit_command_list();
+
+    inline uint32_t frames_queued()
+    {
+        return cmdqueue_allocator_.blocks_initialized();
+    }
 private:
     static constexpr size_t cmdpool_size_ = 64;
 

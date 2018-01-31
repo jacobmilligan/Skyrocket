@@ -58,24 +58,31 @@ public:
         });
     }
 
-    void set_text(const char* str, const size_t str_size)
+    void set_text(const char* str, const size_t str_size, const Vector3f& pos)
     {
         Glyph glyph;
-        auto x = 0.0f;
-        auto y = 0.0f;
+        auto x = pos.x;
+        auto y = pos.y;
         num_vertices_ = 0;
         string_size_ = str_size;
         for (size_t c = 0; c < str_size; ++c) {
+            if (str[c] == '\n') {
+                y -= font_->size();
+                x = pos.x;
+                continue;
+            }
+
             glyph = font_->get_glyph(str[c]);
+
             auto& bounds = glyph.bounds;
 
             auto ypos = y - (glyph.bounds.height - glyph.bearing.y);
             auto xpos = x;
 
-            vertices_[num_vertices_] = Vertex(xpos, ypos + bounds.height, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s, glyph.t);
-            vertices_[num_vertices_ + 1] = Vertex(xpos, ypos, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s, glyph.t2);
-            vertices_[num_vertices_ + 2] = Vertex(xpos + bounds.width, ypos, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s2, glyph.t2);
-            vertices_[num_vertices_ + 3] = Vertex(xpos + bounds.width, ypos + bounds.height, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s2, glyph.t);
+            vertices_[num_vertices_] = Vertex(xpos, ypos + bounds.height, pos.z, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s, glyph.t);
+            vertices_[num_vertices_ + 1] = Vertex(xpos, ypos, pos.z, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s, glyph.t2);
+            vertices_[num_vertices_ + 2] = Vertex(xpos + bounds.width, ypos, pos.z, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s2, glyph.t2);
+            vertices_[num_vertices_ + 3] = Vertex(xpos + bounds.width, ypos + bounds.height, pos.z, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, glyph.s2, glyph.t);
 
             x += glyph.advance.x;
             num_vertices_ += verts_per_char_;

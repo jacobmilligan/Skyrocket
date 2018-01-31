@@ -173,7 +173,7 @@ public:
         graphics_driver.commit_command_list();
     }
 
-    void on_update() override
+    void on_update(const double dt) override
     {
         auto cmdlist = graphics_driver.command_list();
 

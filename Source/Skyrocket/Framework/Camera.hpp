@@ -55,12 +55,12 @@ public:
 
     inline void set_position(const Vector2f& pos)
     {
-        position_ = Vector3f(-pos, 1.0f);
+        position_ = Vector3f(-pos.x, pos.y, 1.0f);
     }
 
     inline Vector2f position() const
     {
-        return Vector2f(position_.x, position_.y);
+        return { position_.x, position_.y };
     }
 private:
     float left_, right_, bottom_, top_, near_, far_;

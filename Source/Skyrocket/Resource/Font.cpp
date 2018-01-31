@@ -79,7 +79,7 @@ void Font::load_from_file(const Path& path, const float pixel_size)
     }
 
     glyphs_.resize(static_cast<uint64_t>(service->face->num_glyphs));
-    set_pixel_size(48);
+    set_pixel_size(pixel_size);
 }
 
 void Font::load_from_memory(uint8_t* memory, const float pixel_size)

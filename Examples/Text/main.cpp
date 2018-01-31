@@ -36,10 +36,11 @@ public:
         cam_.setup(primary_view.size(), 0.01f, 1000.0f);
         cam_.set_position({0.0f, 0.0f});
 
-        font_.load_from_file(root_path_.relative_path("Go-Regular.ttf"), 23);
+        font_.load_from_file(root_path_.relative_path("Go-Regular.ttf"), font_size);
 
         auto cmdqueue = graphics_driver.command_list();
         tb_.init();
+        textpos_ = sky::Vector3f(10.0f, primary_view.size().y - (font_size + 10.0f), 1.0f);
 
         viewproj_ = cmdqueue->create_uniform(sky::UniformType::mat4, sizeof(sky::Matrix4f));
 
@@ -47,36 +48,22 @@ public:
         auto frag_path = root_path_.relative_path("basic_fragment.metal");
         program_ = cmdqueue->create_program(vert_path, frag_path);
         tb_.set_program(program_);
-        tb_.set_text("Down", 4);
         graphics_driver.commit_command_list();
     }
 
-    void on_update() override
+    void on_update(const double dt) override
     {
-        cam_movement_.x = 0.0f;
-        cam_movement_.y = 0.0f;
-
         if ( keyboard_.key_typed(sky::Key::escape) ) {
             primary_view.close();
         }
-        if (keyboard_.key_down(sky::Key::down)) {
-            cam_movement_.y += 1.0f;
-            tb_.set_text("Down", 4);
-        }
-        if (keyboard_.key_down(sky::Key::up)) {
-            cam_movement_.y -= 1.0f;
-            tb_.set_text("Up", 2);
-        }
-        if (keyboard_.key_down(sky::Key::left)) {
-            cam_movement_.x -= 1.0f;
-            tb_.set_text("Left", 4);
-        }
-        if (keyboard_.key_down(sky::Key::right)) {
-            cam_movement_.x += 1.0f;
-            tb_.set_text("Right", 5);
-        }
 
-        cam_.move(cam_movement_ * cam_speed_);
+        char dtbuffer[256];
+        snprintf(dtbuffer, 256, "Last frame time: %f\nFrames queued: %d",
+                 dt,
+                 graphics_driver.frames_queued());
+
+        tb_.set_text(dtbuffer, strlen(dtbuffer), textpos_);
+
         cam_mat_ = cam_.get_matrix();
 
         auto cmdqueue = graphics_driver.command_list();
@@ -95,6 +82,8 @@ public:
     }
 
 private:
+    static constexpr float font_size = 16.0f;
+
     sky::Path root_path_;
     sky::Keyboard keyboard_;
     sky::Font font_;
@@ -105,8 +94,8 @@ private:
 
     sky::Camera2D cam_;
     float cam_speed_;
-    sky::Vector2f cam_movement_;
     sky::Matrix4f cam_mat_;
+    sky::Vector3f textpos_;
 };
 
 int main(int argc, const char** argv)

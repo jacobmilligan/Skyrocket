@@ -29,7 +29,7 @@ class Application;
 /// application calls.
 class Platform {
 public:
-    using update_callback_t = void (Application::*)();
+    using update_callback_t = void (Application::*)(const double);
 
     Platform() = default;
 

@@ -37,7 +37,7 @@ public:
     void start(GraphicsDriver::ThreadSupport graphics_threading);
 
     virtual void on_startup(int argc, const char** argv) = 0;
-    virtual void on_update() = 0;
+    virtual void on_update(const double dt) = 0;
     virtual void on_shutdown() = 0;
 protected:
     GraphicsDriver graphics_driver;
@@ -47,6 +47,7 @@ private:
     const char* name_;
     bool active_;
     double target_frametime_;
+    double dt_;
 
     void shutdown();
 };

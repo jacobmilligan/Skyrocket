@@ -57,18 +57,15 @@ void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
     uint64_t frame_start = 0;
     sky::Timespan frame_time;
 
-    double accumulated = 0.0;
     double num_frames = 0;
 
     while ( Viewport::open_viewports() > 0 ) {
         frame_start = high_resolution_time();
         platform.poll_events();
 
-        on_update();
+        on_update(dt_);
 
         frame_time = sky::Timespan(high_resolution_time() - frame_start);
-
-//        printf("Frame time: %f\n", frame_time.total_milliseconds());
 
         if ( frame_time.total_milliseconds() < target_frametime_ ) {
             auto diff = target_frametime_ - frame_time.total_milliseconds();
@@ -76,13 +73,9 @@ void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
             sky::thread_sleep(sleep_time);
         }
 
-        auto dt = sky::Timespan(high_resolution_time() - frame_start).total_milliseconds();
-        printf("Frame time: %f\n", dt);
-        accumulated += dt;
+        dt_ = sky::Timespan(high_resolution_time() - frame_start).total_milliseconds();
         ++num_frames;
     }
-
-    printf("Average: %f\n", accumulated / num_frames);
 
     shutdown();
 }
