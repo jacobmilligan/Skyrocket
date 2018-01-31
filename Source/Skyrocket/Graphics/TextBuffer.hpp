@@ -22,7 +22,7 @@ class TextBuffer {
 public:
     static constexpr size_t max_characters = kibibytes(8);
 
-    explicit TextBuffer(GraphicsDriver* gd, Font* font)
+    TextBuffer(GraphicsDriver* gd, Font* font)
         : gd_(gd), font_(font)
     {}
 
