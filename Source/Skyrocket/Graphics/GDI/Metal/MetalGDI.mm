@@ -261,10 +261,10 @@ bool MetalGDI::create_index_buffer(const uint32_t ibuf_id, const MemoryBlock& in
     return true;
 }
 
-bool MetalGDI::set_index_buffer(const uint32_t vbuf_id)
+bool MetalGDI::set_index_buffer(const uint32_t ibuf_id)
 {
     // No op - just need to specify buffer with Metal (done in process_commands())
-    return GDI::set_index_buffer(vbuf_id);
+    return GDI::set_index_buffer(ibuf_id);
 }
 
 bool MetalGDI::create_program(const uint32_t program_id, const Path& vs_path, const Path& frag_path)

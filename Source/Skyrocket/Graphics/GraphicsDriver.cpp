@@ -21,7 +21,8 @@ namespace sky {
 GraphicsDriver::GraphicsDriver()
     : cmdlist_allocator_(sizeof(CommandList), cmdpool_size_),
       cmdqueue_allocator_(sizeof(MPSCQueue<CommandList*>::Node), cmdpool_size_ * cmdpool_size_),
-      cmdqueue_(cmdqueue_allocator_)
+      cmdqueue_(cmdqueue_allocator_),
+      cmdlist_sem_(GDI::max_frames_in_flight)
 {}
 
 GraphicsDriver::~GraphicsDriver()
@@ -73,16 +74,8 @@ CommandList* GraphicsDriver::command_list()
 void GraphicsDriver::commit_command_list()
 {
     if (threadsupport_ == ThreadSupport::single_threaded) {
-
-        cmdlist_->reset_cursor();
-        cmdlist_->start_processing();
-        gdi_->commit(cmdlist_);
-        cmdlist_->end_processing();
-        cmdlist_->clear();
-        cmdlist_->start_recording();
-
+        process_command_list(cmdlist_);
     } else {
-
         cmdlist_->queue();
         cmdqueue_.push(cmdlist_);
 
@@ -94,11 +87,20 @@ void GraphicsDriver::commit_command_list()
         render_thread_notified_ = true;
         render_thread_cv_.notify_one();
 
+        cmdlist_sem_.wait();
     }
+}
 
-    while (cmdlist_allocator_.blocks_initialized() > GDI::max_frames_in_flight) {
-        thread_sleep(Timespan(1));
-    }
+void GraphicsDriver::process_command_list(CommandList* list)
+{
+    list->reset_cursor();
+    list->start_processing();
+
+    gdi_->commit(list);
+
+    list->end_processing();
+    list->clear();
+    list->start_recording();
 }
 
 void GraphicsDriver::render_thread_proc()
@@ -115,13 +117,10 @@ void GraphicsDriver::render_thread_proc()
         }
 
         while (render_thread_active_ && cmdqueue_.pop(cmdlist)) {
-            cmdlist->reset_cursor();
-            cmdlist->start_processing();
-            gdi_->commit(cmdlist);
-            cmdlist->end_processing();
-            cmdlist->clear();
-            cmdlist->start_recording();
+            process_command_list(cmdlist);
+
             cmdlist_allocator_.free(cmdlist);
+            cmdlist_sem_.signal();
         }
     }
 }

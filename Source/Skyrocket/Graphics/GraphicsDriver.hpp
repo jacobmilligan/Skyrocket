@@ -15,8 +15,9 @@
 
 #include <queue>
 #include <thread>
-#include <Skyrocket/Core/Memory/PoolAllocator.hpp>
-#include <Skyrocket/Core/Containers/MPSCQueue.hpp>
+#include "Skyrocket/Core/Memory/PoolAllocator.hpp"
+#include "Skyrocket/Core/Containers/MPSCQueue.hpp"
+#include "Skyrocket/Platform/Thread.hpp"
 
 namespace sky {
 
@@ -47,6 +48,7 @@ private:
     MPSCQueue<CommandList*> cmdqueue_;
 
     // Render thread properties/methods
+    Semaphore cmdlist_sem_;
     ThreadSupport threadsupport_;
     std::condition_variable render_thread_cv_;
     std::mutex render_thread_mutex_;
@@ -55,6 +57,7 @@ private:
     std::thread render_thread_;
 
     void render_thread_proc();
+    void process_command_list(CommandList* list);
 };
 
 
