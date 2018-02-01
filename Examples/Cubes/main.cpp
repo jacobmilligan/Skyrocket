@@ -170,20 +170,12 @@ public:
         cmdqueue->create_texture_region(texture_, sky::UIntRect(0, 0, img.width, img.height), img.pixel_format, img.data);
 
         graphics_driver.commit_frame();
+        graphics_driver.set_viewport(&primary_view);
     }
 
     void on_update(const double dt) override
     {
         printf("Delta: %lf\n", dt);
-        auto cmdlist = graphics_driver.command_list();
-
-        cmdlist->set_state(sky::RenderPipelineState::culling_frontface);
-
-        cmdlist->set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(vertices_.size()));
-
-        cmdlist->set_uniform(model_ubuf_, 1);
-        cmdlist->set_uniform(view_proj_ubuf_, 2);
-        cmdlist->set_texture(texture_, 0);
 
         if ( keyboard_.key_down(sky::Key::escape) || primary_view.close_requested() ) {
             primary_view.close();
@@ -202,6 +194,16 @@ public:
         if ( keyboard_.key_down(sky::Key::right) ) {
             cam_movement.x += 1.0f;
         }
+
+        auto cmdlist = graphics_driver.command_list();
+
+        cmdlist->set_state(sky::RenderPipelineState::culling_frontface);
+
+        cmdlist->set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(vertices_.size()));
+
+        cmdlist->set_uniform(model_ubuf_, 1);
+        cmdlist->set_uniform(view_proj_ubuf_, 2);
+        cmdlist->set_texture(texture_, 0);
 
         cam_.move(cam_movement * cam_speed_ * static_cast<float>(dt));
 

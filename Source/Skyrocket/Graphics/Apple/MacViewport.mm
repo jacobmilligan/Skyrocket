@@ -59,7 +59,9 @@ void Viewport::set_vsync_enabled(GraphicsDriver* gd, render_proc_t render_proc, 
 
 void Viewport::destroy_native_viewport()
 {
-
+    [handle_->window close];
+    [handle_->window release];
+    [handle_->view release];
 }
 
 void Viewport::set_backing_color(const sky::Color& color)
