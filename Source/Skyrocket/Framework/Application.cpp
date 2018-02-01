@@ -10,8 +10,6 @@
 //
 
 #include "Skyrocket/Framework/Application.hpp"
-#include "Skyrocket/Core/Diagnostics/Timespan.hpp"
-#include "Skyrocket/Platform/Thread.hpp"
 
 #include <Jobrocket/Jobrocket.hpp>
 

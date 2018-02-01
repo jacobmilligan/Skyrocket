@@ -17,7 +17,6 @@
 
 namespace sky {
 
-//class Platform;
 
 class Application {
 public:
