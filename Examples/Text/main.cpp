@@ -48,7 +48,7 @@ public:
         auto frag_path = root_path_.relative_path("basic_fragment.metal");
         program_ = cmdqueue->create_program(vert_path, frag_path);
         tb_.set_program(program_);
-        graphics_driver.commit_command_list();
+        graphics_driver.commit_frame();
     }
 
     void on_update(const double dt) override
@@ -57,10 +57,19 @@ public:
             primary_view.close();
         }
 
-        char dtbuffer[256];
-        snprintf(dtbuffer, 256, "Last frame time: %f\nFrames queued: %d",
-                 dt,
-                 graphics_driver.frames_queued());
+        auto& frame = graphics_driver.get_frame(1);
+
+        char dtbuffer[4096];
+        snprintf(dtbuffer, 4096, "Average FPS: %.*f\nFPS: %.*f\nFrame time: %.*f\nFrames queued: %d\nSim time: %.*f\n"
+                     "GDI time: %.*f\nCPU time: %.*f\nGPU time: %.*f",
+                 4, frame.running_fps_average,
+                 4, frame.total_fps,
+                 4, frame.total_time,
+                 graphics_driver.frames_queued(),
+                 4, frame.sim_time,
+                 4, frame.gdi_time,
+                 4, frame.cpu_time,
+                 4, frame.gpu_time);
 
         tb_.set_text(dtbuffer, strlen(dtbuffer), textpos_);
 
@@ -73,7 +82,7 @@ public:
                                  sky::MemoryBlock { sizeof(sky::Matrix4f), &cam_mat_ });
         tb_.draw(viewproj_);
 
-        graphics_driver.commit_command_list();
+        graphics_driver.commit_frame();
     }
 
     void on_shutdown() override

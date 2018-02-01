@@ -39,7 +39,7 @@ private:
 
 /// @brief Puts the calling thread to sleep for the given timespan
 /// @param time
-void thread_sleep(const Timespan& time);
+void thread_sleep(uint64_t ticks);
 
 
 } // namespace sky

@@ -133,7 +133,7 @@ fragment float4 basic_fragment(Vertex in [[stage_in]])
 
 
 
-void MetalGDI::commit(CommandList* cmdqueue)
+void MetalGDI::commit(CommandList* cmdlist, Frame* frame)
 {
     dispatch_semaphore_wait(buf_sem_, DISPATCH_TIME_FOREVER);
 
@@ -174,18 +174,23 @@ void MetalGDI::commit(CommandList* cmdqueue)
         [render_encoder_ setDepthStencilState:depth_stencil_state_];
         [render_encoder_ setCullMode:MTLCullModeBack];
 
-        execute_commands(cmdqueue);
+        execute_commands(cmdlist);
 
         [render_encoder_ endEncoding];
 
         [cmd_buffer presentDrawable:drawable];
+        frame->gpu_start();
         [cmd_buffer addCompletedHandler:^(id<MTLCommandBuffer> commandBuffer){
             buffer_index_ = (buffer_index_ + 1) % max_frames_in_flight;
             dispatch_semaphore_signal(buf_sem_);
+
+            frame->gpu_end();
         }];
 
         [cmd_buffer commit];
     };
+
+    frame->cpu_end();
 }
 
 ///////////////////////////

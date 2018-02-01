@@ -170,7 +170,7 @@ public:
         texture_ = cmdqueue->create_texture(img.width, img.height, img.pixel_format);
         cmdqueue->create_texture_region(texture_, sky::UIntRect(0, 0, img.width, img.height), img.pixel_format, img.data);
 
-        graphics_driver.commit_command_list();
+        graphics_driver.commit_frame();
     }
 
     void on_update(const double dt) override
@@ -228,7 +228,7 @@ public:
 
         cmdlist->draw_instanced(cube_index);
 
-        graphics_driver.commit_command_list();
+        graphics_driver.commit_frame();
     }
 
     void on_shutdown() override

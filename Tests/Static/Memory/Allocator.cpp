@@ -11,7 +11,7 @@
 
 #include <Skyrocket/Core/Memory/StackAllocator.hpp>
 
-#include "catch.hpp"
+#include "catch/catch.hpp"
 
 TEST_CASE("Allocated memory is aligned correctly", "[FixedStackAllocator]")
 {

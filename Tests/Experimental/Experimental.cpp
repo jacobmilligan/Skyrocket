@@ -38,7 +38,7 @@ public:
                                              root_.relative_path("basic_fragment.metal"));
 
             cmdbuf->end();
-            graphics_driver.commit_command_list(cmdbuf);
+            graphics_driver.commit_frame(cmdbuf);
         }
     }
 
@@ -55,7 +55,7 @@ public:
 
             cmdbuf->end();
 
-            graphics_driver.commit_command_list(cmdbuf);
+            graphics_driver.commit_frame(cmdbuf);
         }
     }
 

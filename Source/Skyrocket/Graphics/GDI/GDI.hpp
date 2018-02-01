@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include "Skyrocket/Graphics/Frame.hpp"
 #include "Skyrocket/Core/Geometry/Rectangle.hpp"
 #include "Skyrocket/Graphics/GDI/Definitions.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
@@ -73,11 +74,11 @@ public:
     /// @return Successful initialization if true, false otherwise
     virtual bool init(Viewport* viewport);
 
-    virtual void commit(CommandList* cmdbuf);
+    virtual void commit(CommandList* cmdlist, Frame* frame);
 protected:
     RenderState state_;
 
-    void execute_commands(CommandList* cmdbuf);
+    void execute_commands(CommandList* cmdlist);
     /// @brief Sets the viewport as the active viewport for this graphics device
     /// @param viewport
     virtual void set_viewport(Viewport* viewport);

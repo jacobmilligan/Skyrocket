@@ -37,18 +37,22 @@ void Semaphore::signal()
     cv_.notify_one();
 }
 
-void thread_sleep(const Timespan& time)
+void thread_sleep(const uint64_t ticks)
 {
+#if SKY_OS_MACOS == 1
     static struct timespec sleep_time;
     static struct timespec remaining;
 
     sleep_time.tv_sec = 0;
-    sleep_time.tv_nsec = static_cast<int64_t>(time.ticks());
+    sleep_time.tv_nsec = static_cast<long>(ticks);
 
     while ( nanosleep(&sleep_time, &remaining) == 1 && errno == EINTR ) {
         sleep_time.tv_sec = remaining.tv_sec;
         sleep_time.tv_nsec = remaining.tv_nsec;
     }
+#else
+    std::this_thread::sleep_for(std::chrono::nanoseconds(ticks));
+#endif
 }
 
 

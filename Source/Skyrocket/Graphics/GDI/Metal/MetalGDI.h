@@ -32,7 +32,7 @@ public:
 
     bool init(Viewport* viewport) override;
 
-    void commit(CommandList* cmdqueue) override;
+    void commit(CommandList* cmdlist, Frame* frame) override;
 protected:
     void set_viewport(Viewport* viewport) override;
 

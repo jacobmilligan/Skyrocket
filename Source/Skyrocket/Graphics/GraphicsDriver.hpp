@@ -12,12 +12,14 @@
 #pragma once
 
 #include "Skyrocket/Graphics/GDI/CommandList.hpp"
-
-#include <queue>
-#include <thread>
 #include "Skyrocket/Core/Memory/PoolAllocator.hpp"
 #include "Skyrocket/Core/Containers/MPSCQueue.hpp"
 #include "Skyrocket/Platform/Thread.hpp"
+#include "Skyrocket/Graphics/Frame.hpp"
+#include "Skyrocket/Core/Diagnostics/Stopwatch.hpp"
+
+#include <queue>
+#include <thread>
 
 namespace sky {
 
@@ -35,14 +37,27 @@ public:
     bool init(ThreadSupport threading, Viewport* viewport);
 
     CommandList* command_list();
-    void commit_command_list();
+    void commit_frame();
 
-    inline uint32_t frames_queued()
+    inline uint32_t frames_queued() const
     {
         return cmdqueue_allocator_.blocks_initialized();
     }
+
+    inline const Frame& get_frame(const size_t offset) const
+    {
+        SKY_ASSERT(offset < 16, "Offset is less than the number of available frames for inspection");
+        auto frame = (current_frame_ - offset) & (framepool_size_ - 1);
+        return frame_pool_[frame];
+    }
 private:
     static constexpr size_t cmdpool_size_ = 64;
+    static constexpr size_t framepool_size_ = 16;
+
+    struct CommandQueueNode {
+        CommandList* cmdlist;
+        Frame* frame;
+    };
 
     std::unique_ptr<GDI> gdi_;
 
@@ -50,7 +65,12 @@ private:
     CommandList* cmdlist_;
 
     FixedPoolAllocator cmdqueue_allocator_;
-    MPSCQueue<CommandList*> cmdqueue_;
+    MPSCQueue<CommandQueueNode> cmdqueue_;
+
+    // Frame properties
+    uint64_t num_frames_{0};
+    size_t current_frame_{0};
+    Frame frame_pool_[framepool_size_];
 
     // Render thread properties/methods
     Semaphore cmdlist_sem_;

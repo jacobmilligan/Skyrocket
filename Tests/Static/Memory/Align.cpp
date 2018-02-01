@@ -11,7 +11,7 @@
 
 #include <Skyrocket/Core/Memory/Memory.hpp>
 
-#include "catch.hpp"
+#include "catch/catch.hpp"
 
 TEST_CASE("Align correctly aligns to powers of two", "[align]")
 {

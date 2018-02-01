@@ -31,13 +31,20 @@ public:
 
     inline void set_frame_limit(const double fps)
     {
-        target_frametime_ = (1.0 / fps) * 1000.0;
+        target_frametime_ = static_cast<uint64_t>(
+            Timespan::ticks_per_millisecond * ( (1.0 / fps) * 1000.0 )
+        );
+    }
+
+    inline uint64_t get_frame_limit() const
+    {
+        return target_frametime_;
     }
 
     void start(GraphicsDriver::ThreadSupport graphics_threading);
 
     virtual void on_startup(int argc, const char** argv) = 0;
-    virtual void on_update(const double dt) = 0;
+    virtual void on_update(double dt) = 0;
     virtual void on_shutdown() = 0;
 protected:
     GraphicsDriver graphics_driver;
@@ -46,7 +53,7 @@ protected:
 private:
     const char* name_;
     bool active_;
-    double target_frametime_;
+    uint64_t target_frametime_;
     double dt_;
 
     void shutdown();

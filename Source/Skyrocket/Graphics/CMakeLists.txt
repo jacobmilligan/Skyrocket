@@ -49,7 +49,8 @@ endif ()
 skyrocket_add_sources(Color.cpp
         GraphicsDriver.cpp
         Viewport.cpp
-        Image.cpp)
+        Image.cpp
+        Frame.cpp)
 
 ######################################
 ## Add library and link dependencies

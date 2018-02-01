@@ -11,7 +11,7 @@
 
 #include <Skyrocket/Core/Hash.hpp>
 
-#include "catch.hpp"
+#include "catch/catch.hpp"
 
 TEST_CASE("test_murmur3_x86_32", "[murmur3]")
 {

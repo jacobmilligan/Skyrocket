@@ -16,7 +16,7 @@
 #include <Skyrocket/Core/Diagnostics/Timespan.hpp>
 
 #include "MBEMatrixUtilities.h"
-#include "catch.hpp"
+#include "catch/catch.hpp"
 
 TEST_CASE("test_speed", "[matrix]")
 {

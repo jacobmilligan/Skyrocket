@@ -132,13 +132,13 @@ public:
     }
 
     /// Gets the maximum number of blocks the pool can allocate
-    inline uint32_t block_capacity()
+    inline uint32_t block_capacity() const
     {
         return max_blocks_;
     }
 
     /// Gets the current number of blocks allocated
-    inline uint32_t blocks_initialized()
+    inline uint32_t blocks_initialized() const
     {
         return blocks_initialized_;
     }

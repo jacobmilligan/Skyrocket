@@ -16,13 +16,13 @@
 namespace sky {
 
 
-void GDI::execute_commands(CommandList* cmdbuf)
+void GDI::execute_commands(CommandList* cmdlist)
 {
     CommandType* typeptr = nullptr;
 
-    while (cmdbuf->cursor() <= cmdbuf->size()) {
+    while (cmdlist->cursor() <= cmdlist->size()) {
 
-        typeptr = cmdbuf->read<CommandType>();
+        typeptr = cmdlist->read<CommandType>();
         if (typeptr == nullptr) {
             break;
         }
@@ -39,17 +39,17 @@ void GDI::execute_commands(CommandList* cmdbuf)
             } break;
 
             case CommandType::set_viewport: {
-                auto view = cmdbuf->read<Viewport*>();
+                auto view = cmdlist->read<Viewport*>();
                 set_viewport(*view);
             } break;
 
             case CommandType::create_vertex_buffer: {
-                auto data = cmdbuf->read<CreateVertexBufferData>();
+                auto data = cmdlist->read<CreateVertexBufferData>();
                 create_vertex_buffer(data->buf_id, data->data, data->buf_usage);
             } break;
 
             case CommandType::set_vertex_buffer: {
-                auto data = cmdbuf->read<SetVertexBufferData>();
+                auto data = cmdlist->read<SetVertexBufferData>();
                 set_vertex_buffer(data->buf_id);
                 state_.vertex_buffer = data->buf_id;
                 state_.vertex_count = data->count;
@@ -57,17 +57,17 @@ void GDI::execute_commands(CommandList* cmdbuf)
             } break;
 
             case CommandType::update_vertex_buffer: {
-                auto data = cmdbuf->read<UpdateBufferData>();
+                auto data = cmdlist->read<UpdateBufferData>();
                 update_vertex_buffer(data->buf_id, data->data);
             } break;
 
             case CommandType::create_index_buffer: {
-                auto data = cmdbuf->read<CreateIndexBufferData>();
+                auto data = cmdlist->read<CreateIndexBufferData>();
                 create_index_buffer(data->buf_id, data->data);
             } break;
 
             case CommandType::set_index_buffer: {
-                auto data = cmdbuf->read<SetIndexBufferData>();
+                auto data = cmdlist->read<SetIndexBufferData>();
                 set_index_buffer(data->buf_id);
                 state_.index_buffer = data->buf_id;
                 state_.index_count = data->count;
@@ -75,7 +75,7 @@ void GDI::execute_commands(CommandList* cmdbuf)
             } break;
 
             case CommandType::create_program: {
-                auto* data = cmdbuf->read<CreateProgramData>();
+                auto* data = cmdlist->read<CreateProgramData>();
 
                 auto prog_id = data->prog_id;
 
@@ -86,7 +86,7 @@ void GDI::execute_commands(CommandList* cmdbuf)
             } break;
 
             case CommandType::set_program: {
-                auto idptr = cmdbuf->read<uint32_t>();
+                auto idptr = cmdlist->read<uint32_t>();
 
                 if ( *idptr == invalid_handle ) {
 //                    printf("invali\n");
@@ -97,39 +97,39 @@ void GDI::execute_commands(CommandList* cmdbuf)
             } break;
 
             case CommandType::create_uniform: {
-                auto data = cmdbuf->read<CreateUniformData>();
+                auto data = cmdlist->read<CreateUniformData>();
                 create_uniform(data->uniform_id, data->size);
             } break;
 
             case CommandType::set_uniform: {
-                auto data = cmdbuf->read<SetUniformData>();
+                auto data = cmdlist->read<SetUniformData>();
                 set_uniform(data->uniform_id, data->uniform_index);
             } break;
 
             case CommandType::update_uniform: {
-                auto data = cmdbuf->read<UpdateUniformData>();
+                auto data = cmdlist->read<UpdateUniformData>();
 //                if ( data->type != CommandType::unknown ) {
                 update_uniform(data->uniform_id, data->new_data, data->offset);
 //                }
             } break;
 
             case CommandType::create_texture: {
-                auto cmd = cmdbuf->read<CreateTextureData>();
+                auto cmd = cmdlist->read<CreateTextureData>();
                 create_texture(cmd->tid, cmd->width, cmd->height, cmd->format, cmd->mipmapped);
             } break;
 
             case CommandType::create_texture_region: {
-                auto cmd = cmdbuf->read<CreateTextureRegionData>();
+                auto cmd = cmdlist->read<CreateTextureRegionData>();
                 create_texture_region(cmd->tex_id, cmd->rect, cmd->format, cmd->data);
             } break;
 
             case CommandType::set_texture: {
-                auto cmd = cmdbuf->read<SetTextureData>();
+                auto cmd = cmdlist->read<SetTextureData>();
                 set_texture(cmd->tid, cmd->index);
             } break;
 
             case CommandType::set_state: {
-                auto flagsptr = cmdbuf->read<uint32_t>();
+                auto flagsptr = cmdlist->read<uint32_t>();
                 set_state(*flagsptr);
             } break;
 
@@ -138,7 +138,7 @@ void GDI::execute_commands(CommandList* cmdbuf)
             } break;
 
             case CommandType::draw_instanced: {
-                auto instanceptr = cmdbuf->read<uint32_t>();
+                auto instanceptr = cmdlist->read<uint32_t>();
                 draw_instanced(*instanceptr);
             } break;
         }
@@ -151,9 +151,9 @@ bool GDI::init(Viewport*  /*viewport*/)
     return false;
 }
 
-void GDI::commit(CommandList* cmdbuf)
+void GDI::commit(CommandList* cmdlist, Frame* frame)
 {
-    execute_commands(cmdbuf);
+    execute_commands(cmdlist);
 }
 
 void GDI::set_viewport(Viewport*  /*viewport*/)

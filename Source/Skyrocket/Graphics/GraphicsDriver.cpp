@@ -20,7 +20,7 @@ namespace sky {
 
 GraphicsDriver::GraphicsDriver()
     : cmdlist_allocator_(sizeof(CommandList), cmdpool_size_),
-      cmdqueue_allocator_(sizeof(MPSCQueue<CommandList*>::Node), cmdpool_size_ * cmdpool_size_),
+      cmdqueue_allocator_(sizeof(MPSCQueue<CommandQueueNode>::Node), cmdpool_size_ * cmdpool_size_),
       cmdqueue_(cmdqueue_allocator_),
       cmdlist_sem_(GDI::max_frames_in_flight)
 {}
@@ -50,6 +50,11 @@ bool GraphicsDriver::init(ThreadSupport threading, Viewport* viewport)
     cmdlist_ = static_cast<CommandList*>(cmdlist_allocator_.allocate(0));
     cmdlist_->start_recording();
 
+    frame_pool_[0].reset(num_frames_);
+    frame_pool_[0].begin_frame();
+    frame_pool_[0].sim_begin();
+    frame_pool_[0].cpu_begin();
+
     return true;
 }
 
@@ -71,13 +76,17 @@ CommandList* GraphicsDriver::command_list()
     return cmdlist_;
 }
 
-void GraphicsDriver::commit_command_list()
+void GraphicsDriver::commit_frame()
 {
+    frame_pool_[current_frame_].sim_end();
+
     if (threadsupport_ == ThreadSupport::single_threaded) {
+        frame_pool_[current_frame_].gdi_begin();
         process_command_list(cmdlist_);
+        frame_pool_[current_frame_].gdi_end();
     } else {
         cmdlist_->queue();
-        cmdqueue_.push(cmdlist_);
+        cmdqueue_.push({ cmdlist_, &frame_pool_[current_frame_] });
 
         cmdlist_ = static_cast<CommandList*>(cmdlist_allocator_.allocate(0));
         if (cmdlist_ != nullptr) {
@@ -87,8 +96,18 @@ void GraphicsDriver::commit_command_list()
         render_thread_notified_ = true;
         render_thread_cv_.notify_one();
 
+        frame_pool_[current_frame_].cpu_end();
         cmdlist_sem_.wait();
     }
+
+    frame_pool_[current_frame_].end_frame();
+
+    current_frame_ = (current_frame_ + 1) & (framepool_size_ - 1);
+
+    frame_pool_[current_frame_].reset(++num_frames_);
+    frame_pool_[current_frame_].begin_frame();
+    frame_pool_[current_frame_].sim_begin();
+    frame_pool_[current_frame_].cpu_begin();
 }
 
 void GraphicsDriver::process_command_list(CommandList* list)
@@ -96,7 +115,7 @@ void GraphicsDriver::process_command_list(CommandList* list)
     list->reset_cursor();
     list->start_processing();
 
-    gdi_->commit(list);
+    gdi_->commit(list, &frame_pool_[current_frame_]);
 
     list->end_processing();
     list->clear();
@@ -105,7 +124,7 @@ void GraphicsDriver::process_command_list(CommandList* list)
 
 void GraphicsDriver::render_thread_proc()
 {
-    CommandList* cmdlist = nullptr;
+    CommandQueueNode node {nullptr, nullptr};
 
     while (render_thread_active_) {
         {
@@ -116,11 +135,15 @@ void GraphicsDriver::render_thread_proc()
             render_thread_notified_ = false;
         }
 
-        while (render_thread_active_ && cmdqueue_.pop(cmdlist)) {
-            process_command_list(cmdlist);
+        while (render_thread_active_ && cmdqueue_.pop(node)) {
+            node.frame->gdi_begin();
+            {
+                process_command_list(node.cmdlist);
 
-            cmdlist_allocator_.free(cmdlist);
-            cmdlist_sem_.signal();
+                cmdlist_allocator_.free(node.cmdlist);
+                cmdlist_sem_.signal();
+            }
+            node.frame->gdi_end();
         }
     }
 }

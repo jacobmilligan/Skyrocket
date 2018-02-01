@@ -54,26 +54,21 @@ void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
         active_ = true;
     }
 
-    uint64_t frame_start = 0;
-    sky::Timespan frame_time;
+    uint64_t elapsed = 0;
 
     double num_frames = 0;
 
     while ( Viewport::open_viewports() > 0 ) {
-        frame_start = high_resolution_time();
-        platform.poll_events();
+        elapsed = high_resolution_time();
 
+        platform.poll_events();
         on_update(dt_);
 
-        frame_time = sky::Timespan(high_resolution_time() - frame_start);
-
-        if ( frame_time.total_milliseconds() < target_frametime_ ) {
-            auto diff = target_frametime_ - frame_time.total_milliseconds();
-            auto sleep_time = sky::Timespan(static_cast<uint64_t>(diff * sky::Timespan::ticks_per_millisecond));
-            sky::thread_sleep(sleep_time);
+        while (high_resolution_time() - elapsed < target_frametime_) {
+            sky::thread_sleep(0);
         }
 
-        dt_ = sky::Timespan(high_resolution_time() - frame_start).total_milliseconds();
+        dt_ = sky::Timespan(high_resolution_time() - elapsed).total_milliseconds();
         ++num_frames;
     }
 
