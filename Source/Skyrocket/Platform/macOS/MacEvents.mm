@@ -1,5 +1,5 @@
 //
-//  Input.cpp
+//  MacEvents.mm
 //  Skyrocket
 //
 //  --------------------------------------------------------------
@@ -13,7 +13,7 @@
 
 namespace sky {
 
-PlatformEvents::PlatformEvents()
+PlatformEvents::PlatformEvents() noexcept
 {
     vk_translation_table[0x00] = static_cast<uint16_t>(Key::A);
     vk_translation_table[0x01] = static_cast<uint16_t>(Key::S);

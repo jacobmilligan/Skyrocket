@@ -28,10 +28,12 @@ public:
             root_path_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples/Text");
         }
         root_path_.make_real();
+        set_frame_limit(60);
     }
 
     void on_startup(int argc, const char** argv) override
     {
+        graphics_driver.set_vsync_enabled(true);
         primary_view.set_backing_color(sky::Color::cornflower_blue);
         cam_.setup(primary_view.size(), 0.01f, 1000.0f);
         cam_.set_position({0.0f, 0.0f});
@@ -78,8 +80,9 @@ public:
         auto cmdqueue = graphics_driver.command_list();
 
         cmdqueue->set_state(sky::RenderPipelineState::culling_frontface);
-        cmdqueue->update_uniform(viewproj_,
-                                 sky::MemoryBlock { sizeof(sky::Matrix4f), &cam_mat_ });
+        cmdqueue->update_uniform(viewproj_, sky::MemoryBlock {
+            sizeof(sky::Matrix4f), &cam_mat_
+        });
         tb_.draw(viewproj_);
 
         graphics_driver.commit_frame();

@@ -71,12 +71,11 @@ public:
             root_path_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples/Cubes");
         }
         root_path_.make_real();
-
-        set_frame_limit(120);
     }
 
     void on_startup(int argc, const char** argv) override
     {
+        graphics_driver.set_vsync_enabled(true);
         auto cmdqueue = graphics_driver.command_list();
 
         primary_view.set_backing_color(sky::Color::cornflower_blue);
@@ -175,6 +174,7 @@ public:
 
     void on_update(const double dt) override
     {
+        printf("Delta: %lf\n", dt);
         auto cmdlist = graphics_driver.command_list();
 
         cmdlist->set_state(sky::RenderPipelineState::culling_frontface);
@@ -203,7 +203,7 @@ public:
             cam_movement.x += 1.0f;
         }
 
-        cam_.move(cam_movement * cam_speed_);
+        cam_.move(cam_movement * cam_speed_ * static_cast<float>(dt));
 
         cam_mat_ = cam_.get_matrix();
 
@@ -214,7 +214,7 @@ public:
         uint32_t cube_index = 0;
 
         for ( auto& c : cubes ) {
-            c.angle += dist(rand_gen);
+            c.angle += dist(rand_gen) * dt * 0.1;
 
             sky::MemoryBlock mb {
                 sizeof(sky::Matrix4f),
@@ -250,7 +250,7 @@ private:
 
     sky::Camera3D cam_;
     sky::Matrix4f cam_mat_;
-    float cam_speed_{10.0f};
+    float cam_speed_{2.0f};
 
     uint32_t program_{}, vbuf_id_{}, model_ubuf_{}, view_proj_ubuf_{}, texture_{};
     std::vector<sky::Vertex> vertices_;
@@ -260,7 +260,7 @@ private:
 int main(int argc, char** argv)
 {
     auto app = std::make_unique<CubeApp>();
-    app->start(sky::GraphicsDriver::ThreadSupport::single_threaded);
+    app->start(sky::GraphicsDriver::ThreadSupport::multi_threaded);
 
     return 0;
 }

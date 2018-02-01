@@ -12,6 +12,7 @@
 #pragma once
 
 #include "Skyrocket/Platform/macOS/CocoaWindow.h"
+#include "Skyrocket/Graphics/Apple/CocoaView.h"
 #include "Skyrocket/Graphics/Viewport.hpp"
 
 

@@ -30,7 +30,7 @@ void Platform::native_init()
 
     // Create shared application and assign app delegate
     [SkyrocketApplication sharedApplication];
-    [NSApp setDelegate:[[SkyrocketApplicationDelegate alloc] init]];
+    [NSApp setDelegate:[[[SkyrocketApplicationDelegate alloc] init] autorelease]];
 
     // Set activation policy to regular to avoid requiring .plist files in < OSX 10.7
     [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
@@ -42,9 +42,9 @@ void Platform::native_init()
 
     // Add dropdowns
     id appMenu = [[NSMenu new] autorelease];
-    id quitMenuItem = [[NSMenuItem alloc] initWithTitle:@"Quit"
-                                                 action:@selector(terminate:)
-                                          keyEquivalent:@"q"];
+    id quitMenuItem = [[[NSMenuItem alloc] initWithTitle:@"Quit"
+                                                  action:@selector(terminate:)
+                                           keyEquivalent:@"q"] autorelease];
     [appMenu addItem:quitMenuItem];
     [menuItem setSubmenu:appMenu];
 
@@ -71,9 +71,9 @@ void* Platform::create_native_window(const char* caption, const uint16_t width,
                                      const uint16_t height)
 {
     NSRect frame = NSMakeRect(0, 0, width, height);
-    CocoaWindow * window = [[CocoaWindow alloc] initWithEventsAndContent:&events_
+    CocoaWindow * window = [[[CocoaWindow alloc] initWithEventsAndContent:&events_
                                                              contentRect:frame
-                                                           captionString:caption];
+                                                           captionString:caption] autorelease];
     return window;
 }
 

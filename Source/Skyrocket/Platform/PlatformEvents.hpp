@@ -50,13 +50,13 @@ struct WindowData {
 struct PlatformEvents {
     KeyboardState keyboard;
 
-    PlatformEvents();
+    PlatformEvents() noexcept;
 
     void reset_keyboard_state();
 
-    void key_down(const uint16_t keycode);
+    void key_down(uint16_t keycode);
 
-    void key_up(const uint16_t keycode);
+    void key_up(uint16_t keycode);
 
     void request_window_close(WindowData* window_data);
 

@@ -14,7 +14,7 @@
 // Include platform headers
 #include "Skyrocket/Platform/Time.hpp"
 
-#include "PlatformEvents.hpp"
+#include "Skyrocket/Platform/PlatformEvents.hpp"
 #include "Skyrocket/Core/Config.hpp"
 #include "Skyrocket/Input/Keycodes.hpp"
 
@@ -42,8 +42,7 @@ public:
     /// @param width
     /// @param height
     /// @return raw void* to the native window object
-    static void* create_native_window(const char* caption, const uint16_t width,
-                                      const uint16_t height);
+    static void* create_native_window(const char* caption, uint16_t width, uint16_t height);
 
     /// @brief Polls the input and registers all events
     void poll_events();

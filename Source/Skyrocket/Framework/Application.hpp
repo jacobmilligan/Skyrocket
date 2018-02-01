@@ -28,12 +28,7 @@ public:
         return name_;
     }
 
-    inline void set_frame_limit(const double fps)
-    {
-        target_frametime_ = static_cast<uint64_t>(
-            Timespan::ticks_per_millisecond * ( (1.0 / fps) * 1000.0 )
-        );
-    }
+    void set_frame_limit(const double fps);
 
     inline uint64_t get_frame_limit() const
     {

@@ -20,12 +20,12 @@ uint64_t Frame::num_frames_ = 0;
 void Frame::reset(const uint64_t new_id)
 {
     id = new_id;
-    total_fps = 0;
-    total_time = 0.0;
-    cpu_time = 0.0;
-    gpu_time = 0.0;
-    sim_time = 0.0;
-    gdi_time = 0.0;
+//    total_fps = 0;
+//    total_time = 0.0;
+//    cpu_time = 0.0;
+//    gpu_time = 0.0;
+//    sim_time = 0.0;
+//    gdi_time = 0.0;
 }
 
 void Frame::begin_frame()

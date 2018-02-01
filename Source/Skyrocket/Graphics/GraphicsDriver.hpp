@@ -50,6 +50,10 @@ public:
         auto frame = (current_frame_ - offset) & (framepool_size_ - 1);
         return frame_pool_[frame];
     }
+
+    void set_viewport(Viewport* viewport);
+
+    void set_vsync_enabled(bool enabled);
 private:
     static constexpr size_t cmdpool_size_ = 64;
     static constexpr size_t framepool_size_ = 16;
@@ -60,6 +64,8 @@ private:
     };
 
     std::unique_ptr<GDI> gdi_;
+    bool vsync_on_;
+    Viewport* viewport_;
 
     FixedPoolAllocator cmdlist_allocator_;
     CommandList* cmdlist_;
@@ -81,7 +87,9 @@ private:
     bool render_thread_notified_;
     std::thread render_thread_;
 
+    void notify_render_thread();
     void render_thread_proc();
+    void render_thread_frame();
     void process_command_list(CommandList* list);
 };
 

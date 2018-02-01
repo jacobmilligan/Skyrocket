@@ -9,5 +9,5 @@ endif ()
 skyrocket_add_sources(MacPlatform.mm
         CocoaWindow.mm
         MacApplication.mm
-        MacInput.mm
+        MacEvents.mm
         MacFilesystem.mm)

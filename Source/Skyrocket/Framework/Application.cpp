@@ -18,7 +18,7 @@ namespace sky {
 
 Application::Application(const char* name)
     : name_(name),
-      target_frametime_(0.0),
+      target_frametime_(0),
       active_(false)
 {
     set_frame_limit(144.0);
@@ -62,8 +62,10 @@ void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
         platform.poll_events();
         on_update(dt_);
 
-        while (high_resolution_time() - elapsed < target_frametime_) {
-            sky::thread_sleep(0);
+        if (target_frametime_ > 0) {
+            while (high_resolution_time() - elapsed < target_frametime_) {
+                sky::thread_sleep(0);
+            }
         }
 
         dt_ = sky::Timespan(high_resolution_time() - elapsed).total_milliseconds();
@@ -78,6 +80,18 @@ void Application::shutdown()
     active_ = false;
     on_shutdown();
     jobrocket::shutdown();
+}
+
+void Application::set_frame_limit(const double fps)
+{
+    if (fps <= 0.0) {
+        target_frametime_ = 0;
+        return;
+    }
+
+    target_frametime_ = static_cast<uint64_t>(
+        Timespan::ticks_per_millisecond * ( (1.0 / fps) * 1000.0 )
+    );
 }
 
 

@@ -22,15 +22,17 @@ GraphicsDriver::GraphicsDriver()
     : cmdlist_allocator_(sizeof(CommandList), cmdpool_size_),
       cmdqueue_allocator_(sizeof(MPSCQueue<CommandQueueNode>::Node), cmdpool_size_ * cmdpool_size_),
       cmdqueue_(cmdqueue_allocator_),
-      cmdlist_sem_(GDI::max_frames_in_flight)
+      cmdlist_sem_(GDI::max_frames_in_flight),
+      vsync_on_(false)
 {}
 
 GraphicsDriver::~GraphicsDriver()
 {
+    render_thread_notified_ = true;
+    render_thread_active_ = false;
+    render_thread_cv_.notify_one();
+
     if (render_thread_.joinable()) {
-        render_thread_notified_ = true;
-        render_thread_active_ = false;
-        render_thread_cv_.notify_one();
         render_thread_.join();
     }
 }
@@ -38,8 +40,9 @@ GraphicsDriver::~GraphicsDriver()
 bool GraphicsDriver::init(ThreadSupport threading, Viewport* viewport)
 {
     threadsupport_ = threading;
+    viewport_ = viewport;
     gdi_ = GDI::create();
-    gdi_->init(viewport);
+    gdi_->init(viewport_);
 
     if (threadsupport_ == ThreadSupport::multi_threaded) {
         render_thread_active_ = true;
@@ -80,7 +83,7 @@ void GraphicsDriver::commit_frame()
 {
     frame_pool_[current_frame_].sim_end();
 
-    if (threadsupport_ == ThreadSupport::single_threaded) {
+    if (threadsupport_ == ThreadSupport::single_threaded && !vsync_on_) {
         frame_pool_[current_frame_].gdi_begin();
         process_command_list(cmdlist_);
         frame_pool_[current_frame_].gdi_end();
@@ -93,10 +96,10 @@ void GraphicsDriver::commit_frame()
             cmdlist_->start_recording();
         }
 
-        render_thread_notified_ = true;
-        render_thread_cv_.notify_one();
+        if (threadsupport_ == ThreadSupport::multi_threaded && !vsync_on_) {
+            notify_render_thread();
+        }
 
-        frame_pool_[current_frame_].cpu_end();
         cmdlist_sem_.wait();
     }
 
@@ -122,12 +125,48 @@ void GraphicsDriver::process_command_list(CommandList* list)
     list->start_recording();
 }
 
-void GraphicsDriver::render_thread_proc()
+void GraphicsDriver::set_viewport(sky::Viewport* viewport)
+{
+    viewport_ = viewport;
+    gdi_->set_viewport(viewport);
+}
+
+void GraphicsDriver::set_vsync_enabled(bool enabled)
+{
+    vsync_on_ = enabled;
+    Viewport::render_proc_t render_proc = &GraphicsDriver::render_thread_frame;
+    if (threadsupport_ == ThreadSupport::multi_threaded) {
+        render_proc = &GraphicsDriver::notify_render_thread;
+    }
+    viewport_->set_vsync_enabled(this, render_proc, enabled);
+}
+
+void GraphicsDriver::notify_render_thread()
+{
+    render_thread_notified_ = true;
+    render_thread_cv_.notify_one();
+}
+
+void GraphicsDriver::render_thread_frame()
 {
     CommandQueueNode node {nullptr, nullptr};
 
-    while (render_thread_active_) {
+    if (cmdqueue_.pop(node)) {
+        node.frame->gdi_begin();
         {
+            process_command_list(node.cmdlist);
+
+            cmdlist_allocator_.free(node.cmdlist);
+            cmdlist_sem_.signal();
+        }
+        node.frame->gdi_end();
+    }
+}
+
+void GraphicsDriver::render_thread_proc()
+{
+    while (render_thread_active_) {
+        if (cmdqueue_allocator_.blocks_initialized() <= 0) {
             std::unique_lock<std::mutex> lock(render_thread_mutex_);
             render_thread_cv_.wait(lock, [&]() {
                 return render_thread_notified_;
@@ -135,16 +174,7 @@ void GraphicsDriver::render_thread_proc()
             render_thread_notified_ = false;
         }
 
-        while (render_thread_active_ && cmdqueue_.pop(node)) {
-            node.frame->gdi_begin();
-            {
-                process_command_list(node.cmdlist);
-
-                cmdlist_allocator_.free(node.cmdlist);
-                cmdlist_sem_.signal();
-            }
-            node.frame->gdi_end();
-        }
+        render_thread_frame();
     }
 }
 

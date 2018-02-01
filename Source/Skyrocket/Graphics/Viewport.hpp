@@ -24,11 +24,13 @@ struct Color;
 struct PlatformWindow;
 struct NativeViewport;
 
-class GDI;
+class GraphicsDriver;
 
 /// @brief Viewport is a window with a framebuffer for drawing to.
 class Viewport {
 public:
+    using render_proc_t = void (GraphicsDriver::*)();
+
     Viewport();
 
     Viewport(const Viewport& other) = delete;
@@ -40,7 +42,7 @@ public:
     /// @param caption
     /// @param width
     /// @param height
-    void open(const char* caption, const uint16_t width, const uint16_t height);
+    void open(const char* caption, uint16_t width, uint16_t height);
 
     /// @brief Closes and destroys the viewport
     void close();
@@ -65,6 +67,7 @@ public:
     /// @return
     Vector2f size();
 
+    void set_vsync_enabled(GraphicsDriver* gd, render_proc_t render_proc, bool enabled);
 private:
     static uint16_t open_windows_;
 

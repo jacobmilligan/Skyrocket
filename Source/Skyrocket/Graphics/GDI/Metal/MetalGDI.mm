@@ -199,7 +199,7 @@ void MetalGDI::commit(CommandList* cmdlist, Frame* frame)
 
 void MetalGDI::set_viewport(Viewport* viewport)
 {
-    MetalView* mtl_view = (MetalView*)viewport->get_native_viewport()->view;
+    auto mtl_view = (MetalView*)viewport->get_native_viewport()->view;
     mtl_view.metalLayer.device = device_;
     mtl_layer_ = mtl_view.metalLayer;
 }

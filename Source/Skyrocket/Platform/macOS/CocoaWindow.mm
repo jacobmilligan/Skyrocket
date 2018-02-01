@@ -1,5 +1,5 @@
 //
-//  CocoaView.mm
+//  CocoaWindow.mm
 //  Skyrocket
 //
 //  --------------------------------------------------------------
@@ -12,15 +12,6 @@
 
 #include "Skyrocket/Platform/PlatformEvents.hpp"
 #include "Skyrocket/Platform/macOS/CocoaWindow.h"
-
-@implementation CocoaView
-
--(void)
-setBackingColor:(CGFloat)r g:(CGFloat) g b:(CGFloat)b a:(CGFloat)a {
-// Empty - handled by subclasses
-}
-
-@end
 
 @implementation CocoaWindow
 

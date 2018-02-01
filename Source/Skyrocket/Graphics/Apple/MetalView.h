@@ -13,7 +13,7 @@
 
 #if SKY_GRAPHICS_API_METAL
 
-#include "Skyrocket/Platform/macOS/CocoaWindow.h"
+#include "Skyrocket/Graphics/Apple/CocoaView.h"
 
 #import <Metal/Metal.h>
 #import <QuartzCore/CAMetalLayer.h>
@@ -23,5 +23,7 @@
 @property (readonly, nullable)CAMetalLayer* metalLayer;
 
 @end
+
+using view_type_t = MetalView;
 
 #endif // Metal API

@@ -75,13 +75,14 @@ public:
     virtual bool init(Viewport* viewport);
 
     virtual void commit(CommandList* cmdlist, Frame* frame);
+
+    /// @brief Sets the viewport as the active viewport for this graphics device
+    /// @param viewport
+    virtual void set_viewport(Viewport* viewport);
 protected:
     RenderState state_;
 
     void execute_commands(CommandList* cmdlist);
-    /// @brief Sets the viewport as the active viewport for this graphics device
-    /// @param viewport
-    virtual void set_viewport(Viewport* viewport);
 
     /// @brief Creates a new vertex buffer
     /// @param vbuf_id The id handle of the buffer to create

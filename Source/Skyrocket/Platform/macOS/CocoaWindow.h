@@ -1,5 +1,5 @@
 //
-//  CocoaView.h
+//  CocoaWindow.h
 //  Skyrocket
 //
 //  --------------------------------------------------------------
@@ -23,14 +23,5 @@ namespace sky { struct PlatformEvents; }
 -(nonnull instancetype)initWithEventsAndContent:(nonnull sky::PlatformEvents*)events
                                     contentRect:(NSRect)contentRect
                                   captionString:(nullable const char*)caption;
-
-@end
-
-@interface CocoaView : NSView
-
--(void)setBackingColor:(CGFloat)r
-                     g:(CGFloat)g
-                     b:(CGFloat)b
-                     a:(CGFloat)a;
 
 @end
