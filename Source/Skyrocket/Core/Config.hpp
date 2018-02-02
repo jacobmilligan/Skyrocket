@@ -190,9 +190,25 @@ const auto target_compiler = Compiler::unknown;
 #if !defined(SKY_GRAPHICS_API_METAL)
 #define SKY_GRAPHICS_API_METAL 0
 #endif
+
 #if !defined(SKY_GRAPHICS_API_OPENGL)
 #define SKY_GRAPHICS_API_OPENGL 0
 #endif
 
+#if !defined(SKY_GRAPHICS_API_D3D9)
+#define SKY_GRAPHICS_API_D3D9 0
+#endif
+
+#if !defined(SKY_GRAPHICS_API_D3D11)
+#define SKY_GRAPHICS_API_D3D11 0
+#endif
+
+#if !defined(SKY_GRAPHICS_API_D3D12)
+#define SKY_GRAPHICS_API_D3D12 0
+#endif
+
+#if !defined(SKY_GRAPHICS_API_VULKAN)
+#define SKY_GRAPHICS_API_VULKAN 0
+#endif
 
 }

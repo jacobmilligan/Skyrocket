@@ -17,6 +17,35 @@
 
 namespace sky {
 
+struct BackendSupport {
+    GraphicsBackend backend;
+    bool supported;
+};
+
+void supported_graphics_backends(graphics_backed_list_t& dest)
+{
+    static BackendSupport graphics_backends[] = {
+        { GraphicsBackend::Metal, SKY_GRAPHICS_API_METAL != 0 },
+        { GraphicsBackend::OpenGL, SKY_GRAPHICS_API_OPENGL != 0 },
+        { GraphicsBackend::D3D9, SKY_GRAPHICS_API_D3D9 != 0 },
+        { GraphicsBackend::D3D11, SKY_GRAPHICS_API_D3D11 != 0 },
+        { GraphicsBackend::D3D12, SKY_GRAPHICS_API_D3D12 != 0 },
+        { GraphicsBackend::Vulkan, SKY_GRAPHICS_API_VULKAN != 0 },
+    };
+
+    auto last = static_cast<int>(GraphicsBackend::last);
+    auto next = 0;
+    for (int backend = 0; backend < last - 2; ++backend) {
+        if (graphics_backends[backend].supported) {
+            dest[next++] = graphics_backends[backend].backend;
+        }
+    }
+
+    for (int i = next; i < last; ++i) {
+        dest[i] = GraphicsBackend::none;
+    }
+
+}
 
 GraphicsDriver::GraphicsDriver()
     : cmdlist_allocator_(sizeof(CommandList), cmdpool_size_),

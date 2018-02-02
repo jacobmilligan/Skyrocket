@@ -263,6 +263,5 @@ int main(int argc, char** argv)
 {
     auto app = std::make_unique<CubeApp>();
     app->start(sky::GraphicsDriver::ThreadSupport::multi_threaded);
-
     return 0;
 }

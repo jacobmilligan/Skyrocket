@@ -18,7 +18,7 @@ TEST_CASE("Stopwatch works", "[timer]")
 {
     sky::Stopwatch timer;
     timer.start();
-    sky::thread_sleep(sky::get_timespan<sky::TimeInterval::milliseconds>(5));
+    sky::thread_sleep(sky::get_timespan<sky::TimeInterval::milliseconds>(5).ticks());
     timer.stop();
 
     REQUIRE(timer.get_time().milliseconds() < 6);

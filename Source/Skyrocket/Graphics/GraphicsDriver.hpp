@@ -25,6 +25,22 @@ namespace sky {
 
 class GDI;
 
+enum class GraphicsBackend {
+    unknown,
+    none,
+    Metal,
+    OpenGL,
+    D3D9,
+    D3D11,
+    D3D12,
+    Vulkan,
+    last
+};
+
+using graphics_backed_list_t = GraphicsBackend[static_cast<size_t>(GraphicsBackend::last)];
+
+void supported_graphics_backends(graphics_backed_list_t& dest);
+
 class GraphicsDriver {
 public:
     enum class ThreadSupport {

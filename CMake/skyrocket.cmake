@@ -48,7 +48,7 @@ function(skyrocket_add_library lib_name lib_type)
                 ${CMAKE_CURRENT_SOURCE_DIR}/*.inl)
     endif ()
 
-    add_library(${lib_name} "${lib_type}" "${skyrocket_sources}" "${headers}")
+    add_library(${lib_name} ${lib_type} "${skyrocket_sources}" "${headers}")
     target_include_directories(${lib_name} PUBLIC ${PROJECT_SOURCE_DIR}/Source)
     target_include_directories(${lib_name} PUBLIC ${PROJECT_SOURCE_DIR}/Deps)
     set(${lib_name}_sources "${skyrocket_sources}" CACHE INTERNAL "")

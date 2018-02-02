@@ -17,7 +17,6 @@ TEST_CASE("Allocated memory is aligned correctly", "[FixedStackAllocator]")
 {
     constexpr size_t alignment = 4;
     sky::FixedStackAllocator allocator(sky::mebibytes(2));
-    allocator.initialize();
 
     auto mem = allocator.allocate(sizeof(int), alignment);
     REQUIRE(sky::is_aligned(mem, alignment));
@@ -29,7 +28,6 @@ TEST_CASE("Allocated memory is aligned correctly", "[FixedStackAllocator]")
 TEST_CASE("Allocated memory can only be aligned to powers of 2", "[FixedStackAllocator]")
 {
     sky::FixedStackAllocator allocator(sky::mebibytes(2));
-    allocator.initialize();
 
     auto mem = allocator.allocate(sizeof(int), 5);
     REQUIRE(mem == nullptr);
@@ -45,7 +43,6 @@ TEST_CASE("Allocation is sequential", "[FixedStackAllocator]")
     constexpr size_t increment = alignment / sizeof(int);
 
     sky::FixedStackAllocator allocator(sky::mebibytes(2));
-    allocator.initialize();
 
     int* mem[num_ptrs];
     for (auto& i : mem) {
@@ -62,7 +59,6 @@ TEST_CASE("Allocation is sequential", "[FixedStackAllocator]")
 TEST_CASE("Freeing to cursor resets memory correctly", "[FixedStackAllocator]")
 {
     sky::FixedStackAllocator allocator(sky::mebibytes(2));
-    allocator.initialize();
 
     // Test if memory resets to zero on reset()
     auto mem1 = static_cast<int*>(allocator.allocate(sizeof(int)));
