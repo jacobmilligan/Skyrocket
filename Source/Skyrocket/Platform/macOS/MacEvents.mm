@@ -85,6 +85,7 @@ PlatformEvents::PlatformEvents() noexcept
     vk_translation_table[0x24] = static_cast<uint16_t>(Key::enter);
     vk_translation_table[0x30] = static_cast<uint16_t>(Key::tab);
     vk_translation_table[0x31] = static_cast<uint16_t>(Key::space);
+    vk_translation_table[0x32] = static_cast<uint16_t>(Key::grave_accent);
     vk_translation_table[0x33] = static_cast<uint16_t>(Key::delete_key);
     vk_translation_table[0x35] = static_cast<uint16_t>(Key::escape);
     vk_translation_table[0x37] = static_cast<uint16_t>(Key::left_super);

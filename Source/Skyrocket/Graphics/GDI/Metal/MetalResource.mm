@@ -20,8 +20,15 @@ MetalProgram::MetalProgram(const uint32_t program_id, id<MTLFunction> vs, id<MTL
     : program_id_(program_id), vs_(vs), frag_(frag)
 {}
 
-MetalProgram::~MetalProgram()
-{}
+void MetalProgram::destroy()
+{
+    [vs_ release];
+    [frag_ release];
+
+    for (auto& s : render_pipeline_states_) {
+        SKY_OBJC_RELEASE(s.second);
+    }
+}
 
 id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice> device)
 {
@@ -47,7 +54,7 @@ id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice>
 
     NSError* err = nil;
 
-    MTLRenderPipelineDescriptor* pipeline_descriptor = [MTLRenderPipelineDescriptor new];
+    MTLRenderPipelineDescriptor* pipeline_descriptor = [[MTLRenderPipelineDescriptor new] autorelease];
     pipeline_descriptor.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm;
     pipeline_descriptor.vertexFunction = vs_;
     pipeline_descriptor.fragmentFunction = frag_;

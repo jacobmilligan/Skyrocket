@@ -3,7 +3,7 @@ function(skyrocket_configure_platform compile_flags)
     if (APPLE)
         set(skyrocket_platform "macOS" CACHE INTERNAL "")
         # Treat all files as objective-c++
-#        set(flags ${flags} "-ObjC++")
+        set(flags ${flags} "-ObjC++")
     elseif(WIN32)
         set(skyrocket_platform "Windows" CACHE INTERNAL "")
     endif ()

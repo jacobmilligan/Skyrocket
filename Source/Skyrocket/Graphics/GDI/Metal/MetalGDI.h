@@ -13,6 +13,8 @@
 
 #pragma once
 
+#if SKY_GRAPHICS_API_METAL == 1
+
 #include "Skyrocket/Core/Containers/HandleTable.hpp"
 #include "Skyrocket/Graphics/GDI/GDI.hpp"
 #include "Skyrocket/Graphics/GDI/Metal/MetalResource.h"
@@ -31,6 +33,8 @@ public:
     ~MetalGDI() override;
 
     bool init(Viewport* viewport) override;
+
+    bool destroy() override;
 
     void commit(CommandList* cmdlist, Frame* frame) override;
 protected:
@@ -121,3 +125,5 @@ private:
 
 
 }  // namespace sky
+
+#endif // SKY_GRAPHICS_API_METAL

@@ -13,6 +13,18 @@
 namespace sky {
 
 
+template<>
+inline Timespan get_timespan<TimeInterval::ticks>(const double ticks)
+{
+    return Timespan(static_cast<uint64_t>(ticks));
+}
+
+template<>
+inline Timespan get_timespan<TimeInterval::microseconds>(const double micros)
+{
+    return Timespan(static_cast<uint64_t>(Timespan::ticks_per_microsecond * micros));
+}
+
 /// @brief Gets a new Time unit from a specified interval.
 /// Template specialization for Time::Interval::milliseconds
 /// @param duration The amount of milliseconds to assign to the Time unit

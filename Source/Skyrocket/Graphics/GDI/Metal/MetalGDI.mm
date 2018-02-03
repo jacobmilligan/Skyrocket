@@ -10,11 +10,9 @@
 //
 
 #include "Skyrocket/Core/Hash.hpp"
-#include "MetalGDI.h"
-#include "Skyrocket/Graphics/GDI/GDI.hpp"
+#include "Skyrocket/Graphics/GDI/Metal/MetalGDI.h"
 #include "Skyrocket/Graphics/Apple/MacViewport.h"
 #include "Skyrocket/Graphics/Apple/MetalView.h"
-#include "Skyrocket/Platform/Filesystem.hpp"
 
 //TODO(Jacob): Textures
 
@@ -35,14 +33,7 @@ MetalGDI::MetalGDI() = default;
 
 MetalGDI::~MetalGDI()
 {
-    for ( int i = 0; i < max_frames_in_flight; ++i ) {
-        dispatch_semaphore_signal(buf_sem_);
-    }
-}
-
-std::unique_ptr<GDI> GDI::create() noexcept
-{
-    return std::make_unique<MetalGDI>();
+    destroy();
 }
 
 bool MetalGDI::init(Viewport* viewport)
@@ -123,18 +114,47 @@ fragment float4 basic_fragment(Vertex in [[stage_in]])
     //  Load main render pipeline
     //--------------------------------
 
-    MTLDepthStencilDescriptor* ds_descriptor = [MTLDepthStencilDescriptor new];
+    MTLDepthStencilDescriptor* ds_descriptor = [[MTLDepthStencilDescriptor new] autorelease];
     ds_descriptor.depthCompareFunction = MTLCompareFunctionLess;
     ds_descriptor.depthWriteEnabled = YES;
     depth_stencil_state_ = [device_ newDepthStencilStateWithDescriptor:ds_descriptor];
 
+    SKY_OBJC_RELEASE(lib);
+
     return true;
 }
 
+bool MetalGDI::destroy()
+{
+    for (auto& p : programs_) {
+        p.data.destroy();
+    }
 
+    for (auto& v : vertex_buffers_) {
+        v.data.destroy();
+    }
+
+    for (auto& i : index_buffers_) {
+        i.data.destroy();
+    }
+
+    for (auto& u : uniform_buffers_) {
+        u.data.destroy();
+    }
+
+    for (auto& t : textures_) {
+        SKY_OBJC_RELEASE(t.data);
+    }
+
+    return true;
+}
 
 void MetalGDI::commit(CommandList* cmdlist, Frame* frame)
 {
+    if (device_ == nil || buf_sem_ == nil) {
+        return;
+    }
+
     dispatch_semaphore_wait(buf_sem_, DISPATCH_TIME_FOREVER);
 
     if ( mtl_layer_ == nil ) {
@@ -302,6 +322,7 @@ bool MetalGDI::create_program(const uint32_t program_id, const Path& vs_path, co
     // Create program
     MetalProgram program(program_id, vs, frag);
     programs_.create(program_id, program);
+
     return true;
 }
 

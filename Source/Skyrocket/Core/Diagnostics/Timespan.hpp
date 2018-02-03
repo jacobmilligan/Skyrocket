@@ -19,6 +19,7 @@ namespace sky {
 /// value, used for conversions and timespan functions
 enum class TimeInterval {
     ticks,
+    microseconds,
     milliseconds,
     seconds,
     minutes,

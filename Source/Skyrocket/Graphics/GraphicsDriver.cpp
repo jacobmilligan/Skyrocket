@@ -22,15 +22,15 @@ struct BackendSupport {
     bool supported;
 };
 
-void supported_graphics_backends(graphics_backed_list_t& dest)
+void supported_graphics_backends(graphics_backend_list_t& dest)
 {
     static BackendSupport graphics_backends[] = {
         { GraphicsBackend::Metal, SKY_GRAPHICS_API_METAL != 0 },
-        { GraphicsBackend::OpenGL, SKY_GRAPHICS_API_OPENGL != 0 },
-        { GraphicsBackend::D3D9, SKY_GRAPHICS_API_D3D9 != 0 },
-        { GraphicsBackend::D3D11, SKY_GRAPHICS_API_D3D11 != 0 },
         { GraphicsBackend::D3D12, SKY_GRAPHICS_API_D3D12 != 0 },
         { GraphicsBackend::Vulkan, SKY_GRAPHICS_API_VULKAN != 0 },
+        { GraphicsBackend::D3D11, SKY_GRAPHICS_API_D3D11 != 0 },
+        { GraphicsBackend::OpenGL, SKY_GRAPHICS_API_OPENGL != 0 },
+        { GraphicsBackend::D3D9, SKY_GRAPHICS_API_D3D9 != 0 },
     };
 
     auto last = static_cast<int>(GraphicsBackend::last);
@@ -205,6 +205,17 @@ void GraphicsDriver::render_thread_proc()
 
         render_thread_frame();
     }
+}
+
+void GraphicsDriver::set_graphics_backend(sky::GraphicsBackend backend)
+{
+    gdi_->destroy();
+    gdi_ = GDI::create(backend);
+}
+
+GraphicsBackend GraphicsDriver::active_backend()
+{
+    return gdi_->backend();
 }
 
 

@@ -37,19 +37,25 @@ void Semaphore::signal()
     cv_.notify_one();
 }
 
+constexpr uint64_t to_seconds(const uint64_t ticks) noexcept
+{
+    return ticks / Timespan::ticks_per_second;
+}
+
+constexpr uint64_t get_remaining_ticks(const uint64_t ticks) noexcept
+{
+    return ticks % Timespan::ticks_per_second;
+}
+
 void thread_sleep(const uint64_t ticks)
 {
 #if SKY_OS_MACOS == 1
-    static struct timespec sleep_time;
-    static struct timespec remaining;
+    static struct timespec sleep_time{};
 
-    sleep_time.tv_sec = 0;
-    sleep_time.tv_nsec = static_cast<long>(ticks);
+    sleep_time.tv_sec = static_cast<__darwin_time_t>(to_seconds(ticks));
+    sleep_time.tv_nsec = static_cast<long>(get_remaining_ticks(ticks));
 
-    while ( nanosleep(&sleep_time, &remaining) == 1 && errno == EINTR ) {
-        sleep_time.tv_sec = remaining.tv_sec;
-        sleep_time.tv_nsec = remaining.tv_nsec;
-    }
+    nanosleep(&sleep_time, nullptr);
 #else
     std::this_thread::sleep_for(std::chrono::nanoseconds(ticks));
 #endif

@@ -12,6 +12,7 @@
 #pragma once
 
 #include "Skyrocket/Input/Keycodes.hpp"
+#include "Skyrocket/Core/Containers/Bitset.hpp"
 
 #include <cstdint>
 #include <vector>
@@ -37,6 +38,7 @@ struct KeyboardState {
     KeyState key_states[static_cast<uint16_t>(Key::last)];
     uint16_t this_frame_mask_;
     uint16_t last_frame_mask_;
+    Bitset<static_cast<size_t>(Key::last)> mask_a;
 };
 
 struct WindowData {

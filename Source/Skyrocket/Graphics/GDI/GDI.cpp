@@ -9,12 +9,72 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "GDI.hpp"
-#include "CommandList.hpp"
+#include "Skyrocket/Graphics/GDI/GDI.hpp"
+#include "Skyrocket/Graphics/GDI/Metal/MetalGDI.h"
 
 
 namespace sky {
 
+std::unique_ptr<GDI> GDI::create(const GraphicsBackend backend) noexcept
+{
+    std::unique_ptr<GDI> gdi = nullptr;
+    auto new_backend = backend;
+
+    switch (backend) {
+
+        case GraphicsBackend::unknown:
+        {
+            graphics_backend_list_t backend_list{};
+            supported_graphics_backends(backend_list);
+            gdi = create(backend_list[0]);
+        } break;
+
+        case GraphicsBackend::Metal:
+#if SKY_GRAPHICS_API_METAL == 1
+        {
+            gdi = std::make_unique<MetalGDI>();
+        } break;
+#endif
+        case GraphicsBackend::OpenGL:
+        {
+
+        }
+
+        case GraphicsBackend::D3D9:
+        {
+
+        }
+
+        case GraphicsBackend::D3D11:
+        {
+
+        }
+
+        case GraphicsBackend::D3D12:
+        {
+
+        }
+
+        case GraphicsBackend::Vulkan:
+        {
+
+        }
+
+        case GraphicsBackend::none:
+        {
+
+        }
+
+        case GraphicsBackend::last:
+        {
+            gdi = std::make_unique<GDI>();
+            new_backend = GraphicsBackend::none;
+        } break;
+    }
+
+    gdi->backend_ = new_backend;
+    return std::move(gdi);
+}
 
 void GDI::execute_commands(CommandList* cmdlist)
 {
@@ -147,6 +207,11 @@ void GDI::execute_commands(CommandList* cmdlist)
 
 
 bool GDI::init(Viewport*  /*viewport*/)
+{
+    return false;
+}
+
+bool GDI::destroy()
 {
     return false;
 }

@@ -18,6 +18,9 @@
 #include <cstdint>
 #include <unordered_map>
 
+#define SKY_OBJC_RELEASE(object) \
+    [object release], object = nil
+
 namespace sky {
 
 
@@ -27,6 +30,15 @@ public:
     MetalBuffer()
         : current_(0), usage_(BufferUsage::none)
     {}
+
+    void destroy()
+    {
+        for (int i = 0; i < Size; ++i) {
+            if (buf_[i] != nil) {
+                SKY_OBJC_RELEASE(buf_[i]);
+            }
+        }
+    }
 
     void init(id <MTLDevice> device, void* data, const uint32_t length, const sky::BufferUsage usage)
     {
@@ -48,7 +60,7 @@ public:
 
             case BufferUsage::staticbuf:
             {
-                [buf_[current_] release];
+                SKY_OBJC_RELEASE(buf_[current_]);
                 buf_[current_] = [device newBufferWithBytes:data
                                                      length:size
                                                     options:MTLResourceCPUCacheModeDefaultCache];
@@ -59,7 +71,7 @@ public:
             {
                 switch_buffers();
 
-                if (buf_[current_]) {
+                if (!buf_[current_]) {
                     buf_[current_] = [device newBufferWithBytes:data
                                                          length:size
                                                         options:MTLResourceCPUCacheModeDefaultCache];
@@ -76,7 +88,7 @@ public:
     }
 
 private:
-    id<MTLBuffer> buf_[Size];
+    id<MTLBuffer> buf_[Size]{};
     uint16_t current_;
     BufferUsage usage_;
 
@@ -90,15 +102,16 @@ class MetalProgram {
 public:
     MetalProgram() = default;
     MetalProgram(uint32_t program_id, id<MTLFunction> vs, id<MTLFunction> frag);
-    ~MetalProgram();
+
+    void destroy();
 
     id<MTLRenderPipelineState> get_render_pipeline_state(id<MTLDevice> device);
 private:
     static constexpr uint32_t default_state_flags = MTLPixelFormatBGRA8Unorm;
 
-    uint32_t program_id_;
-    id<MTLFunction> vs_;
-    id<MTLFunction> frag_;
+    uint32_t program_id_{0};
+    id<MTLFunction> vs_{nil};
+    id<MTLFunction> frag_{nil};
     std::unordered_map<uint32_t, id<MTLRenderPipelineState>> render_pipeline_states_;
 };
 

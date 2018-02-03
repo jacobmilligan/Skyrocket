@@ -37,9 +37,9 @@ enum class GraphicsBackend {
     last
 };
 
-using graphics_backed_list_t = GraphicsBackend[static_cast<size_t>(GraphicsBackend::last)];
+using graphics_backend_list_t = GraphicsBackend[static_cast<size_t>(GraphicsBackend::last)];
 
-void supported_graphics_backends(graphics_backed_list_t& dest);
+void supported_graphics_backends(graphics_backend_list_t& dest);
 
 class GraphicsDriver {
 public:
@@ -70,6 +70,10 @@ public:
     void set_viewport(Viewport* viewport);
 
     void set_vsync_enabled(bool enabled);
+
+    void set_graphics_backend(GraphicsBackend backend);
+
+    GraphicsBackend active_backend();
 private:
     static constexpr size_t cmdpool_size_ = 64;
     static constexpr size_t framepool_size_ = 16;

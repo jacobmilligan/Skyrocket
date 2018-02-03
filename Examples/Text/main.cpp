@@ -55,8 +55,16 @@ public:
 
     void on_update(const double dt) override
     {
-        if ( keyboard_.key_typed(sky::Key::escape) ) {
+        if (keyboard_.key_typed(sky::Key::escape)) {
             primary_view.close();
+        }
+
+        if (keyboard_.key_typed(sky::Key::space)) {
+            if (graphics_driver.active_backend() == sky::GraphicsBackend::Metal) {
+                graphics_driver.set_graphics_backend(sky::GraphicsBackend::OpenGL);
+            } else {
+                graphics_driver.set_graphics_backend(sky::GraphicsBackend::Metal);
+            }
         }
 
         auto& frame = graphics_driver.get_frame(1);

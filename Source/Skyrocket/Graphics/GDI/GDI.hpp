@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include <Skyrocket/Graphics/GraphicsDriver.hpp>
 #include "Skyrocket/Graphics/Frame.hpp"
 #include "Skyrocket/Core/Geometry/Rectangle.hpp"
 #include "Skyrocket/Graphics/GDI/Definitions.hpp"
@@ -66,7 +67,7 @@ public:
     /// @brief Creates a new API-specific GDI. A GDI cannot be created without calling
     /// this method
     /// @return Unique pointer to the GDI
-    static std::unique_ptr<GDI> create() noexcept;
+    static std::unique_ptr<GDI> create(GraphicsBackend backend = GraphicsBackend::unknown) noexcept;
 
     /// @brief Initializes the graphics device, allocating resources and creating a
     /// device context
@@ -74,11 +75,18 @@ public:
     /// @return Successful initialization if true, false otherwise
     virtual bool init(Viewport* viewport);
 
+    virtual bool destroy();
+
     virtual void commit(CommandList* cmdlist, Frame* frame);
 
     /// @brief Sets the viewport as the active viewport for this graphics device
     /// @param viewport
     virtual void set_viewport(Viewport* viewport);
+
+    inline GraphicsBackend backend() const
+    {
+        return backend_;
+    }
 protected:
     RenderState state_;
 
@@ -142,6 +150,9 @@ protected:
     virtual void set_texture(uint32_t t_id, uint32_t index);
 
     virtual void set_state(uint32_t flags);
+
+private:
+    GraphicsBackend backend_;
 };
 
 
