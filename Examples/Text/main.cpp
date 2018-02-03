@@ -33,7 +33,7 @@ public:
 
     void on_startup(int argc, const char** argv) override
     {
-        graphics_driver.set_vsync_enabled(true);
+        graphics_driver.set_vsync_enabled(false);
         primary_view.set_backing_color(sky::Color::cornflower_blue);
         cam_.setup(primary_view.size(), 0.01f, 1000.0f);
         cam_.set_position({0.0f, 0.0f});
@@ -86,6 +86,7 @@ public:
         tb_.draw(viewproj_);
 
         graphics_driver.commit_frame();
+        printf("%s\n\n", dtbuffer);
     }
 
     void on_shutdown() override

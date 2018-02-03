@@ -31,14 +31,14 @@ struct Matrix4 {
     /// @brief Default constructor - initializes the Matrix as the identity
     /// matrix, that is the main diagonal elements are initialized to 1
     /// with all other elements initialized to 0
-    Matrix4()
+    SKY_FORCE_INLINE Matrix4()
         : Matrix4(static_cast<T>(1))
     {}
 
     /// @brief Constructs a new matrix with the main diagonal elements
     /// initialized to the specified value
     /// @param value Value to initialize the matrix's main diagonal elements to
-    explicit Matrix4(const T value)
+    SKY_FORCE_INLINE explicit Matrix4(const T value)
     {
         memset(entries, 0, sizeof(float) * 16);
 
@@ -54,7 +54,7 @@ struct Matrix4 {
     /// @param col2 The left-center column
     /// @param col3 The right-center column
     /// @param col4 The right-most column
-    Matrix4(const Vector4 <T>& col1, const Vector4 <T>& col2,
+    SKY_FORCE_INLINE Matrix4(const Vector4 <T>& col1, const Vector4 <T>& col2,
             const Vector4 <T>& col3, const Vector4 <T>& col4)
     {
         entries[0] = col1.x;
@@ -96,7 +96,7 @@ struct Matrix4 {
     /// @param y3
     /// @param z3
     /// @param w3
-    Matrix4(
+    SKY_FORCE_INLINE Matrix4(
         const T x0, const T x1, const T x2, const T x3,
         const T y0, const T y1, const T y2, const T y3,
         const T z0, const T z1, const T z2, const T z3,
@@ -142,7 +142,7 @@ struct Matrix4 {
     /// of the matrix
     /// @param i The column vector to access
     /// @return The column vector
-    T* operator[](const int i)
+    SKY_FORCE_INLINE T* operator[](const int i)
     {
         return &entries[i * 4];
     }
@@ -151,7 +151,7 @@ struct Matrix4 {
     /// of the matrix. Definition used for const accessing
     /// @param i The column vector to access
     /// @return The column vector
-    const T* operator[](const int i) const
+    SKY_FORCE_INLINE const T* operator[](const int i) const
     {
         return &entries[i * 4];
     }
@@ -159,7 +159,7 @@ struct Matrix4 {
     /// @brief Gets a scale matrix using this matrix and a column Vector3 as a basis
     /// @param v The column vector to scale the matrix by
     /// @return The scale matrix
-    static Matrix4<T> scale(const Vector3<T>& v)
+    SKY_FORCE_INLINE static Matrix4<T> scale(const Vector3<T>& v)
     {
         Matrix4<T> result;
 
@@ -174,7 +174,7 @@ struct Matrix4 {
     /// column Vector3 as a basis
     /// @param v The column vector to translate the matrix by
     /// @return The translation matrix
-    static Matrix4<T> translate(const Vector3<T>& v)
+    SKY_FORCE_INLINE static Matrix4<T> translate(const Vector3<T>& v)
     {
         Matrix4<T> trans;
 
@@ -186,7 +186,7 @@ struct Matrix4 {
 
     /// @brief Transposes the matrix
     /// @return The matrix transpose
-    static Matrix4<T> transpose(Matrix4<T>& mat)
+    SKY_FORCE_INLINE static Matrix4<T> transpose(Matrix4<T>& mat)
     {
         auto result = mat;
 
@@ -217,7 +217,7 @@ struct Matrix4 {
     /// @param theta The angle at which to rotate
     /// @param axis The vector representing an axis to rotate around
     /// @return The rotation matrix
-    static Matrix4<T> rotate(const T theta, const Vector3<T>& axis)
+    SKY_FORCE_INLINE static Matrix4<T> rotate(const T theta, const Vector3<T>& axis)
     {
         Matrix4<T> rotation;
 
@@ -357,7 +357,7 @@ struct Matrix4 {
 /// @param vec The vector to multiple
 /// @return The Vector result of the multiplication
 template<typename T>
-Vector4 <T> operator*(const Matrix4<T>& mat, const Vector4 <T>& vec)
+SKY_FORCE_INLINE Vector4 <T> operator*(const Matrix4<T>& mat, const Vector4 <T>& vec)
 {
     return Vector4<T>(
         mat.entries[0] * vec[0] + mat.entries[1] * vec[0] + mat.entries[2] * vec[0] + mat.entries[3] * vec[0],
@@ -373,7 +373,7 @@ Vector4 <T> operator*(const Matrix4<T>& mat, const Vector4 <T>& vec)
 /// @param right RHS Matrix
 /// @return The result of the multiplication operation
 template<typename T>
-Matrix4<T> operator*(const Matrix4<T>& left, const Matrix4<T>& right)
+SKY_FORCE_INLINE Matrix4<T> operator*(const Matrix4<T>& left, const Matrix4<T>& right)
 {
     auto result = left;
     auto* A = left.entries;

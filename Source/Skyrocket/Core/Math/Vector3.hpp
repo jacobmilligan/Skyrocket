@@ -32,12 +32,12 @@ struct Vector3 {
     /// @brief Initializes a new Vector3 with all elements assigned the
     /// specified value
     /// @param value Value to assign to all elements
-    explicit Vector3(const T value)
+    SKY_FORCE_INLINE explicit Vector3(const T value)
         : x(value), y(value), z(value)
     {}
 
     /// @brief Initializes a new Vector3 with all elements assigned a value of zero
-    Vector3()
+    SKY_FORCE_INLINE Vector3()
         : Vector3(0.0f)
     {}
 
@@ -46,7 +46,7 @@ struct Vector3 {
     /// @param vx Value to assign to the x element (element[0])
     /// @param vy Value to assign to the y element (element[1])
     /// @param vz Value to assign to the z element (element[2])
-    Vector3(const T vx, const T vy, const T vz)
+    SKY_FORCE_INLINE Vector3(const T vx, const T vy, const T vz)
         :
         x(vx), y(vy), z(vz)
     {}
@@ -55,7 +55,7 @@ struct Vector3 {
     /// coordinates
     /// @param vec2 Vector2 to use for x and y coordinates
     /// @param vz The z coordinate value
-    Vector3(const Vector2<T>& vec2, const T vz)
+    SKY_FORCE_INLINE Vector3(const Vector2<T>& vec2, const T vz)
         :
         x(vec2.x), y(vec2.y), z(vz)
     {}
@@ -74,14 +74,14 @@ struct Vector3 {
     /// a value of type T
     /// @param right The vector to compute the dot product with
     /// @return Dot product result
-    T dot(const Vector3<T>& right) const
+    SKY_FORCE_INLINE T dot(const Vector3<T>& right) const
     {
         return (x * right.x) + (y * right.y) + (z * right.z);
     }
 
     /// @brief Computes the length of the Vector3
     /// @return The vectors length
-    T length() const
+    SKY_FORCE_INLINE T length() const
     {
         return std::sqrt((x * x) + (y * y) + (z * z));
     }
@@ -89,14 +89,14 @@ struct Vector3 {
     /// @brief Computes the squared length of the Vector3 - used for optimizing
     /// simple length comparisons when exact length value isn't required
     /// @return The vectors length squared
-    T squared_length() const
+    SKY_FORCE_INLINE T squared_length() const
     {
         return (x * x) + (y * y) + (z * z);
     }
 
     /// @brief Normalizes the Vector3's elements to be of length 1 but retain their
     /// direction.
-    void normalize()
+    SKY_FORCE_INLINE void normalize()
     {
         auto len = length();
         auto n = static_cast<T>(1) / ((len <= 0) ? 1 : len);
@@ -109,7 +109,7 @@ struct Vector3 {
     /// @brief Normalizes the Vector3's elements to be of length 1 but retain their
     /// direction.
     /// @return The normalized version of the vector
-    Vector3<T> get_normalized() const
+    SKY_FORCE_INLINE Vector3<T> get_normalized() const
     {
         auto len = length();
         auto n = static_cast<T>(1) / ((len <= 0) ? 1 : len);
@@ -121,7 +121,7 @@ struct Vector3 {
     /// upper and lower bounds.
     /// @param lower Vector3 representing the lowest allowed values
     /// @param upper Vector3 representing the highest allowed values
-    void clamp(const Vector3<T>& lower, const Vector3<T>& upper)
+    SKY_FORCE_INLINE void clamp(const Vector3<T>& lower, const Vector3<T>& upper)
     {
         x = math::clamp<T>(x, lower.x, upper.x);
         y = math::clamp<T>(y, lower.y, upper.y);
@@ -132,7 +132,7 @@ struct Vector3 {
     /// upper and lower bounds.
     /// @param lower T value representing the lowest allowed value applied to each component
     /// @param upper T value representing the highest allowed value applied to each component
-    void clamp(const T& lower, const T& upper)
+    SKY_FORCE_INLINE void clamp(const T& lower, const T& upper)
     {
         x = math::clamp<T>(x, lower, upper);
         y = math::clamp<T>(y, lower, upper);
@@ -142,7 +142,7 @@ struct Vector3 {
     /// @brief Gets the distance from this vector to a target vector
     /// @param target
     /// @return
-    float distance(const Vector3<T>& target) const
+    SKY_FORCE_INLINE float distance(const Vector3<T>& target) const
     {
         auto ydist = y - target.y;
         auto xdist = x - target.x;
@@ -156,7 +156,7 @@ struct Vector3 {
     /// produce a new Vector3 that is perpendicular to to both operands
     /// @param right Right operand
     /// @return Vector3 that is perpendicular to both operands
-    Vector3<T> cross(const Vector3<T>& right) const
+    SKY_FORCE_INLINE Vector3<T> cross(const Vector3<T>& right) const
     {
         return Vector3<T>(
             (y * right.z) - (z * right.y),
@@ -170,7 +170,7 @@ struct Vector3 {
     /// @brief Unary operator += overload for Vector3 value
     /// @param right Vector3 to add
     /// @return The Vector3 result
-    Vector3<T>& operator+=(const Vector3<T>& right)
+    SKY_FORCE_INLINE Vector3<T>& operator+=(const Vector3<T>& right)
     {
         x += right.x;
         y += right.y;
@@ -181,7 +181,7 @@ struct Vector3 {
     /// @brief Unary operator += overload for scalar value
     /// @param scalar Scalar to add to all elements
     /// @return The Vector3 result
-    Vector3<T>& operator+=(const T& scalar)
+    SKY_FORCE_INLINE Vector3<T>& operator+=(const T& scalar)
     {
         x += scalar;
         y += scalar;
@@ -192,7 +192,7 @@ struct Vector3 {
     /// @brief Unary operator -= overload for Vector3 value
     /// @param right Vector3 to subtract
     /// @return The Vector3 result
-    Vector3<T>& operator-=(const Vector3<T>& right)
+    SKY_FORCE_INLINE Vector3<T>& operator-=(const Vector3<T>& right)
     {
         x -= right.x;
         y -= right.y;
@@ -203,7 +203,7 @@ struct Vector3 {
     /// @brief Unary operator -= overload for scalar value
     /// @param scalar Scalar value to subtract from all elements
     /// @return The Vector3 result
-    Vector3<T>& operator-=(const T& scalar)
+    SKY_FORCE_INLINE Vector3<T>& operator-=(const T& scalar)
     {
         x -= scalar;
         y -= scalar;
@@ -214,7 +214,7 @@ struct Vector3 {
     /// @brief Unary operator *= overload for Vector3 value
     /// @param right Vector3 to multiply
     /// @return The Vector3 result
-    Vector3<T>& operator*=(const Vector3<T>& right)
+    SKY_FORCE_INLINE Vector3<T>& operator*=(const Vector3<T>& right)
     {
         x *= right.x;
         y *= right.y;
@@ -225,7 +225,7 @@ struct Vector3 {
     /// @brief Unary operator *= overload for scalar value
     /// @param scalar Scalar value to multiply with all elements
     /// @return The Vector3 result
-    Vector3<T>& operator*=(const T& scalar)
+    SKY_FORCE_INLINE Vector3<T>& operator*=(const T& scalar)
     {
         x *= scalar;
         y *= scalar;
@@ -236,7 +236,7 @@ struct Vector3 {
     /// @brief Unary operator /= overload for Vector3 value
     /// @param right Vector3 to divide
     /// @return The Vector3 result
-    Vector3<T>& operator/=(const Vector3<T>& right)
+    SKY_FORCE_INLINE Vector3<T>& operator/=(const Vector3<T>& right)
     {
         x /= right.x;
         y /= right.y;
@@ -247,7 +247,7 @@ struct Vector3 {
     /// @brief Binary operator /= overload for scalar value
     /// @param scalar Scalar value to divide all elements by
     /// @return The Vector3 result
-    Vector3<T>& operator/=(const T& scalar)
+    SKY_FORCE_INLINE Vector3<T>& operator/=(const T& scalar)
     {
         x /= scalar;
         y /= scalar;
@@ -258,7 +258,7 @@ struct Vector3 {
     /// @brief Operator[] overload for element access
     /// @param i The element index to access
     /// @return The element at index i
-    T& operator[](const int i)
+    SKY_FORCE_INLINE T& operator[](const int i)
     {
         SKY_ASSERT(i < 3, "Index out of bounds");
 
@@ -268,7 +268,7 @@ struct Vector3 {
     /// @brief Operator[] overload for const element access
     /// @param i The element index to access
     /// @return The element at index i
-    T const& operator[](const int i) const
+    SKY_FORCE_INLINE T const& operator[](const int i) const
     {
         SKY_ASSERT(i < 3, "Index out of bounds");
 
@@ -288,7 +288,7 @@ struct Vector3 {
 /// @param right Right operand
 /// @return Result of addition of each of the lefts elements with the rights
 template<typename T>
-Vector3<T> operator+(const Vector3<T>& left, const Vector3<T>& right)
+SKY_FORCE_INLINE Vector3<T> operator+(const Vector3<T>& left, const Vector3<T>& right)
 {
     return Vector3<T>(
         left.x + right.x,
@@ -303,7 +303,7 @@ Vector3<T> operator+(const Vector3<T>& left, const Vector3<T>& right)
 /// @param scalar Right operand (scalar)
 /// @return Addition result of each of the vectors elements with the scalar.
 template<typename T>
-Vector3<T> operator+(const Vector3<T>& vec, const T& scalar)
+SKY_FORCE_INLINE Vector3<T> operator+(const Vector3<T>& vec, const T& scalar)
 {
     return Vector3<T>(
         vec.x + scalar,
@@ -318,7 +318,7 @@ Vector3<T> operator+(const Vector3<T>& vec, const T& scalar)
 /// @param right Right operand
 /// @return Subtraction result of each of the lefts elements by the right elements
 template<typename T>
-Vector3<T> operator-(const Vector3<T>& left, const Vector3<T>& right)
+SKY_FORCE_INLINE Vector3<T> operator-(const Vector3<T>& left, const Vector3<T>& right)
 {
     return Vector3<T>(
         left.x - right.x,
@@ -333,7 +333,7 @@ Vector3<T> operator-(const Vector3<T>& left, const Vector3<T>& right)
 /// @param right Right operand (scalar)
 /// @return Subtraction result of each of the vectors elements by the scalar
 template<typename T>
-Vector3<T> operator-(const Vector3<T>& vec, const T& scalar)
+SKY_FORCE_INLINE Vector3<T> operator-(const Vector3<T>& vec, const T& scalar)
 {
     return Vector3<T>(
         vec.x - scalar,
@@ -348,7 +348,7 @@ Vector3<T> operator-(const Vector3<T>& vec, const T& scalar)
 /// @param right Right operand
 /// @return Division result of each of the left operands elements over the right elements
 template<typename T>
-Vector3<T> operator/(const Vector3<T>& left, const Vector3<T>& right)
+SKY_FORCE_INLINE Vector3<T> operator/(const Vector3<T>& left, const Vector3<T>& right)
 {
     return Vector3<T>(
         left.x / right.x,
@@ -363,7 +363,7 @@ Vector3<T> operator/(const Vector3<T>& left, const Vector3<T>& right)
 /// @param right Right operand
 /// @return Division result of each of the left operands elements over the scalar
 template<typename T>
-Vector3<T> operator/(const Vector3<T>& vec, const T& divisor)
+SKY_FORCE_INLINE Vector3<T> operator/(const Vector3<T>& vec, const T& divisor)
 {
     return Vector3<T>(
         vec.x / divisor,
@@ -378,7 +378,7 @@ Vector3<T> operator/(const Vector3<T>& vec, const T& divisor)
 /// @param right The right operand
 /// @return Multiplication result of each of the vectors elements
 template<typename T>
-Vector3<T> operator*(const Vector3<T>& left, const Vector3<T>& right)
+SKY_FORCE_INLINE Vector3<T> operator*(const Vector3<T>& left, const Vector3<T>& right)
 {
     return Vector3<T>(
         left.x * right.x,
@@ -393,7 +393,7 @@ Vector3<T> operator*(const Vector3<T>& left, const Vector3<T>& right)
 /// @param right The right operand
 /// @return Multiplication result of each of the vectors elements with the scalar
 template<typename T>
-Vector3<T> operator*(const Vector3<T>& vec, const T& scalar)
+SKY_FORCE_INLINE Vector3<T> operator*(const Vector3<T>& vec, const T& scalar)
 {
     return Vector3<T>(
         vec.x * scalar,
@@ -407,7 +407,7 @@ Vector3<T> operator*(const Vector3<T>& vec, const T& scalar)
 /// @param vec The vector to negate
 /// @return The result of negating each of the vectors elements
 template<typename T>
-Vector3<T> operator-(const Vector3<T>& vec)
+SKY_FORCE_INLINE Vector3<T> operator-(const Vector3<T>& vec)
 {
     return Vector3<T>(
         -vec.x,
@@ -424,7 +424,7 @@ Vector3<T> operator-(const Vector3<T>& vec)
 /// @param right Right operand
 /// @return true if all elements in both Vector3's are equal, false otherwise
 template<typename T>
-bool operator==(const Vector3<T>& left, const Vector3<T>& right)
+SKY_FORCE_INLINE bool operator==(const Vector3<T>& left, const Vector3<T>& right)
 {
     return (left.x == right.x) && (left.y == right.y) && (left.z == right.z);
 }
@@ -435,7 +435,7 @@ bool operator==(const Vector3<T>& left, const Vector3<T>& right)
 /// @param right Right operand
 /// @return true if any element in either Vector3 are not equal, false otherwise
 template<typename T>
-bool operator!=(const Vector3<T>& left, const Vector3<T>& right)
+SKY_FORCE_INLINE bool operator!=(const Vector3<T>& left, const Vector3<T>& right)
 {
     return (left.x != right.x) || (left.y != right.y) || (left.z != right.z);;
 }

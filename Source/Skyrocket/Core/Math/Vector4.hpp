@@ -32,12 +32,12 @@ struct Vector4 {
     /// @brief Initializes a new Vector4 with all elements assigned the
     /// specified value
     /// @param value Value to assign to all elements
-    explicit Vector4(const T value)
+    SKY_FORCE_INLINE explicit Vector4(const T value)
         : x(value), y(value), z(value), w(value)
     {}
 
     /// @brief Initializes a new Vector4 with all elements assigned a value of zero
-    Vector4()
+    SKY_FORCE_INLINE Vector4()
         : Vector4(0.0f)
     {}
 
@@ -47,7 +47,7 @@ struct Vector4 {
     /// @param vy Value to assign to the y element (element[1])
     /// @param vz Value to assign to the z element (element[2])
     /// @param vw Value to assign to the w element (element[3])
-    Vector4(const T vx, const T vy, const T vz, const T vw)
+    SKY_FORCE_INLINE Vector4(const T vx, const T vy, const T vz, const T vw)
         :
         x(vx), y(vy), z(vz), w(vw)
     {}
@@ -57,7 +57,7 @@ struct Vector4 {
     /// @param vec2 Vector2 to use for x and y coordinates
     /// @param vz The z coordinate value
     /// @param vw The w coordinate value
-    Vector4(const Vector2<T>& vec2, const T vz, const T vw)
+    SKY_FORCE_INLINE Vector4(const Vector2<T>& vec2, const T vz, const T vw)
         :
         x(vec2.x), y(vec2.y), z(vz), w(vw)
     {}
@@ -66,7 +66,7 @@ struct Vector4 {
     /// coordinates
     /// @param vec2 Vector3 to use for x, y, and z coordinates
     /// @param vw The w coordinate value
-    Vector4(const Vector3<T>& vec3, const T vw)
+    SKY_FORCE_INLINE Vector4(const Vector3<T>& vec3, const T vw)
         :
         x(vec3.x), y(vec3.y), z(vec3.z), w(vw)
     {}
@@ -85,14 +85,14 @@ struct Vector4 {
     /// a value of type T
     /// @param right The vector to compute the dot product with
     /// @return Dot product result
-    T dot(const Vector4<T>& right) const
+    SKY_FORCE_INLINE T dot(const Vector4<T>& right) const
     {
         return (x * right.x) + (y * right.y) + (z * right.z) + (w * right.w);
     }
 
     /// @brief Computes the length of the Vector4
     /// @return The vectors length
-    T length() const
+    SKY_FORCE_INLINE T length() const
     {
         return std::sqrt((x * x) + (y * y) + (z * z) + (w * w));
     }
@@ -100,14 +100,14 @@ struct Vector4 {
     /// @brief Computes the squared length of the Vector4 - used for optimizing
     /// simple length comparisons when exact length value isn't required
     /// @return The vectors length squared
-    T squared_length() const
+    SKY_FORCE_INLINE T squared_length() const
     {
         return (x * x) + (y * y) + (z * z) + (w * w);
     }
 
     /// @brief Normalizes the Vector4's elements to be of length 1 but retain their
     /// direction.
-    void normalize()
+    SKY_FORCE_INLINE void normalize()
     {
         auto len = length();
         auto n = static_cast<T>(1) / ((len <= 0) ? 1 : len);
@@ -121,7 +121,7 @@ struct Vector4 {
     /// @brief Normalizes the Vector4's elements to be of length 1 but retain their
     /// direction.
     /// @return The normalized version of the vector
-    Vector4<T> get_normalized() const
+    SKY_FORCE_INLINE Vector4<T> get_normalized() const
     {
         auto normalized = *this;
         auto len = length();
@@ -134,7 +134,7 @@ struct Vector4 {
     /// upper and lower bounds.
     /// @param lower Vector4 representing the lowest allowed values
     /// @param upper Vector4 representing the highest allowed values
-    void clamp(const Vector4<T>& lower, const Vector4<T>& upper)
+    SKY_FORCE_INLINE void clamp(const Vector4<T>& lower, const Vector4<T>& upper)
     {
         x = math::clamp<T>(x, lower.x, upper.x);
         y = math::clamp<T>(y, lower.y, upper.y);
@@ -146,7 +146,7 @@ struct Vector4 {
     /// upper and lower bounds.
     /// @param lower T value representing the lowest allowed value applied to each component
     /// @param upper T value representing the highest allowed value applied to each component
-    void clamp(const T& lower, const T& upper)
+    SKY_FORCE_INLINE void clamp(const T& lower, const T& upper)
     {
         x = math::clamp<T>(x, lower, upper);
         y = math::clamp<T>(y, lower, upper);
@@ -157,7 +157,7 @@ struct Vector4 {
     /// @brief Gets the distance from this vector to a target vector
     /// @param target
     /// @return
-    float distance(const Vector4<T>& target) const
+    SKY_FORCE_INLINE float distance(const Vector4<T>& target) const
     {
         auto ydist = y - target.y;
         auto xdist = x - target.x;
@@ -173,7 +173,7 @@ struct Vector4 {
     /// @brief Unary operator += overload for Vector4 value
     /// @param right Vector4 to add
     /// @return The Vector4 result
-    Vector4<T>& operator+=(const Vector4<T>& right)
+    SKY_FORCE_INLINE Vector4<T>& operator+=(const Vector4<T>& right)
     {
         x += right.x;
         y += right.y;
@@ -185,7 +185,7 @@ struct Vector4 {
     /// @brief Unary operator += overload for scalar value
     /// @param scalar Scalar to add to all elements
     /// @return The Vector4 result
-    Vector4<T>& operator+=(const T& scalar)
+    SKY_FORCE_INLINE Vector4<T>& operator+=(const T& scalar)
     {
         x += scalar;
         y += scalar;
@@ -197,7 +197,7 @@ struct Vector4 {
     /// @brief Unary operator -= overload for Vector4 value
     /// @param right Vector4 to subtract
     /// @return The Vector4 result
-    Vector4<T>& operator-=(const Vector4<T>& right)
+    SKY_FORCE_INLINE Vector4<T>& operator-=(const Vector4<T>& right)
     {
         x -= right.x;
         y -= right.y;
@@ -209,7 +209,7 @@ struct Vector4 {
     /// @brief Unary operator -= overload for scalar value
     /// @param scalar Scalar value to subtract from all elements
     /// @return The Vector4 result
-    Vector4<T>& operator-=(const T& scalar)
+    SKY_FORCE_INLINE Vector4<T>& operator-=(const T& scalar)
     {
         x -= scalar;
         y -= scalar;
@@ -221,7 +221,7 @@ struct Vector4 {
     /// @brief Unary operator *= overload for Vector4 value
     /// @param right Vector4 to multiply
     /// @return The Vector4 result
-    Vector4<T>& operator*=(const Vector4<T>& right)
+    SKY_FORCE_INLINE Vector4<T>& operator*=(const Vector4<T>& right)
     {
         x *= right.x;
         y *= right.y;
@@ -233,7 +233,7 @@ struct Vector4 {
     /// @brief Unary operator *= overload for scalar value
     /// @param scalar Scalar value to multiply with all elements
     /// @return The Vector4 result
-    Vector4<T>& operator*=(const T& scalar)
+    SKY_FORCE_INLINE Vector4<T>& operator*=(const T& scalar)
     {
         x *= scalar;
         y *= scalar;
@@ -245,7 +245,7 @@ struct Vector4 {
     /// @brief Unary operator /= overload for Vector4 value
     /// @param right Vector4 to divide
     /// @return The Vector4 result
-    Vector4<T>& operator/=(const Vector4<T>& right)
+    SKY_FORCE_INLINE Vector4<T>& operator/=(const Vector4<T>& right)
     {
         x /= right.x;
         y /= right.y;
@@ -257,7 +257,7 @@ struct Vector4 {
     /// @brief Binary operator /= overload for scalar value
     /// @param scalar Scalar value to divide all elements by
     /// @return The Vector4 result
-    Vector4<T>& operator/=(const T& scalar)
+    SKY_FORCE_INLINE Vector4<T>& operator/=(const T& scalar)
     {
         x /= scalar;
         y /= scalar;
@@ -269,7 +269,7 @@ struct Vector4 {
     /// @brief Operator[] overload for element access
     /// @param i The element index to access
     /// @return The element at index i
-    T& operator[](const int i)
+    SKY_FORCE_INLINE T& operator[](const int i)
     {
         SKY_ASSERT(i < 4, "Index out of bounds");
 
@@ -279,7 +279,7 @@ struct Vector4 {
     /// @brief Operator[] overload for const element access
     /// @param i The element index to access
     /// @return The element at index i
-    T const& operator[](const int i) const
+    SKY_FORCE_INLINE T const& operator[](const int i) const
     {
         SKY_ASSERT(i < 4, "Index out of bounds");
 
@@ -299,7 +299,7 @@ struct Vector4 {
 /// @param right Right operand
 /// @return Result of addition of each of the lefts elements with the rights
 template<typename T>
-Vector4<T> operator+(const Vector4<T>& left, const Vector4<T>& right)
+SKY_FORCE_INLINE Vector4<T> operator+(const Vector4<T>& left, const Vector4<T>& right)
 {
     return Vector4<T>(
         left.x + right.x,
@@ -315,7 +315,7 @@ Vector4<T> operator+(const Vector4<T>& left, const Vector4<T>& right)
 /// @param scalar Right operand (scalar)
 /// @return Addition result of each of the vectors elements with the scalar.
 template<typename T>
-Vector4<T> operator+(const Vector4<T>& vec, const T& scalar)
+SKY_FORCE_INLINE Vector4<T> operator+(const Vector4<T>& vec, const T& scalar)
 {
     return Vector4<T>(
         vec.x + scalar,
@@ -331,7 +331,7 @@ Vector4<T> operator+(const Vector4<T>& vec, const T& scalar)
 /// @param right Right operand
 /// @return Subtraction result of each of the lefts elements by the right elements
 template<typename T>
-Vector4<T> operator-(const Vector4<T>& left, const Vector4<T>& right)
+SKY_FORCE_INLINE Vector4<T> operator-(const Vector4<T>& left, const Vector4<T>& right)
 {
     return Vector4<T>(
         left.x - right.x,
@@ -347,7 +347,7 @@ Vector4<T> operator-(const Vector4<T>& left, const Vector4<T>& right)
 /// @param right Right operand (scalar)
 /// @return Subtraction result of each of the vectors elements by the scalar
 template<typename T>
-Vector4<T> operator-(const Vector4<T>& vec, const T& scalar)
+SKY_FORCE_INLINE Vector4<T> operator-(const Vector4<T>& vec, const T& scalar)
 {
     return Vector4<T>(
         vec.x - scalar,
@@ -363,7 +363,7 @@ Vector4<T> operator-(const Vector4<T>& vec, const T& scalar)
 /// @param right Right operand
 /// @return Division result of each of the left operands elements over the right elements
 template<typename T>
-Vector4<T> operator/(const Vector4<T>& left, const Vector4<T>& right)
+SKY_FORCE_INLINE Vector4<T> operator/(const Vector4<T>& left, const Vector4<T>& right)
 {
     return Vector4<T>(
         left.x / right.x,
@@ -379,7 +379,7 @@ Vector4<T> operator/(const Vector4<T>& left, const Vector4<T>& right)
 /// @param right Right operand
 /// @return Division result of each of the left operands elements over the scalar
 template<typename T>
-Vector4<T> operator/(const Vector4<T>& vec, const T& divisor)
+SKY_FORCE_INLINE Vector4<T> operator/(const Vector4<T>& vec, const T& divisor)
 {
     return Vector4<T>(
         vec.x / divisor,
@@ -395,7 +395,7 @@ Vector4<T> operator/(const Vector4<T>& vec, const T& divisor)
 /// @param right The right operand
 /// @return Multiplication result of each of the vectors elements
 template<typename T>
-Vector4<T> operator*(const Vector4<T>& left, const Vector4<T>& right)
+SKY_FORCE_INLINE Vector4<T> operator*(const Vector4<T>& left, const Vector4<T>& right)
 {
     return Vector4<T>(
         left.x * right.x,
@@ -411,7 +411,7 @@ Vector4<T> operator*(const Vector4<T>& left, const Vector4<T>& right)
 /// @param right The right operand
 /// @return Multiplication result of each of the vectors elements with the scalar
 template<typename T>
-Vector4<T> operator*(const Vector4<T>& vec, const T& scalar)
+SKY_FORCE_INLINE Vector4<T> operator*(const Vector4<T>& vec, const T& scalar)
 {
     return Vector4<T>(
         vec.x * scalar,
@@ -426,7 +426,7 @@ Vector4<T> operator*(const Vector4<T>& vec, const T& scalar)
 /// @param vec The vector to negate
 /// @return The result of negating each of the vectors elements
 template<typename T>
-Vector4<T> operator-(const Vector4<T>& vec)
+SKY_FORCE_INLINE Vector4<T> operator-(const Vector4<T>& vec)
 {
     return Vector4<T>(
         -vec.x,
@@ -444,7 +444,7 @@ Vector4<T> operator-(const Vector4<T>& vec)
 /// @param right Right operand
 /// @return true if all elements in both Vector4's are equal, false otherwise
 template<typename T>
-bool operator==(const Vector4<T>& left, const Vector4<T>& right)
+SKY_FORCE_INLINE bool operator==(const Vector4<T>& left, const Vector4<T>& right)
 {
     return (left.x == right.x) && (left.y == right.y) && (left.z == right.z)
         && (left.w == right.w);
@@ -456,7 +456,7 @@ bool operator==(const Vector4<T>& left, const Vector4<T>& right)
 /// @param right Right operand
 /// @return true if any element in either Vector4 are not equal, false otherwise
 template<typename T>
-bool operator!=(const Vector4<T>& left, const Vector4<T>& right)
+SKY_FORCE_INLINE bool operator!=(const Vector4<T>& left, const Vector4<T>& right)
 {
     return (left.x != right.x) || (left.y != right.y) || (left.z != right.z)
         || (left.w != right.w);

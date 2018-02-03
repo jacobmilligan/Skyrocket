@@ -64,7 +64,7 @@ void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
 
         if (target_frametime_ > 0) {
             while (high_resolution_time() - elapsed < target_frametime_) {
-                sky::thread_sleep(0);
+                sky::thread_sleep(1);
             }
         }
 

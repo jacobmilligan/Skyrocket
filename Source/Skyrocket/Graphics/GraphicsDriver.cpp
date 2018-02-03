@@ -180,7 +180,7 @@ void GraphicsDriver::render_thread_frame()
 {
     CommandQueueNode node {nullptr, nullptr};
 
-    if (cmdqueue_.pop(node)) {
+    while (cmdqueue_.pop(node)) {
         node.frame->gdi_begin();
         {
             process_command_list(node.cmdlist);

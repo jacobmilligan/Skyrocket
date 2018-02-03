@@ -71,6 +71,7 @@ public:
             root_path_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples/Cubes");
         }
         root_path_.make_real();
+        set_frame_limit(60);
     }
 
     void on_startup(int argc, const char** argv) override
@@ -175,8 +176,6 @@ public:
 
     void on_update(const double dt) override
     {
-        printf("Delta: %lf\n", dt);
-
         if ( keyboard_.key_down(sky::Key::escape) || primary_view.close_requested() ) {
             primary_view.close();
         }
@@ -263,5 +262,6 @@ int main(int argc, char** argv)
 {
     auto app = std::make_unique<CubeApp>();
     app->start(sky::GraphicsDriver::ThreadSupport::multi_threaded);
+
     return 0;
 }

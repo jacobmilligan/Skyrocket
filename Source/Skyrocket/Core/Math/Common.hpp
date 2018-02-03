@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include "Skyrocket/Core/Config.hpp"
+
 namespace sky {
 namespace math {
 
@@ -24,7 +26,7 @@ static constexpr double pi = 3.14159265358979323846;
 /// @param high The upper bound of the clamping operation
 /// @return The clamped value
 template<typename T>
-T clamp(const T& value, const T& low, const T& high)
+SKY_FORCE_INLINE T clamp(const T& value, const T& low, const T& high)
 {
     return value < low ? low : (value > high ? high : value);
 }
