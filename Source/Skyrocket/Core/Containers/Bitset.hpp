@@ -22,20 +22,21 @@ namespace sky {
 template <size_t Size>
 struct Bitset {
     static constexpr uint32_t data_size = 32 - 1;
+    using array_type_t = uint32_t[Size];
 
-    uint32_t bits[Size]{};
+    array_type_t bits{};
 
     SKY_FORCE_INLINE Bitset()
     {
         clear_all();
     }
 
-    SKY_FORCE_INLINE constexpr size_t byte_position(const size_t bit) noexcept
+    SKY_FORCE_INLINE constexpr size_t byte_position(const size_t bit) const noexcept
     {
         return bit >> 5; // log2(32)
     }
 
-    SKY_FORCE_INLINE bool is_set(const size_t bit) noexcept
+    SKY_FORCE_INLINE bool is_set(const size_t bit) const noexcept
     {
         return (bits[byte_position(bit)] & (1 << (bit & data_size))) != 0;
     }

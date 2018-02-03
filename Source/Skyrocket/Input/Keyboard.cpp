@@ -24,11 +24,10 @@ bool Keyboard::key_down(const Key key)
 bool Keyboard::key_typed(const Key key)
 {
     auto code = static_cast<uint16_t>(key);
-    auto this_frame = Platform::get_events().keyboard.this_frame_mask_;
-    auto last_frame = Platform::get_events().keyboard.last_frame_mask_;
+    auto keyboard = &Platform::get_events().keyboard;
 
-    return ((this_frame >> code) & 1) == 1
-        && ((last_frame >> code) & 1) == 0;
+    return keyboard->this_frame_mask_.is_set(code)
+        && !keyboard->last_frame_mask_.is_set(code);
 }
 
 

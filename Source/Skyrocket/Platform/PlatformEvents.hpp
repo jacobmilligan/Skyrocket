@@ -31,14 +31,10 @@ struct KeyState {
 };
 
 struct KeyboardState {
-    KeyboardState()
-        : this_frame_mask_(0), last_frame_mask_(0)
-    {}
-
-    KeyState key_states[static_cast<uint16_t>(Key::last)];
-    uint16_t this_frame_mask_;
-    uint16_t last_frame_mask_;
-    Bitset<static_cast<size_t>(Key::last)> mask_a;
+    using key_mask_t = Bitset<static_cast<size_t>(Key::last)>;
+    KeyState key_states[static_cast<uint16_t>(Key::last)]{};
+    key_mask_t this_frame_mask_;
+    key_mask_t last_frame_mask_;
 };
 
 struct WindowData {

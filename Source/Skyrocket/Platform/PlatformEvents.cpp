@@ -19,8 +19,8 @@ uint16_t PlatformEvents::vk_translation_table[static_cast<uint16_t>(Key::last)];
 
 void PlatformEvents::reset_keyboard_state()
 {
-    keyboard.last_frame_mask_ = keyboard.this_frame_mask_;
-    keyboard.this_frame_mask_ = 0;
+    std::swap(keyboard.last_frame_mask_.bits, keyboard.this_frame_mask_.bits);
+    keyboard.last_frame_mask_.clear_all();
 }
 
 void PlatformEvents::key_down(const uint16_t keycode)
@@ -30,7 +30,7 @@ void PlatformEvents::key_down(const uint16_t keycode)
     keyboard.key_states[vk].is_down = true;
     keyboard.key_states[vk].state_changes++;
 
-    keyboard.this_frame_mask_ |= 1 << vk;
+    keyboard.this_frame_mask_.set_bit(vk);
 }
 
 void PlatformEvents::key_up(const uint16_t keycode)
@@ -40,7 +40,7 @@ void PlatformEvents::key_up(const uint16_t keycode)
     keyboard.key_states[vk].is_down = false;
     keyboard.key_states[vk].state_changes++;
 
-    keyboard.this_frame_mask_ &= ~(1 << vk);
+    keyboard.this_frame_mask_.clear_bit(vk);
 }
 
 void PlatformEvents::request_window_close(WindowData* window_data)
