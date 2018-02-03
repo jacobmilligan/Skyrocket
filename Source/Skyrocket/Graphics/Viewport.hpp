@@ -21,7 +21,6 @@
 namespace sky {
 
 struct Color;
-struct PlatformWindow;
 struct NativeViewport;
 
 class GraphicsDriver;
@@ -29,8 +28,6 @@ class GraphicsDriver;
 /// @brief Viewport is a window with a framebuffer for drawing to.
 class Viewport {
 public:
-    using render_proc_t = void (GraphicsDriver::*)();
-
     Viewport();
 
     Viewport(const Viewport& other) = delete;
@@ -66,8 +63,6 @@ public:
     /// @brief Gets the size of the viewports framebuffer
     /// @return
     Vector2f size();
-
-    void set_vsync_enabled(GraphicsDriver* gd, render_proc_t render_proc, bool enabled);
 private:
     static uint16_t open_windows_;
 

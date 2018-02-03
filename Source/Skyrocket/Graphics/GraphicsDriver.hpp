@@ -107,9 +107,11 @@ private:
     bool render_thread_notified_;
     std::thread render_thread_;
 
-    void notify_render_thread();
+    void render_thread_notify();
+    void render_thread_startup();
     void render_thread_proc();
     void render_thread_frame();
+    void render_thread_shutdown();
     void process_command_list(CommandList* list);
 };
 

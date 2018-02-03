@@ -26,6 +26,19 @@ using view_type_t = CocoaView;
 
 namespace sky {
 
+void GraphicsDriver::set_vsync_enabled(bool enabled)
+{
+    vsync_on_ = enabled;
+    auto render_proc = &GraphicsDriver::render_thread_frame;
+    if (threadsupport_ == ThreadSupport::multi_threaded) {
+        render_proc = &GraphicsDriver::render_thread_notify;
+    }
+
+    [viewport_->get_native_viewport()->view setVsyncEnabled:enabled
+                                             graphicsDriver:this
+                                              frameCallback:render_proc];
+}
+
 
 Viewport::Viewport() = default;
 
@@ -48,13 +61,6 @@ void Viewport::create_native_viewport()
 
     handle_->view = view;
     handle_->window = window;
-}
-
-void Viewport::set_vsync_enabled(GraphicsDriver* gd, render_proc_t render_proc, bool enabled)
-{
-    [handle_->view setVsyncEnabled:enabled
-                    graphicsDriver:gd
-                     frameCallback:render_proc];
 }
 
 void Viewport::destroy_native_viewport()

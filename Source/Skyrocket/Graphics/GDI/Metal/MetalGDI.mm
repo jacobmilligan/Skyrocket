@@ -38,6 +38,7 @@ MetalGDI::~MetalGDI()
 
 bool MetalGDI::init(Viewport* viewport)
 {
+    render_pipeline_ = nil;
     //---------------------------------------
     //  Initialize device and command queue
     //---------------------------------------
@@ -156,6 +157,7 @@ void MetalGDI::commit(CommandList* cmdlist, Frame* frame)
     }
 
     dispatch_semaphore_wait(buf_sem_, DISPATCH_TIME_FOREVER);
+
 
     if ( mtl_layer_ == nil ) {
         SKY_ERROR("Drawing", "Could not commit - no Metal layer specified");
@@ -319,6 +321,10 @@ bool MetalGDI::create_program(const uint32_t program_id, const Path& vs_path, co
     id<MTLFunction> vs = make_function(vs_path);
     id<MTLFunction> frag = make_function(frag_path);
 
+    if (vs == nil || frag == nil) {
+        return false;
+    }
+
     // Create program
     MetalProgram program(program_id, vs, frag);
     programs_.create(program_id, program);
@@ -359,35 +365,38 @@ bool MetalGDI::create_uniform(const uint32_t u_id, const uint32_t size)
     return true;
 }
 
-void MetalGDI::set_uniform(const uint32_t u_id, const uint32_t index)
+bool MetalGDI::set_uniform(const uint32_t u_id, const uint32_t index)
 {
     auto ubuf = uniform_buffers_.lookup(u_id);
 
     if ( ubuf == nullptr ) {
         SKY_ERROR("Uniform", "Invalid uniform specified with ID of %" PRIu32, u_id);
-        return;
+        return false;
     }
 
     [render_encoder_ setVertexBuffer:
                          ubuf->raw_buffer()
                               offset:0
                              atIndex:index];
+    return true;
 }
 
-void MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data, const uint32_t offset)
+bool MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data, const uint32_t offset)
 {
     auto ubuf = uniform_buffers_.lookup(u_id);
 
     if ( ubuf == nullptr ) {
         SKY_ERROR("Uniform", "Invalid uniform specified with ID of %" PRIu32, u_id);
-        return;
+        return false;
     }
 
     auto* dest = static_cast<uint8_t*>([ubuf->raw_buffer() contents]);
     memcpy(dest + offset, data.data, data.size);
+
+    return true;
 }
 
-void MetalGDI::create_texture(const uint32_t t_id, const uint32_t width,
+bool MetalGDI::create_texture(const uint32_t t_id, const uint32_t width,
                                  const uint32_t height, const PixelFormat::Enum pixel_format,
                                  const bool mipmapped)
 {
@@ -397,9 +406,10 @@ void MetalGDI::create_texture(const uint32_t t_id, const uint32_t width,
                                                                          height:height
                                                                       mipmapped:mipmapped];
     textures_.create(t_id, [device_ newTextureWithDescriptor:descriptor]);
+    return true;
 }
 
-void MetalGDI::create_texture_region(const uint32_t tex_id, const UIntRect& region,
+bool MetalGDI::create_texture_region(const uint32_t tex_id, const UIntRect& region,
                                         const PixelFormat::Enum pixel_format, uint8_t* data)
 {
     auto bytes_per_pixel = PixelFormat::bytes_per_pixel(pixel_format);
@@ -410,20 +420,23 @@ void MetalGDI::create_texture_region(const uint32_t tex_id, const UIntRect& regi
             mipmapLevel:0
               withBytes:data
             bytesPerRow:bpr];
+    return true;
 }
 
-void MetalGDI::set_texture(const uint32_t t_id, const uint32_t index)
+bool MetalGDI::set_texture(const uint32_t t_id, const uint32_t index)
 {
     auto* tex = textures_.lookup(t_id);
     if ( t_id == textures_.invalid_id ) {
         SKY_ERROR("Texture", "Invalid texture ID specified");
-        return;
+        return false;
     }
 
     [render_encoder_ setFragmentTexture:*tex atIndex:index];
+
+    return true;
 }
 
-void MetalGDI::set_state(const uint32_t flags)
+bool MetalGDI::set_state(const uint32_t flags)
 {
     if ( ( 0 | RenderPipelineState::culling_none
         | RenderPipelineState::culling_backface
@@ -443,6 +456,8 @@ void MetalGDI::set_state(const uint32_t flags)
         }
 
     }
+
+    return true;
 }
 
 bool MetalGDI::draw()

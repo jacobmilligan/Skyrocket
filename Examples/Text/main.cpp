@@ -31,6 +31,21 @@ public:
         set_frame_limit(60);
     }
 
+    void create_graphics_resources()
+    {
+        auto cmdlist = graphics_driver.command_list();
+
+        tb_.init();
+
+        auto vert_path = root_path_.relative_path("basic_vertex.metal");
+        auto frag_path = root_path_.relative_path("basic_fragment.metal");
+        program_ = cmdlist->create_program(vert_path, frag_path);
+
+        tb_.set_program(program_);
+
+        viewproj_ = cmdlist->create_uniform(sky::UniformType::mat4, sizeof(sky::Matrix4f));
+    }
+
     void on_startup(int argc, const char** argv) override
     {
         graphics_driver.set_vsync_enabled(false);
@@ -40,16 +55,10 @@ public:
 
         font_.load_from_file(root_path_.relative_path("Go-Regular.ttf"), font_size);
 
-        auto cmdqueue = graphics_driver.command_list();
-        tb_.init();
         textpos_ = sky::Vector3f(10.0f, primary_view.size().y - (font_size + 10.0f), 1.0f);
 
-        viewproj_ = cmdqueue->create_uniform(sky::UniformType::mat4, sizeof(sky::Matrix4f));
+        create_graphics_resources();
 
-        auto vert_path = root_path_.relative_path("basic_vertex.metal");
-        auto frag_path = root_path_.relative_path("basic_fragment.metal");
-        program_ = cmdqueue->create_program(vert_path, frag_path);
-        tb_.set_program(program_);
         graphics_driver.commit_frame();
     }
 
@@ -65,6 +74,8 @@ public:
             } else {
                 graphics_driver.set_graphics_backend(sky::GraphicsBackend::Metal);
             }
+
+            create_graphics_resources();
         }
 
         auto& frame = graphics_driver.get_frame(1);
@@ -94,7 +105,6 @@ public:
         tb_.draw(viewproj_);
 
         graphics_driver.commit_frame();
-        printf("%s\n\n", dtbuffer);
     }
 
     void on_shutdown() override

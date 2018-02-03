@@ -67,7 +67,8 @@ public:
     /// @brief Creates a new API-specific GDI. A GDI cannot be created without calling
     /// this method
     /// @return Unique pointer to the GDI
-    static std::unique_ptr<GDI> create(GraphicsBackend backend = GraphicsBackend::unknown) noexcept;
+    static std::unique_ptr<GDI> create(GraphicsBackend backend = GraphicsBackend::unknown,
+                                       GDI* copy = nullptr) noexcept;
 
     /// @brief Initializes the graphics device, allocating resources and creating a
     /// device context
@@ -136,20 +137,20 @@ protected:
 
     virtual bool create_uniform(uint32_t u_id, uint32_t size);
 
-    virtual void set_uniform(uint32_t u_id, uint32_t index);
+    virtual bool set_uniform(uint32_t u_id, uint32_t index);
 
-    virtual void update_uniform(uint32_t u_id, const MemoryBlock& data, uint32_t offset);
+    virtual bool update_uniform(uint32_t u_id, const MemoryBlock& data, uint32_t offset);
 
-    virtual void create_texture(uint32_t t_id, uint32_t width,
+    virtual bool create_texture(uint32_t t_id, uint32_t width,
                                 uint32_t height, PixelFormat::Enum pixel_format,
                                 bool mipmapped);
 
-    virtual void create_texture_region(uint32_t tex_id, const UIntRect& region,
+    virtual bool create_texture_region(uint32_t tex_id, const UIntRect& region,
                                        PixelFormat::Enum pixel_format, uint8_t* data);
 
-    virtual void set_texture(uint32_t t_id, uint32_t index);
+    virtual bool set_texture(uint32_t t_id, uint32_t index);
 
-    virtual void set_state(uint32_t flags);
+    virtual bool set_state(uint32_t flags);
 
 private:
     GraphicsBackend backend_;

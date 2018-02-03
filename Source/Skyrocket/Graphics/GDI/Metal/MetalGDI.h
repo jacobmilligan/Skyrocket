@@ -57,24 +57,24 @@ protected:
 
     bool create_uniform(uint32_t u_id, uint32_t size) override;
 
-    void set_uniform(uint32_t u_id, uint32_t index) override;
+    bool set_uniform(uint32_t u_id, uint32_t index) override;
 
-    void update_uniform(uint32_t u_id, const MemoryBlock& data, uint32_t offset) override;
+    bool update_uniform(uint32_t u_id, const MemoryBlock& data, uint32_t offset) override;
 
-    void create_texture(uint32_t t_id, uint32_t width,
+    bool create_texture(uint32_t t_id, uint32_t width,
                         uint32_t height, PixelFormat::Enum pixel_format,
                         bool mipmapped) override;
 
-    void create_texture_region(uint32_t tex_id, const UIntRect& region,
+    bool create_texture_region(uint32_t tex_id, const UIntRect& region,
                                PixelFormat::Enum pixel_format, uint8_t* data) override;
 
-    void set_texture(uint32_t t_id, uint32_t index) override;
+    bool set_texture(uint32_t t_id, uint32_t index) override;
 
     bool draw() override;
 
     bool draw_instanced(uint32_t instance) override;
 
-    void set_state(uint32_t flags) override;
+    bool set_state(uint32_t flags) override;
 private:
     static constexpr uint8_t lib_max_ = 8;
 
