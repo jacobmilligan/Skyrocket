@@ -266,19 +266,10 @@ struct Matrix4 {
         // Width and height
         result.entries[0] = zoom_x;
         result.entries[5] = zoom_y;
-#if SKY_GRAPHICS_API_OPENGL == 1
-        // OpenGL expects a lhs for the perspective divide stage
-        // so the z coordinate needs to be negated to flip it
-        result.entries[10] = static_cast<T>(-2) / (far - near);
-        result.entries[12] = -(right + left) / (right - left);
-        result.entries[13] = -(top + bottom) / (top - bottom);
-        result.entries[14] = -(far + near) / (far - near); // f + n instead of just n in numer for gl compatibility
-#elif SKY_GRAPHICS_API_METAL == 1
         result.entries[10] = static_cast<T>(1) / (far - near);
         result.entries[12] = -(right + left) / size_x;
         result.entries[13] = -(top + bottom) / size_y;
         result.entries[14] = -near / (far - near);
-#endif
 
         return result;
     }
@@ -295,14 +286,12 @@ struct Matrix4 {
 
         auto y_scale = static_cast<T>(1) / tan(fov_y * 0.5);
 
-#if SKY_GRAPHICS_API_METAL == 1
         result.entries[0] = y_scale / aspect;
         result.entries[5] = y_scale;
 
         result.entries[10] = -(z_far + z_near) / (z_far - z_near);
         result.entries[11] = static_cast<T>(-1);
         result.entries[14] = -(static_cast<T>(2) * z_far * z_near) / (z_far - z_near);
-#endif
 
         return result;
     }

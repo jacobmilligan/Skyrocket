@@ -26,8 +26,6 @@ add_subdirectory(Source)
 add_subdirectory(Examples)
 add_subdirectory(Tests)
 
-MESSAGE("-- Skyrocket.Graphics: Using the ${skyrocket_graphics_api} API")
-
 skyrocket_include_all_definitions()
 
 ###########
