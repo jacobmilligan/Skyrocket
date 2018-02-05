@@ -28,22 +28,24 @@ public:
             root_path_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples/Text");
         }
         root_path_.make_real();
-        set_frame_limit(60);
+//        set_frame_limit(60);
     }
 
     void create_graphics_resources()
     {
-        auto cmdlist = graphics_driver.command_list();
+        auto cmdlist = graphics_driver.make_command_list();
 
         tb_.init();
 
         auto vert_path = root_path_.relative_path("basic_vertex.metal");
         auto frag_path = root_path_.relative_path("basic_fragment.metal");
-        program_ = cmdlist->create_program(vert_path, frag_path);
+        program_ = cmdlist.create_program(vert_path, frag_path);
 
         tb_.set_program(program_);
 
-        viewproj_ = cmdlist->create_uniform(sky::UniformType::mat4, sizeof(sky::Matrix4f));
+        viewproj_ = cmdlist.create_uniform(sky::UniformType::mat4, sizeof(sky::Matrix4f));
+
+        graphics_driver.submit(cmdlist);
     }
 
     void on_startup(int argc, const char** argv) override
@@ -62,6 +64,13 @@ public:
         graphics_driver.commit_frame();
     }
 
+    sky::Vertex vertices[3] = {
+        sky::Vertex(0.0f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f),
+        sky::Vertex(-0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f),
+        sky::Vertex(0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f)
+    };
+    uint32_t test_vbuf{0};
+
     void on_update(const double dt) override
     {
         if (keyboard_.key_typed(sky::Key::escape)) {
@@ -78,7 +87,7 @@ public:
             create_graphics_resources();
         }
 
-        auto& frame = graphics_driver.get_frame(1);
+        auto& frame = graphics_driver.get_frame_info(1);
 
         char dtbuffer[4096];
         snprintf(dtbuffer, 4096, "Average FPS: %.*f\nFPS: %.*f\nFrame time: %.*f\nFrames queued: %d\nSim time: %.*f\n"
@@ -96,20 +105,38 @@ public:
 
         cam_mat_ = cam_.get_matrix();
 
-        auto cmdqueue = graphics_driver.command_list();
+        auto cmdlist = graphics_driver.make_command_list();
 
-        cmdqueue->set_state(sky::RenderPipelineState::culling_frontface);
-        cmdqueue->update_uniform(viewproj_, sky::MemoryBlock {
+        cmdlist.set_program(program_);
+        cmdlist.set_state(sky::RenderPipelineState::culling_frontface);
+        cmdlist.update_uniform(viewproj_, sky::MemoryBlock {
             sizeof(sky::Matrix4f), &cam_mat_
         });
-        tb_.draw(viewproj_);
+
+        graphics_driver.submit(cmdlist);
+
+        tb_.submit(viewproj_);
+
+        cmdlist = graphics_driver.make_command_list();
+
+        cmdlist.set_program(0);
+
+        if (test_vbuf == 0) {
+            test_vbuf = cmdlist.create_vertex_buffer(sky::MemoryBlock {
+                sizeof(sky::Vertex) * 3, &vertices
+            }, sky::BufferUsage::staticbuf);
+        }
+        cmdlist.set_vertex_buffer(test_vbuf, 0, 3);
+        cmdlist.draw();
+
+        graphics_driver.submit(cmdlist);
 
         graphics_driver.commit_frame();
     }
 
     void on_shutdown() override
     {
-
+        graphics_driver.set_graphics_backend(sky::GraphicsBackend::OpenGL);
     }
 
 private:
@@ -132,6 +159,6 @@ private:
 int main(int argc, const char** argv)
 {
     auto app = std::make_unique<TextApplication>();
-    app->start(sky::GraphicsDriver::ThreadSupport::multi_threaded);
+    app->start(sky::GraphicsDriver::ThreadSupport::single_threaded);
     return 0;
 }

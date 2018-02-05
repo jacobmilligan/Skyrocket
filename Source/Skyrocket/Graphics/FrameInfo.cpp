@@ -10,14 +10,14 @@
 //
 
 #include <cstdio>
-#include "Skyrocket/Graphics/Frame.hpp"
+#include "Skyrocket/Graphics/FrameInfo.hpp"
 
 namespace sky {
 
-double Frame::running_fps_ = 0.0;
-uint64_t Frame::num_frames_ = 0;
+double FrameInfo::running_fps_ = 0.0;
+uint64_t FrameInfo::num_frames_ = 0;
 
-void Frame::reset(const uint64_t new_id)
+void FrameInfo::reset(const uint64_t new_id)
 {
     id = new_id;
 //    total_fps = 0;
@@ -28,12 +28,12 @@ void Frame::reset(const uint64_t new_id)
 //    gdi_time = 0.0;
 }
 
-void Frame::begin_frame()
+void FrameInfo::begin_frame()
 {
     frame_stopwatch_.start();
 }
 
-void Frame::end_frame()
+void FrameInfo::end_frame()
 {
     frame_stopwatch_.stop();
     total_time = frame_stopwatch_.get_time().total_milliseconds();
@@ -46,45 +46,45 @@ void Frame::end_frame()
     running_fps_average = running_fps_ / num_frames_;
 }
 
-void Frame::sim_begin()
+void FrameInfo::sim_begin()
 {
     sim_stopwatch_.start();
 }
 
-void Frame::sim_end()
+void FrameInfo::sim_end()
 {
     sim_stopwatch_.stop();
     sim_time = sim_stopwatch_.get_time().total_milliseconds();
 }
 
-void Frame::gdi_begin()
+void FrameInfo::gdi_begin()
 {
     gdi_stopwatch_.start();
 }
 
-void Frame::gdi_end()
+void FrameInfo::gdi_end()
 {
     gdi_stopwatch_.stop();
     gdi_time = gdi_stopwatch_.get_time().total_milliseconds();
 }
 
-void Frame::cpu_begin()
+void FrameInfo::cpu_begin()
 {
     cpu_stopwatch_.start();
 }
 
-void Frame::cpu_end()
+void FrameInfo::cpu_end()
 {
     cpu_stopwatch_.stop();
     cpu_time = cpu_stopwatch_.get_time().total_milliseconds();
 }
 
-void Frame::gpu_start()
+void FrameInfo::gpu_start()
 {
     gpu_stopwatch_.start();
 }
 
-void Frame::gpu_end()
+void FrameInfo::gpu_end()
 {
     gpu_stopwatch_.stop();
     gpu_time = gpu_stopwatch_.get_time().total_milliseconds();

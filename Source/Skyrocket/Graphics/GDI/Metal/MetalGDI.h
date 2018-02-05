@@ -36,8 +36,10 @@ public:
 
     bool destroy() override;
 
-    void commit(CommandList* cmdlist, Frame* frame) override;
+    bool begin(FrameInfo* frame_info) override;
+    bool end(FrameInfo* frame_info) override;
 protected:
+
     void set_viewport(Viewport* viewport) override;
 
     bool create_vertex_buffer(uint32_t vbuf_id, const MemoryBlock& initial_data,
@@ -95,11 +97,13 @@ private:
         MTLPixelFormatInvalid // unknown
     };
 
+    NSAutoreleasePool* pool_;
     id<MTLDevice> device_;
     id<MTLCommandQueue> command_queue_;
     id<MTLRenderPipelineState> render_pipeline_;
 
-    id<MTLCommandBuffer> command_buffer_[max_frames_in_flight];
+    id <CAMetalDrawable> mtldrawable_;
+    id<MTLCommandBuffer> mtlcmdbuf_;
     id<MTLRenderCommandEncoder> render_encoder_;
 
     id<MTLLibrary> default_library_;

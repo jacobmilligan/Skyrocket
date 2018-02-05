@@ -13,13 +13,12 @@
 
 #include "Skyrocket/Graphics/GDI/Definitions.hpp"
 
-#import <Metal/Metal.h>
-
 #include <cstdint>
 #include <unordered_map>
 
-#define SKY_OBJC_RELEASE(object) \
-    [object release], object = nil
+#import <Metal/Metal.h>
+
+#define SKY_OBJC_RELEASE(object) [object release], (object) = nil
 
 namespace sky {
 

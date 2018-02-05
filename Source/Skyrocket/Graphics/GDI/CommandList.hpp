@@ -18,61 +18,17 @@
 
 namespace sky {
 
+struct CommandBuffer {
+    static constexpr auto buffer_max = kibibytes(512);
 
-class CommandList {
-public:
-    // TODO(Jacob): Does it need a state for unallocated to prevent multiple threads getting the same buffer if allocating before start_recording() was called?
-    enum class State {
-        unknown,
-        ready,
-        queued,
-        recording,
-        processing
-    };
+    uint8_t buffer[buffer_max]{};
 
-    CommandList()
+    void clear()
     {
-        clear();
+        cursor_ = 0;
+        size_ = 0;
+        memset(buffer, 0, buffer_max);
     }
-
-    void start_recording();
-
-    void end_recording();
-
-    inline void start_processing()
-    {
-        state_ = State::processing;
-    }
-
-    inline void end_processing()
-    {
-        state_ = State::ready;
-    }
-
-    inline void queue()
-    {
-        state_ = State::queued;
-    }
-
-    inline State state()
-    {
-        return state_;
-    }
-
-    /// Reads the number of bytes equal to sizeof(T) into `dest` and increments the internal cursor
-    template <typename T>
-    T* read()
-    {
-        if (cursor_ + sizeof(T) > buffer_capacity_) {
-            return nullptr;
-        }
-
-        auto src = reinterpret_cast<T*>(&buffer_[cursor_]);
-        cursor_ += sizeof(T);
-        return src;
-    }
-
-    void clear();
 
     inline void reset_cursor()
     {
@@ -87,6 +43,103 @@ public:
     inline size_t size() const
     {
         return size_;
+    }
+
+    template <typename T>
+    T* read_command()
+    {
+        if (cursor_ + sizeof(T) > buffer_max) {
+            return nullptr;
+        }
+
+        auto src = reinterpret_cast<T*>(&buffer[cursor_]);
+        cursor_ += sizeof(T);
+        return src;
+    }
+
+    template <typename Command>
+    bool write_command(const CommandType type, const Command& cmd)
+    {
+        if (cursor_ + sizeof(Command) + sizeof(CommandType) > buffer_max) {
+            SKY_ERROR("CommandList", "Attempted to write to full command buffer");
+            return false;
+        }
+
+        // Make sure cursor is read and incremented before any other threads see the change
+        auto c = cursor_;
+        cursor_ += sizeof(Command) + sizeof(CommandType);
+        size_ = cursor_;
+
+        std::atomic_thread_fence(std::memory_order_release);
+
+        buffer[c] = static_cast<uint8_t>(type);
+        ++c;
+        memcpy(buffer + c, &cmd, sizeof(Command));
+
+        return true;
+    }
+
+    bool write_command(const CommandType type)
+    {
+        if (cursor_ + sizeof(CommandType) > buffer_max) {
+            SKY_ERROR("CommandList", "Attempted to write to full command buffer");
+            return false;
+        }
+
+        // Make sure cursor is read and incremented before any other threads see the change
+        auto c = cursor_;
+        cursor_ += sizeof(CommandType);
+        size_ = cursor_;
+
+        std::atomic_thread_fence(std::memory_order_release);
+
+        buffer[c] = static_cast<uint8_t>(type);
+
+        return true;
+    }
+private:
+    size_t cursor_{0};
+    size_t size_{0};
+};
+
+class CommandList {
+public:
+    uint64_t sort_key{0};
+    CommandBuffer* buffer{nullptr};
+
+    CommandList() = default;
+
+    explicit CommandList(CommandBuffer* cmdbuffer)
+        : buffer(cmdbuffer)
+    {
+        clear();
+    }
+
+    /// Reads the number of bytes equal to sizeof(T) into `dest` and increments the internal cursor
+    template <typename T>
+    T* read()
+    {
+        return buffer->read_command<T>();
+    }
+
+    inline void clear()
+    {
+        buffer->clear();
+    }
+
+    inline void reset_cursor()
+    {
+        buffer->reset_cursor();
+    }
+
+    inline size_t cursor() const
+    {
+        return buffer->cursor();
+    }
+
+    inline size_t size() const
+    {
+        return buffer->size();
     }
 
     void set_viewport(Viewport* viewport);
@@ -162,73 +215,11 @@ public:
     void draw_instanced(uint32_t instances);
 
 private:
-    static constexpr auto buffer_capacity_ = mebibytes(1);
-
-    State state_{State::ready};
-    size_t cursor_{0};
-    size_t size_{0};
-    uint8_t buffer_[buffer_capacity_]{};
-
     static uint32_t next_handle_;
 
     inline uint32_t make_handle()
     {
-        return (state_ == State::recording) ? next_handle_++ : 0;
-    }
-
-    template <typename Command>
-    bool write_command(const CommandType type, const Command& cmd)
-    {
-        if (state_ != State::recording) {
-            SKY_ERROR("CommandList", "Command list must be in the `recording` state in order "
-                "to write commands, i.e. commands can only be written between "
-                "`start_recording` and `end` calls");
-            return false;
-        }
-
-        if (cursor_ + sizeof(Command) + sizeof(CommandType) > buffer_capacity_) {
-            SKY_ERROR("CommandList", "Attempted to write to full command buffer");
-            return false;
-        }
-
-        // Make sure cursor is read and incremented before any other threads see the change
-        auto c = cursor_;
-        cursor_ += sizeof(Command) + sizeof(CommandType);
-        size_ = cursor_;
-
-        std::atomic_thread_fence(std::memory_order_release);
-
-        buffer_[c] = static_cast<uint8_t>(type);
-        ++c;
-        memcpy(buffer_ + c, &cmd, sizeof(Command));
-
-        return true;
-    }
-
-    bool write_command(const CommandType type)
-    {
-        if (state_ != State::recording) {
-            SKY_ERROR("CommandList", "Buffer must be in the `recording` state in order "
-                "to write commands, i.e. commands can only be written between "
-                "`start_recording` and `end` calls");
-            return false;
-        }
-
-        if (cursor_ + sizeof(CommandType) > buffer_capacity_) {
-            SKY_ERROR("CommandList", "Attempted to write to full command buffer");
-            return false;
-        }
-
-        // Make sure cursor is read and incremented before any other threads see the change
-        auto c = cursor_;
-        cursor_ += sizeof(CommandType);
-        size_ = cursor_;
-
-        std::atomic_thread_fence(std::memory_order_release);
-
-        buffer_[c] = static_cast<uint8_t>(type);
-
-        return true;
+        return next_handle_++;
     }
 };
 

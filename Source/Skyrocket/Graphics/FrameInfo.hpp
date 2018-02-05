@@ -18,7 +18,7 @@
 namespace sky {
 
 
-struct Frame {
+struct FrameInfo {
     uint64_t id{0};
     double total_fps{0};
     double running_fps_average{0.0};

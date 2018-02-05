@@ -28,13 +28,13 @@ public:
 
     void init()
     {
-        auto cmdlist = gd_->command_list();
-        texid_ = cmdlist->create_texture(font_->width(), font_->height(), PixelFormat::Enum::r8);
+        auto cmdlist = gd_->make_command_list();
+        texid_ = cmdlist.create_texture(font_->width(), font_->height(), PixelFormat::Enum::r8);
         for (auto& glyph : *font_) {
             if ( glyph.bounds.width <= 0 || glyph.bounds.height <= 0 || glyph.data == nullptr ) {
                 continue;
             }
-            cmdlist->create_texture_region(texid_, glyph.bounds, sky::PixelFormat::Enum::r8, glyph.data);
+            cmdlist.create_texture_region(texid_, glyph.bounds, sky::PixelFormat::Enum::r8, glyph.data);
         }
 
         uint32_t vertex = 0;
@@ -49,13 +49,14 @@ public:
             vertex += verts_per_char_;
         }
 
-        vbufid_ = cmdlist->create_vertex_buffer(MemoryBlock {
+        vbufid_ = cmdlist.create_vertex_buffer(MemoryBlock {
             static_cast<uint32_t>(sizeof(Vertex) * max_characters), vertices_
         }, BufferUsage::dynamic);
 
-        ibufid_ = cmdlist->create_index_buffer(MemoryBlock {
+        ibufid_ = cmdlist.create_index_buffer(MemoryBlock {
             static_cast<uint32_t>(sizeof(uint32_t) * max_characters), indices_
         });
+        gd_->submit(cmdlist);
     }
 
     void set_text(const char* str, const size_t str_size, const Vector3f& pos)
@@ -88,9 +89,7 @@ public:
             num_vertices_ += verts_per_char_;
         }
 
-        gd_->command_list()->update_vertex_buffer(vbufid_, MemoryBlock {
-            static_cast<uint32_t>(max_characters * sizeof(Vertex)), vertices_
-        });
+        needs_updating_ = true;
     }
 
     inline void set_program(const uint32_t program_id)
@@ -98,23 +97,33 @@ public:
         programid_ = program_id;
     }
 
-    void draw(const uint32_t viewprojection_matrix)
+    void submit(const uint32_t viewprojection_matrix)
     {
-        if (string_size_ <= 0) {
-            return;
+        auto cmdlist = gd_->make_command_list();
+
+        if (needs_updating_) {
+            cmdlist.update_vertex_buffer(vbufid_, MemoryBlock {
+                static_cast<uint32_t>(max_characters * sizeof(Vertex)), vertices_
+            });
+            needs_updating_ = false;
         }
 
-        auto cmdlist = gd_->command_list();
-        cmdlist->set_program(programid_);
-        cmdlist->set_texture(texid_, 0);
-        cmdlist->set_vertex_buffer(vbufid_, 0, num_vertices_);
-        cmdlist->set_index_buffer(ibufid_, 0, static_cast<uint32_t>(string_size_ * 6));
-        cmdlist->set_uniform(viewprojection_matrix, 1);
-        cmdlist->draw();
+        if (string_size_ > 0) {
+            cmdlist.set_program(programid_);
+            cmdlist.set_texture(texid_, 0);
+            cmdlist.set_vertex_buffer(vbufid_, 0, num_vertices_);
+            cmdlist.set_index_buffer(ibufid_, 0, static_cast<uint32_t>(string_size_ * 6));
+            cmdlist.set_uniform(viewprojection_matrix, 1);
+            cmdlist.draw();
+        }
+
+        gd_->submit(cmdlist);
     }
 private:
     static constexpr uint32_t verts_per_char_ = 4;
     static constexpr uint32_t indices_per_char_ = 6;
+
+    bool needs_updating_{false};
 
     // State members
     size_t string_size_{0};

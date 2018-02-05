@@ -25,6 +25,7 @@
 #include <random>
 #include <Skyrocket/Framework/Camera.hpp>
 #include <Skyrocket/Graphics/Image.hpp>
+#include <Jobrocket/Source/Jobrocket/JobGroup.hpp>
 
 
 struct Cube {
@@ -71,19 +72,18 @@ public:
             root_path_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples/Cubes");
         }
         root_path_.make_real();
-        set_frame_limit(60);
     }
 
     void on_startup(int argc, const char** argv) override
     {
-        graphics_driver.set_vsync_enabled(true);
-        auto cmdqueue = graphics_driver.command_list();
+        graphics_driver.set_vsync_enabled(false);
+        auto cmdlist = graphics_driver.make_command_list();
 
         primary_view.set_backing_color(sky::Color::cornflower_blue);
         auto vert_path = root_path_.relative_path("basic_vertex.metal");
         auto frag_path = root_path_.relative_path("basic_fragment.metal");
-        program_ = cmdqueue->create_program(vert_path, frag_path);
-        cmdqueue->set_program(program_);
+        program_ = cmdlist.create_program(vert_path, frag_path);
+        cmdlist.set_program(program_);
 
         auto xpos = 0;
         auto ypos = 0;
@@ -145,7 +145,7 @@ public:
             static_cast<uint32_t>(sizeof(sky::Vertex) * vertices_.size()),
             vertices_.data()
         };
-        vbuf_id_ = cmdqueue->create_vertex_buffer(vbuf_mem, sky::BufferUsage::staticbuf);
+        vbuf_id_ = cmdlist.create_vertex_buffer(vbuf_mem, sky::BufferUsage::staticbuf);
 
         sky::Matrix4f identity;
         auto fovy = static_cast<float>(sky::math::to_radians(90.0f));
@@ -155,8 +155,8 @@ public:
         cam_.set_position(sky::Vector3f(5000.0f, 5000.0f, 2000.0f));
         cam_.setup(90.0f, aspect, 0.1f, 20000.0f);
 
-        model_ubuf_ = cmdqueue->create_uniform(sky::UniformType::mat4, num_cubes_ * sizeof(sky::Matrix4f));
-        view_proj_ubuf_ = cmdqueue->create_uniform(sky::UniformType::mat4, num_cubes_ * sizeof(sky::Matrix4f));
+        model_ubuf_ = cmdlist.create_uniform(sky::UniformType::mat4, num_cubes_ * sizeof(sky::Matrix4f));
+        view_proj_ubuf_ = cmdlist.create_uniform(sky::UniformType::mat4, num_cubes_ * sizeof(sky::Matrix4f));
 
         // Main loop
         sky::Timespan dt;
@@ -167,9 +167,10 @@ public:
         sky::Image img;
         img.load_from_file(root_path_.relative_path("cube.png"));
 
-        texture_ = cmdqueue->create_texture(img.width, img.height, img.pixel_format);
-        cmdqueue->create_texture_region(texture_, sky::UIntRect(0, 0, img.width, img.height), img.pixel_format, img.data);
+        texture_ = cmdlist.create_texture(img.width, img.height, img.pixel_format);
+        cmdlist.create_texture_region(texture_, sky::UIntRect(0, 0, img.width, img.height), img.pixel_format, img.data);
 
+        graphics_driver.submit(cmdlist);
         graphics_driver.commit_frame();
         graphics_driver.set_viewport(&primary_view);
     }
@@ -194,21 +195,21 @@ public:
             cam_movement.x += 1.0f;
         }
 
-        auto cmdlist = graphics_driver.command_list();
+        auto cmdlist = graphics_driver.make_command_list();
 
-        cmdlist->set_state(sky::RenderPipelineState::culling_frontface);
+        cmdlist.set_state(sky::RenderPipelineState::culling_frontface);
 
-        cmdlist->set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(vertices_.size()));
+        cmdlist.set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(vertices_.size()));
 
-        cmdlist->set_uniform(model_ubuf_, 1);
-        cmdlist->set_uniform(view_proj_ubuf_, 2);
-        cmdlist->set_texture(texture_, 0);
+        cmdlist.set_uniform(model_ubuf_, 1);
+        cmdlist.set_uniform(view_proj_ubuf_, 2);
+        cmdlist.set_texture(texture_, 0);
 
         cam_.move(cam_movement * cam_speed_ * static_cast<float>(dt));
 
         cam_mat_ = cam_.get_matrix();
 
-        cmdlist->update_uniform(view_proj_ubuf_, sky::MemoryBlock {
+        cmdlist.update_uniform(view_proj_ubuf_, sky::MemoryBlock {
             sizeof(sky::Matrix4f), &cam_mat_
         });
 
@@ -222,12 +223,13 @@ public:
                 &c.get_transform()
             };
 
-            cmdlist->update_uniform(model_ubuf_, mb, cube_index * sizeof(sky::Matrix4f));
+            cmdlist.update_uniform(model_ubuf_, mb, cube_index * sizeof(sky::Matrix4f));
 
             cube_index++;
         }
 
-        cmdlist->draw_instanced(cube_index);
+        cmdlist.draw_instanced(cube_index);
+        graphics_driver.submit(cmdlist);
 
         graphics_driver.commit_frame();
     }
@@ -261,7 +263,7 @@ private:
 int main(int argc, char** argv)
 {
     auto app = std::make_unique<CubeApp>();
-    app->start(sky::GraphicsDriver::ThreadSupport::multi_threaded);
+    app->start(sky::GraphicsDriver::ThreadSupport::single_threaded);
 
     return 0;
 }

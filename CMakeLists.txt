@@ -32,8 +32,7 @@ skyrocket_include_all_definitions()
 ## Linking
 ###########
 
-add_library(${PROJECT_NAME} STATIC
-        ${SkyrocketFramework_sources})
+add_library(${PROJECT_NAME} SHARED)
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 
 target_link_libraries(${PROJECT_NAME} ${skyrocket_libraries})

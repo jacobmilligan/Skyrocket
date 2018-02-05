@@ -27,7 +27,7 @@ public:
     {
         root_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Tests/Experimental");
 
-        auto cmdbuf = graphics_driver.command_list();
+        auto cmdbuf = graphics_driver.make_command_list();
         if (cmdbuf != nullptr) {
             cmdbuf->start_recording();
 
@@ -44,7 +44,7 @@ public:
 
     void on_update() override
     {
-        auto cmdbuf = graphics_driver.command_list();
+        auto cmdbuf = graphics_driver.make_command_list();
 
         if (cmdbuf != nullptr) {
             cmdbuf->start_recording();

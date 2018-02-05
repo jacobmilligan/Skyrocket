@@ -44,6 +44,6 @@ target_link_libraries(${lib_name} "${dependencies}")
 ####################################
 ## Set compile options
 ####################################
-skyrocket_configure_platform(compile_flags)
-target_compile_options(${lib_name} PRIVATE "${compile_flags}")
+#skyrocket_configure_platform(compile_flags)
+#target_compile_options(${lib_name} PRIVATE "${compile_flags}")
 

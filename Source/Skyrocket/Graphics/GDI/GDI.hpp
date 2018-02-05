@@ -11,17 +11,33 @@
 
 #pragma once
 
-#include <Skyrocket/Graphics/GraphicsDriver.hpp>
-#include "Skyrocket/Graphics/Frame.hpp"
+#include "Skyrocket/Graphics/FrameInfo.hpp"
 #include "Skyrocket/Core/Geometry/Rectangle.hpp"
 #include "Skyrocket/Graphics/GDI/Definitions.hpp"
-#include "Skyrocket/Graphics/Viewport.hpp"
 
 namespace sky {
 
 class Path;
-
+class Viewport;
 class CommandList;
+class CommandBuffer;
+class MemoryBlock;
+
+enum class GraphicsBackend {
+    unknown,
+    none,
+    Metal,
+    OpenGL,
+    D3D9,
+    D3D11,
+    D3D12,
+    Vulkan,
+    last
+};
+
+using graphics_backend_list_t = GraphicsBackend[static_cast<size_t>(GraphicsBackend::last)];
+
+void supported_graphics_backends(graphics_backend_list_t& dest);
 
 /// @brief Contains the current state of the graphics device - buffers,
 /// shaders, indices etc. being used currently
@@ -78,7 +94,10 @@ public:
 
     virtual bool destroy();
 
-    virtual void commit(CommandList* cmdlist, Frame* frame);
+    virtual bool begin(FrameInfo* frame_info);
+    virtual bool end(FrameInfo* frame_info);
+
+    virtual void submit(CommandBuffer* cmdbuf);
 
     /// @brief Sets the viewport as the active viewport for this graphics device
     /// @param viewport
@@ -90,8 +109,6 @@ public:
     }
 protected:
     RenderState state_;
-
-    void execute_commands(CommandList* cmdlist);
 
     /// @brief Creates a new vertex buffer
     /// @param vbuf_id The id handle of the buffer to create

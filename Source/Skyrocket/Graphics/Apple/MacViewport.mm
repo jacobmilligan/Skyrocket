@@ -13,6 +13,7 @@
 #include "Skyrocket/Graphics/Color.hpp"
 #include "Skyrocket/Graphics/GDI/GDI.hpp"
 #include "Skyrocket/Graphics/Apple/MacViewport.h"
+#include "Skyrocket/Graphics/GraphicsDriver.hpp"
 
 #if SKY_GRAPHICS_API_METAL
 
@@ -29,7 +30,7 @@ namespace sky {
 void GraphicsDriver::set_vsync_enabled(bool enabled)
 {
     vsync_on_ = enabled;
-    auto render_proc = &GraphicsDriver::render_thread_frame;
+    auto render_proc = &GraphicsDriver::vsync_notify;
     if (threadsupport_ == ThreadSupport::multi_threaded) {
         render_proc = &GraphicsDriver::render_thread_notify;
     }
@@ -44,6 +45,7 @@ Viewport::Viewport() = default;
 
 Viewport::~Viewport()
 {
+    [handle_->view setVsyncEnabled:NO graphicsDriver:nullptr frameCallback:nullptr];
     close();
 }
 

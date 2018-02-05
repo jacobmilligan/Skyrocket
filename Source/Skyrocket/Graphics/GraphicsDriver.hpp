@@ -15,31 +15,14 @@
 #include "Skyrocket/Core/Memory/PoolAllocator.hpp"
 #include "Skyrocket/Core/Containers/MPSCQueue.hpp"
 #include "Skyrocket/Platform/Thread.hpp"
-#include "Skyrocket/Graphics/Frame.hpp"
+#include "Skyrocket/Graphics/FrameInfo.hpp"
 #include "Skyrocket/Core/Diagnostics/Stopwatch.hpp"
+#include "Skyrocket/Graphics/GDI/GDI.hpp"
 
 #include <queue>
 #include <thread>
 
 namespace sky {
-
-class GDI;
-
-enum class GraphicsBackend {
-    unknown,
-    none,
-    Metal,
-    OpenGL,
-    D3D9,
-    D3D11,
-    D3D12,
-    Vulkan,
-    last
-};
-
-using graphics_backend_list_t = GraphicsBackend[static_cast<size_t>(GraphicsBackend::last)];
-
-void supported_graphics_backends(graphics_backend_list_t& dest);
 
 class GraphicsDriver {
 public:
@@ -52,7 +35,8 @@ public:
     ~GraphicsDriver();
     bool init(ThreadSupport threading, Viewport* viewport);
 
-    CommandList* command_list();
+    CommandList make_command_list();
+    void submit(CommandList& cmdlist);
     void commit_frame();
 
     inline uint32_t frames_queued() const
@@ -60,7 +44,7 @@ public:
         return cmdqueue_allocator_.blocks_initialized();
     }
 
-    inline const Frame& get_frame(const size_t offset) const
+    inline const FrameInfo& get_frame_info(const size_t offset) const
     {
         SKY_ASSERT(offset < 16, "Offset is less than the number of available frames for inspection");
         auto frame = (current_frame_ - offset) & (framepool_size_ - 1);
@@ -78,17 +62,34 @@ private:
     static constexpr size_t cmdpool_size_ = 64;
     static constexpr size_t framepool_size_ = 16;
 
+    struct Submission {
+        size_t current_list{0};
+        CommandList lists[cmdpool_size_]{};
+
+        void reset()
+        {
+            current_list = 0;
+            memset(lists, 0, cmdpool_size_);
+        }
+
+        void push(const CommandList& cmdlist)
+        {
+            lists[current_list++] = cmdlist;
+        }
+    };
+
     struct CommandQueueNode {
-        CommandList* cmdlist;
-        Frame* frame;
+        Submission* submission;
+        FrameInfo* frame;
     };
 
     std::unique_ptr<GDI> gdi_;
     bool vsync_on_;
     Viewport* viewport_;
 
-    FixedPoolAllocator cmdlist_allocator_;
-    CommandList* cmdlist_;
+    Submission submission_[GDI::max_frames_in_flight];
+    size_t current_submit_{0};
+    FixedPoolAllocator cmdpool_;
 
     FixedPoolAllocator cmdqueue_allocator_;
     MPSCQueue<CommandQueueNode> cmdqueue_;
@@ -96,7 +97,10 @@ private:
     // Frame properties
     uint64_t num_frames_{0};
     size_t current_frame_{0};
-    Frame frame_pool_[framepool_size_];
+    FrameInfo frame_pool_[framepool_size_];
+
+    std::mutex vsync_mutex_;
+    std::condition_variable vsync_cv_;
 
     // Render thread properties/methods
     Semaphore cmdlist_sem_;
@@ -107,12 +111,36 @@ private:
     bool render_thread_notified_;
     std::thread render_thread_;
 
-    void render_thread_notify();
-    void render_thread_startup();
+    void render_thread_start();
     void render_thread_proc();
-    void render_thread_frame();
     void render_thread_shutdown();
     void process_command_list(CommandList* list);
+
+    inline void vsync_notify()
+    {
+        vsync_cv_.notify_one();
+    }
+
+    inline void render_thread_notify()
+    {
+        render_thread_notified_ = true;
+        render_thread_cv_.notify_one();
+    }
+
+    inline FrameInfo& current_frame()
+    {
+        return frame_pool_[current_frame_];
+    }
+
+    inline void swap_submit_buffers()
+    {
+        current_submit_ = (current_submit_ + 1) % GDI::max_frames_in_flight;
+    }
+
+    inline void next_frame_info()
+    {
+        current_frame_ = (current_frame_ + 1) & (framepool_size_ - 1);
+    }
 };
 
 

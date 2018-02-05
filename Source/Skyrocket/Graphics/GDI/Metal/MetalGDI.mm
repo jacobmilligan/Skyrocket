@@ -13,10 +13,17 @@
 #include "Skyrocket/Graphics/GDI/Metal/MetalGDI.h"
 #include "Skyrocket/Graphics/Apple/MacViewport.h"
 #include "Skyrocket/Graphics/Apple/MetalView.h"
+#include "Skyrocket/Platform/Filesystem.hpp"
 
 //TODO(Jacob): Textures
 
 namespace sky {
+
+
+std::unique_ptr<GDI> gdi_create_metal()
+{
+    return std::make_unique<MetalGDI>();
+}
 
 
 ///////////////////////////
@@ -38,39 +45,41 @@ MetalGDI::~MetalGDI()
 
 bool MetalGDI::init(Viewport* viewport)
 {
-    render_pipeline_ = nil;
-    //---------------------------------------
-    //  Initialize device and command queue
-    //---------------------------------------
+    @autoreleasepool {
 
-    NSError * err = nil;
-    device_ = MTLCreateSystemDefaultDevice();
+        render_pipeline_ = nil;
+        //---------------------------------------
+        //  Initialize device and command queue
+        //---------------------------------------
 
-    set_viewport(viewport);
+        NSError * err = nil;
+        device_ = MTLCreateSystemDefaultDevice();
 
-    command_queue_ = [device_ newCommandQueue];
-    buf_sem_ = dispatch_semaphore_create(max_frames_in_flight);
+        set_viewport(viewport);
 
-    //--------------------------------
-    //  Load library and shader path
-    //--------------------------------
-//    Path lib_path(SKY_RESOURCE_DIRECTORY);
-//    lib_path.append("Shaders/Metal/Lib.metallib");
-//
-//    NSString* nspath = [NSString stringWithUTF8String:lib_path.str()];
-//    library_ = [device_ newLibraryWithFile:nspath error:&err];
-//
-//    if ( library_ == nil ) {
-//        SKY_ERROR("Cubes Device Interface", "Couldn't load metal library with path %s: NSError: %s",
-//                  lib_path.str(), [[err localizedDescription] UTF8String]);
-//        return false;
-//    }
+        command_queue_ = [device_ newCommandQueue];
+        buf_sem_ = dispatch_semaphore_create(max_frames_in_flight);
 
-    //--------------------------------
-    //  Load default library
-    //--------------------------------
+        //--------------------------------
+        //  Load library and shader path
+        //--------------------------------
+    //    Path lib_path(SKY_RESOURCE_DIRECTORY);
+    //    lib_path.append("Shaders/Metal/Lib.metallib");
+    //
+    //    NSString* nspath = [NSString stringWithUTF8String:lib_path.str()];
+    //    library_ = [device_ newLibraryWithFile:nspath error:&err];
+    //
+    //    if ( library_ == nil ) {
+    //        SKY_ERROR("Cubes Device Interface", "Couldn't load metal library with path %s: NSError: %s",
+    //                  lib_path.str(), [[err localizedDescription] UTF8String]);
+    //        return false;
+    //    }
 
-    const char* default_src = R"(
+        //--------------------------------
+        //  Load default library
+        //--------------------------------
+
+        const char* default_src = R"(
 #include <metal_stdlib>
 
 using namespace metal;
@@ -81,47 +90,47 @@ struct Vertex {
     float2 tex_coords;
 };
 
-vertex Vertex basic_vertex(device Vertex* vertices [[buffer(0)]],
+vertex Vertex default_vertex(device Vertex* vertices [[buffer(0)]],
                            uint vid [[vertex_id]])
 {
     return vertices[vid];
 }
 
 
-fragment float4 basic_fragment(Vertex in [[stage_in]])
+fragment float4 default_fragment(Vertex in [[stage_in]])
 {
     return in.color;
 }
-    )";
+        )";
 
-    NSString* nssrc = [NSString stringWithUTF8String:default_src];
+        NSString* nssrc = [NSString stringWithUTF8String:default_src];
 
-    id<MTLLibrary> lib = [device_ newLibraryWithSource:nssrc
-                                               options:nil
-                                                 error:&err];
-    if ( lib == nil ) {
-        SKY_ASSERT(default_library_ != nil,
-                   "Default Metal Library loads correctly (see NSError: %s)",
-                   [[err localizedDescription] UTF8String]);
-        return false;
+        id<MTLLibrary> lib = [device_ newLibraryWithSource:nssrc
+                                                   options:nil
+                                                     error:&err];
+        if ( lib == nil ) {
+            SKY_ASSERT(default_library_ != nil,
+                       "Default Metal Library loads correctly (see NSError: %s)",
+                       [[err localizedDescription] UTF8String]);
+            return false;
+        }
+
+        id<MTLFunction> vs = [lib newFunctionWithName:@"default_vertex"];
+        id<MTLFunction> frag = [lib newFunctionWithName:@"default_fragment"];
+
+        default_program_ = MetalProgram(0, vs, frag);
+
+        //--------------------------------
+        //  Load main render pipeline
+        //--------------------------------
+
+        MTLDepthStencilDescriptor* ds_descriptor = [[MTLDepthStencilDescriptor alloc] init];
+        ds_descriptor.depthCompareFunction = MTLCompareFunctionLess;
+        ds_descriptor.depthWriteEnabled = YES;
+        depth_stencil_state_ = [device_ newDepthStencilStateWithDescriptor:ds_descriptor];
+
+        SKY_OBJC_RELEASE(lib);
     }
-
-    id<MTLFunction> vs = [lib newFunctionWithName:@"basic_vertex"];
-    id<MTLFunction> frag = [lib newFunctionWithName:@"basic_fragment"];
-
-    default_program_ = MetalProgram(0, vs, frag);
-
-    //--------------------------------
-    //  Load main render pipeline
-    //--------------------------------
-
-    MTLDepthStencilDescriptor* ds_descriptor = [[MTLDepthStencilDescriptor new] autorelease];
-    ds_descriptor.depthCompareFunction = MTLCompareFunctionLess;
-    ds_descriptor.depthWriteEnabled = YES;
-    depth_stencil_state_ = [device_ newDepthStencilStateWithDescriptor:ds_descriptor];
-
-    SKY_OBJC_RELEASE(lib);
-
     return true;
 }
 
@@ -150,69 +159,77 @@ bool MetalGDI::destroy()
     return true;
 }
 
-void MetalGDI::commit(CommandList* cmdlist, Frame* frame)
+bool MetalGDI::begin(FrameInfo* frame_info)
 {
     if (device_ == nil || buf_sem_ == nil) {
-        return;
+        return false;
     }
 
     dispatch_semaphore_wait(buf_sem_, DISPATCH_TIME_FOREVER);
 
-
     if ( mtl_layer_ == nil ) {
         SKY_ERROR("Drawing", "Could not commit - no Metal layer specified");
-        return;
+        return false;
     }
 
-    @autoreleasepool {
-        id<MTLCommandBuffer> cmd_buffer = [command_queue_ commandBufferWithUnretainedReferences];
+    // Create an
+    pool_ = [[NSAutoreleasePool alloc] init];
 
-        MTLRenderPassDescriptor* rpd = [MTLRenderPassDescriptor renderPassDescriptor];
+    mtlcmdbuf_ = [command_queue_ commandBufferWithUnretainedReferences];
 
-        if ( rpd == nil ) {
-            SKY_ERROR("Renderer", "Couldn't create a RenderPassDescriptor");
-            return;
-        }
+    MTLRenderPassDescriptor* rpd = [MTLRenderPassDescriptor renderPassDescriptor];
 
-        id<CAMetalDrawable> drawable = [mtl_layer_ nextDrawable];
-        if ( drawable == nil ) {
-            SKY_ERROR("Renderer", "Couldn't get next CAMetalDrawable");
-            return;
-        }
+    if (rpd == nil) {
+        SKY_ERROR("Renderer", "Couldn't create a RenderPassDescriptor");
+        return false;
+    }
 
-        rpd.colorAttachments[0].texture = drawable.texture;
-        rpd.colorAttachments[0].loadAction = MTLLoadActionClear;
-        rpd.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 0.0);
-        rpd.colorAttachments[0].storeAction = MTLStoreActionStore;
+    mtldrawable_ = [mtl_layer_ nextDrawable];
+    if (mtldrawable_ == nil) {
+        SKY_ERROR("Renderer", "Couldn't get next CAMetalDrawable");
+        return false;
+    }
 
-        render_encoder_ = [cmd_buffer renderCommandEncoderWithDescriptor:rpd];
+    rpd.colorAttachments[0].texture = mtldrawable_.texture;
+    rpd.colorAttachments[0].loadAction = MTLLoadActionClear;
+    rpd.colorAttachments[0].clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 0.0);
+    rpd.colorAttachments[0].storeAction = MTLStoreActionStore;
 
-        if ( render_pipeline_ == nil ) {
-            render_pipeline_ = default_program_.get_render_pipeline_state(device_);
-        }
+    render_encoder_ = [mtlcmdbuf_ renderCommandEncoderWithDescriptor:rpd];
 
-        [render_encoder_ setRenderPipelineState:render_pipeline_];
+    if (render_pipeline_ == nil) {
+        render_pipeline_ = default_program_.get_render_pipeline_state(device_);
+    }
 
-        [render_encoder_ setDepthStencilState:depth_stencil_state_];
-        [render_encoder_ setCullMode:MTLCullModeBack];
+    [render_encoder_ setRenderPipelineState:render_pipeline_];
 
-        execute_commands(cmdlist);
+    [render_encoder_ setDepthStencilState:depth_stencil_state_];
+    [render_encoder_ setCullMode:MTLCullModeBack];
 
-        [render_encoder_ endEncoding];
+    return true;
+}
 
-        [cmd_buffer presentDrawable:drawable];
-        frame->gpu_start();
-        [cmd_buffer addCompletedHandler:^(id<MTLCommandBuffer> commandBuffer){
-            buffer_index_ = (buffer_index_ + 1) % max_frames_in_flight;
-            dispatch_semaphore_signal(buf_sem_);
+bool MetalGDI::end(FrameInfo* frame_info)
+{
+    [render_encoder_ endEncoding];
+    [mtlcmdbuf_ presentDrawable:mtldrawable_];
+    frame_info->gpu_start();
 
-            frame->gpu_end();
-        }];
+    [mtlcmdbuf_ addCompletedHandler:^(id<MTLCommandBuffer> commandBuffer){
+        buffer_index_ = (buffer_index_ + 1) % max_frames_in_flight;
 
-        [cmd_buffer commit];
-    };
+        dispatch_semaphore_signal(buf_sem_);
 
-    frame->cpu_end();
+        frame_info->gpu_end();
+    }];
+
+    [mtlcmdbuf_ commit];
+
+    frame_info->cpu_end();
+
+    [pool_ drain];
+
+    return true;
 }
 
 ///////////////////////////
@@ -336,8 +353,14 @@ bool MetalGDI::create_program(const uint32_t program_id, const Path& vs_path, co
 bool MetalGDI::set_program(const uint32_t program_id)
 {
     NSError* err = nil;
-    auto* program = programs_.lookup(program_id);
+    MetalProgram* program = nullptr;
+    if (program_id == 0) {
+        program = &default_program_;
+    } else {
+        program = programs_.lookup(program_id);
+    }
     render_pipeline_ = program->get_render_pipeline_state(device_);
+    [render_encoder_ setRenderPipelineState:render_pipeline_];
 
     if ( render_pipeline_ == nil ) {
         SKY_ERROR("GDI",
