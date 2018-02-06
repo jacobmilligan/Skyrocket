@@ -253,9 +253,7 @@ void MetalGDI::set_viewport(Viewport* viewport)
 bool MetalGDI::create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& initial_data,
                                        const BufferUsage usage)
 {
-    vertex_buffers_.create(vbuf_id);
-
-    auto vbuf = vertex_buffers_.lookup(vbuf_id);
+    auto vbuf = vertex_buffers_.create(vbuf_id);
 
     if ( vbuf == nullptr ) {
         SKY_ERROR("Vertex Buffer", "Could not create a new vertex buffer with id %"
@@ -270,7 +268,7 @@ bool MetalGDI::create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& i
 
 bool MetalGDI::set_vertex_buffer(const uint32_t vbuf_id)
 {
-    auto vbuf = vertex_buffers_.lookup(vbuf_id);
+    auto vbuf = vertex_buffers_.get(vbuf_id);
 
     if ( vbuf == nullptr ) {
         SKY_ERROR("Vertex Buffer", "Invalid vertex buffer specified with ID %"
@@ -287,7 +285,7 @@ bool MetalGDI::set_vertex_buffer(const uint32_t vbuf_id)
 
 bool MetalGDI::update_vertex_buffer(uint32_t vbuf_id, const MemoryBlock& data)
 {
-    auto buf = vertex_buffers_.lookup(vbuf_id);
+    auto buf = vertex_buffers_.get(vbuf_id);
     if (buf != nullptr) {
         buf->update(device_, data.data, data.size);
         return true;
@@ -298,8 +296,7 @@ bool MetalGDI::update_vertex_buffer(uint32_t vbuf_id, const MemoryBlock& data)
 
 bool MetalGDI::create_index_buffer(const uint32_t ibuf_id, const MemoryBlock& initial_data)
 {
-    index_buffers_.create(ibuf_id);
-    auto ibuf = index_buffers_.lookup(ibuf_id);
+    auto ibuf = index_buffers_.create(ibuf_id);
 
     if ( ibuf == nullptr ) {
         SKY_ERROR("Index Buffer", "Could not create a new vertex buffer with id %"
@@ -364,7 +361,7 @@ bool MetalGDI::set_program(const uint32_t program_id)
     if (program_id == 0) {
         program = &default_program_;
     } else {
-        program = programs_.lookup(program_id);
+        program = programs_.get(program_id);
     }
     render_pipeline_ = program->get_render_pipeline_state(device_);
     [render_encoder_ setRenderPipelineState:render_pipeline_];
@@ -381,9 +378,7 @@ bool MetalGDI::set_program(const uint32_t program_id)
 
 bool MetalGDI::create_uniform(const uint32_t u_id, const uint32_t size)
 {
-    uniform_buffers_.create(u_id);
-
-    auto ubuf = uniform_buffers_.lookup(u_id);
+    auto ubuf = uniform_buffers_.create(u_id);
 
     if ( ubuf == nullptr ) {
         SKY_ERROR("Uniform", "Could not create a new uniform buffer with id %" PRIu32, u_id);
@@ -397,7 +392,7 @@ bool MetalGDI::create_uniform(const uint32_t u_id, const uint32_t size)
 
 bool MetalGDI::set_uniform(const uint32_t u_id, const uint32_t index)
 {
-    auto ubuf = uniform_buffers_.lookup(u_id);
+    auto ubuf = uniform_buffers_.get(u_id);
 
     if ( ubuf == nullptr ) {
         SKY_ERROR("Uniform", "Invalid uniform specified with ID of %" PRIu32, u_id);
@@ -413,7 +408,7 @@ bool MetalGDI::set_uniform(const uint32_t u_id, const uint32_t index)
 
 bool MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data, const uint32_t offset)
 {
-    auto ubuf = uniform_buffers_.lookup(u_id);
+    auto ubuf = uniform_buffers_.get(u_id);
 
     if ( ubuf == nullptr ) {
         SKY_ERROR("Uniform", "Invalid uniform specified with ID of %" PRIu32, u_id);
@@ -443,7 +438,7 @@ bool MetalGDI::create_texture_region(const uint32_t tex_id, const UIntRect& regi
                                         const PixelFormat::Enum pixel_format, uint8_t* data)
 {
     auto bytes_per_pixel = PixelFormat::bytes_per_pixel(pixel_format);
-    auto tex = textures_.lookup(tex_id);
+    auto tex = textures_.get(tex_id);
     auto bpr = bytes_per_pixel * region.width;
     MTLRegion mtl_region = MTLRegionMake2D(region.position.x, region.position.y, region.width, region.height);
     [*tex replaceRegion:mtl_region
@@ -455,7 +450,7 @@ bool MetalGDI::create_texture_region(const uint32_t tex_id, const UIntRect& regi
 
 bool MetalGDI::set_texture(const uint32_t t_id, const uint32_t index)
 {
-    auto* tex = textures_.lookup(t_id);
+    auto* tex = textures_.get(t_id);
     if ( t_id == textures_.invalid_id ) {
         SKY_ERROR("Texture", "Invalid texture ID specified");
         return false;
@@ -497,7 +492,7 @@ bool MetalGDI::draw()
                                     indexCount:state_.index_count
                                      indexType:MTLIndexTypeUInt32
                                    indexBuffer:
-                                       index_buffers_.lookup(state_.index_buffer)->raw_buffer()
+                                       index_buffers_.get(state_.index_buffer)->raw_buffer()
                              indexBufferOffset:state_.index_offset];
     } else {
         [render_encoder_ drawPrimitives:MTLPrimitiveTypeTriangle
@@ -515,7 +510,7 @@ bool MetalGDI::draw_instanced(const uint32_t instance)
         [render_encoder_ drawIndexedPrimitives:MTLPrimitiveTypeTriangle
                                     indexCount:state_.index_count
                                      indexType:MTLIndexTypeUInt32
-                                   indexBuffer:index_buffers_.lookup(state_.index_buffer)->raw_buffer()
+                                   indexBuffer:index_buffers_.get(state_.index_buffer)->raw_buffer()
                              indexBufferOffset:state_.index_offset
                                  instanceCount:instance];
     } else {

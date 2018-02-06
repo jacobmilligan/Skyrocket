@@ -28,7 +28,6 @@ void Viewport::open(const char* caption, const uint16_t width, const uint16_t he
     //SKY_ASSERT(Platform::is_initialized(), "Platform is uninitialized");
 
     create_native_viewport();
-    set_backing_color(Color::gray);
 
     ++open_windows_;
 }

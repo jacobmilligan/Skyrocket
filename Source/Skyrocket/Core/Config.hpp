@@ -221,4 +221,15 @@ const auto target_compiler = Compiler::unknown;
 
 #endif
 
+////////////////////////////
+// General helper macros  //
+////////////////////////////
+
+#define SKY_BEGIN_MACRO_BLOCK \
+    do {
+
+#define SKY_END_MACRO_BLOCK \
+    } while (false)
+
+
 }

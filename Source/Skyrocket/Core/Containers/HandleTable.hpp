@@ -77,27 +77,27 @@ public:
     /// its entry in the table
     /// @param id
     /// @param data
-    void create(const uint32_t id, const T& data)
+    T* create(const uint32_t id, const T& data)
     {
         if ( count_ + 1 >= Capacity || count_ + 1 == invalid_id ) {
             SKY_ERROR("HandleTable", "Creating new handle while capacity (%"
                 PRIu32
                 ") is reached", Capacity);
-            return;
+            return nullptr;
         }
 
         if ( contains(id) ) {
             SKY_ERROR("HandleTable", "Creating new handle with existing (%"
                 PRIu32
                 ")", id);
-            return;
+            return nullptr;
         }
 
         if ( id == invalid_id || id >= Capacity ) {
             SKY_ERROR("HandleTable", "Creating new handle with invalid ID (%"
                 PRIu32
                 ")", id);
-            return;
+            return nullptr;
         }
 
         auto index = count_;
@@ -107,14 +107,16 @@ public:
         handles_[index].data = data;
 
         count_++;
+
+        return get(id);
     }
 
     /// @brief Creates a new handle in the table with the ID specified using the default
     /// constructor of the tables data type to create the data
     /// @param id
-    void create(const uint32_t id)
+    T* create(const uint32_t id)
     {
-        create(id, T());
+        return create(id, T());
     }
 
     /// @brief Destroys an element and erases it from the table
@@ -152,12 +154,10 @@ public:
     /// @brief Returns a pointer to the element associated with the given id
     /// @param id
     /// @return Pointer to the element
-    T* lookup(const uint32_t id)
+    T* get(const uint32_t id)
     {
         if ( !contains(id) ) {
-            SKY_ERROR("HandleTable", "Trying to lookup invalid id (%"
-                PRIu32
-                ")", id);
+            SKY_ERROR("HandleTable", "Trying to get invalid id (%" PRIu32 ")", id);
             return nullptr;
         }
 

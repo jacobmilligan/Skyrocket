@@ -15,7 +15,7 @@
 #include "Skyrocket/Graphics/Apple/MacViewport.h"
 #include "Skyrocket/Graphics/Renderer/Renderer.hpp"
 
-#if SKY_GRAPHICS_API_METAL
+#if SKY_GRAPHICS_API_METAL == 1
 
 #include "Skyrocket/Graphics/Renderer/Metal/MetalView.h"
 

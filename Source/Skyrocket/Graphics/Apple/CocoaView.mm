@@ -14,6 +14,14 @@
 
 #import <CoreVideo/CoreVideo.h>
 
+#if SKY_GRAPHICS_API_OPENGL == 1
+
+#include <OpenGL/gl3.h>
+
+#import <Cocoa/Cocoa.h>
+
+#endif
+
 @implementation CocoaView {
     sky::Renderer* _graphicsDriver;
     sky::render_proc_t _frameCallback;
@@ -49,13 +57,25 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink, const CVTimeSt
 }
 
 -(void)setBackingColor:(CGFloat)r g:(CGFloat) g b:(CGFloat)b a:(CGFloat)a {
-// Empty - handled by subclasses
+#if SKY_GRAPHICS_API_OPENGL == 1
+    glClearColor((GLfloat)r, (GLfloat)g, (GLfloat)b, (GLfloat)a);
+#endif
+
+    // otherwise no-op for metal
 }
 
 -(CVReturn)getFrameForTime:(const CVTimeStamp*)outputTime {
     (_graphicsDriver->*_frameCallback)();
 
     return kCVReturnSuccess;
+}
+
+-(BOOL)acceptsFirstResponder {
+    return YES;
+}
+
+-(BOOL)acceptsFirstMouse:(NSEvent * )event {
+    return YES;
 }
 
 

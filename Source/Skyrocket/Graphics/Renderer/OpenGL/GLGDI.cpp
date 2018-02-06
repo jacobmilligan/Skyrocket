@@ -11,6 +11,9 @@
 
 #include "Skyrocket/Graphics/Renderer/OpenGL/GLGDI.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
+#include "Skyrocket/Graphics/Renderer/Vertex.hpp"
+#include "Skyrocket/Platform/Filesystem.hpp"
+
 
 #if SKY_OS_MACOS == 1
 
@@ -27,41 +30,102 @@ bool sky::OpenGLGDI::init(sky::Viewport* viewport)
 {
     {
         AssertGuard ag("Creating OpenGL context", nullptr);
-        context_.create(viewport);
+        viewport_ = viewport;
+        context_.create(viewport_);
+
+        // Reset errors
+        GLenum err;
+        do {
+            err = glGetError();
+        } while (err != GL_NO_ERROR);
     }
+
+    SKY_GL_CHECK_ERROR(glViewport(0, 0,
+                                  static_cast<GLsizei>(viewport->size().x),
+                                  static_cast<GLsizei>(viewport->size().y)));
+
+    SKY_GL_CHECK_ERROR(glEnable(GL_BLEND));
+    SKY_GL_CHECK_ERROR(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
+    SKY_GL_CHECK_ERROR(glGenVertexArrays(1, &default_vao_));
 
     return true;
 }
 
 bool sky::OpenGLGDI::destroy()
 {
-    return GDI::destroy();
+    context_.destroy();
+    return true;
 }
 
 bool sky::OpenGLGDI::begin_frame(sky::FrameInfo* frame_info)
 {
-    return GDI::begin_frame(frame_info);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    SKY_GL_CHECK_ERROR(glBindVertexArray(default_vao_));
+
+    return true;
 }
 
 bool sky::OpenGLGDI::end_frame(sky::FrameInfo* frame_info)
 {
-    return GDI::end_frame(frame_info);
+    SKY_GL_CHECK_ERROR(glBindVertexArray(0));
+
+    context_.swap_buffers();
+
+    return true;
 }
 
 void sky::OpenGLGDI::set_viewport(sky::Viewport* viewport)
 {
-    GDI::set_viewport(viewport);
+    viewport_ = viewport;
 }
 
-bool
-sky::OpenGLGDI::create_vertex_buffer(uint32_t vbuf_id, const sky::MemoryBlock& initial_data, sky::BufferUsage usage)
+bool sky::OpenGLGDI::create_vertex_buffer(uint32_t vbuf_id, const sky::MemoryBlock& initial_data,
+                                          sky::BufferUsage usage)
 {
-    return GDI::create_vertex_buffer(vbuf_id, initial_data, usage);
+    auto glbuf = vertex_buffers_.create(vbuf_id);
+    if (glbuf == nullptr) {
+        return false;
+    }
+
+    GLenum glusage = (usage == BufferUsage::staticbuf) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
+
+    SKY_GL_CHECK_ERROR(glGenBuffers(1, glbuf));
+    SKY_GL_CHECK_ERROR(glBindBuffer(GL_ARRAY_BUFFER, *glbuf));
+    SKY_GL_CHECK_ERROR(glBufferData(GL_ARRAY_BUFFER, initial_data.size, initial_data.data, glusage));
+    SKY_GL_CHECK_ERROR(glBindBuffer(GL_ARRAY_BUFFER, 0));
+
+    return true;
 }
 
 bool sky::OpenGLGDI::set_vertex_buffer(uint32_t vbuf_id)
 {
-    return GDI::set_vertex_buffer(vbuf_id);
+    auto glbuf = vertex_buffers_.get(vbuf_id);
+    if (glbuf == nullptr) {
+        return false;
+    }
+
+    SKY_GL_CHECK_ERROR(glBindBuffer(GL_ARRAY_BUFFER, *glbuf));
+
+    // TODO (Jacob): needs to be changed once the rest works because resetting attribs each frame is expensive
+    {
+        // Position
+        SKY_GL_CHECK_ERROR(glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr));
+        SKY_GL_CHECK_ERROR(glEnableVertexAttribArray(0));
+
+        // Color
+        auto offset = reinterpret_cast<void*>(4 * sizeof(float));
+        SKY_GL_CHECK_ERROR(glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), offset));
+        SKY_GL_CHECK_ERROR(glEnableVertexAttribArray(1));
+
+        // Texture coordinates
+        offset = reinterpret_cast<void*>(8 * sizeof(float));
+        SKY_GL_CHECK_ERROR(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), offset));
+        SKY_GL_CHECK_ERROR(glEnableVertexAttribArray(2));
+    }
+
+    return true;
 }
 
 bool sky::OpenGLGDI::update_vertex_buffer(uint32_t vbuf_id, const sky::MemoryBlock& data)
@@ -81,7 +145,17 @@ bool sky::OpenGLGDI::set_index_buffer(uint32_t ibuf_id)
 
 bool sky::OpenGLGDI::draw()
 {
-    return GDI::draw();
+    if (state_.vertex_buffer <= 0) {
+        return false;
+    }
+
+    if (state_.index_buffer > 0) {
+        // TODO (Jacob): draw indexed
+        return true;
+    }
+
+    SKY_GL_CHECK_ERROR(glDrawArrays(GL_TRIANGLES, state_.vertex_offset, state_.vertex_count));
+    return true;
 }
 
 bool sky::OpenGLGDI::draw_instanced(uint32_t instance)
@@ -92,12 +166,26 @@ bool sky::OpenGLGDI::draw_instanced(uint32_t instance)
 bool
 sky::OpenGLGDI::create_program(uint32_t program_id, const sky::Path& vs_path, const sky::Path& frag_path)
 {
-    return GDI::create_program(program_id, vs_path, frag_path);
+    auto glprog = programs_.create(program_id);
+    if (glprog == nullptr) {
+        return false;
+    }
+
+    auto vs_source = fs::slurp_file(vs_path);
+    auto frag_source = fs::slurp_file(frag_path);
+    return glprog->create(vs_source.c_str(), frag_source.c_str());
 }
 
 bool sky::OpenGLGDI::set_program(uint32_t program_id)
 {
-    return GDI::set_program(program_id);
+    auto glprog = programs_.get(program_id);
+    if (glprog == nullptr) {
+        SKY_ERROR("GDI", "Invalid program id %d specified", program_id);
+        return false;
+    }
+
+    SKY_GL_CHECK_ERROR(glUseProgram(glprog->id));
+    return true;
 }
 
 bool sky::OpenGLGDI::create_uniform(uint32_t u_id, uint32_t size)
