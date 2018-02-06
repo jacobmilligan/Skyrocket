@@ -10,7 +10,7 @@
 //
 
 #include "Skyrocket/Core/Hash.hpp"
-#include "Skyrocket/Graphics/GDI/Metal/MetalGDI.h"
+#include "Skyrocket/Graphics/Renderer/Metal/MetalGDI.h"
 #include "Skyrocket/Graphics/Apple/MacViewport.h"
 #include "Skyrocket/Graphics/Apple/MetalView.h"
 #include "Skyrocket/Platform/Filesystem.hpp"
@@ -136,6 +136,10 @@ fragment float4 default_fragment(Vertex in [[stage_in]])
 
 bool MetalGDI::destroy()
 {
+    if (pool_) {
+        [pool_ drain];
+    }
+
     for (auto& p : programs_) {
         p.data.destroy();
     }
@@ -155,6 +159,8 @@ bool MetalGDI::destroy()
     for (auto& t : textures_) {
         SKY_OBJC_RELEASE(t.data);
     }
+
+    SKY_OBJC_RELEASE(device_);
 
     return true;
 }
@@ -228,6 +234,7 @@ bool MetalGDI::end_frame(FrameInfo* frame_info)
     frame_info->cpu_end();
 
     [pool_ drain];
+    pool_ = nil;
 
     return true;
 }

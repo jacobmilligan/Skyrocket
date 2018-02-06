@@ -16,8 +16,8 @@
 #if SKY_GRAPHICS_API_METAL == 1
 
 #include "Skyrocket/Core/Containers/HandleTable.hpp"
-#include "Skyrocket/Graphics/GDI/GDI.hpp"
-#include "Skyrocket/Graphics/GDI/Metal/MetalResource.h"
+#include "Skyrocket/Graphics/Renderer/GDI.hpp"
+#include "Skyrocket/Graphics/Renderer/Metal/MetalResource.h"
 
 #import <AppKit/AppKit.h>
 #import <Metal/Metal.h>

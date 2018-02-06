@@ -11,7 +11,7 @@
 
 #include "Skyrocket/Core/Diagnostics/Error.hpp"
 #include "Skyrocket/Core/Hash.hpp"
-#include "Skyrocket/Graphics/GDI/Metal/MetalResource.h"
+#include "Skyrocket/Graphics/Renderer/Metal/MetalResource.h"
 
 namespace sky {
 

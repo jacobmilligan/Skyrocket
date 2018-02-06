@@ -12,7 +12,7 @@
 #pragma once
 
 #include "Skyrocket/Core/Geometry/Rectangle.hpp"
-#include "Skyrocket/Graphics/GDI/Definitions.hpp"
+#include "Skyrocket/Graphics/Renderer/Definitions.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Platform/Filesystem.hpp"
 

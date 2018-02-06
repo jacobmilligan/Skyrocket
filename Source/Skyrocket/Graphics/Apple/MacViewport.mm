@@ -11,9 +11,9 @@
 
 #include "Skyrocket/Core/Config.hpp"
 #include "Skyrocket/Graphics/Color.hpp"
-#include "Skyrocket/Graphics/GDI/GDI.hpp"
+#include "Skyrocket/Graphics/Renderer/GDI.hpp"
 #include "Skyrocket/Graphics/Apple/MacViewport.h"
-#include "Skyrocket/Graphics/Renderer.hpp"
+#include "Skyrocket/Graphics/Renderer/Renderer.hpp"
 
 #if SKY_GRAPHICS_API_METAL
 

@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "Skyrocket/Graphics/GDI/Definitions.hpp"
+#include "Skyrocket/Graphics/Renderer/Definitions.hpp"
 
 #include <cstdint>
 #include <unordered_map>

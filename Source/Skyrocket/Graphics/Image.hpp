@@ -12,6 +12,7 @@
 #pragma once
 
 #include "Skyrocket/Platform/Filesystem.hpp"
+#include "Skyrocket/Graphics/Renderer/Definitions.hpp"
 
 #include <cstdint>
 

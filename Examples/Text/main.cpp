@@ -12,7 +12,7 @@
 #include <Skyrocket/Framework/Application.hpp>
 #include <Skyrocket/Input/Keyboard.hpp>
 #include <Skyrocket/Resource/Font.hpp>
-#include <Skyrocket/Graphics/Vertex.hpp>
+#include <Skyrocket/Graphics/Renderer/Vertex.hpp>
 #include <Skyrocket/Framework/Camera.hpp>
 #include <Skyrocket/Graphics/TextBuffer.hpp>
 
@@ -28,7 +28,7 @@ public:
             root_path_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples/Text");
         }
         root_path_.make_real();
-//        set_frame_limit(60);
+        set_frame_limit(144);
     }
 
     void create_graphics_resources()

@@ -9,8 +9,9 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
+#include "Skyrocket/Graphics/Renderer/FrameInfo.hpp"
+
 #include <cstdio>
-#include "Skyrocket/Graphics/FrameInfo.hpp"
 
 namespace sky {
 

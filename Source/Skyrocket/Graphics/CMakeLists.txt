@@ -38,7 +38,7 @@ endif ()
 ## Subdirectories
 ######################################
 
-add_subdirectory(GDI)
+add_subdirectory(Renderer)
 
 if (APPLE)
     add_subdirectory(Apple)
@@ -51,10 +51,8 @@ endif ()
 ######################################
 
 skyrocket_add_sources(Color.cpp
-        Renderer.cpp
         Viewport.cpp
-        Image.cpp
-        FrameInfo.cpp)
+        Image.cpp)
 
 ######################################
 ## Add library and link dependencies

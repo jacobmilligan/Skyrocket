@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "Skyrocket/Graphics/GDI/CommandData.hpp"
+#include "Skyrocket/Graphics/Renderer/CommandData.hpp"
 
 #include <cstdint>
 #include <array>

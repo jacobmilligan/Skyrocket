@@ -12,8 +12,8 @@
 #pragma once
 
 #include "Skyrocket/Resource/Font.hpp"
-#include "Skyrocket/Graphics/Renderer.hpp"
-#include "Skyrocket/Graphics/Vertex.hpp"
+#include "Skyrocket/Graphics/Renderer/Renderer.hpp"
+#include "Skyrocket/Graphics/Renderer/Vertex.hpp"
 
 namespace sky {
 

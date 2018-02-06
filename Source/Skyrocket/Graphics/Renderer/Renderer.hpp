@@ -11,13 +11,13 @@
 
 #pragma once
 
-#include "Skyrocket/Graphics/GDI/CommandList.hpp"
+#include "Skyrocket/Graphics/Renderer/CommandList.hpp"
 #include "Skyrocket/Core/Memory/PoolAllocator.hpp"
 #include "Skyrocket/Core/Containers/MPSCQueue.hpp"
 #include "Skyrocket/Platform/Thread.hpp"
-#include "Skyrocket/Graphics/FrameInfo.hpp"
+#include "Skyrocket/Graphics/Renderer/FrameInfo.hpp"
 #include "Skyrocket/Core/Diagnostics/Stopwatch.hpp"
-#include "Skyrocket/Graphics/GDI/GDI.hpp"
+#include "Skyrocket/Graphics/Renderer/GDI.hpp"
 
 #include <queue>
 #include <thread>

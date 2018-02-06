@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "Skyrocket/Graphics/Renderer.hpp"
+#include "Skyrocket/Graphics/Renderer/Renderer.hpp"
 #include "Skyrocket/Platform/Platform.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
 

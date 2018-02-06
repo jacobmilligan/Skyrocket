@@ -11,9 +11,9 @@
 
 #pragma once
 
-#include "Skyrocket/Graphics/FrameInfo.hpp"
+#include "Skyrocket/Graphics/Renderer/FrameInfo.hpp"
 #include "Skyrocket/Core/Geometry/Rectangle.hpp"
-#include "Skyrocket/Graphics/GDI/Definitions.hpp"
+#include "Skyrocket/Graphics/Renderer/Definitions.hpp"
 
 namespace sky {
 

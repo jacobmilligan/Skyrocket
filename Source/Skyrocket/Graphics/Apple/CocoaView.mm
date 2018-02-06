@@ -10,7 +10,7 @@
 //
 
 #include "Skyrocket/Graphics/Apple/CocoaView.h"
-#include "Skyrocket/Graphics/Renderer.hpp"
+#include "Skyrocket/Graphics/Renderer/Renderer.hpp"
 
 #import <CoreVideo/CoreVideo.h>
 
