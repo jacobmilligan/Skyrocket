@@ -27,7 +27,7 @@ public:
     {
         root_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Tests/Experimental");
 
-        auto cmdbuf = graphics_driver.make_command_list();
+        auto cmdbuf = renderer.make_command_list();
         if (cmdbuf != nullptr) {
             cmdbuf->start_recording();
 
@@ -38,13 +38,13 @@ public:
                                              root_.relative_path("basic_fragment.metal"));
 
             cmdbuf->end();
-            graphics_driver.commit_frame(cmdbuf);
+            renderer.commit_frame(cmdbuf);
         }
     }
 
     void on_update() override
     {
-        auto cmdbuf = graphics_driver.make_command_list();
+        auto cmdbuf = renderer.make_command_list();
 
         if (cmdbuf != nullptr) {
             cmdbuf->start_recording();
@@ -55,7 +55,7 @@ public:
 
             cmdbuf->end();
 
-            graphics_driver.commit_frame(cmdbuf);
+            renderer.commit_frame(cmdbuf);
         }
     }
 

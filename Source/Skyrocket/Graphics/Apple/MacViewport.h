@@ -19,7 +19,7 @@
 namespace sky {
 
 
-struct NativeViewport {
+struct NativeHandle {
     CocoaWindow* window;
     CocoaView* view;
 };

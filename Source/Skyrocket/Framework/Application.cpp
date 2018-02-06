@@ -26,7 +26,8 @@ Application::Application(const char* name)
 
 Application::~Application() = default;
 
-void Application::start(const Renderer::ThreadSupport graphics_threading)
+void Application::start(const Renderer::ThreadSupport graphics_threading,
+                        const RendererBackend renderer_backend)
 {
     AssertGuard ag("Application is starting", name_);
     {
@@ -35,7 +36,7 @@ void Application::start(const Renderer::ThreadSupport graphics_threading)
         primary_view.open(name_, 800, 600);
         primary_view.set_backing_color(sky::Color::gray);
 
-        auto graphics_init_success = graphics_driver.init(graphics_threading, &primary_view);
+        auto graphics_init_success = renderer.init(renderer_backend, graphics_threading, &primary_view);
 
         SKY_ASSERT(graphics_init_success, "Renderer initialized successfully");
 

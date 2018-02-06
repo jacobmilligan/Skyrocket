@@ -129,7 +129,7 @@ public:
     /// Submits a command buffer for translation into API-specific draw calls. Must be called
     /// between a `begin_frame` and `end_frame` pair. Can be called multiple times with different
     /// command buffers between the one begin and end calls.
-    virtual void submit(CommandBuffer* cmdbuf);
+    void submit(CommandBuffer* cmdbuf);
 
     /// @brief Sets the viewport as the active viewport for this graphics device
     /// @param viewport

@@ -11,8 +11,8 @@
 
 #include "Skyrocket/Core/Hash.hpp"
 #include "Skyrocket/Graphics/Renderer/Metal/MetalGDI.h"
+#include "Skyrocket/Graphics/Renderer/Metal/MetalView.h"
 #include "Skyrocket/Graphics/Apple/MacViewport.h"
-#include "Skyrocket/Graphics/Apple/MetalView.h"
 #include "Skyrocket/Platform/Filesystem.hpp"
 
 //TODO(Jacob): Textures
@@ -245,7 +245,7 @@ bool MetalGDI::end_frame(FrameInfo* frame_info)
 
 void MetalGDI::set_viewport(Viewport* viewport)
 {
-    auto mtl_view = (MetalView*)viewport->get_native_viewport()->view;
+    auto mtl_view = (MetalView*) viewport->get_native_handle()->view;
     mtl_view.metalLayer.device = device_;
     mtl_layer_ = mtl_view.metalLayer;
 }

@@ -26,11 +26,11 @@ Renderer::~Renderer()
     render_thread_shutdown();
 }
 
-bool Renderer::init(ThreadSupport threading, Viewport* viewport)
+bool Renderer::init(RendererBackend backend, ThreadSupport threading, Viewport* viewport)
 {
     threadsupport_ = threading;
     viewport_ = viewport;
-    gdi_ = GDI::create();
+    gdi_ = GDI::create(backend);
     gdi_->init(viewport_);
 
     if (threadsupport_ == ThreadSupport::multi_threaded) {

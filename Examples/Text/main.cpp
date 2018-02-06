@@ -20,8 +20,10 @@ class TextApplication : public sky::Application {
 public:
     TextApplication()
         : Application("Skyrocket Text Rendering Example"),
-          tb_(&graphics_driver, &font_),
-          cam_speed_(4.5f)
+          tb_(&renderer, &font_),
+          cam_speed_(4.5f),
+          program_(0),
+          viewproj_(0)
     {
         root_path_ = sky::Path::executable_path().relative_path("../../../../Examples/Text");
         if ( sky::target_platform == sky::OS::macos ) {
@@ -33,7 +35,7 @@ public:
 
     void create_graphics_resources()
     {
-        auto cmdlist = graphics_driver.make_command_list();
+        auto cmdlist = renderer.make_command_list();
 
         tb_.init();
 
@@ -45,12 +47,12 @@ public:
 
         viewproj_ = cmdlist.create_uniform(sky::UniformType::mat4, sizeof(sky::Matrix4f));
 
-        graphics_driver.submit(cmdlist);
+        renderer.submit(cmdlist);
     }
 
     void on_startup(int argc, const char** argv) override
     {
-        graphics_driver.set_vsync_enabled(false);
+        renderer.set_vsync_enabled(false);
         primary_view.set_backing_color(sky::Color::cornflower_blue);
         cam_.setup(primary_view.size(), 0.01f, 1000.0f);
         cam_.set_position({0.0f, 0.0f});
@@ -61,7 +63,7 @@ public:
 
         create_graphics_resources();
 
-        graphics_driver.commit_frame();
+        renderer.commit_frame();
     }
 
     sky::Vertex vertices[3] = {
@@ -78,16 +80,16 @@ public:
         }
 
         if (keyboard_.key_typed(sky::Key::space)) {
-            if (graphics_driver.active_backend() == sky::RendererBackend::Metal) {
-                graphics_driver.set_backend(sky::RendererBackend::OpenGL);
+            if (renderer.active_backend() == sky::RendererBackend::Metal) {
+                renderer.set_backend(sky::RendererBackend::OpenGL);
             } else {
-                graphics_driver.set_backend(sky::RendererBackend::Metal);
+                renderer.set_backend(sky::RendererBackend::Metal);
             }
 
             create_graphics_resources();
         }
 
-        auto& frame = graphics_driver.get_frame_info(1);
+        auto& frame = renderer.get_frame_info(1);
 
         char dtbuffer[4096];
         snprintf(dtbuffer, 4096, "Average FPS: %.*f\nFPS: %.*f\nFrame time: %.*f\nFrames queued: %d\nSim time: %.*f\n"
@@ -95,7 +97,7 @@ public:
                  4, frame.running_fps_average,
                  4, frame.total_fps,
                  4, frame.total_time,
-                 graphics_driver.frames_queued(),
+                 renderer.frames_queued(),
                  4, frame.sim_time,
                  4, frame.gdi_time,
                  4, frame.cpu_time,
@@ -105,7 +107,7 @@ public:
 
         cam_mat_ = cam_.get_matrix();
 
-        auto cmdlist = graphics_driver.make_command_list();
+        auto cmdlist = renderer.make_command_list();
 
         cmdlist.set_program(program_);
         cmdlist.set_state(sky::RenderPipelineState::culling_frontface);
@@ -113,11 +115,11 @@ public:
             sizeof(sky::Matrix4f), &cam_mat_
         });
 
-        graphics_driver.submit(cmdlist);
+        renderer.submit(cmdlist);
 
         tb_.submit(viewproj_);
 
-        cmdlist = graphics_driver.make_command_list();
+        cmdlist = renderer.make_command_list();
 
         cmdlist.set_program(0);
 
@@ -129,14 +131,14 @@ public:
         cmdlist.set_vertex_buffer(test_vbuf, 0, 3);
         cmdlist.draw();
 
-        graphics_driver.submit(cmdlist);
+        renderer.submit(cmdlist);
 
-        graphics_driver.commit_frame();
+        renderer.commit_frame();
     }
 
     void on_shutdown() override
     {
-        graphics_driver.set_backend(sky::RendererBackend::OpenGL);
+        renderer.set_backend(sky::RendererBackend::OpenGL);
     }
 
 private:
@@ -159,6 +161,6 @@ private:
 int main(int argc, const char** argv)
 {
     auto app = std::make_unique<TextApplication>();
-    app->start(sky::Renderer::ThreadSupport::single_threaded);
+    app->start(sky::Renderer::ThreadSupport::single_threaded, sky::RendererBackend::OpenGL);
     return 0;
 }

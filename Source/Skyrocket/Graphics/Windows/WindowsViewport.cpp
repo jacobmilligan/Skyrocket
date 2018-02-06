@@ -43,7 +43,7 @@ void Viewport::create_native_viewport()
 
     SKY_ASSERT(Platform::initialized(), "Platform is initialized");
 
-    handle_ = std::make_unique<NativeViewport>();
+    handle_ = std::make_unique<NativeHandle>();
     handle_->window = static_cast<HWND>(Platform::create_native_window(caption_, width_, height_));
     SetPropW(handle_->window, L"SKY_WINDOW", &window_data_);
 }

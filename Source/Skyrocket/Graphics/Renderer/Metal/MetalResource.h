@@ -18,8 +18,6 @@
 
 #import <Metal/Metal.h>
 
-#define SKY_OBJC_RELEASE(object) [object release], (object) = nil
-
 namespace sky {
 
 

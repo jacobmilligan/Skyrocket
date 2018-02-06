@@ -35,13 +35,14 @@ public:
         return target_frametime_;
     }
 
-    void start(Renderer::ThreadSupport graphics_threading);
+    void start(Renderer::ThreadSupport graphics_threading,
+               RendererBackend renderer_backend = RendererBackend::unknown);
 
     virtual void on_startup(int argc, const char** argv) = 0;
     virtual void on_update(double dt) = 0;
     virtual void on_shutdown() = 0;
 protected:
-    Renderer graphics_driver;
+    Renderer renderer;
     Platform platform;
     Viewport primary_view;
 private:

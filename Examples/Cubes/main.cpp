@@ -76,8 +76,8 @@ public:
 
     void on_startup(int argc, const char** argv) override
     {
-        graphics_driver.set_vsync_enabled(false);
-        auto cmdlist = graphics_driver.make_command_list();
+        renderer.set_vsync_enabled(false);
+        auto cmdlist = renderer.make_command_list();
 
         primary_view.set_backing_color(sky::Color::cornflower_blue);
         auto vert_path = root_path_.relative_path("basic_vertex.metal");
@@ -170,9 +170,9 @@ public:
         texture_ = cmdlist.create_texture(img.width, img.height, img.pixel_format);
         cmdlist.create_texture_region(texture_, sky::UIntRect(0, 0, img.width, img.height), img.pixel_format, img.data);
 
-        graphics_driver.submit(cmdlist);
-        graphics_driver.commit_frame();
-        graphics_driver.set_viewport(&primary_view);
+        renderer.submit(cmdlist);
+        renderer.commit_frame();
+        renderer.set_viewport(&primary_view);
     }
 
     void on_update(const double dt) override
@@ -195,7 +195,7 @@ public:
             cam_movement.x += 1.0f;
         }
 
-        auto cmdlist = graphics_driver.make_command_list();
+        auto cmdlist = renderer.make_command_list();
 
         cmdlist.set_state(sky::RenderPipelineState::culling_frontface);
 
@@ -229,9 +229,9 @@ public:
         }
 
         cmdlist.draw_instanced(cube_index);
-        graphics_driver.submit(cmdlist);
+        renderer.submit(cmdlist);
 
-        graphics_driver.commit_frame();
+        renderer.commit_frame();
     }
 
     void on_shutdown() override

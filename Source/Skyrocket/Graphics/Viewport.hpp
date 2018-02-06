@@ -21,7 +21,7 @@
 namespace sky {
 
 struct Color;
-struct NativeViewport;
+struct NativeHandle;
 
 class Renderer;
 
@@ -58,7 +58,7 @@ public:
 
     /// @brief Gets a pointer to the platform-specific native viewport object handle
     /// @return
-    NativeViewport* get_native_viewport();
+    NativeHandle* get_native_handle();
 
     /// @brief Gets the size of the viewports framebuffer
     /// @return
@@ -70,7 +70,7 @@ private:
     uint16_t width_;
     uint16_t height_;
 
-    std::unique_ptr<NativeViewport> handle_;
+    std::unique_ptr<NativeHandle> handle_;
     WindowData window_data_;
 
     void create_native_viewport();

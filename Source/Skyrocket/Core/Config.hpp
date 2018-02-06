@@ -184,7 +184,7 @@ const auto target_compiler = Compiler::unknown;
 #endif
 
 ///////////////////////////////
-// Cubes API definitions  //
+// Graphics API definitions  //
 ///////////////////////////////
 
 #if !defined(SKY_GRAPHICS_API_METAL)
@@ -209,6 +209,16 @@ const auto target_compiler = Compiler::unknown;
 
 #if !defined(SKY_GRAPHICS_API_VULKAN)
 #define SKY_GRAPHICS_API_VULKAN 0
+#endif
+
+//////////////////////////////////////
+// Platform-specific helper macros  //
+//////////////////////////////////////
+
+#if SKY_OS_MACOS == 1 || SKY_OS_IOS == 1
+
+#define SKY_OBJC_RELEASE(object) [object release], (object) = nil
+
 #endif
 
 }

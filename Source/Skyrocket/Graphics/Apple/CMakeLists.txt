@@ -1,3 +1,2 @@
-skyrocket_add_sources(MetalView.mm
-        MacViewport.mm
+skyrocket_add_sources(MacViewport.mm
         CocoaView.mm)

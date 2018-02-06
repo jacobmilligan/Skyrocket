@@ -17,7 +17,7 @@
 
 #if SKY_GRAPHICS_API_METAL
 
-#include "Skyrocket/Graphics/Apple/MetalView.h"
+#include "Skyrocket/Graphics/Renderer/Metal/MetalView.h"
 
 #else
 
@@ -35,7 +35,7 @@ void Renderer::set_vsync_enabled(bool enabled)
         render_proc = &Renderer::render_thread_notify;
     }
 
-    [viewport_->get_native_viewport()->view setVsyncEnabled:enabled
+    [viewport_->get_native_handle()->view setVsyncEnabled:enabled
                                              graphicsDriver:this
                                               frameCallback:render_proc];
 }
@@ -51,7 +51,7 @@ Viewport::~Viewport()
 
 void Viewport::create_native_viewport()
 {
-    handle_ = std::make_unique<NativeViewport>();
+    handle_ = std::make_unique<NativeHandle>();
 
     auto* window = (CocoaWindow*)Platform::create_native_window(caption_, width_, height_);
     NSRect frame = [window frame];
@@ -80,7 +80,7 @@ void Viewport::set_backing_color(const sky::Color& color)
                                  a:((CGFloat) color.a) / 255.0];
 }
 
-NativeViewport* Viewport::get_native_viewport()
+NativeHandle* Viewport::get_native_handle()
 {
     return handle_.get();
 }

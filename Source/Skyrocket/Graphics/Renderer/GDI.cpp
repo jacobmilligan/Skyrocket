@@ -13,6 +13,12 @@
 #include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Graphics/Renderer/CommandList.hpp"
 
+#if SKY_GRAPHICS_API_OPENGL == 1
+
+#include "Skyrocket/Graphics/Renderer/OpenGL/GLGDI.hpp"
+
+#endif
+
 
 namespace sky {
 
@@ -87,7 +93,10 @@ std::unique_ptr<GDI> GDI::create(const RendererBackend backend, GDI* copy) noexc
 
         case RendererBackend::OpenGL:
         {
-
+#if SKY_GRAPHICS_API_OPENGL == 1
+            gdi = std::make_unique<OpenGLGDI>();
+            break;
+#endif
         }
 
         case RendererBackend::D3D9:

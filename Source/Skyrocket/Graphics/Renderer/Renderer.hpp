@@ -33,7 +33,7 @@ public:
 
     Renderer();
     ~Renderer();
-    bool init(ThreadSupport threading, Viewport* viewport);
+    bool init(RendererBackend backend, ThreadSupport threading, Viewport* viewport);
 
     CommandList make_command_list();
     void submit(CommandList& cmdlist);
