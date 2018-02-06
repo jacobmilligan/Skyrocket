@@ -13,7 +13,7 @@
 #include "Skyrocket/Graphics/Color.hpp"
 #include "Skyrocket/Graphics/GDI/GDI.hpp"
 #include "Skyrocket/Graphics/Apple/MacViewport.h"
-#include "Skyrocket/Graphics/GraphicsDriver.hpp"
+#include "Skyrocket/Graphics/Renderer.hpp"
 
 #if SKY_GRAPHICS_API_METAL
 
@@ -27,12 +27,12 @@ using view_type_t = CocoaView;
 
 namespace sky {
 
-void GraphicsDriver::set_vsync_enabled(bool enabled)
+void Renderer::set_vsync_enabled(bool enabled)
 {
     vsync_on_ = enabled;
-    auto render_proc = &GraphicsDriver::vsync_notify;
+    auto render_proc = &Renderer::vsync_notify;
     if (threadsupport_ == ThreadSupport::multi_threaded) {
-        render_proc = &GraphicsDriver::render_thread_notify;
+        render_proc = &Renderer::render_thread_notify;
     }
 
     [viewport_->get_native_viewport()->view setVsyncEnabled:enabled

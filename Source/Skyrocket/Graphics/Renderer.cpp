@@ -1,5 +1,5 @@
 //
-//  GraphicsDriver.cpp
+//  Renderer.cpp
 //  Skyrocket
 //
 //  --------------------------------------------------------------
@@ -9,11 +9,11 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Skyrocket/Graphics/GraphicsDriver.hpp"
+#include "Skyrocket/Graphics/Renderer.hpp"
 
 namespace sky {
 
-GraphicsDriver::GraphicsDriver()
+Renderer::Renderer()
     : cmdpool_(sizeof(CommandBuffer), cmdpool_size_),
       cmdqueue_allocator_(sizeof(MPSCQueue<CommandQueueNode>::Node), GDI::max_frames_in_flight + 1),
       cmdqueue_(cmdqueue_allocator_),
@@ -21,12 +21,12 @@ GraphicsDriver::GraphicsDriver()
       vsync_on_(false)
 {}
 
-GraphicsDriver::~GraphicsDriver()
+Renderer::~Renderer()
 {
     render_thread_shutdown();
 }
 
-bool GraphicsDriver::init(ThreadSupport threading, Viewport* viewport)
+bool Renderer::init(ThreadSupport threading, Viewport* viewport)
 {
     threadsupport_ = threading;
     viewport_ = viewport;
@@ -45,7 +45,7 @@ bool GraphicsDriver::init(ThreadSupport threading, Viewport* viewport)
     return true;
 }
 
-CommandList GraphicsDriver::make_command_list()
+CommandList Renderer::make_command_list()
 {
     auto cmdbuf = static_cast<CommandBuffer*>(cmdpool_.allocate(0));
 
@@ -59,12 +59,12 @@ CommandList GraphicsDriver::make_command_list()
     return CommandList(cmdbuf);
 }
 
-void GraphicsDriver::submit(sky::CommandList& cmdlist)
+void Renderer::submit(sky::CommandList& cmdlist)
 {
     submission_[current_submit_].push(cmdlist);
 }
 
-void GraphicsDriver::commit_frame()
+void Renderer::commit_frame()
 {
     auto submission = &submission_[current_submit_];
     auto single_threaded = threadsupport_ == ThreadSupport::single_threaded;
@@ -83,14 +83,14 @@ void GraphicsDriver::commit_frame()
         }
 
         current_frame().gdi_begin();
-        if (gdi_->begin(&current_frame())) {
+        if (gdi_->begin_frame(&current_frame())) {
 
             for (int c = 0; c < submission->current_list; ++c) {
                 process_command_list(&submission->lists[c]);
                 cmdpool_.free(submission->lists[c].buffer);
             }
 
-            gdi_->end(&current_frame());
+            gdi_->end_frame(&current_frame());
         }
         current_frame().gdi_end();
 
@@ -123,7 +123,7 @@ void GraphicsDriver::commit_frame()
     current_frame().cpu_begin();
 }
 
-void GraphicsDriver::process_command_list(CommandList* list)
+void Renderer::process_command_list(CommandList* list)
 {
     list->reset_cursor();
 
@@ -132,20 +132,20 @@ void GraphicsDriver::process_command_list(CommandList* list)
     list->clear();
 }
 
-void GraphicsDriver::set_viewport(sky::Viewport* viewport)
+void Renderer::set_viewport(sky::Viewport* viewport)
 {
     viewport_ = viewport;
     gdi_->set_viewport(viewport);
 }
 
-void GraphicsDriver::render_thread_start()
+void Renderer::render_thread_start()
 {
     render_thread_active_ = true;
     render_thread_notified_ = false;
-    render_thread_ = std::thread(&GraphicsDriver::render_thread_proc, this);
+    render_thread_ = std::thread(&Renderer::render_thread_proc, this);
 }
 
-void GraphicsDriver::render_thread_proc()
+void Renderer::render_thread_proc()
 {
     CommandQueueNode node {nullptr, nullptr};
 
@@ -162,12 +162,12 @@ void GraphicsDriver::render_thread_proc()
         while (cmdqueue_.pop(node)) {
             node.frame->gdi_begin();
 
-            if (gdi_->begin(&current_frame())) {
+            if (gdi_->begin_frame(&current_frame())) {
                 for (int c = 0; c < node.submission->current_list; ++c) {
                     process_command_list(&node.submission->lists[c]);
                     cmdpool_.free(node.submission->lists[c].buffer);
                 }
-                gdi_->end(&current_frame());
+                gdi_->end_frame(&current_frame());
             }
 
             node.frame->gdi_end();
@@ -176,7 +176,7 @@ void GraphicsDriver::render_thread_proc()
     }
 }
 
-void GraphicsDriver::render_thread_shutdown()
+void Renderer::render_thread_shutdown()
 {
     render_thread_notified_ = true;
     render_thread_active_ = false;
@@ -187,7 +187,7 @@ void GraphicsDriver::render_thread_shutdown()
     }
 }
 
-void GraphicsDriver::set_graphics_backend(sky::GraphicsBackend backend)
+void Renderer::set_backend(sky::RendererBackend backend)
 {
     render_thread_shutdown();
     gdi_ = GDI::create(backend, gdi_.get());
@@ -195,7 +195,7 @@ void GraphicsDriver::set_graphics_backend(sky::GraphicsBackend backend)
     render_thread_start();
 }
 
-GraphicsBackend GraphicsDriver::active_backend()
+RendererBackend Renderer::active_backend()
 {
     return gdi_->backend();
 }

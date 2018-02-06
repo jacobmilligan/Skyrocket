@@ -23,7 +23,7 @@ namespace sky {
 struct Color;
 struct NativeViewport;
 
-class GraphicsDriver;
+class Renderer;
 
 /// @brief Viewport is a window with a framebuffer for drawing to.
 class Viewport {

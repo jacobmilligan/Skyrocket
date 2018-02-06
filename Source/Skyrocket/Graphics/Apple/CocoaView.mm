@@ -10,12 +10,12 @@
 //
 
 #include "Skyrocket/Graphics/Apple/CocoaView.h"
-#include "Skyrocket/Graphics/GraphicsDriver.hpp"
+#include "Skyrocket/Graphics/Renderer.hpp"
 
 #import <CoreVideo/CoreVideo.h>
 
 @implementation CocoaView {
-    sky::GraphicsDriver* _graphicsDriver;
+    sky::Renderer* _graphicsDriver;
     sky::render_proc_t _frameCallback;
 }
 
@@ -29,7 +29,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink, const CVTimeSt
 }
 
 -(void)setVsyncEnabled:(BOOL)enabled
-        graphicsDriver:(sky::GraphicsDriver*)graphicsDriver
+        graphicsDriver:(sky::Renderer*)graphicsDriver
          frameCallback:(sky::render_proc_t)frameCallback
 {
     if (enabled) {

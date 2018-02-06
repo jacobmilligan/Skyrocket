@@ -55,7 +55,7 @@ public:
         auto size = sizeof(T);
 
         SKY_ASSERT(cursor_ + size < Size,
-                   "sizeof T (%lu) is small enough to prevent reading past end of buffer",
+                   "sizeof T (%lu) is small enough to prevent reading past end_frame of buffer",
                    size);
 
         auto mem = static_cast<void*>(&data_[cursor_]);
@@ -71,7 +71,7 @@ public:
     {
         auto size = sizeof(T);
         SKY_ASSERT(cursor_ + size < Size,
-                   "sizeof T (%lu) is small enough to prevent reading past end of buffer",
+                   "sizeof T (%lu) is small enough to prevent reading past end_frame of buffer",
                    size);
 
         memcpy(out_data, &data_[cursor_], size);

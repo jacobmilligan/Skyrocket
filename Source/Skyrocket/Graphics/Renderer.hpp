@@ -1,5 +1,5 @@
 //
-//  GraphicsDriver.hpp
+//  Renderer.hpp
 //  Skyrocket
 //
 //  --------------------------------------------------------------
@@ -24,15 +24,15 @@
 
 namespace sky {
 
-class GraphicsDriver {
+class Renderer {
 public:
     enum class ThreadSupport {
         single_threaded,
         multi_threaded
     };
 
-    GraphicsDriver();
-    ~GraphicsDriver();
+    Renderer();
+    ~Renderer();
     bool init(ThreadSupport threading, Viewport* viewport);
 
     CommandList make_command_list();
@@ -55,9 +55,9 @@ public:
 
     void set_vsync_enabled(bool enabled);
 
-    void set_graphics_backend(GraphicsBackend backend);
+    void set_backend(RendererBackend backend);
 
-    GraphicsBackend active_backend();
+    RendererBackend active_backend();
 private:
     static constexpr size_t cmdpool_size_ = 64;
     static constexpr size_t framepool_size_ = 16;

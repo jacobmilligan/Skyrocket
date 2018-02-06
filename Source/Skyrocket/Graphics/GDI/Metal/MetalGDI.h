@@ -36,8 +36,8 @@ public:
 
     bool destroy() override;
 
-    bool begin(FrameInfo* frame_info) override;
-    bool end(FrameInfo* frame_info) override;
+    bool begin_frame(FrameInfo* frame_info) override;
+    bool end_frame(FrameInfo* frame_info) override;
 protected:
 
     void set_viewport(Viewport* viewport) override;

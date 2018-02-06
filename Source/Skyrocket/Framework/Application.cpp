@@ -26,7 +26,7 @@ Application::Application(const char* name)
 
 Application::~Application() = default;
 
-void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
+void Application::start(const Renderer::ThreadSupport graphics_threading)
 {
     AssertGuard ag("Application is starting", name_);
     {
@@ -37,9 +37,9 @@ void Application::start(const GraphicsDriver::ThreadSupport graphics_threading)
 
         auto graphics_init_success = graphics_driver.init(graphics_threading, &primary_view);
 
-        SKY_ASSERT(graphics_init_success, "GraphicsDriver initialized successfully");
+        SKY_ASSERT(graphics_init_success, "Renderer initialized successfully");
 
-        if ( graphics_threading == GraphicsDriver::ThreadSupport::multi_threaded ) {
+        if ( graphics_threading == Renderer::ThreadSupport::multi_threaded ) {
             jobrocket::startup(jobrocket::Scheduler::auto_thread_count, 1);
             SKY_ASSERT(jobrocket::current_scheduler()->num_workers() > 0,
                        "Job scheduler initialized with correct number of workers")

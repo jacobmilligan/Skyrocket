@@ -78,10 +78,10 @@ public:
         }
 
         if (keyboard_.key_typed(sky::Key::space)) {
-            if (graphics_driver.active_backend() == sky::GraphicsBackend::Metal) {
-                graphics_driver.set_graphics_backend(sky::GraphicsBackend::OpenGL);
+            if (graphics_driver.active_backend() == sky::RendererBackend::Metal) {
+                graphics_driver.set_backend(sky::RendererBackend::OpenGL);
             } else {
-                graphics_driver.set_graphics_backend(sky::GraphicsBackend::Metal);
+                graphics_driver.set_backend(sky::RendererBackend::Metal);
             }
 
             create_graphics_resources();
@@ -136,7 +136,7 @@ public:
 
     void on_shutdown() override
     {
-        graphics_driver.set_graphics_backend(sky::GraphicsBackend::OpenGL);
+        graphics_driver.set_backend(sky::RendererBackend::OpenGL);
     }
 
 private:
@@ -159,6 +159,6 @@ private:
 int main(int argc, const char** argv)
 {
     auto app = std::make_unique<TextApplication>();
-    app->start(sky::GraphicsDriver::ThreadSupport::single_threaded);
+    app->start(sky::Renderer::ThreadSupport::single_threaded);
     return 0;
 }

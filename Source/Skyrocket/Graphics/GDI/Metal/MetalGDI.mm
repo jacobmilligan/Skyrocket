@@ -159,7 +159,7 @@ bool MetalGDI::destroy()
     return true;
 }
 
-bool MetalGDI::begin(FrameInfo* frame_info)
+bool MetalGDI::begin_frame(FrameInfo* frame_info)
 {
     if (device_ == nil || buf_sem_ == nil) {
         return false;
@@ -209,7 +209,7 @@ bool MetalGDI::begin(FrameInfo* frame_info)
     return true;
 }
 
-bool MetalGDI::end(FrameInfo* frame_info)
+bool MetalGDI::end_frame(FrameInfo* frame_info)
 {
     [render_encoder_ endEncoding];
     [mtlcmdbuf_ presentDrawable:mtldrawable_];

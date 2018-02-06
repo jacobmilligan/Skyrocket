@@ -10,7 +10,7 @@
 //
 
 #include <Skyrocket/Framework/Application.hpp>
-#include <Skyrocket/Graphics/GraphicsDriver.hpp>
+#include <Skyrocket/Graphics/Renderer.hpp>
 #include <Skyrocket/Graphics/Vertex.hpp>
 
 class App : public sky::Application {
@@ -74,5 +74,5 @@ private:
 int main(int argc, char** argv)
 {
     App app;
-    app.start(sky::GraphicsDriver::ThreadSupport::single_thread);
+    app.start(sky::Renderer::ThreadSupport::single_thread);
 }

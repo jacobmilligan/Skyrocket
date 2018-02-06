@@ -15,9 +15,9 @@
 
 namespace sky {
 
-class GraphicsDriver;
+class Renderer;
 
-using render_proc_t = void (GraphicsDriver::*)();
+using render_proc_t = void (Renderer::*)();
 
 }
 
@@ -27,7 +27,7 @@ using render_proc_t = void (GraphicsDriver::*)();
 }
 
 -(void)setVsyncEnabled:(BOOL)enabled
-        graphicsDriver:(sky::GraphicsDriver*)graphicsDriver
+        graphicsDriver:(sky::Renderer*)graphicsDriver
          frameCallback:(sky::render_proc_t)frameCallback;
 
 -(void)setBackingColor:(CGFloat)r

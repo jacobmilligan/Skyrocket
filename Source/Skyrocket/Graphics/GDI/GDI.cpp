@@ -18,22 +18,22 @@ namespace sky {
 
 
 struct BackendSupport {
-    GraphicsBackend backend;
+    RendererBackend backend;
     bool supported;
 };
 
-void supported_graphics_backends(graphics_backend_list_t& dest)
+void supported_renderer_backends(renderer_backend_list_t& dest)
 {
     static BackendSupport graphics_backends[] = {
-        { GraphicsBackend::Metal, SKY_GRAPHICS_API_METAL != 0 },
-        { GraphicsBackend::D3D12, SKY_GRAPHICS_API_D3D12 != 0 },
-        { GraphicsBackend::Vulkan, SKY_GRAPHICS_API_VULKAN != 0 },
-        { GraphicsBackend::D3D11, SKY_GRAPHICS_API_D3D11 != 0 },
-        { GraphicsBackend::OpenGL, SKY_GRAPHICS_API_OPENGL != 0 },
-        { GraphicsBackend::D3D9, SKY_GRAPHICS_API_D3D9 != 0 },
+        { RendererBackend::Metal, SKY_GRAPHICS_API_METAL != 0 },
+        { RendererBackend::D3D12, SKY_GRAPHICS_API_D3D12 != 0 },
+        { RendererBackend::Vulkan, SKY_GRAPHICS_API_VULKAN != 0 },
+        { RendererBackend::D3D11, SKY_GRAPHICS_API_D3D11 != 0 },
+        { RendererBackend::OpenGL, SKY_GRAPHICS_API_OPENGL != 0 },
+        { RendererBackend::D3D9, SKY_GRAPHICS_API_D3D9 != 0 },
     };
 
-    auto last = static_cast<int>(GraphicsBackend::last);
+    auto last = static_cast<int>(RendererBackend::last);
     auto next = 0;
     for (int backend = 0; backend < last - 2; ++backend) {
         if (graphics_backends[backend].supported) {
@@ -42,7 +42,7 @@ void supported_graphics_backends(graphics_backend_list_t& dest)
     }
 
     for (int i = next; i < last; ++i) {
-        dest[i] = GraphicsBackend::none;
+        dest[i] = RendererBackend::none;
     }
 
 }
@@ -59,66 +59,66 @@ std::unique_ptr<GDI> gdi_create_metal();
 
 std::unique_ptr<GDI> gdi_create_metal()
 {
-    return GDI::create(GraphicsBackend::unknown);
+    return GDI::create(RendererBackend::unknown);
 }
 
 #endif
 
 
-std::unique_ptr<GDI> GDI::create(const GraphicsBackend backend, GDI* copy) noexcept
+std::unique_ptr<GDI> GDI::create(const RendererBackend backend, GDI* copy) noexcept
 {
     std::unique_ptr<GDI> gdi = nullptr;
     auto new_backend = backend;
 
     switch (backend) {
 
-        case GraphicsBackend::unknown:
+        case RendererBackend::unknown:
         {
-            graphics_backend_list_t backend_list{};
-            supported_graphics_backends(backend_list);
+            renderer_backend_list_t backend_list{};
+            supported_renderer_backends(backend_list);
             gdi = create(backend_list[0]);
             new_backend = gdi->backend_;
         } break;
 
-        case GraphicsBackend::Metal:
+        case RendererBackend::Metal:
         {
             gdi = gdi_create_metal();
         } break;
 
-        case GraphicsBackend::OpenGL:
+        case RendererBackend::OpenGL:
         {
 
         }
 
-        case GraphicsBackend::D3D9:
+        case RendererBackend::D3D9:
         {
 
         }
 
-        case GraphicsBackend::D3D11:
+        case RendererBackend::D3D11:
         {
 
         }
 
-        case GraphicsBackend::D3D12:
+        case RendererBackend::D3D12:
         {
 
         }
 
-        case GraphicsBackend::Vulkan:
+        case RendererBackend::Vulkan:
         {
 
         }
 
-        case GraphicsBackend::none:
+        case RendererBackend::none:
         {
 
         }
 
-        case GraphicsBackend::last:
+        case RendererBackend::last:
         {
             gdi = std::make_unique<GDI>();
-            new_backend = GraphicsBackend::none;
+            new_backend = RendererBackend::none;
         } break;
     }
 
@@ -289,12 +289,12 @@ bool GDI::destroy()
     return true;
 }
 
-bool GDI::begin(sky::FrameInfo* frame_info)
+bool GDI::begin_frame(sky::FrameInfo* frame_info)
 {
     return true;
 }
 
-bool GDI::end(sky::FrameInfo* frame_info)
+bool GDI::end_frame(sky::FrameInfo* frame_info)
 {
     return true;
 }

@@ -12,7 +12,7 @@
 #pragma once
 
 #include "Skyrocket/Resource/Font.hpp"
-#include "Skyrocket/Graphics/GraphicsDriver.hpp"
+#include "Skyrocket/Graphics/Renderer.hpp"
 #include "Skyrocket/Graphics/Vertex.hpp"
 
 namespace sky {
@@ -22,7 +22,7 @@ class TextBuffer {
 public:
     static constexpr size_t max_characters = kibibytes(8);
 
-    TextBuffer(GraphicsDriver* gd, Font* font)
+    TextBuffer(Renderer* gd, Font* font)
         : gd_(gd), font_(font)
     {}
 
@@ -133,7 +133,7 @@ private:
     uint32_t texid_{0}, vbufid_{0}, ibufid_{0}, programid_{0};
 
     // Resources used
-    GraphicsDriver* gd_;
+    Renderer* gd_;
     Font* font_;
 
     // Buffers

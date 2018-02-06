@@ -23,7 +23,8 @@ class CommandList;
 class CommandBuffer;
 class MemoryBlock;
 
-enum class GraphicsBackend {
+/// Graphics API's supported by Skyrocket.
+enum class RendererBackend {
     unknown,
     none,
     Metal,
@@ -35,12 +36,17 @@ enum class GraphicsBackend {
     last
 };
 
-using graphics_backend_list_t = GraphicsBackend[static_cast<size_t>(GraphicsBackend::last)];
+/// Array type used for getting a list of supported renderer backends.
+using renderer_backend_list_t = RendererBackend[static_cast<size_t>(RendererBackend::last)];
 
-void supported_graphics_backends(graphics_backend_list_t& dest);
+/// Populates the supplied list with a list of supported renderer backends ordered by the current
+/// platforms preferred graphics API. For instance, on macOS, the list would contain:
+/// {Metal, OpenGL, none, none, ...} but on Windows it would contain:
+/// {D3D12, Vulkan, D3D11, OpenGL, D3D9, none, none, ...}.
+void supported_renderer_backends(renderer_backend_list_t& dest);
 
-/// @brief Contains the current state of the graphics device - buffers,
-/// shaders, indices etc. being used currently
+/// Contains handles for the resources bound to the GPU for the current draw call - vertex buffers,
+/// shaders, index buffers etc.
 struct RenderState {
     RenderState()
     {
@@ -66,6 +72,23 @@ struct RenderState {
     uint32_t index_offset{0};
 };
 
+/// Graphics Device Interface - an interface for executing calls to the currently
+/// active renderer backend.
+///
+/// Each virtual function represents a call that must be implemented
+/// by the backend-specific GDI in order to provide the full features required by the engine.
+/// Each GDI implementation also manages all resources required by the renderer in an API-specific
+/// way, releasing them all upon destruction. This means that when a graphics backend is changed,
+/// or the GDI needs to be recreated for any particular reason, the user must recreate all
+/// previously allocated resource handles by calling the appropriate creation commands -
+/// `create_vertex_buffer`, `create_program` etc.
+///
+/// The base GDI is **not** an abstract interface but simply a base class that acts as a 'no-op'
+/// backend that simply takes command buffers and then does nothing with them. This is useful for
+/// situations where the graphics device is unavailable for any particular reason, but can still
+/// take `CommandBuffer` submissions from the application to remove cognitive load on the user - to
+/// them the scene just simply isn't rendering and they can query the GDI for it's type to see if
+/// there's an issue, rather than making them avoid `CommandList` submissions.
 class GDI {
 public:
     static constexpr uint32_t invalid_handle = 0;
@@ -83,7 +106,7 @@ public:
     /// @brief Creates a new API-specific GDI. A GDI cannot be created without calling
     /// this method
     /// @return Unique pointer to the GDI
-    static std::unique_ptr<GDI> create(GraphicsBackend backend = GraphicsBackend::unknown,
+    static std::unique_ptr<GDI> create(RendererBackend backend = RendererBackend::unknown,
                                        GDI* copy = nullptr) noexcept;
 
     /// @brief Initializes the graphics device, allocating resources and creating a
@@ -94,16 +117,25 @@ public:
 
     virtual bool destroy();
 
-    virtual bool begin(FrameInfo* frame_info);
-    virtual bool end(FrameInfo* frame_info);
+    /// Begins processing of a new frame - a series of `CommandBuffer` objects that contain
+    /// render commands to be processed in the order the appear. Should only be called once per
+    /// frame.
+    virtual bool begin_frame(FrameInfo* frame_info);
 
+    /// Ends the processing of the current frame and handles submission to the GPU. Should only be
+    /// called once per frame.
+    virtual bool end_frame(FrameInfo* frame_info);
+
+    /// Submits a command buffer for translation into API-specific draw calls. Must be called
+    /// between a `begin_frame` and `end_frame` pair. Can be called multiple times with different
+    /// command buffers between the one begin and end calls.
     virtual void submit(CommandBuffer* cmdbuf);
 
     /// @brief Sets the viewport as the active viewport for this graphics device
     /// @param viewport
     virtual void set_viewport(Viewport* viewport);
 
-    inline GraphicsBackend backend() const
+    inline RendererBackend backend() const
     {
         return backend_;
     }
@@ -170,7 +202,7 @@ protected:
     virtual bool set_state(uint32_t flags);
 
 private:
-    GraphicsBackend backend_;
+    RendererBackend backend_{RendererBackend::unknown};
 };
 
 

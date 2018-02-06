@@ -14,7 +14,7 @@
 #include <Skyrocket/Core/Hash.hpp>
 #include <Skyrocket/Core/Math.hpp>
 #include <Skyrocket/Graphics/Color.hpp>
-#include <Skyrocket/Graphics/GraphicsDriver.hpp>
+#include <Skyrocket/Graphics/Renderer.hpp>
 #include <Skyrocket/Graphics/Vertex.hpp>
 #include <Skyrocket/Input/Keyboard.hpp>
 #include <Skyrocket/Resource/Font.hpp>
@@ -263,7 +263,7 @@ private:
 int main(int argc, char** argv)
 {
     auto app = std::make_unique<CubeApp>();
-    app->start(sky::GraphicsDriver::ThreadSupport::single_threaded);
+    app->start(sky::Renderer::ThreadSupport::single_threaded);
 
     return 0;
 }

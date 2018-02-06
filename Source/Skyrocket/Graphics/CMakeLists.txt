@@ -51,7 +51,7 @@ endif ()
 ######################################
 
 skyrocket_add_sources(Color.cpp
-        GraphicsDriver.cpp
+        Renderer.cpp
         Viewport.cpp
         Image.cpp
         FrameInfo.cpp)

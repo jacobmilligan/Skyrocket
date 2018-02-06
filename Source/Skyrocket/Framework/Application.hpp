@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include "Skyrocket/Graphics/GraphicsDriver.hpp"
+#include "Skyrocket/Graphics/Renderer.hpp"
 #include "Skyrocket/Platform/Platform.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
 
@@ -35,13 +35,13 @@ public:
         return target_frametime_;
     }
 
-    void start(GraphicsDriver::ThreadSupport graphics_threading);
+    void start(Renderer::ThreadSupport graphics_threading);
 
     virtual void on_startup(int argc, const char** argv) = 0;
     virtual void on_update(double dt) = 0;
     virtual void on_shutdown() = 0;
 protected:
-    GraphicsDriver graphics_driver;
+    Renderer graphics_driver;
     Platform platform;
     Viewport primary_view;
 private:
