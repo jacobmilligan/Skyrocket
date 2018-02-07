@@ -108,7 +108,7 @@ public:
 
         auto cmdlist = renderer.make_command_list();
 
-        cmdlist.set_state(sky::RenderPipelineState::culling_frontface);
+        cmdlist.set_state(sky::RenderPipelineState::culling_backface);
         cmdlist.update_uniform(viewproj_, sky::MemoryBlock {
             sizeof(sky::Matrix4f), &cam_mat_
         });

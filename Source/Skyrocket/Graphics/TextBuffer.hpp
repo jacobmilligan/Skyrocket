@@ -113,7 +113,7 @@ public:
             cmdlist.set_texture(texid_, 0);
             cmdlist.set_vertex_buffer(vbufid_, 0, num_vertices_);
             cmdlist.set_index_buffer(ibufid_, 0, static_cast<uint32_t>(string_size_ * 6));
-            cmdlist.set_uniform(viewprojection_matrix, 1);
+            cmdlist.set_uniform(viewprojection_matrix, 0);
             cmdlist.draw();
         }
 

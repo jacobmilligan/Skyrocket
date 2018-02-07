@@ -24,6 +24,13 @@
 
 namespace sky {
 
+#if SKY_COMPILER_MSVC != 1
+
+constexpr GLenum OpenGLGDI::gl_pixel_formats_[];
+
+#endif
+
+
 void set_uniform_data_vec1(GLint location, GLUniformSlot& slot)
 {
     auto vec = static_cast<float*>(slot.data);
@@ -116,6 +123,8 @@ void OpenGLGDI::set_uniform_data(GLint location, GLUniformSlot& slot)
 
 bool OpenGLGDI::init(Viewport* viewport)
 {
+    Matrix::depth = ClipSpaceDepth::negative_one_to_one;
+
     {
         AssertGuard ag("Creating OpenGL context", nullptr);
         viewport_ = viewport;
@@ -128,7 +137,10 @@ bool OpenGLGDI::init(Viewport* viewport)
         } while (err != GL_NO_ERROR);
     }
 
+    // Enable settings
     SKY_GL_CHECK_ERROR(glEnable(GL_BLEND));
+    SKY_GL_CHECK_ERROR(glEnable(GL_CULL_FACE));
+
     SKY_GL_CHECK_ERROR(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
     SKY_GL_CHECK_ERROR(glGenVertexArrays(1, &default_vao_));
@@ -361,26 +373,83 @@ bool OpenGLGDI::update_uniform(uint32_t u_id, const MemoryBlock& data, uint32_t 
     return true;
 }
 
-bool
-OpenGLGDI::create_texture(uint32_t t_id, uint32_t width, uint32_t height, PixelFormat::Enum pixel_format, bool mipmapped)
+bool OpenGLGDI::create_texture(uint32_t t_id, uint32_t width, uint32_t height,
+                               PixelFormat::Enum pixel_format, bool mipmapped)
 {
-    return GDI::create_texture(t_id, width, height, pixel_format, mipmapped);
+    auto tex = textures_.create(t_id);
+    if (tex == nullptr) {
+        return false;
+    }
+
+    SKY_GL_CHECK_ERROR(glGenTextures(1, tex));
+    if (*tex == 0) {
+        return false;
+    }
+    SKY_GL_CHECK_ERROR(glBindTexture(GL_TEXTURE_2D, *tex));
+
+    // Specify no mipmap levels for the texture but keep mipmap filtering on.
+    // OpenGL textures have a default max mipmap level of 1000 until specified otherwise - causing
+    // the texture to be considered incomplete if no mipmap levels are defined in the meantime.
+    SKY_GL_CHECK_ERROR(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0));
+    SKY_GL_CHECK_ERROR(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0));
+
+    // Generate blank texture to be filled with `create_texture_region`
+    auto pxlfmt = gl_pixel_formats_[pixel_format];
+    SKY_GL_CHECK_ERROR(glTexImage2D(GL_TEXTURE_2D, 0, pxlfmt, width, height, 0, pxlfmt,
+                                    GL_UNSIGNED_BYTE, nullptr));
+
+    SKY_GL_CHECK_ERROR(glBindTexture(GL_TEXTURE_2D, 0));
+    return true;
 }
 
-bool
-OpenGLGDI::create_texture_region(uint32_t tex_id, const UIntRect& region, PixelFormat::Enum pixel_format, uint8_t* data)
+bool OpenGLGDI::create_texture_region(uint32_t tex_id, const UIntRect& region,
+                                      PixelFormat::Enum pixel_format, uint8_t* data)
 {
-    return GDI::create_texture_region(tex_id, region, pixel_format, data);
+    auto tex = textures_.get(tex_id);
+    if (tex == nullptr) {
+        return false;
+    }
+
+    SKY_GL_CHECK_ERROR(glBindTexture(GL_TEXTURE_2D, *tex));
+    SKY_GL_CHECK_ERROR(glTexSubImage2D(GL_TEXTURE_2D, 0, region.position.x, region.position.y,
+                                       region.width, region.height, GL_RED, GL_UNSIGNED_BYTE, data));
+    SKY_GL_CHECK_ERROR(glBindTexture(GL_TEXTURE_2D, 0));
+    return true;
 }
 
 bool OpenGLGDI::set_texture(uint32_t t_id, uint32_t index)
 {
-    return GDI::set_texture(t_id, index);
+    auto tex = textures_.get(t_id);
+    if (tex == nullptr) {
+        return false;
+    }
+
+    SKY_GL_CHECK_ERROR(glBindTexture(GL_TEXTURE_2D, *tex));
+    return true;
 }
 
 bool OpenGLGDI::set_state(uint32_t flags)
 {
-    return GDI::set_state(flags);
+    if ( ( 0 | RenderPipelineState::culling_none
+        | RenderPipelineState::culling_backface
+        | RenderPipelineState::culling_frontface)
+        & flags ) {
+
+        if ( RenderPipelineState::culling_none & flags ) {
+//            glDisable(GL_CULL_FACE);
+        }
+
+        if ( RenderPipelineState::culling_backface & flags ) {
+            SKY_GL_CHECK_ERROR(glCullFace(GL_BACK));
+        }
+
+        if ( RenderPipelineState::culling_frontface & flags ) {
+            SKY_GL_CHECK_ERROR(glCullFace(GL_FRONT));
+        }
+
+    }
+
+    return true;
 }
 
 bool OpenGLGDI::draw()
@@ -389,7 +458,13 @@ bool OpenGLGDI::draw()
         return false;
     }
 
-    auto prog = programs_.get(state_.program);
+    GLProgram* prog = nullptr;
+    if (state_.program == 0) {
+        prog = &default_program_;
+    } else {
+        prog = programs_.get(state_.program);
+    }
+
     if (prog == nullptr) {
         return false;
     }
@@ -398,12 +473,17 @@ bool OpenGLGDI::draw()
         auto& info = prog->uniforms[u];
         auto handle = state_.uniform_slots[info.location];
         auto uniform = uniform_buffers_.get(handle);
-        if (uniform == nullptr) {
-            SKY_ERROR("OpenGL", "Uniform data missing at slot %d for program with id %d",
-                      info.location, state_.program);
-            return false;
+        if (handle == 0 || uniform == nullptr) {
+            if (info.type == UniformType::tex2d) {
+                continue;
+            }
+            SKY_ERROR("OpenGL", "Uniform data with name '%s' at slot %d is missing for program "
+                "with id %d", info.name, info.location, state_.program);
+            continue;
         }
 
+        GLint val;
+        glGetIntegerv(GL_CURRENT_PROGRAM, &val);
         set_uniform_data(info.location, *uniform);
     }
 

@@ -61,7 +61,6 @@ bool GLProgram::create(const char* vertex_source, const char* fragment_source)
     vertex.destroy();
     fragment.destroy();
 
-    GLint num_uniforms = -1;
     SKY_GL_CHECK_ERROR(glGetProgramiv(id, GL_ACTIVE_UNIFORMS, &num_uniforms));
     if (num_uniforms > 0) {
         uniforms = new GLUniformInfo[num_uniforms];

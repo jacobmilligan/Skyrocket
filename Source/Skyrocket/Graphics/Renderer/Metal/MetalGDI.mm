@@ -32,7 +32,7 @@ std::unique_ptr<GDI> gdi_create_metal()
 
 #if SKY_COMPILER_MSVC != 1
 
-constexpr MTLPixelFormat MetalGDI::mtl_pixel_formats[];
+constexpr MTLPixelFormat MetalGDI::mtl_pixel_formats_[];
 
 #endif
 
@@ -439,7 +439,7 @@ bool MetalGDI::create_texture(const uint32_t t_id, const uint32_t width,
                                  const uint32_t height, const PixelFormat::Enum pixel_format,
                                  const bool mipmapped)
 {
-    auto mtl_format = mtl_pixel_formats[pixel_format];
+    auto mtl_format = mtl_pixel_formats_[pixel_format];
     auto* descriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:mtl_format
                                                                           width:width
                                                                          height:height

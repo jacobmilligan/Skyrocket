@@ -83,7 +83,7 @@ protected:
 private:
     static constexpr uint8_t lib_max_ = 8;
 
-    static constexpr MTLPixelFormat mtl_pixel_formats[] = {
+    static constexpr MTLPixelFormat mtl_pixel_formats_[] = {
         MTLPixelFormatR8Unorm, // r8
         MTLPixelFormatR16Unorm, // r16
         MTLPixelFormatR32Float, // r32
@@ -99,6 +99,12 @@ private:
         MTLPixelFormatStencil8, // stencil
         MTLPixelFormatInvalid // unknown
     };
+
+    static constexpr size_t mtl_pixelfmt_tablesize = sizeof(mtl_pixel_formats_) / sizeof(MTLPixelFormat);
+
+    static_assert(mtl_pixelfmt_tablesize == static_cast<size_t>(PixelFormat::Enum::unknown) + 1,
+                  "Skyrocket: Metal error: the translation table for PixelFormat "
+                      "is missing entries. Please update to sync with the PixelFormat enum.");
 
     NSAutoreleasePool* pool_;
     id<MTLDevice> device_;

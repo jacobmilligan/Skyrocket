@@ -58,7 +58,7 @@ struct GLUniformInfo {
 struct GLProgram {
     GLuint id;
 
-    size_t num_uniforms;
+    GLint num_uniforms;
     GLUniformInfo* uniforms;
 
     GLProgram()
