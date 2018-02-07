@@ -23,17 +23,7 @@ enum class GLShaderType {
     unknown = 0
 };
 
-inline const char* get_shader_type_string(const GLShaderType type)
-{
-    switch (type) {
-        case GLShaderType::vertex: return "vertex";
-        case GLShaderType::fragment: return "fragment";
-        case GLShaderType::geometry: return "geometry";
-        case GLShaderType::unknown: break;
-    }
-
-    return "unknown shader type";
-}
+const char* get_shader_type_string(GLShaderType type);
 
 template <GLShaderType T>
 struct GLShader {
@@ -43,94 +33,78 @@ struct GLShader {
         : id(0)
     {}
 
-    bool create(const char* source)
-    {
-        auto type = static_cast<GLenum>(T);
-        id = glCreateShader(type);
-        if (id == 0) {
-            SKY_ERROR("OpenGL", "Failed to create %s shader resource", get_shader_type_string(T));
-            return false;
-        }
+    bool create(const char* source);
 
-        SKY_GL_CHECK_ERROR(glShaderSource(id, 1, &source, NULL));
+    void destroy();
+};
 
-        SKY_GL_CHECK_ERROR(glCompileShader(id));
+struct GLUniformInfo {
+    static constexpr size_t max_name = 64;
 
-        GLint success;
-        SKY_GL_CHECK_ERROR(glGetShaderiv(id, GL_COMPILE_STATUS, &success));
-        if (!success) {
-            const size_t log_size = 512;
-            GLchar info_log[log_size];
-            glGetShaderInfoLog(id, log_size, nullptr, info_log);
-            SKY_ERROR("OpenGL", "Couldn't compile shader with id %d.\n%s", id, info_log);
-            return false;
-        }
+    GLuint program;
+    GLuint location;
+    UniformType type;
+    GLint size;
 
-        return true;
-    }
+    GLint name_len;
+    GLint block_index;
+    GLint block_offset;
+    GLint array_stride;
+    GLint matrix_stride;
 
-    void destroy()
-    {
-        if (id != 0) {
-            SKY_GL_CHECK_ERROR(glDeleteShader(id));
-            id = 0;
-        }
-    }
+    GLchar name[max_name];
 };
 
 struct GLProgram {
     GLuint id;
 
+    size_t num_uniforms;
+    GLUniformInfo* uniforms;
+
     GLProgram()
-        : id(0)
+        : id(0),
+          num_uniforms(0),
+          uniforms(nullptr)
     {}
 
-    bool create(const char* vertex_source, const char* fragment_source)
+    ~GLProgram()
     {
-        GLShader<GLShaderType::vertex> vertex;
-        GLShader<GLShaderType::fragment> fragment;
-
-        if (!vertex.create(vertex_source) || !fragment.create(fragment_source)) {
-            return false;
-        }
-
-        id = glCreateProgram();
-        if (id == 0) {
-            SKY_ERROR("OpenGL", "Failed to create program resource");
-            return false;
-        }
-
-        SKY_GL_CHECK_ERROR(glAttachShader(id, vertex.id));
-        SKY_GL_CHECK_ERROR(glAttachShader(id, fragment.id));
-        SKY_GL_CHECK_ERROR(glLinkProgram(id));
-
-        GLint success;
-        SKY_GL_CHECK_ERROR(glGetProgramiv(id, GL_LINK_STATUS, &success));
-        if (!success) {
-            const size_t log_size = 512;
-            GLchar info_log[log_size];
-            glGetProgramInfoLog(id, log_size, nullptr, info_log);
-            SKY_ERROR("OpenGL", "Failed to link shaders for program with id %d: %s", id, info_log);
-            return false;
-        }
-
-        SKY_GL_CHECK_ERROR(glDetachShader(id, vertex.id));
-        SKY_GL_CHECK_ERROR(glDetachShader(id, fragment.id));
-
-        vertex.destroy();
-        fragment.destroy();
-
-        return true;
+        delete [] uniforms;
     }
 
-    void destroy()
+    GLProgram(const GLProgram& other) = delete;
+
+    GLProgram(GLProgram&& other) noexcept
+        : id(other.id),
+          num_uniforms(other.num_uniforms),
+          uniforms(nullptr)
     {
-        if (id != 0) {
-            SKY_GL_CHECK_ERROR(glDeleteShader(id));
-            id = 0;
-        }
+        other.num_uniforms = 0;
+        other.id = 0;
+        std::swap(uniforms, other.uniforms);
     }
+
+    GLProgram& operator=(const GLProgram& other) = default;
+
+    GLProgram& operator=(GLProgram&& other) noexcept
+    {
+        uniforms = nullptr;
+        id = other.id;
+        num_uniforms = other.num_uniforms;
+
+        other.num_uniforms = 0;
+        other.id = 0;
+
+        std::swap(uniforms, other.uniforms);
+        return *this;
+    }
+
+    bool create(const char* vertex_source, const char* fragment_source);
+
+    void destroy();
 };
 
 
-}
+} // namespace sky
+
+#include "Skyrocket/Graphics/Renderer/OpenGL/GLResource.inl"

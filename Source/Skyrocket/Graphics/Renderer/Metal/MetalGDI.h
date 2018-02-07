@@ -60,7 +60,7 @@ protected:
 
     bool set_program(uint32_t program_id) override;
 
-    bool create_uniform(uint32_t u_id, uint32_t size) override;
+    bool create_uniform(uint32_t u_id, UniformType type, uint32_t size) override;
 
     bool set_uniform(uint32_t u_id, uint32_t index) override;
 

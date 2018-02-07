@@ -23,12 +23,18 @@ enum class BufferUsage {
 };
 
 enum class UniformType {
-    vec2 = 0x0,
+    vec1,
+    vec2,
     vec3,
     vec4,
     mat2,
     mat3,
-    mat4
+    mat4,
+    tex1d,
+    tex2d,
+    tex3d,
+    cubemap,
+    unknown
 };
 
 enum RenderPipelineState {

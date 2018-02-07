@@ -390,7 +390,7 @@ bool MetalGDI::set_program(const uint32_t program_id)
     return true;
 }
 
-bool MetalGDI::create_uniform(const uint32_t u_id, const uint32_t size)
+bool MetalGDI::create_uniform(uint32_t u_id, UniformType type, uint32_t size)
 {
     auto ubuf = uniform_buffers_.create(u_id);
 

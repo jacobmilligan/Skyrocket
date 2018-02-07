@@ -19,6 +19,11 @@
 
 namespace sky {
 
+struct GLUniformSlot {
+    UniformType type;
+    size_t size;
+    void* data;
+};
 
 class OpenGLGDI : public GDI {
 public:
@@ -39,7 +44,7 @@ protected:
     bool draw_instanced(uint32_t instance) override;
     bool create_program(uint32_t program_id, const Path& vs_path, const Path& frag_path) override;
     bool set_program(uint32_t program_id) override;
-    bool create_uniform(uint32_t u_id, uint32_t size) override;
+    bool create_uniform(uint32_t u_id, UniformType type, uint32_t size) override;
     bool set_uniform(uint32_t u_id, uint32_t index) override;
     bool update_uniform(uint32_t u_id, const MemoryBlock& data, uint32_t offset) override;
     bool create_texture(uint32_t t_id, uint32_t width, uint32_t height,
@@ -52,12 +57,15 @@ private:
     GLContext context_;
     Viewport* viewport_{nullptr};
     GLuint default_vao_{0};
+    GLProgram default_program_;
 
     HandleTable<GLuint, vertex_buffer_max> vertex_buffers_;
     HandleTable<GLuint, index_buffer_max> index_buffers_;
-    HandleTable<GLuint, uniform_buffer_max> uniform_buffers_;
+    HandleTable<GLUniformSlot, uniform_buffer_max> uniform_buffers_;
     HandleTable<GLProgram, shader_max> programs_;
     HandleTable<GLuint, texture_max> textures_;
+
+    void set_uniform_data(GLint location, GLUniformSlot& slot);
 };
 
 

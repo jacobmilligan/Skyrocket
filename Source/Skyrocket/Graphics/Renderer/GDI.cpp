@@ -220,24 +220,21 @@ void GDI::submit(sky::CommandBuffer* cmdbuf)
             case CommandType::set_program:
             {
                 auto idptr = cmdbuf->read_command<uint32_t>();
+                state_.program = *idptr;
                 set_program(*idptr);
-
-                if ( *idptr == invalid_handle ) {
-//                    printf("invali\n");
-                } else {
-                }
-
             } break;
 
             case CommandType::create_uniform:
             {
                 auto data = cmdbuf->read_command<CreateUniformData>();
-                create_uniform(data->uniform_id, data->size);
+                create_uniform(data->uniform_id, data->uniform_type, data->size);
             } break;
 
             case CommandType::set_uniform:
             {
                 auto data = cmdbuf->read_command<SetUniformData>();
+                // Set uniform slot
+                state_.uniform_slots[data->uniform_index] = data->uniform_id;
                 set_uniform(data->uniform_id, data->uniform_index);
             } break;
 
@@ -361,7 +358,7 @@ bool GDI::set_program(const uint32_t)
     return true;
 }
 
-bool GDI::create_uniform(const uint32_t  /*u_id*/, const uint32_t /*initial_data*/)
+bool GDI::create_uniform(uint32_t, UniformType type, uint32_t)
 {
     // no op
     return true;
