@@ -17,6 +17,14 @@
 
 namespace sky {
 
+enum class ClipSpaceDepth {
+    zero_to_one,
+    negative_one_to_one
+};
+
+struct Matrix {
+    static ClipSpaceDepth depth;
+};
 
 /// @brief Matrix4 is a 4x4 matrix representation with several useful utility
 /// functions and operator overloads. Internally, it uses a column vectors and
@@ -24,7 +32,7 @@ namespace sky {
 /// @tparam T The data type held within each matrix element. Supports any type that
 /// has defined all arithmetic and logical operators
 template<typename T>
-struct Matrix4 {
+struct Matrix4 : Matrix {
     /// @brief The column vector elements of the matrix
     T entries[16]{};
 
@@ -263,13 +271,16 @@ struct Matrix4 {
         auto zoom_x = static_cast<T>(2) / size_x;
         auto zoom_y = static_cast<T>(2) / size_y;
 
+        auto a = (depth == ClipSpaceDepth::zero_to_one) ? static_cast<T>(1) : static_cast<T>(-2);
+        auto b = (depth == ClipSpaceDepth::zero_to_one) ? -near : -(far + near);
+
         // Width and height
         result.entries[0] = zoom_x;
         result.entries[5] = zoom_y;
-        result.entries[10] = static_cast<T>(1) / (far - near);
+        result.entries[10] = a / (far - near);
         result.entries[12] = -(right + left) / size_x;
         result.entries[13] = -(top + bottom) / size_y;
-        result.entries[14] = -near / (far - near);
+        result.entries[14] = b / (far - near);
 
         return result;
     }
