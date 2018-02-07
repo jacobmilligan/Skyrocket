@@ -14,8 +14,8 @@
 #include <Skyrocket/Core/Hash.hpp>
 #include <Skyrocket/Core/Math.hpp>
 #include <Skyrocket/Graphics/Color.hpp>
-#include <Skyrocket/Graphics/Renderer.hpp>
-#include <Skyrocket/Graphics/Vertex.hpp>
+#include <Skyrocket/Graphics/Renderer/Renderer.hpp>
+#include <Skyrocket/Graphics/Renderer/Vertex.hpp>
 #include <Skyrocket/Input/Keyboard.hpp>
 #include <Skyrocket/Resource/Font.hpp>
 
@@ -26,6 +26,7 @@
 #include <Skyrocket/Framework/Camera.hpp>
 #include <Skyrocket/Graphics/Image.hpp>
 #include <Jobrocket/Source/Jobrocket/JobGroup.hpp>
+#include <Common.hpp>
 
 
 struct Cube {
@@ -66,22 +67,16 @@ public:
           neg_dist(-1.0f, 1.0f),
           dist(0.04f, 0.07f),
           big_dist(-300.0f, 300.0f)
-    {
-        root_path_ = sky::Path::executable_path().relative_path("../../../../Examples/Cubes");
-        if ( sky::target_platform == sky::OS::macos ) {
-            root_path_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples/Cubes");
-        }
-        root_path_.make_real();
-    }
+    {}
 
     void on_startup(int argc, const char** argv) override
     {
+        common::get_resource_info(renderer.active_backend(), &resinfo_);
         renderer.set_vsync_enabled(false);
         auto cmdlist = renderer.make_command_list();
 
-        primary_view.set_backing_color(sky::Color::cornflower_blue);
-        auto vert_path = root_path_.relative_path("basic_vertex.metal");
-        auto frag_path = root_path_.relative_path("basic_fragment.metal");
+        auto vert_path = common::get_vertex_shader(resinfo_, "basic_texture_vert");
+        auto frag_path = common::get_fragment_shader(resinfo_, "basic_texture_frag");
         program_ = cmdlist.create_program(vert_path, frag_path);
         cmdlist.set_program(program_);
 
@@ -165,7 +160,7 @@ public:
         auto target_frametime = 16.6;
 
         sky::Image img;
-        img.load_from_file(root_path_.relative_path("cube.png"));
+        img.load_from_file(common::get_image(resinfo_, "cube.png"));
 
         texture_ = cmdlist.create_texture(img.width, img.height, img.pixel_format);
         cmdlist.create_texture_region(texture_, sky::UIntRect(0, 0, img.width, img.height), img.pixel_format, img.data);
@@ -243,7 +238,7 @@ private:
     static constexpr uint32_t num_cubes_ = 10000;
     sky::Keyboard keyboard_;
 
-    sky::Path root_path_;
+    common::ResourceInfo resinfo_;
 
     std::random_device rd;
     std::mt19937 rand_gen;

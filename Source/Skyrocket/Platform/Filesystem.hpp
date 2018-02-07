@@ -67,7 +67,7 @@ public:
     /// @brief Gets a modified version of this path with a new string appended to the end
     /// @param str
     /// @return
-    Path relative_path(const char* str);
+    Path relative_path(const char* str) const;
 
     /// @brief Gets the raw string representation of this path
     /// @return

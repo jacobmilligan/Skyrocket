@@ -8,8 +8,8 @@ struct Vertex {
     float2 tex_coords;
 };
 
-vertex Vertex basic_vertex(device Vertex* vertices [[buffer(0)]],
-                             uint vid [[vertex_id]])
+vertex Vertex basic_vert(device Vertex* vertices [[buffer(0)]],
+                         uint vid [[vertex_id]])
 {
     return vertices[vid];
 }

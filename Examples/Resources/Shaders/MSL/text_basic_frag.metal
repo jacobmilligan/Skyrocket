@@ -9,7 +9,7 @@ struct Vertex {
 };
 
 
-fragment half4 basic_fragment(Vertex in [[stage_in]],
+fragment half4 text_basic_frag(Vertex in [[stage_in]],
                                texture2d<half> texture [[texture(0)]])
 {
     constexpr sampler s(filter::linear);

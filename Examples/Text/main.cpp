@@ -16,6 +16,8 @@
 #include <Skyrocket/Framework/Camera.hpp>
 #include <Skyrocket/Graphics/TextBuffer.hpp>
 
+#include <Common.hpp>
+
 class TextApplication : public sky::Application {
 public:
     TextApplication()
@@ -25,11 +27,6 @@ public:
           program_(0),
           viewproj_(0)
     {
-        root_path_ = sky::Path::executable_path().relative_path("../../../../Examples/Text");
-        if ( sky::target_platform == sky::OS::macos ) {
-            root_path_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples/Text");
-        }
-        root_path_.make_real();
         set_frame_limit(144);
     }
 
@@ -39,8 +36,8 @@ public:
 
         tb_.init();
 
-        auto vert_path = root_path_.relative_path("basic_vertex.metal");
-        auto frag_path = root_path_.relative_path("basic_fragment.metal");
+        auto vert_path = common::get_vertex_shader(resinfo_, "text_basic_vert");
+        auto frag_path = common::get_fragment_shader(resinfo_, "text_basic_frag");
         program_ = cmdlist.create_program(vert_path, frag_path);
 
         tb_.set_program(program_);
@@ -52,12 +49,14 @@ public:
 
     void on_startup(int argc, const char** argv) override
     {
+        common::get_resource_info(renderer.active_backend(), &resinfo_);
+
         renderer.set_vsync_enabled(false);
         primary_view.set_backing_color(sky::Color::cornflower_blue);
         cam_.setup(primary_view.size(), 0.01f, 1000.0f);
         cam_.set_position({0.0f, 0.0f});
 
-        font_.load_from_file(root_path_.relative_path("Go-Regular.ttf"), font_size);
+        font_.load_from_file(common::get_font(resinfo_, "Go-Regular.ttf"), font_size);
 
         textpos_ = sky::Vector3f(10.0f, primary_view.size().y - (font_size + 10.0f), 1.0f);
 
@@ -144,9 +143,9 @@ public:
 private:
     static constexpr float font_size = 16.0f;
 
-    sky::Path root_path_;
     sky::Keyboard keyboard_;
     sky::Font font_;
+    common::ResourceInfo resinfo_;
 
     uint32_t program_, viewproj_;
 
@@ -161,6 +160,6 @@ private:
 int main(int argc, const char** argv)
 {
     auto app = std::make_unique<TextApplication>();
-    app->start(sky::Renderer::ThreadSupport::single_threaded, sky::RendererBackend::Metal);
+    app->start(sky::Renderer::ThreadSupport::single_threaded, sky::RendererBackend::OpenGL);
     return 0;
 }

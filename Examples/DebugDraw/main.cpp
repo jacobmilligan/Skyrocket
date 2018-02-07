@@ -13,50 +13,17 @@
 #include <Skyrocket/Graphics/Renderer/Vertex.hpp>
 #include <Skyrocket/Input/Keyboard.hpp>
 
+#include <Common.hpp>
+
 class App : public sky::Application {
 public:
     explicit App(const char* name) :
         Application(name)
-    {
-        root_path_ = sky::Path::executable_path().relative_path("../../../../Examples");
-        if ( sky::target_platform == sky::OS::macos ) {
-            root_path_ = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples");
-        }
-    }
+    {}
 
     void on_startup(int argc, const char** argv) override
     {
-        shaders_path_ = root_path_.relative_path("Shaders");
-
-        switch (renderer.active_backend()) {
-
-            case sky::RendererBackend::unknown:break;
-            case sky::RendererBackend::none:break;
-            case sky::RendererBackend::Metal:
-                shaders_path_ = shaders_path_.relative_path("MSL");
-                strcpy(vert_extension_, "metal");
-                strcpy(frag_extension_, "metal");
-                break;
-            case sky::RendererBackend::OpenGL:
-                shaders_path_ = shaders_path_.relative_path("GLSL");
-                strcpy(vert_extension_, "vert");
-                strcpy(frag_extension_, "frag");
-                break;
-            case sky::RendererBackend::D3D9:
-            case sky::RendererBackend::D3D11:
-            case sky::RendererBackend::D3D12:
-                shaders_path_ = shaders_path_.relative_path("HSL");
-                strcpy(vert_extension_, "hlsl");
-                strcpy(frag_extension_, "hlsl");
-                break;
-            case sky::RendererBackend::Vulkan:
-                shaders_path_ = shaders_path_.relative_path("SPIRV");
-                strcpy(vert_extension_, "vert");
-                strcpy(frag_extension_, "frag");
-                break;
-            case sky::RendererBackend::last:
-                break;
-        }
+        common::get_resource_info(renderer.active_backend(), &resource_info_);
 
         auto cmdlist = renderer.make_command_list();
         {
@@ -64,10 +31,8 @@ public:
                 sizeof(sky::Vertex) * 3, &vertices_
             }, sky::BufferUsage::staticbuf);
 
-            auto vert = shaders_path_.relative_path("basic_vertex");
-            vert.set_extension(vert_extension_);
-            auto frag = shaders_path_.relative_path("basic_frag");
-            frag.set_extension(frag_extension_);
+            auto vert = common::get_vertex_shader(resource_info_, "basic_vert");
+            auto frag = common::get_fragment_shader(resource_info_, "basic_frag");
             program_ = cmdlist.create_program(vert, frag);
         }
         renderer.submit(cmdlist);
@@ -109,11 +74,7 @@ private:
     uint32_t program_{0};
 
     sky::Keyboard keyboard_;
-    sky::Path root_path_;
-    sky::Path shaders_path_;
-
-    char vert_extension_[5];
-    char frag_extension_[5];
+    common::ResourceInfo resource_info_;
 };
 
 int main(int argc, char** argv)

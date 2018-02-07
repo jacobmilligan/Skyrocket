@@ -158,7 +158,7 @@ const char* Path::str() const
     return path_;
 }
 
-Path Path::relative_path(const char* str)
+Path Path::relative_path(const char* str) const
 {
     auto rel = *this;
     rel.append(str);

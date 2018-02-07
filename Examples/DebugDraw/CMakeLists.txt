@@ -1,6 +1,5 @@
 set(CMAKE_CXX_STANDARD 14)
+project(DebugDrawExample)
 
-set(exe_name DebugDrawExample)
-
-add_executable(${exe_name} main.cpp)
-target_link_libraries(${exe_name} Skyrocket)
+add_executable(${PROJECT_NAME} main.cpp)
+target_link_libraries(${PROJECT_NAME} Skyrocket Common)

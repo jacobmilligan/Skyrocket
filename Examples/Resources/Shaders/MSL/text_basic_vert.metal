@@ -8,9 +8,9 @@ struct Vertex {
     float2 tex_coords;
 };
 
-vertex Vertex basic_vertex(device Vertex* vertices [[buffer(0)]],
-                           constant float4x4& viewproj [[ buffer(1) ]],
-                           uint vid [[vertex_id]])
+vertex Vertex text_basic_vert(device Vertex* vertices [[buffer(0)]],
+                              constant float4x4& viewproj [[ buffer(1) ]],
+                              uint vid [[vertex_id]])
 {
     Vertex out;
     out.position = viewproj * vertices[vid].position;

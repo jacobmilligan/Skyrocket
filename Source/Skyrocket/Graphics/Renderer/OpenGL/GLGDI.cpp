@@ -113,21 +113,19 @@ bool sky::OpenGLGDI::set_vertex_buffer(uint32_t vbuf_id)
     SKY_GL_CHECK_ERROR(glBindBuffer(GL_ARRAY_BUFFER, *glbuf));
 
     // TODO (Jacob): needs to be changed once the rest works because resetting attribs each frame is expensive
-    {
-        // Position
-        SKY_GL_CHECK_ERROR(glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr));
-        SKY_GL_CHECK_ERROR(glEnableVertexAttribArray(0));
+    // Position
+    SKY_GL_CHECK_ERROR(glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr));
+    SKY_GL_CHECK_ERROR(glEnableVertexAttribArray(0));
 
-        // Color
-        auto offset = reinterpret_cast<void*>(4 * sizeof(float));
-        SKY_GL_CHECK_ERROR(glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), offset));
-        SKY_GL_CHECK_ERROR(glEnableVertexAttribArray(1));
+    // Color
+    auto offset = reinterpret_cast<void*>(4 * sizeof(float));
+    SKY_GL_CHECK_ERROR(glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), offset));
+    SKY_GL_CHECK_ERROR(glEnableVertexAttribArray(1));
 
-        // Texture coordinates
-        offset = reinterpret_cast<void*>(8 * sizeof(float));
-        SKY_GL_CHECK_ERROR(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), offset));
-        SKY_GL_CHECK_ERROR(glEnableVertexAttribArray(2));
-    }
+    // Texture coordinates
+    offset = reinterpret_cast<void*>(8 * sizeof(float));
+    SKY_GL_CHECK_ERROR(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), offset));
+    SKY_GL_CHECK_ERROR(glEnableVertexAttribArray(2));
 
     return true;
 }
