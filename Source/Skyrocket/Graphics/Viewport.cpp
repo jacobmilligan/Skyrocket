@@ -29,12 +29,14 @@ void Viewport::open(const Renderer& renderer, const char* caption, const uint16_
 
     create_native_viewport(renderer);
 
+    is_open_ = true;
     ++open_windows_;
 }
 
 void Viewport::close()
 {
     destroy_native_viewport();
+    is_open_ = false;
     --open_windows_;
 }
 

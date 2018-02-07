@@ -63,12 +63,18 @@ public:
     /// @brief Gets the size of the viewports framebuffer
     /// @return
     Vector2f size();
+
+    inline bool is_open() const
+    {
+        return is_open_;
+    }
 private:
     static uint16_t open_windows_;
 
     const char* caption_;
     uint16_t width_;
     uint16_t height_;
+    bool is_open_;
 
     std::unique_ptr<NativeHandle> handle_;
     WindowData window_data_;

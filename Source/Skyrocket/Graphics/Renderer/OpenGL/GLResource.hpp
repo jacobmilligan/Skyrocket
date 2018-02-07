@@ -43,11 +43,6 @@ struct GLShader {
         : id(0)
     {}
 
-    ~GLShader()
-    {
-        destroy();
-    }
-
     bool create(const char* source)
     {
         auto type = static_cast<GLenum>(T);
@@ -89,11 +84,6 @@ struct GLProgram {
     GLProgram()
         : id(0)
     {}
-
-    ~GLProgram()
-    {
-        destroy();
-    }
 
     bool create(const char* vertex_source, const char* fragment_source)
     {

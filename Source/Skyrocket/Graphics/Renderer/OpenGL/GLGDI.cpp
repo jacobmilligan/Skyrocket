@@ -58,6 +58,10 @@ bool sky::OpenGLGDI::begin_frame(sky::FrameInfo* frame_info)
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
+    if (!viewport_->is_open()) {
+        return false;
+    }
+
     SKY_GL_CHECK_ERROR(glBindVertexArray(default_vao_));
 
     return true;
