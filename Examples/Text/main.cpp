@@ -138,7 +138,7 @@ public:
 
     void on_shutdown() override
     {
-        renderer.set_backend(sky::RendererBackend::OpenGL);
+        renderer.set_backend(sky::RendererBackend::unknown);
     }
 
 private:
@@ -161,6 +161,6 @@ private:
 int main(int argc, const char** argv)
 {
     auto app = std::make_unique<TextApplication>();
-    app->start(sky::Renderer::ThreadSupport::single_threaded, sky::RendererBackend::OpenGL);
+    app->start(sky::Renderer::ThreadSupport::single_threaded, sky::RendererBackend::Metal);
     return 0;
 }

@@ -57,10 +57,6 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink, const CVTimeSt
 }
 
 -(void)setBackingColor:(CGFloat)r g:(CGFloat) g b:(CGFloat)b a:(CGFloat)a {
-#if SKY_GRAPHICS_API_OPENGL == 1
-    glClearColor((GLfloat)r, (GLfloat)g, (GLfloat)b, (GLfloat)a);
-#endif
-
     // otherwise no-op for metal
 }
 

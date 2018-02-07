@@ -9,11 +9,9 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Platform/macOS/CocoaWindow.h"
 #include "MetalView.h"
 
-#import <AppKit/AppKit.h>
 
 @implementation MetalView
 
@@ -36,6 +34,10 @@
         [self setLayer:_metalLayer];
     }
     return self;
+}
+
+-(id<CAMetalDrawable>)nextDrawable {
+    return [_metalLayer nextDrawable];
 }
 
 -(void)setBackingColor:(CGFloat)r

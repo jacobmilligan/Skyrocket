@@ -26,7 +26,7 @@ Renderer::~Renderer()
     render_thread_shutdown();
 }
 
-bool Renderer::init(RendererBackend backend, ThreadSupport threading, Viewport* viewport)
+bool Renderer::init(ThreadSupport threading, Viewport* viewport, RendererBackend backend)
 {
     threadsupport_ = threading;
     viewport_ = viewport;
@@ -43,6 +43,17 @@ bool Renderer::init(RendererBackend backend, ThreadSupport threading, Viewport* 
     current_frame().cpu_begin();
 
     return true;
+}
+
+void Renderer::set_viewport(Viewport* viewport)
+{
+    viewport_ = viewport;
+    gdi_->set_viewport(viewport);
+}
+
+void Renderer::set_clear_color(const Color& color)
+{
+    gdi_->set_clear_color(color);
 }
 
 CommandList Renderer::make_command_list()
@@ -132,12 +143,6 @@ void Renderer::process_command_list(CommandList* list)
     list->clear();
 }
 
-void Renderer::set_viewport(sky::Viewport* viewport)
-{
-    viewport_ = viewport;
-    gdi_->set_viewport(viewport);
-}
-
 void Renderer::render_thread_start()
 {
     render_thread_active_ = true;
@@ -195,7 +200,7 @@ void Renderer::set_backend(sky::RendererBackend backend)
     render_thread_start();
 }
 
-RendererBackend Renderer::active_backend()
+RendererBackend Renderer::active_backend() const
 {
     return gdi_->backend();
 }

@@ -21,7 +21,7 @@
 namespace sky {
 
 
-void GLContext::create(Viewport* viewport)
+void GLContext::create(Viewport* view)
 {
 //    auto version = glGetString(GL_VERSION);
 //    printf("OpenGL version: %s\n", version);
@@ -51,7 +51,6 @@ void GLContext::create(Viewport* viewport)
     glcontext_ = static_cast<void*>(context);
 
     [context makeCurrentContext];
-    [context setView:viewport->get_native_handle()->view];
 
     SKY_OBJC_RELEASE(pixel_format);
 }
@@ -84,6 +83,12 @@ void GLContext::set_swap_interval(const int interval)
     GLint sync = interval;
     auto context = (NSOpenGLContext*)glcontext_;
     [context setValues:&sync forParameter:NSOpenGLCPSwapInterval];
+}
+
+void GLContext::set_view(sky::Viewport* view)
+{
+    auto context = (NSOpenGLContext*)glcontext_;
+    [context setView:view->get_native_handle()->view];
 }
 
 

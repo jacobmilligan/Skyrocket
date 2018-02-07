@@ -135,6 +135,8 @@ public:
     /// @param viewport
     virtual void set_viewport(Viewport* viewport);
 
+    virtual void set_clear_color(const Color& color);
+
     inline RendererBackend backend() const
     {
         return backend_;

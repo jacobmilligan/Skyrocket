@@ -11,13 +11,13 @@
 
 #include "Skyrocket/Core/Diagnostics/Error.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
-#include "Skyrocket/Graphics/Color.hpp"
 
 namespace sky {
 
 uint16_t Viewport::open_windows_ = 0;
 
-void Viewport::open(const char* caption, const uint16_t width, const uint16_t height)
+void Viewport::open(const Renderer& renderer, const char* caption, const uint16_t width,
+                    const uint16_t height)
 {
     caption_ = caption;
     width_ = width;
@@ -27,7 +27,7 @@ void Viewport::open(const char* caption, const uint16_t width, const uint16_t he
 
     //SKY_ASSERT(Platform::is_initialized(), "Platform is uninitialized");
 
-    create_native_viewport();
+    create_native_viewport(renderer);
 
     ++open_windows_;
 }

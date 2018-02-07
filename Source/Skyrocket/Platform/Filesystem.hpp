@@ -28,6 +28,8 @@ public:
     explicit Path(const char* path);
     Path(const Path& other);
 
+    Path& operator=(const Path& other);
+
     /// @brief Gets the absolute path to the application binary's directory
     /// @return
     static Path executable_path();
@@ -38,6 +40,8 @@ public:
     /// @brief Appends a string to the end of this path
     /// @param str
     void append(const char* str);
+
+    void set_extension(const char* ext);
 
     /// @brief Removes symlinks etc. from this path
     void make_real();
@@ -73,12 +77,23 @@ public:
     /// @return
     uint32_t size() const;
 
+    inline const char* begin() const
+    {
+        return &path_[0];
+    }
+
+    inline const char* end() const
+    {
+        return &path_[SKY_MAX_PATH];
+    }
+
     bool operator==(const Path& other) const;
     bool operator!=(const Path& other) const;
 private:
     static const char slash_;
 
-    std::vector<char> path_;
+    size_t back_;
+    char path_[SKY_MAX_PATH];
 
     void make_null_terminated();
     int32_t last_slash_pos() const;

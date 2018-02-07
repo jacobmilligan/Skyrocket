@@ -1,0 +1,1 @@
+skyrocket_add_test(PlatformTests PathTests.cpp)

@@ -23,6 +23,8 @@
 #import <Metal/Metal.h>
 #import <QuartzCore/CAMetalLayer.h>
 
+@class MetalView;
+
 namespace sky {
 
 
@@ -38,10 +40,11 @@ public:
 
     bool begin_frame(FrameInfo* frame_info) override;
     bool end_frame(FrameInfo* frame_info) override;
-protected:
 
     void set_viewport(Viewport* viewport) override;
 
+    void set_clear_color(const Color& color) override;
+protected:
     bool create_vertex_buffer(uint32_t vbuf_id, const MemoryBlock& initial_data,
                               BufferUsage usage) override;
 
@@ -114,7 +117,7 @@ private:
 
     dispatch_semaphore_t buf_sem_;
 
-    CAMetalLayer* mtl_layer_;
+    MetalView* current_view_;
 
     HandleTable<MetalBuffer<max_frames_in_flight>, vertex_buffer_max> vertex_buffers_;
     HandleTable<MetalBuffer<max_frames_in_flight>, index_buffer_max> index_buffers_;
@@ -123,8 +126,6 @@ private:
     HandleTable<id<MTLTexture>, texture_max> textures_;
 
     uint32_t buffer_index_{0};
-
-    void setup_pixel_formats();
 };
 
 

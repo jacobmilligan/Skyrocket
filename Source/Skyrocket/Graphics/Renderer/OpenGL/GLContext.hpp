@@ -29,12 +29,13 @@ public:
         destroy();
     }
 
-    void create(Viewport* viewport);
+    void create(Viewport* view);
     void destroy();
     void make_current();
     void set_size(uint32_t width, uint32_t height);
     void swap_buffers();
     void set_swap_interval(int interval);
+    void set_view(Viewport* view);
 
 private:
     void* glcontext_;

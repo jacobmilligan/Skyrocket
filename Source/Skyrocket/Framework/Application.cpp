@@ -33,11 +33,13 @@ void Application::start(const Renderer::ThreadSupport graphics_threading,
     {
         platform.launch(name_, &Application::on_update);
 
-        primary_view.open(name_, 800, 600);
 
-        auto graphics_init_success = renderer.init(renderer_backend, graphics_threading, &primary_view);
+        auto graphics_init_success = renderer.init(graphics_threading, &primary_view, renderer_backend);
 
+        primary_view.open(renderer, name_, 800, 600);
         primary_view.set_backing_color(sky::Color::cornflower_blue);
+
+        renderer.set_viewport(&primary_view);
 
         SKY_ASSERT(graphics_init_success, "Renderer initialized successfully");
 

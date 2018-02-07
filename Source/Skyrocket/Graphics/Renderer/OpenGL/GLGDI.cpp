@@ -40,10 +40,6 @@ bool sky::OpenGLGDI::init(sky::Viewport* viewport)
         } while (err != GL_NO_ERROR);
     }
 
-    SKY_GL_CHECK_ERROR(glViewport(0, 0,
-                                  static_cast<GLsizei>(viewport->size().x),
-                                  static_cast<GLsizei>(viewport->size().y)));
-
     SKY_GL_CHECK_ERROR(glEnable(GL_BLEND));
     SKY_GL_CHECK_ERROR(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
@@ -79,6 +75,10 @@ bool sky::OpenGLGDI::end_frame(sky::FrameInfo* frame_info)
 void sky::OpenGLGDI::set_viewport(sky::Viewport* viewport)
 {
     viewport_ = viewport;
+    context_.set_view(viewport);
+    SKY_GL_CHECK_ERROR(glViewport(0, 0,
+                                  static_cast<GLsizei>(viewport->size().x),
+                                  static_cast<GLsizei>(viewport->size().y)));
 }
 
 bool sky::OpenGLGDI::create_vertex_buffer(uint32_t vbuf_id, const sky::MemoryBlock& initial_data,

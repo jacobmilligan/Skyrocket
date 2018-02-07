@@ -55,8 +55,6 @@ bool MetalGDI::init(Viewport* viewport)
         NSError * err = nil;
         device_ = MTLCreateSystemDefaultDevice();
 
-        set_viewport(viewport);
-
         command_queue_ = [device_ newCommandQueue];
         buf_sem_ = dispatch_semaphore_create(max_frames_in_flight);
 
@@ -131,6 +129,7 @@ fragment float4 default_fragment(Vertex in [[stage_in]])
 
         SKY_OBJC_RELEASE(lib);
     }
+
     return true;
 }
 
@@ -173,7 +172,7 @@ bool MetalGDI::begin_frame(FrameInfo* frame_info)
 
     dispatch_semaphore_wait(buf_sem_, DISPATCH_TIME_FOREVER);
 
-    if ( mtl_layer_ == nil ) {
+    if ( current_view_ == nil ) {
         SKY_ERROR("Drawing", "Could not commit - no Metal layer specified");
         return false;
     }
@@ -190,7 +189,7 @@ bool MetalGDI::begin_frame(FrameInfo* frame_info)
         return false;
     }
 
-    mtldrawable_ = [mtl_layer_ nextDrawable];
+    mtldrawable_ = [current_view_.metalLayer nextDrawable];
     if (mtldrawable_ == nil) {
         SKY_ERROR("Renderer", "Couldn't get next CAMetalDrawable");
         return false;
@@ -245,9 +244,16 @@ bool MetalGDI::end_frame(FrameInfo* frame_info)
 
 void MetalGDI::set_viewport(Viewport* viewport)
 {
-    auto mtl_view = (MetalView*) viewport->get_native_handle()->view;
-    mtl_view.metalLayer.device = device_;
-    mtl_layer_ = mtl_view.metalLayer;
+    current_view_ = (MetalView*) viewport->get_native_handle()->view;
+    current_view_.metalLayer.device = device_;
+}
+
+void MetalGDI::set_clear_color(const Color& color)
+{
+    [current_view_ setBackingColor:((CGFloat) color.r) / 255.0
+                                 g:((CGFloat) color.g) / 255.0
+                                 b:((CGFloat) color.b) / 255.0
+                                 a:((CGFloat) color.a) / 255.0];
 }
 
 bool MetalGDI::create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& initial_data,
@@ -320,7 +326,7 @@ bool MetalGDI::create_program(const uint32_t program_id, const Path& vs_path, co
     NSError* err = nil;
     id<MTLLibrary> lib = nil;
 
-    auto make_function = [&](const Path& path) {
+    auto make_function = [&](const Path& path) -> id<MTLFunction> {
         id<MTLFunction> func = nil;
         auto src = fs::slurp_file(path);
 
@@ -330,10 +336,18 @@ bool MetalGDI::create_program(const uint32_t program_id, const Path& vs_path, co
         if ( lib == nil ) {
             SKY_ERROR("Shader", "Couldn't load metal shader library (see NSError: %s)",
                       [[err localizedDescription] UTF8String]);
-        } else {
-            std::string stem = path.stem();
-            NSString* func_name = [NSString stringWithUTF8String:stem.c_str()];
-            func = [lib newFunctionWithName:func_name];
+            return nil;
+        }
+
+        auto stem = path.stem();
+        NSString* func_name = [NSString stringWithUTF8String:stem];
+        func = [lib newFunctionWithName:func_name];
+
+        if (func == nil) {
+            auto filename = path.filename();
+            SKY_ERROR("Metal", "Couldn't create function from file '%s' with name `%s`. "
+                "The file only contains the following functions: %s",
+                      filename, stem, [[[lib functionNames] description] UTF8String]);
         }
 
         return func;

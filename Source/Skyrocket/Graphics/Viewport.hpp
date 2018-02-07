@@ -39,7 +39,7 @@ public:
     /// @param caption
     /// @param width
     /// @param height
-    void open(const char* caption, uint16_t width, uint16_t height);
+    void open(const Renderer& renderer, const char* caption, uint16_t width, uint16_t height);
 
     /// @brief Closes and destroys the viewport
     void close();
@@ -73,7 +73,7 @@ private:
     std::unique_ptr<NativeHandle> handle_;
     WindowData window_data_;
 
-    void create_native_viewport();
+    void create_native_viewport(const Renderer& renderer);
     void destroy_native_viewport();
 };
 

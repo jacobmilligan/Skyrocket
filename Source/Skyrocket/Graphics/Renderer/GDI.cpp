@@ -313,6 +313,11 @@ void GDI::set_viewport(Viewport*  /*viewport*/)
     // no op
 }
 
+void GDI::set_clear_color(const Color& color)
+{
+    // no op
+}
+
 bool GDI::create_vertex_buffer(const uint32_t  /*vbuf_id*/, const MemoryBlock&  /*initial_data*/,
                                const BufferUsage  /*usage*/)
 {

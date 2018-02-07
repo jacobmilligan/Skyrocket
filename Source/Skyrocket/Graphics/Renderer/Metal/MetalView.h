@@ -11,8 +11,6 @@
 
 #pragma once
 
-#if SKY_GRAPHICS_API_METAL
-
 #include "Skyrocket/Graphics/Apple/CocoaView.h"
 
 #import <Metal/Metal.h>
@@ -22,8 +20,6 @@
 
 @property (readonly, nullable)CAMetalLayer* metalLayer;
 
+-(nullable id<CAMetalDrawable>)nextDrawable;
+
 @end
-
-using view_type_t = MetalView;
-
-#endif // Metal API

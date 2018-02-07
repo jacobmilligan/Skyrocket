@@ -26,41 +26,59 @@ Path::Path()
 
 Path::Path(const char* path)
 {
-    path_ = std::vector<char>(path, path + strlen(path));
-    make_null_terminated();
-    if ( exists() ) {
+    back_ = strlen(path);
+    strcpy(path_, path);
+    if (exists()) {
         make_real();
-        make_null_terminated();
     }
+    make_null_terminated();
 }
 
 Path::Path(const Path& other)
-    : path_(other.path_)
 {
-    make_null_terminated();
-    if ( exists() ) {
-        make_real();
-        make_null_terminated();
+    strcpy(path_, other.path_);
+    back_ = other.back_;
+}
+
+Path& Path::operator=(const Path& other)
+{
+    strcpy(path_, other.path_);
+    back_ = other.back_;
+    return *this;
+}
+
+void Path::set_extension(const char* ext)
+{
+    auto last_dot = last_char_pos('.');
+    auto len = strlen(ext);
+    if (last_dot == -1) {
+        // no extension - append one
+        path_[back_++] = '.';
+        last_dot = last_char_pos('.');
     }
+
+    strncpy(path_ + last_dot + 1, ext, len);
+    back_ += len;
+    make_null_terminated();
 }
 
 void Path::append(const Path& other)
 {
-    append(other.path_.data());
+    append(other.path_);
 }
 
 void Path::append(const char* str)
 {
     auto last_slash = last_slash_pos();
+    auto len = strlen(str);
 
-    if ( path_.back() == '\0' ) {
-        path_.pop_back();
-    }
-    if ( last_slash != path_.size() - 1 ) {
-        path_.push_back(slash_);
+    if (last_slash != back_) {
+        path_[back_++] = slash_;
+        last_slash = last_slash_pos();
     }
 
-    path_.insert(path_.end(), str, &str[strlen(str)]);
+    strncpy(path_ + last_slash + 1, str, len);
+    back_ += len;
 
     make_null_terminated();
     if ( exists() ) {
@@ -71,44 +89,57 @@ void Path::append(const char* str)
 
 const char* Path::filename() const
 {
+    static char temp[SKY_MAX_PATH];
+
     auto last_slash = last_slash_pos();
     if ( last_slash == -1 ) {
-        return path_.data();
+        return path_;
     }
 
-    return std::vector<char>(path_.begin() + last_slash + 1, path_.end()).data();
+    strncpy(temp, path_ + last_slash + 1, back_);
+    temp[back_] = '\0';
+    return temp;
 }
 
 const char* Path::stem() const
 {
+    static char temp[SKY_MAX_PATH];
+
     auto last_dot = last_char_pos('.');
     if ( last_dot == -1 ) {
-        return path_.data();
+        return path_;
     }
 
     auto last_slash = last_slash_pos();
     if ( last_slash == -1 ) {
-        return path_.data();
+        return path_;
     }
 
-    auto result = std::vector<char>(path_.begin() + last_slash + 1, path_.begin() + last_dot);
-    result.push_back('\0');
-    return result.data();
+    strncpy(temp, path_ + last_slash + 1, static_cast<size_t>(last_dot - last_slash - 1));
+    return temp;
 }
 
 const char* Path::parent() const
 {
+    static char temp[SKY_MAX_PATH];
+
     auto last_slash = last_slash_pos();
     if ( last_slash == -1 ) {
-        return path_.data();
+        return path_;
     }
 
-    return std::vector<char>(path_.begin(), path_.begin() + last_slash).data();
+    strncpy(temp, path_, static_cast<size_t>(last_slash));
+    temp[last_slash] = '\0';
+    return temp;
 }
 
 bool Path::operator==(const Path& other) const
 {
-    for ( int i = 0; i < path_.size(); ++i ) {
+    if (back_ != other.back_) {
+        return false;
+    }
+
+    for ( int i = 0; i < back_; ++i ) {
         if ( path_[i] != other.path_[i] ) {
             return false;
         }
@@ -124,7 +155,7 @@ bool Path::operator!=(const Path& other) const
 
 const char* Path::str() const
 {
-    return path_.data();
+    return path_;
 }
 
 Path Path::relative_path(const char* str)
@@ -136,12 +167,12 @@ Path Path::relative_path(const char* str)
 
 uint32_t Path::size() const
 {
-    return static_cast<uint32_t>(path_.size());
+    return static_cast<uint32_t>(back_);
 }
 
 int32_t Path::last_char_pos(const char c) const
 {
-    auto size = static_cast<int32_t>(path_.size()) - 1;
+    auto size = static_cast<int32_t>(back_) - 1;
     for ( int32_t i = size; i > 0; --i ) {
         if ( path_[i] == c ) {
             return i;
@@ -158,8 +189,8 @@ int32_t Path::last_slash_pos() const
 
 void Path::make_null_terminated()
 {
-    if ( path_.size() <= 0 || path_.back() != '\0' ) {
-        path_.push_back('\0');
+    if ( back_ <= 0 || path_[back_] != '\0' ) {
+        path_[back_] = '\0';
     }
 }
 

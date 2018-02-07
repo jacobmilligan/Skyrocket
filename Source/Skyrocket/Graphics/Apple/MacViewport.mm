@@ -16,13 +16,11 @@
 #include "Skyrocket/Graphics/Renderer/Renderer.hpp"
 
 #if SKY_GRAPHICS_API_METAL == 1
-
 #include "Skyrocket/Graphics/Renderer/Metal/MetalView.h"
+#endif
 
-#else
-
-using view_type_t = CocoaView;
-
+#if SKY_GRAPHICS_API_OPENGL == 1
+#include "Skyrocket/Graphics/Renderer/OpenGL/NSGLView.h"
 #endif
 
 namespace sky {
@@ -49,7 +47,7 @@ Viewport::~Viewport()
     close();
 }
 
-void Viewport::create_native_viewport()
+void Viewport::create_native_viewport(const Renderer& renderer)
 {
     handle_ = std::make_unique<NativeHandle>();
 
@@ -57,7 +55,13 @@ void Viewport::create_native_viewport()
     NSRect frame = [window frame];
 
 
-    CocoaView* view = [[[view_type_t alloc] initWithFrame:frame] autorelease];
+    CocoaView* view;
+
+    if (renderer.active_backend() == RendererBackend::Metal) {
+        view = [[[MetalView alloc] initWithFrame:frame] autorelease];
+    } else {
+        view = [[[NSGLView alloc] initWithFrame:frame] autorelease];
+    }
 
     [window setContentView:view];
 

@@ -39,13 +39,13 @@ Path Path::executable_path()
 
 void Path::make_real()
 {
-    auto ptr = realpath(path_.data(), nullptr);
+    auto ptr = realpath(path_, nullptr);
 
     if ( ptr == nullptr ) {
         return;
     }
 
-    path_ = std::vector<char>(ptr, ptr + strlen(ptr));
+    strcpy(path_, ptr);
 
     free(ptr);
 }
@@ -53,7 +53,7 @@ void Path::make_real()
 bool Path::exists() const
 {
     struct stat st{};
-    return stat(path_.data(), &st) == 0;
+    return stat(path_, &st) == 0;
 }
 
 

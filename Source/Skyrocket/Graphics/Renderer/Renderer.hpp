@@ -33,7 +33,8 @@ public:
 
     Renderer();
     ~Renderer();
-    bool init(RendererBackend backend, ThreadSupport threading, Viewport* viewport);
+    bool init(ThreadSupport threading, Viewport* viewport,
+              RendererBackend backend = RendererBackend::unknown);
 
     CommandList make_command_list();
     void submit(CommandList& cmdlist);
@@ -53,11 +54,13 @@ public:
 
     void set_viewport(Viewport* viewport);
 
+    void set_clear_color(const Color& color);
+
     void set_vsync_enabled(bool enabled);
 
     void set_backend(RendererBackend backend);
 
-    RendererBackend active_backend();
+    RendererBackend active_backend() const;
 private:
     static constexpr size_t cmdpool_size_ = 64;
     static constexpr size_t framepool_size_ = 16;

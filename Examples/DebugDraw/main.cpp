@@ -34,17 +34,25 @@ public:
             case sky::RendererBackend::none:break;
             case sky::RendererBackend::Metal:
                 shaders_path_ = shaders_path_.relative_path("MSL");
+                strcpy(vert_extension_, "metal");
+                strcpy(frag_extension_, "metal");
                 break;
             case sky::RendererBackend::OpenGL:
                 shaders_path_ = shaders_path_.relative_path("GLSL");
+                strcpy(vert_extension_, "vert");
+                strcpy(frag_extension_, "frag");
                 break;
             case sky::RendererBackend::D3D9:
             case sky::RendererBackend::D3D11:
             case sky::RendererBackend::D3D12:
                 shaders_path_ = shaders_path_.relative_path("HSL");
+                strcpy(vert_extension_, "hlsl");
+                strcpy(frag_extension_, "hlsl");
                 break;
             case sky::RendererBackend::Vulkan:
                 shaders_path_ = shaders_path_.relative_path("SPIRV");
+                strcpy(vert_extension_, "vert");
+                strcpy(frag_extension_, "frag");
                 break;
             case sky::RendererBackend::last:
                 break;
@@ -56,8 +64,11 @@ public:
                 sizeof(sky::Vertex) * 3, &vertices_
             }, sky::BufferUsage::staticbuf);
 
-            program_ = cmdlist.create_program(shaders_path_.relative_path("basic_vertex.vert"),
-                                              shaders_path_.relative_path("basic_frag.frag"));
+            auto vert = shaders_path_.relative_path("basic_vertex");
+            vert.set_extension(vert_extension_);
+            auto frag = shaders_path_.relative_path("basic_frag");
+            frag.set_extension(frag_extension_);
+            program_ = cmdlist.create_program(vert, frag);
         }
         renderer.submit(cmdlist);
         renderer.commit_frame();
@@ -100,6 +111,9 @@ private:
     sky::Keyboard keyboard_;
     sky::Path root_path_;
     sky::Path shaders_path_;
+
+    char vert_extension_[5];
+    char frag_extension_[5];
 };
 
 int main(int argc, char** argv)
