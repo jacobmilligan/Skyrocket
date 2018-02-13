@@ -9,6 +9,7 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
+#import <Skyrocket/Core/Math.hpp>
 #include "Skyrocket/Core/Hash.hpp"
 #include "Skyrocket/Graphics/Renderer/Metal/MetalGDI.h"
 #include "Skyrocket/Graphics/Renderer/Metal/MetalView.h"
@@ -45,6 +46,8 @@ MetalGDI::~MetalGDI()
 
 bool MetalGDI::init(Viewport* viewport)
 {
+    Matrix::depth = ClipSpaceDepth::zero_to_one;
+
     @autoreleasepool {
 
         render_pipeline_ = nil;
@@ -54,6 +57,8 @@ bool MetalGDI::init(Viewport* viewport)
 
         NSError * err = nil;
         device_ = MTLCreateSystemDefaultDevice();
+
+        current_view_ = viewport;
 
         command_queue_ = [device_ newCommandQueue];
         buf_sem_ = dispatch_semaphore_create(max_frames_in_flight);
@@ -166,15 +171,20 @@ bool MetalGDI::destroy()
 
 bool MetalGDI::begin_frame(FrameInfo* frame_info)
 {
-    if (device_ == nil || buf_sem_ == nil) {
+    if (device_ == nil || buf_sem_ == nil || !current_view_->is_open()) {
         return false;
     }
 
     dispatch_semaphore_wait(buf_sem_, DISPATCH_TIME_FOREVER);
 
-    if ( current_view_ == nil ) {
+    if ( current_view_ == nullptr ) {
         SKY_ERROR("Drawing", "Could not commit - no Metal layer specified");
         return false;
+    }
+
+    auto mtlview = (MetalView*)current_view_->get_native_handle()->view;
+    if (mtlview.metalLayer.device == nil) {
+        ((MetalView*)current_view_->get_native_handle()->view).metalLayer.device = device_;
     }
 
     // Create an
@@ -189,7 +199,7 @@ bool MetalGDI::begin_frame(FrameInfo* frame_info)
         return false;
     }
 
-    mtldrawable_ = [current_view_.metalLayer nextDrawable];
+    mtldrawable_ = [mtlview.metalLayer nextDrawable];
     if (mtldrawable_ == nil) {
         SKY_ERROR("Renderer", "Couldn't get next CAMetalDrawable");
         return false;
@@ -244,16 +254,18 @@ bool MetalGDI::end_frame(FrameInfo* frame_info)
 
 void MetalGDI::set_viewport(Viewport* viewport)
 {
-    current_view_ = (MetalView*) viewport->get_native_handle()->view;
-    current_view_.metalLayer.device = device_;
+    current_view_ = viewport;
+    auto mtlview = (MetalView*)current_view_->get_native_handle()->view;
+    mtlview.metalLayer.device = device_;
+
 }
 
 void MetalGDI::set_clear_color(const Color& color)
 {
-    [current_view_ setBackingColor:((CGFloat) color.r) / 255.0
-                                 g:((CGFloat) color.g) / 255.0
-                                 b:((CGFloat) color.b) / 255.0
-                                 a:((CGFloat) color.a) / 255.0];
+    [current_view_->get_native_handle()->view setBackingColor:((CGFloat) color.r) / 255.0
+                                                            g:((CGFloat) color.g) / 255.0
+                                                            b:((CGFloat) color.b) / 255.0
+                                                            a:((CGFloat) color.a) / 255.0];
 }
 
 bool MetalGDI::create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& initial_data,

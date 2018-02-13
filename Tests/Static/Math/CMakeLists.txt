@@ -11,3 +11,6 @@ if (APPLE)
         target_link_libraries(MetalMatrixTests ${metalkit})
     endif()
 endif ()
+
+skyrocket_add_test(OpenGLMatrixTests OpenGLMatrixTests.cpp)
+target_include_directories(OpenGLMatrixTests PUBLIC ${skyrocket_tests_root}/Static/glm)

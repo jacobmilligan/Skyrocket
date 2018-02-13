@@ -123,7 +123,7 @@ private:
 
     dispatch_semaphore_t buf_sem_;
 
-    MetalView* current_view_;
+    Viewport* current_view_;
 
     HandleTable<MetalBuffer<max_frames_in_flight>, vertex_buffer_max> vertex_buffers_;
     HandleTable<MetalBuffer<max_frames_in_flight>, index_buffer_max> index_buffers_;

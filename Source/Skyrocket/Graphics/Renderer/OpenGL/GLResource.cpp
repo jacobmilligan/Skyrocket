@@ -26,6 +26,31 @@ const char* get_shader_type_string(const GLShaderType type)
     return "unknown shader type";
 }
 
+void GLProgram::get_uniform_info(const uint32_t index, GLUniformInfo* info)
+{
+    info->program = id;
+    info->index = index;
+
+    // Get name and location
+    SKY_GL_CHECK_ERROR(glGetActiveUniformName(id, index, GLUniformInfo::max_name,
+                                              &info->name_len, info->name));
+    SKY_GL_CHECK_ERROR(info->location = glGetUniformLocation(id, info->name));
+
+    GLint type;
+    SKY_GL_CHECK_ERROR(glGetActiveUniformsiv(id, 1, &index, GL_UNIFORM_SIZE, &info->size));
+    SKY_GL_CHECK_ERROR(glGetActiveUniformsiv(id, 1, &index, GL_UNIFORM_TYPE, &type));
+    info->type = gl_translate_uniform_type(type);
+
+    SKY_GL_CHECK_ERROR(glGetActiveUniformsiv(id, 1, &index, GL_UNIFORM_BLOCK_INDEX,
+                                             &info->block_index));
+    SKY_GL_CHECK_ERROR(glGetActiveUniformsiv(id, 1, &index, GL_UNIFORM_OFFSET,
+                                             &info->block_offset));
+    SKY_GL_CHECK_ERROR(glGetActiveUniformsiv(id, 1, &index, GL_UNIFORM_ARRAY_STRIDE,
+                                             &info->array_stride));
+    SKY_GL_CHECK_ERROR(glGetActiveUniformsiv(id, 1, &index, GL_UNIFORM_MATRIX_STRIDE,
+                                             &info->matrix_stride));
+}
+
 bool GLProgram::create(const char* vertex_source, const char* fragment_source)
 {
     GLShader<GLShaderType::vertex> vertex;
@@ -62,26 +87,24 @@ bool GLProgram::create(const char* vertex_source, const char* fragment_source)
     fragment.destroy();
 
     SKY_GL_CHECK_ERROR(glGetProgramiv(id, GL_ACTIVE_UNIFORMS, &num_uniforms));
-    if (num_uniforms > 0) {
-        uniforms = new GLUniformInfo[num_uniforms];
+    SKY_GL_CHECK_ERROR(glGetProgramiv(id, GL_ACTIVE_ATTRIBUTES, &num_attrs));
+
+    if (num_uniforms > 0 || num_attrs > 0) {
+        GLUniformInfo info{};
 
         for (GLuint u = 0; u < num_uniforms; ++u) {
-            uniforms[u].program = id;
-            uniforms[u].location = u;
-            SKY_GL_CHECK_ERROR(glGetActiveUniformName(id, u, GLUniformInfo::max_name,
-                                                      &uniforms[u].name_len, uniforms[u].name));
-            GLint type;
-            SKY_GL_CHECK_ERROR(glGetActiveUniformsiv(id, 1, &u, GL_UNIFORM_TYPE, &type));
-            uniforms[u].type = gl_translate_uniform_type(type);
+            get_uniform_info(u, &info);
+            uniforms.push_back(info);
+        }
 
-            SKY_GL_CHECK_ERROR(glGetActiveUniformsiv(id, 1, &u, GL_UNIFORM_BLOCK_INDEX,
-                                                     &uniforms[u].block_index));
-            SKY_GL_CHECK_ERROR(glGetActiveUniformsiv(id, 1, &u, GL_UNIFORM_OFFSET,
-                                                     &uniforms[u].block_offset));
-            SKY_GL_CHECK_ERROR(glGetActiveUniformsiv(id, 1, &u, GL_UNIFORM_ARRAY_STRIDE,
-                                                     &uniforms[u].array_stride));
-            SKY_GL_CHECK_ERROR(glGetActiveUniformsiv(id, 1, &u, GL_UNIFORM_MATRIX_STRIDE,
-                                                     &uniforms[u].matrix_stride));
+        GLenum type;
+        for (GLuint attr = 0; attr < num_attrs; ++attr) {
+            SKY_GL_CHECK_ERROR(glGetActiveAttrib(id, attr, GLUniformInfo::max_name,
+                                                 &info.name_len, &info.size, &type, info.name));
+            if (strncmp(info.name, "sky_instance__", 14) == 0) {
+                info.type = gl_translate_uniform_type(type);
+                instances.push_back(info);
+            }
         }
     }
 
@@ -93,7 +116,6 @@ void GLProgram::destroy()
     if (id != 0) {
         SKY_GL_CHECK_ERROR(glDeleteShader(id));
         id = 0;
-        delete [] uniforms;
     }
 }
 

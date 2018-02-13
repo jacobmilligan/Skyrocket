@@ -266,21 +266,19 @@ struct Matrix4 : Matrix {
     {
         Matrix4<T> result;
 
-        auto size_x = right - left;
-        auto size_y = top - bottom;
+        auto size_x = static_cast<T>(right - left);
+        auto size_y = static_cast<T>(top - bottom);
         auto zoom_x = static_cast<T>(2) / size_x;
         auto zoom_y = static_cast<T>(2) / size_y;
 
-        auto a = (depth == ClipSpaceDepth::zero_to_one) ? static_cast<T>(1) : static_cast<T>(-2);
-        auto b = (depth == ClipSpaceDepth::zero_to_one) ? -near : -(far + near);
+        auto a = static_cast<T>(1);
 
-        // Width and height
         result.entries[0] = zoom_x;
         result.entries[5] = zoom_y;
         result.entries[10] = a / (far - near);
         result.entries[12] = -(right + left) / size_x;
         result.entries[13] = -(top + bottom) / size_y;
-        result.entries[14] = b / (far - near);
+        result.entries[14] = -near / (far - near);
 
         return result;
     }
@@ -295,14 +293,22 @@ struct Matrix4 : Matrix {
     {
         Matrix4<T> result;
 
+        auto a = (depth == ClipSpaceDepth::zero_to_one) ? -(z_far + z_near) : z_far;
+        auto b = (depth == ClipSpaceDepth::zero_to_one) ? -(static_cast<T>(2) * z_far * z_near)
+                                                        : -(z_far * z_near);
+        auto c = (depth == ClipSpaceDepth::zero_to_one) ? static_cast<T>(-1) : static_cast<T>(1);
+        auto d = (depth == ClipSpaceDepth::zero_to_one) ? static_cast<T>(1) : static_cast<T>(0);
+
         auto y_scale = static_cast<T>(1) / tan(fov_y * 0.5);
 
         result.entries[0] = y_scale / aspect;
         result.entries[5] = y_scale;
 
-        result.entries[10] = -(z_far + z_near) / (z_far - z_near);
-        result.entries[11] = static_cast<T>(-1);
-        result.entries[14] = -(static_cast<T>(2) * z_far * z_near) / (z_far - z_near);
+        result.entries[10] = a / (z_far - z_near);
+        result.entries[11] = c;
+        result.entries[14] = b / (z_far - z_near);
+        result.entries[15] = d;
+
 
         return result;
     }
@@ -321,30 +327,31 @@ struct Matrix4 : Matrix {
         Vector3<T> f(target - eye); // towards center
         f.normalize();
 
-        auto s = f.cross(up);
+        auto s = (depth == ClipSpaceDepth::zero_to_one) ? f.cross(up) : up.cross(f);
         s.normalize();
 
-        auto u = s.cross(f); // pointing up
+        auto u = (depth == ClipSpaceDepth::zero_to_one) ? s.cross(f) : f.cross(s); // pointing up
+
+        auto sign = (depth == ClipSpaceDepth::zero_to_one) ? -1 : 1;
 
         // Up
+        result.entries[0] = (depth == ClipSpaceDepth::zero_to_one) ? static_cast<T>(1) : s.x;
         result.entries[1] = u.x;
+        result.entries[2] = sign * f.x;
+        result.entries[4] = s.y;
         result.entries[5] = u.y;
+        result.entries[6] = sign * f.y;
+        result.entries[8] = s.z;
         result.entries[9] = u.z;
 
-        // Right
-        result.entries[0] = s.x;
-        result.entries[4] = s.y;
-        result.entries[8] = s.z;
 
         // Negative target for rhs
-        result.entries[2] = -f.x;
-        result.entries[6] = -f.y;
-        result.entries[10] = -f.z;
+        result.entries[10] = sign * f.z;
 
         // Calculate translations - always in 4th column
         result.entries[12] = -s.dot(eye); // -position.x
         result.entries[13] = -u.dot(eye); // -position.y
-        result.entries[14] = f.dot(eye); // z for rhs instead of -z
+        result.entries[14] = -sign * f.dot(eye); // z for rhs instead of -z
 
         return result;
     }

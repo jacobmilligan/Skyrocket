@@ -77,6 +77,7 @@ struct RenderState {
 //        uint32_t index;
 //    }
     uint32_t uniform_slots[1024];
+    uint32_t instance_slots[1024];
 };
 
 /// Graphics Device Interface - an interface for executing calls to the currently
@@ -104,6 +105,7 @@ public:
     static constexpr uint16_t uniform_buffer_max = 512;
     static constexpr uint16_t shader_max = 512;
     static constexpr uint16_t texture_max = 512;
+    static constexpr uint16_t instance_buffer_max = 512;
     static constexpr uint16_t max_frames_in_flight = 3;
 
     GDI() = default;
@@ -198,6 +200,12 @@ protected:
     virtual bool set_uniform(uint32_t u_id, uint32_t index);
 
     virtual bool update_uniform(uint32_t u_id, const MemoryBlock& data, uint32_t offset);
+
+    virtual bool create_instance_buffer(uint32_t inst_id, uint32_t stride, uint32_t size);
+
+    virtual bool set_instance_buffer(uint32_t inst_id, uint32_t index);
+
+    virtual bool update_instance_buffer(uint32_t inst_id, uint8_t* data, uint32_t index);
 
     virtual bool create_texture(uint32_t t_id, uint32_t width,
                                 uint32_t height, PixelFormat::Enum pixel_format,

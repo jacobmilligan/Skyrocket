@@ -52,7 +52,7 @@ public:
         common::get_resource_info(renderer.active_backend(), &resinfo_);
 
         renderer.set_vsync_enabled(false);
-        cam_.setup(primary_view.size(), 0.01f, 1000.0f);
+        cam_.setup(primary_view.size(), 0.1f, 1000.0f);
         cam_.set_position({0.0f, 0.0f});
 
         font_.load_from_file(common::get_font(resinfo_, "Go-Regular.ttf"), font_size);
@@ -107,7 +107,7 @@ public:
 
         auto cmdlist = renderer.make_command_list();
 
-        cmdlist.set_state(sky::RenderPipelineState::culling_frontface);
+        cmdlist.set_state(sky::RenderPipelineState::culling_backface);
         cmdlist.update_uniform(viewproj_, sky::MemoryBlock {
             sizeof(sky::Matrix4f), &cam_mat_
         });
@@ -158,6 +158,6 @@ private:
 int main(int argc, const char** argv)
 {
     auto app = std::make_unique<TextApplication>();
-    app->start(sky::Renderer::ThreadSupport::multi_threaded, sky::RendererBackend::OpenGL);
+    app->start(sky::Renderer::ThreadSupport::single_threaded, sky::RendererBackend::OpenGL);
     return 0;
 }

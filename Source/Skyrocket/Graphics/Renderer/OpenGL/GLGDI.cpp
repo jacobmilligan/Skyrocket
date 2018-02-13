@@ -26,7 +26,7 @@ namespace sky {
 
 #if SKY_COMPILER_MSVC != 1
 
-constexpr GLenum OpenGLGDI::gl_pixel_formats_[];
+constexpr OpenGLGDI::GLPixelFormat OpenGLGDI::gl_pixel_formats_[];
 
 #endif
 
@@ -246,18 +246,21 @@ bool OpenGLGDI::set_vertex_buffer(uint32_t vbuf_id)
 
     // TODO (Jacob): needs to be changed once the rest works because resetting attribs each frame is expensive
     // Position
-    SKY_GL_CHECK_ERROR(glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr));
     SKY_GL_CHECK_ERROR(glEnableVertexAttribArray(0));
+    SKY_GL_CHECK_ERROR(glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr));
+    glVertexAttribDivisor(0, 0);
 
     // Color
     auto offset = reinterpret_cast<void*>(4 * sizeof(float));
-    SKY_GL_CHECK_ERROR(glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), offset));
     SKY_GL_CHECK_ERROR(glEnableVertexAttribArray(1));
+    SKY_GL_CHECK_ERROR(glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), offset));
+    glVertexAttribDivisor(1, 0);
 
     // Texture coordinates
     offset = reinterpret_cast<void*>(8 * sizeof(float));
-    SKY_GL_CHECK_ERROR(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), offset));
     SKY_GL_CHECK_ERROR(glEnableVertexAttribArray(2));
+    SKY_GL_CHECK_ERROR(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), offset));
+    glVertexAttribDivisor(2, 0);
 
     return true;
 }
@@ -369,11 +372,57 @@ bool OpenGLGDI::update_uniform(uint32_t u_id, const MemoryBlock& data, uint32_t 
         return false;
     }
 
-    memset(buf->data, 0, buf->size);
     buf->size = data.size;
-    memcpy(buf->data, data.data, buf->size);
+    auto dest = static_cast<uint8_t*>(buf->data);
+    memcpy(dest + offset, data.data, buf->size);
 
     return true;
+}
+
+bool OpenGLGDI::create_instance_buffer(uint32_t inst_id, uint32_t stride, uint32_t size)
+{
+    auto buf = instance_buffers_.create(inst_id);
+    if (buf == nullptr) {
+        return false;
+    }
+
+    buf->bytes = size * stride;
+    buf->data = static_cast<uint8_t*>(malloc(buf->bytes));
+    buf->stride = stride;
+
+    SKY_GL_CHECK_ERROR(glGenBuffers(1, &buf->id));
+    if (buf->id == 0) {
+        return false;
+    }
+
+    SKY_GL_CHECK_ERROR(glBindBuffer(GL_ARRAY_BUFFER, buf->id));
+    SKY_GL_CHECK_ERROR(glBufferData(GL_ARRAY_BUFFER, buf->bytes, buf->data, GL_DYNAMIC_DRAW));
+    SKY_GL_CHECK_ERROR(glBindBuffer(GL_ARRAY_BUFFER, 0));
+
+    return true;
+}
+
+bool OpenGLGDI::update_instance_buffer(uint32_t inst_id, uint8_t* data, uint32_t index)
+{
+    auto buf = instance_buffers_.get(inst_id);
+    if (buf == nullptr) {
+        return false;
+    }
+
+    if (index > buf->bytes / buf->stride) {
+        return false;
+    }
+
+    memcpy(buf->data + (index * buf->stride), data, buf->stride);
+    SKY_GL_CHECK_ERROR(glBindBuffer(GL_ARRAY_BUFFER, buf->id));
+    SKY_GL_CHECK_ERROR(glBufferSubData(GL_ARRAY_BUFFER, index * buf->stride, buf->stride, &buf->data[0]));
+    SKY_GL_CHECK_ERROR(glBindBuffer(GL_ARRAY_BUFFER, 0));
+    return true;
+}
+
+bool OpenGLGDI::set_instance_buffer(uint32_t inst_id, uint32_t index)
+{
+    return GDI::set_instance_buffer(inst_id, index);
 }
 
 bool OpenGLGDI::create_texture(uint32_t t_id, uint32_t width, uint32_t height,
@@ -398,8 +447,8 @@ bool OpenGLGDI::create_texture(uint32_t t_id, uint32_t width, uint32_t height,
 
     // Generate blank texture to be filled with `create_texture_region`
     auto pxlfmt = gl_pixel_formats_[pixel_format];
-    SKY_GL_CHECK_ERROR(glTexImage2D(GL_TEXTURE_2D, 0, pxlfmt, width, height, 0, pxlfmt,
-                                    GL_UNSIGNED_BYTE, nullptr));
+    SKY_GL_CHECK_ERROR(glTexImage2D(GL_TEXTURE_2D, 0, pxlfmt.internal_format, width, height, 0,
+                                    pxlfmt.data_format, GL_UNSIGNED_BYTE, nullptr));
 
     SKY_GL_CHECK_ERROR(glBindTexture(GL_TEXTURE_2D, 0));
     return true;
@@ -413,9 +462,11 @@ bool OpenGLGDI::create_texture_region(uint32_t tex_id, const UIntRect& region,
         return false;
     }
 
+    auto pxlfmt = gl_pixel_formats_[pixel_format];
     SKY_GL_CHECK_ERROR(glBindTexture(GL_TEXTURE_2D, *tex));
     SKY_GL_CHECK_ERROR(glTexSubImage2D(GL_TEXTURE_2D, 0, region.position.x, region.position.y,
-                                       region.width, region.height, GL_RED, GL_UNSIGNED_BYTE, data));
+                                       region.width, region.height, pxlfmt.data_format,
+                                       GL_UNSIGNED_BYTE, data));
     SKY_GL_CHECK_ERROR(glBindTexture(GL_TEXTURE_2D, 0));
     return true;
 }
@@ -455,13 +506,10 @@ bool OpenGLGDI::set_state(uint32_t flags)
     return true;
 }
 
-bool OpenGLGDI::draw()
+bool OpenGLGDI::check_uniform_slots()
 {
-    if (state_.vertex_buffer <= 0) {
-        return false;
-    }
-
     GLProgram* prog = nullptr;
+
     if (state_.program == 0) {
         prog = &default_program_;
     } else {
@@ -472,9 +520,8 @@ bool OpenGLGDI::draw()
         return false;
     }
 
-    for (int u = 0; u < prog->num_uniforms; ++u) {
-        auto& info = prog->uniforms[u];
-        auto handle = state_.uniform_slots[info.location];
+    for (auto& info : prog->uniforms) {
+        auto handle = state_.uniform_slots[info.index];
         auto uniform = uniform_buffers_.get(handle);
         if (handle == 0 || uniform == nullptr) {
             if (info.type == UniformType::tex2d) {
@@ -490,6 +537,19 @@ bool OpenGLGDI::draw()
         set_uniform_data(info.location, *uniform);
     }
 
+    return true;
+}
+
+bool OpenGLGDI::draw()
+{
+    if (state_.vertex_buffer <= 0) {
+        return false;
+    }
+
+    if (!check_uniform_slots()) {
+        return false;
+    }
+
     if (state_.index_buffer > 0) {
         SKY_GL_CHECK_ERROR(
             glDrawElements(GL_TRIANGLES, state_.index_count, GL_UNSIGNED_INT, nullptr)
@@ -503,7 +563,64 @@ bool OpenGLGDI::draw()
 
 bool OpenGLGDI::draw_instanced(uint32_t instance)
 {
-    return GDI::draw_instanced(instance);
+    if (state_.vertex_buffer <= 0) {
+        return false;
+    }
+
+    if (!check_uniform_slots()) {
+        return false;
+    }
+
+    GLProgram* prog = nullptr;
+
+    if (state_.program == 0) {
+        prog = &default_program_;
+    } else {
+        prog = programs_.get(state_.program);
+    }
+
+    if (prog == nullptr) {
+        return false;
+    }
+
+    for (auto& inst : prog->instances) {
+        auto buf = instance_buffers_.get(state_.instance_slots[inst.index]);
+        if (buf == nullptr) {
+            continue;
+        }
+
+        // TODO(Jacob): Make sure it's really obvious that instance buffer elements have to be 16 byte multiples
+        // Below: dirty hack to get OpenGL to play nice with other API's - elements must be
+        // a 16 byte multiple
+        SKY_GL_CHECK_ERROR(glBindBuffer(GL_ARRAY_BUFFER, buf->id));
+
+        auto component_size = static_cast<GLint>(buf->stride) / 16;
+
+        for (int i = 0; i < component_size; ++i) {
+            SKY_GL_CHECK_ERROR(glVertexAttribPointer(static_cast<GLuint>(inst.location) + i,
+                                                     component_size,
+                                                     GL_FLOAT,
+                                                     GL_FALSE,
+                                                     static_cast<GLsizei>(buf->stride),
+                                                     reinterpret_cast<void*>(sizeof(float) * i * component_size)));
+            SKY_GL_CHECK_ERROR(glVertexAttribDivisor(static_cast<GLuint>(inst.location + i), 1));
+            SKY_GL_CHECK_ERROR(glEnableVertexAttribArray(static_cast<GLuint>(inst.location + i)));
+        }
+
+        SKY_GL_CHECK_ERROR(glBindBuffer(GL_ARRAY_BUFFER, state_.vertex_buffer));
+    }
+
+    if (state_.index_buffer > 0) {
+        SKY_GL_CHECK_ERROR(
+            glDrawElementsInstanced(GL_TRIANGLES, state_.index_count, GL_UNSIGNED_INT, nullptr,
+                                    instance)
+        );
+        return true;
+    }
+
+    SKY_GL_CHECK_ERROR(glDrawArraysInstanced(GL_TRIANGLES, state_.vertex_offset,
+                                             state_.vertex_count, instance));
+    return true;
 }
 
 

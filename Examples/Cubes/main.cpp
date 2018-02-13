@@ -150,8 +150,8 @@ public:
         cam_.set_position(sky::Vector3f(5000.0f, 5000.0f, 2000.0f));
         cam_.setup(90.0f, aspect, 0.1f, 20000.0f);
 
-        model_ubuf_ = cmdlist.create_uniform(sky::UniformType::mat4, num_cubes_ * sizeof(sky::Matrix4f));
-        view_proj_ubuf_ = cmdlist.create_uniform(sky::UniformType::mat4, num_cubes_ * sizeof(sky::Matrix4f));
+        model_ubuf_ = cmdlist.create_instance_buffer(sizeof(sky::Matrix4f), num_cubes_);
+        view_proj_ubuf_ = cmdlist.create_uniform(sky::UniformType::mat4, num_cubes_);
 
         // Main loop
         sky::Timespan dt;
@@ -167,7 +167,6 @@ public:
 
         renderer.submit(cmdlist);
         renderer.commit_frame();
-        renderer.set_viewport(&primary_view);
     }
 
     void on_update(const double dt) override
@@ -192,12 +191,15 @@ public:
 
         auto cmdlist = renderer.make_command_list();
 
-        cmdlist.set_state(sky::RenderPipelineState::culling_frontface);
+        cmdlist.set_state(sky::RenderPipelineState::culling_backface);
+        cmdlist.set_program(program_);
+
+        uint32_t modelpos = (renderer.active_backend() == sky::RendererBackend::Metal) ? 1 : 1;
+        uint32_t viewpos = (renderer.active_backend() == sky::RendererBackend::Metal) ? 1 : 0;
 
         cmdlist.set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(vertices_.size()));
-
-        cmdlist.set_uniform(model_ubuf_, 1);
-        cmdlist.set_uniform(view_proj_ubuf_, 2);
+        cmdlist.set_instance_buffer(model_ubuf_, modelpos);
+        cmdlist.set_uniform(view_proj_ubuf_, viewpos);
         cmdlist.set_texture(texture_, 0);
 
         cam_.move(cam_movement * cam_speed_ * static_cast<float>(dt));
@@ -218,7 +220,7 @@ public:
                 &c.get_transform()
             };
 
-            cmdlist.update_uniform(model_ubuf_, mb, cube_index * sizeof(sky::Matrix4f));
+            cmdlist.update_instance_buffer(model_ubuf_, static_cast<uint8_t*>(mb.data), cube_index);
 
             cube_index++;
         }

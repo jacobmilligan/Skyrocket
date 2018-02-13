@@ -286,6 +286,25 @@ void GDI::submit(sky::CommandBuffer* cmdbuf)
                 auto instanceptr = cmdbuf->read_command<uint32_t>();
                 draw_instanced(*instanceptr);
             } break;
+
+            case CommandType::create_instance_buffer:
+            {
+                auto data = cmdbuf->read_command<CreateInstanceBufferData>();
+                create_instance_buffer(data->buf_id, data->stride, data->size);
+            } break;
+
+            case CommandType::update_instance_buffer:
+            {
+                auto data = cmdbuf->read_command<UpdateInstanceBufferData>();
+                update_instance_buffer(data->buf_id, data->data, data->index);
+            } break;
+
+            case CommandType::set_instance_buffer:
+            {
+                auto inst = cmdbuf->read_command<SetInstanceBufferData>();
+                state_.instance_slots[inst->index] = inst->buf_id;
+                set_instance_buffer(inst->buf_id, inst->index);
+            } break;
         }
     }
 }
@@ -419,6 +438,21 @@ bool GDI::set_state(const uint32_t /*flags*/)
 {
     //no op
     return true;
+}
+
+bool GDI::create_instance_buffer(uint32_t inst_id, uint32_t stride, uint32_t size)
+{
+    return true;
+}
+
+bool GDI::update_instance_buffer(uint32_t inst_id, uint8_t* data, uint32_t index)
+{
+    return true;
+}
+
+bool GDI::set_instance_buffer(uint32_t inst_id, uint32_t index)
+{
+    return false;
 }
 
 

@@ -31,6 +31,9 @@ bool Renderer::init(ThreadSupport threading, Viewport* viewport, RendererBackend
     threadsupport_ = threading;
     viewport_ = viewport;
     gdi_ = GDI::create(backend);
+    if (threadsupport_ == ThreadSupport::single_threaded) {
+        gdi_->init(viewport);
+    }
 
     if (threadsupport_ == ThreadSupport::multi_threaded) {
         render_thread_start();
@@ -190,6 +193,9 @@ void Renderer::set_backend(sky::RendererBackend backend)
 {
     render_thread_shutdown();
     gdi_ = GDI::create(backend, gdi_.get());
+    if (threadsupport_ == ThreadSupport::single_threaded) {
+        gdi_->init(viewport_);
+    }
     render_thread_start();
 }
 

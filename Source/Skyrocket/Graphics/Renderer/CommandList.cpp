@@ -151,5 +151,28 @@ void CommandList::draw_instanced(const uint32_t instances)
     buffer->write_command(CommandType::draw_instanced, instances);
 }
 
+uint32_t CommandList::create_instance_buffer(uint32_t stride, uint32_t size)
+{
+    auto handle = make_handle();
+    buffer->write_command(CommandType::create_instance_buffer, CreateInstanceBufferData {
+        handle, stride, size
+    });
+    return handle;
+}
+
+void CommandList::update_instance_buffer(uint32_t id, uint8_t* data, uint32_t index)
+{
+    buffer->write_command(CommandType::update_instance_buffer, UpdateInstanceBufferData {
+        id, data, index
+    });
+}
+
+void CommandList::set_instance_buffer(uint32_t ibuf_id, uint32_t index)
+{
+    buffer->write_command(CommandType::set_instance_buffer, SetInstanceBufferData {
+        ibuf_id, index
+    });
+}
+
 
 } // namespace sky

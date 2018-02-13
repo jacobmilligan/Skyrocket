@@ -31,15 +31,18 @@ enum class CommandType : uint8_t {
     create_index_buffer,
     create_program,
     create_uniform,
+    create_instance_buffer,
     create_texture,
     create_texture_region,
     set_vertex_buffer,
     set_index_buffer,
     set_program,
     set_uniform,
+    set_instance_buffer,
     set_texture,
     update_vertex_buffer,
     update_uniform,
+    update_instance_buffer,
     draw,
     draw_instanced,
     set_state
@@ -94,6 +97,23 @@ struct UpdateUniformData {
     uint32_t uniform_id{0};
     uint32_t offset{0};
     MemoryBlock new_data;
+};
+
+struct CreateInstanceBufferData {
+    uint32_t buf_id{0};
+    uint32_t stride{0};
+    uint32_t size{0};
+};
+
+struct UpdateInstanceBufferData {
+    uint32_t buf_id{0};
+    uint8_t* data{nullptr};
+    uint32_t index{0};
+};
+
+struct SetInstanceBufferData {
+    uint32_t buf_id{0};
+    uint32_t index{0};
 };
 
 struct CreateTextureData {

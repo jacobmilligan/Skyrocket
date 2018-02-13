@@ -190,6 +190,12 @@ public:
     /// @param data
     void update_uniform(uint32_t u_id, const MemoryBlock& data, uint32_t offset = 0);
 
+    uint32_t create_instance_buffer(uint32_t stride, uint32_t size);
+
+    void set_instance_buffer(uint32_t ibuf_id, uint32_t index);
+
+    void update_instance_buffer(uint32_t id, uint8_t* data, uint32_t index);
+
     /// @brief Sends a command to create a new shader
     /// @param vs_path
     /// @return Handle ID to the shader
