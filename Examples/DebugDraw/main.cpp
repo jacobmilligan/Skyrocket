@@ -45,8 +45,6 @@ public:
             primary_view.close();
         }
 
-        printf("Time: %f\n", dt);
-
         auto cmdlist = renderer.make_command_list();
         {
             cmdlist.set_program(program_);

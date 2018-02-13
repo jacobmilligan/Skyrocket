@@ -21,6 +21,11 @@ void CommandList::set_viewport(Viewport* viewport)
     buffer->write_command(CommandType::set_viewport, viewport);
 }
 
+void CommandList::set_clear_color(const sky::Color& color)
+{
+    buffer->write_command(CommandType::set_clear_color, color);
+}
+
 uint32_t CommandList::create_vertex_buffer(const MemoryBlock& initial_data,
                                              const BufferUsage usage)
 {

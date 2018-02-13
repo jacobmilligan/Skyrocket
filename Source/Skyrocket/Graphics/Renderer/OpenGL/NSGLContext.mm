@@ -14,9 +14,9 @@
 #include "Skyrocket/Core/Diagnostics/Error.hpp"
 #include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Graphics/Apple/CocoaView.h"
+#include "Skyrocket/Graphics/Apple/MacViewport.h"
 
 #import <Cocoa/Cocoa.h>
-#import <Skyrocket/Graphics/Apple/MacViewport.h>
 
 namespace sky {
 
@@ -91,6 +91,10 @@ void GLContext::set_view(sky::Viewport* view)
     [context setView:view->get_native_handle()->view];
 }
 
+bool GLContext::has_view() const
+{
+    return [(NSOpenGLContext*) glcontext_ view] != nullptr;
+}
 
 
 }

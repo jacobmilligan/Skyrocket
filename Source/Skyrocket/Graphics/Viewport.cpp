@@ -35,8 +35,8 @@ void Viewport::open(const Renderer& renderer, const char* caption, const uint16_
 
 void Viewport::close()
 {
-    destroy_native_viewport();
     is_open_ = false;
+    destroy_native_viewport();
     --open_windows_;
 }
 

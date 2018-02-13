@@ -36,6 +36,8 @@ public:
     bool init(ThreadSupport threading, Viewport* viewport,
               RendererBackend backend = RendererBackend::unknown);
 
+    bool destroy();
+
     CommandList make_command_list();
     void submit(CommandList& cmdlist);
     void commit_frame();
@@ -52,10 +54,6 @@ public:
         return frame_pool_[frame];
     }
 
-    void set_viewport(Viewport* viewport);
-
-    void set_clear_color(const Color& color);
-
     void set_vsync_enabled(bool enabled);
 
     void set_backend(RendererBackend backend);
@@ -64,6 +62,7 @@ public:
 private:
     static constexpr size_t cmdpool_size_ = 64;
     static constexpr size_t framepool_size_ = 16;
+    static constexpr size_t max_submissions_in_flight_ = GDI::max_frames_in_flight + 1;
 
     struct Submission {
         size_t current_list{0};
@@ -90,7 +89,7 @@ private:
     bool vsync_on_;
     Viewport* viewport_;
 
-    Submission submission_[GDI::max_frames_in_flight];
+    Submission submission_[max_submissions_in_flight_];
     size_t current_submit_{0};
     FixedPoolAllocator cmdpool_;
 
@@ -137,7 +136,7 @@ private:
 
     inline void swap_submit_buffers()
     {
-        current_submit_ = (current_submit_ + 1) % GDI::max_frames_in_flight;
+        current_submit_ = (current_submit_ + 1) % max_submissions_in_flight_;
     }
 
     inline void next_frame_info()

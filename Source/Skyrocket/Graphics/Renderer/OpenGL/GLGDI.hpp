@@ -33,6 +33,7 @@ public:
     bool begin_frame(FrameInfo* frame_info) override;
     bool end_frame(FrameInfo* frame_info) override;
     void set_viewport(Viewport* viewport) override;
+    void set_clear_color(const Color& color) override;
 protected:
     bool create_vertex_buffer(uint32_t vbuf_id, const MemoryBlock& initial_data,
                                       BufferUsage usage) override;

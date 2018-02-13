@@ -169,6 +169,12 @@ void GDI::submit(sky::CommandBuffer* cmdbuf)
                 set_viewport(*view);
             } break;
 
+            case CommandType::set_clear_color:
+            {
+                auto color = cmdbuf->read_command<Color>();
+                set_clear_color(*color);
+            } break;
+
             case CommandType::create_vertex_buffer:
             {
                 auto data = cmdbuf->read_command<CreateVertexBufferData>();

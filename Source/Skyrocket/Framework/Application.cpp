@@ -33,13 +33,9 @@ void Application::start(const Renderer::ThreadSupport graphics_threading,
     {
         platform.launch(name_, &Application::on_update);
 
-
         auto graphics_init_success = renderer.init(graphics_threading, &primary_view, renderer_backend);
 
         primary_view.open(renderer, name_, 800, 600);
-        primary_view.set_backing_color(sky::Color::cornflower_blue);
-
-        renderer.set_viewport(&primary_view);
 
         SKY_ASSERT(graphics_init_success, "Renderer initialized successfully");
 
@@ -55,6 +51,13 @@ void Application::start(const Renderer::ThreadSupport graphics_threading,
 
         active_ = true;
     }
+
+    auto cmdlist = renderer.make_command_list();
+    {
+        cmdlist.set_clear_color(sky::Color::cornflower_blue);
+    }
+    renderer.submit(cmdlist);
+    renderer.commit_frame();
 
     uint64_t elapsed = 0;
 
@@ -83,6 +86,7 @@ void Application::shutdown()
 {
     active_ = false;
     on_shutdown();
+    renderer.destroy();
     jobrocket::shutdown();
 }
 

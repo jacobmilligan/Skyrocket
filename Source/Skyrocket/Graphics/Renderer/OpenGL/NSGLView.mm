@@ -10,7 +10,25 @@
 //
 
 #include "Skyrocket/Graphics/Renderer/OpenGL/NSGLView.h"
-#include "Skyrocket/Graphics/Renderer/OpenGL/GLConfig.hpp"
+#include "Skyrocket/Graphics/Renderer/OpenGL/GLGDI.hpp"
+#include "Skyrocket/Graphics/Viewport.hpp"
+#include "Skyrocket/Graphics/Apple/MacViewport.h"
+
+namespace sky {
+
+
+void OpenGLGDI::set_clear_color(const Color& color)
+{
+    auto view = viewport_->get_native_handle()->view;
+
+    [view setBackingColor:((CGFloat) color.r) / 255.0
+                        g:((CGFloat) color.g) / 255.0
+                        b:((CGFloat) color.b) / 255.0
+                        a:((CGFloat) color.a) / 255.0];
+}
+
+
+}
 
 @implementation NSGLView
 

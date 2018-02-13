@@ -76,14 +76,6 @@ void Viewport::destroy_native_viewport()
     [handle_->view release];
 }
 
-void Viewport::set_backing_color(const sky::Color& color)
-{
-    [handle_->view setBackingColor:((CGFloat) color.r) / 255.0
-                                 g:((CGFloat) color.g) / 255.0
-                                 b:((CGFloat) color.b) / 255.0
-                                 a:((CGFloat) color.a) / 255.0];
-}
-
 NativeHandle* Viewport::get_native_handle()
 {
     return handle_.get();

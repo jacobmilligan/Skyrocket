@@ -52,7 +52,6 @@ public:
         common::get_resource_info(renderer.active_backend(), &resinfo_);
 
         renderer.set_vsync_enabled(false);
-        primary_view.set_backing_color(sky::Color::cornflower_blue);
         cam_.setup(primary_view.size(), 0.01f, 1000.0f);
         cam_.set_position({0.0f, 0.0f});
 
@@ -108,12 +107,11 @@ public:
 
         auto cmdlist = renderer.make_command_list();
 
-        cmdlist.set_state(sky::RenderPipelineState::culling_backface);
+        cmdlist.set_state(sky::RenderPipelineState::culling_frontface);
         cmdlist.update_uniform(viewproj_, sky::MemoryBlock {
             sizeof(sky::Matrix4f), &cam_mat_
         });
 
-        cmdlist.set_program(program_);
         renderer.submit(cmdlist);
 
         tb_.submit(viewproj_);
@@ -137,7 +135,7 @@ public:
 
     void on_shutdown() override
     {
-        renderer.set_backend(sky::RendererBackend::unknown);
+
     }
 
 private:
@@ -160,6 +158,6 @@ private:
 int main(int argc, const char** argv)
 {
     auto app = std::make_unique<TextApplication>();
-    app->start(sky::Renderer::ThreadSupport::single_threaded, sky::RendererBackend::OpenGL);
+    app->start(sky::Renderer::ThreadSupport::multi_threaded, sky::RendererBackend::OpenGL);
     return 0;
 }

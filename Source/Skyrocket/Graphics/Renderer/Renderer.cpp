@@ -15,9 +15,9 @@ namespace sky {
 
 Renderer::Renderer()
     : cmdpool_(sizeof(CommandBuffer), cmdpool_size_),
-      cmdqueue_allocator_(sizeof(MPSCQueue<CommandQueueNode>::Node), GDI::max_frames_in_flight + 1),
+      cmdqueue_allocator_(sizeof(MPSCQueue<CommandQueueNode>::Node), max_submissions_in_flight_),
       cmdqueue_(cmdqueue_allocator_),
-      cmdlist_sem_(GDI::max_frames_in_flight),
+      cmdlist_sem_(max_submissions_in_flight_ - 1),
       vsync_on_(false)
 {}
 
@@ -31,7 +31,6 @@ bool Renderer::init(ThreadSupport threading, Viewport* viewport, RendererBackend
     threadsupport_ = threading;
     viewport_ = viewport;
     gdi_ = GDI::create(backend);
-    gdi_->init(viewport_);
 
     if (threadsupport_ == ThreadSupport::multi_threaded) {
         render_thread_start();
@@ -45,15 +44,10 @@ bool Renderer::init(ThreadSupport threading, Viewport* viewport, RendererBackend
     return true;
 }
 
-void Renderer::set_viewport(Viewport* viewport)
+bool Renderer::destroy()
 {
-    viewport_ = viewport;
-    gdi_->set_viewport(viewport);
-}
-
-void Renderer::set_clear_color(const Color& color)
-{
-    gdi_->set_clear_color(color);
+    render_thread_shutdown();
+    return true;
 }
 
 CommandList Renderer::make_command_list()
@@ -106,7 +100,6 @@ void Renderer::commit_frame()
         current_frame().gdi_end();
 
     } else {
-
         // Multi-threaded or single-threaded with vsync on:
         cmdlist_sem_.wait();
 
@@ -152,6 +145,7 @@ void Renderer::render_thread_start()
 
 void Renderer::render_thread_proc()
 {
+    gdi_->init(viewport_);
     CommandQueueNode node {nullptr, nullptr};
 
     while (render_thread_active_) {
@@ -196,7 +190,6 @@ void Renderer::set_backend(sky::RendererBackend backend)
 {
     render_thread_shutdown();
     gdi_ = GDI::create(backend, gdi_.get());
-    gdi_->init(viewport_);
     render_thread_start();
 }
 

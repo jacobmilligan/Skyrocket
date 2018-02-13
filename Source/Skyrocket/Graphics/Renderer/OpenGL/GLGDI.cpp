@@ -184,12 +184,15 @@ bool OpenGLGDI::destroy()
 
 bool OpenGLGDI::begin_frame(FrameInfo* frame_info)
 {
-    glClear(GL_COLOR_BUFFER_BIT);
-
     if (!viewport_->is_open()) {
         return false;
     }
 
+    if (!context_.has_view()) {
+        context_.set_view(viewport_);
+    }
+
+    SKY_GL_CHECK_ERROR(glClear(GL_COLOR_BUFFER_BIT));
     SKY_GL_CHECK_ERROR(glBindVertexArray(default_vao_));
 
     return true;
@@ -489,7 +492,8 @@ bool OpenGLGDI::draw()
 
     if (state_.index_buffer > 0) {
         SKY_GL_CHECK_ERROR(
-            glDrawElements(GL_TRIANGLES, state_.index_count, GL_UNSIGNED_INT, nullptr));
+            glDrawElements(GL_TRIANGLES, state_.index_count, GL_UNSIGNED_INT, nullptr)
+        );
         return true;
     }
 
@@ -501,5 +505,6 @@ bool OpenGLGDI::draw_instanced(uint32_t instance)
 {
     return GDI::draw_instanced(instance);
 }
+
 
 } // namespace sky

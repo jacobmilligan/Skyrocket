@@ -144,6 +144,8 @@ public:
 
     void set_viewport(Viewport* viewport);
 
+    void set_clear_color(const Color& color);
+
     /// @brief Sends a command to create a new vertex buffer resource
     /// @param initial_data The initial data to copy into the buffer
     /// @param usage

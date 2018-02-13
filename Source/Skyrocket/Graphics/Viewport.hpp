@@ -48,10 +48,6 @@ public:
     /// @return
     static uint16_t open_viewports();
 
-    /// @brief Sets the backing/clear color of the viewport
-    /// @param color
-    void set_backing_color(const Color& color);
-
     /// @brief Checks whether the viewports window requested to close in this frame
     /// @return True if close was requested, false otherwise
     bool close_requested();

@@ -37,6 +37,8 @@ public:
     void set_swap_interval(int interval);
     void set_view(Viewport* view);
 
+    bool has_view() const;
+
 private:
     void* glcontext_;
 };

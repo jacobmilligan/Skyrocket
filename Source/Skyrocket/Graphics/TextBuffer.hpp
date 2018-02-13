@@ -22,13 +22,13 @@ class TextBuffer {
 public:
     static constexpr size_t max_characters = kibibytes(8);
 
-    TextBuffer(Renderer* gd, Font* font)
-        : gd_(gd), font_(font)
+    TextBuffer(Renderer* renderer, Font* font)
+        : renderer_(renderer), font_(font)
     {}
 
     void init()
     {
-        auto cmdlist = gd_->make_command_list();
+        auto cmdlist = renderer_->make_command_list();
         texid_ = cmdlist.create_texture(font_->width(), font_->height(), PixelFormat::Enum::r8);
         for (auto& glyph : *font_) {
             if ( glyph.bounds.width <= 0 || glyph.bounds.height <= 0 || glyph.data == nullptr ) {
@@ -56,7 +56,7 @@ public:
         ibufid_ = cmdlist.create_index_buffer(MemoryBlock {
             static_cast<uint32_t>(sizeof(uint32_t) * max_characters), indices_
         });
-        gd_->submit(cmdlist);
+        renderer_->submit(cmdlist);
     }
 
     void set_text(const char* str, const size_t str_size, const Vector3f& pos)
@@ -99,7 +99,7 @@ public:
 
     void submit(const uint32_t viewprojection_matrix)
     {
-        auto cmdlist = gd_->make_command_list();
+        auto cmdlist = renderer_->make_command_list();
 
         if (needs_updating_) {
             cmdlist.update_vertex_buffer(vbufid_, MemoryBlock {
@@ -109,15 +109,17 @@ public:
         }
 
         if (string_size_ > 0) {
+            uint32_t viewprojpos = (renderer_->active_backend() == RendererBackend::OpenGL) ? 0 : 1;
+
             cmdlist.set_program(programid_);
             cmdlist.set_texture(texid_, 0);
             cmdlist.set_vertex_buffer(vbufid_, 0, num_vertices_);
             cmdlist.set_index_buffer(ibufid_, 0, static_cast<uint32_t>(string_size_ * 6));
-            cmdlist.set_uniform(viewprojection_matrix, 0);
+            cmdlist.set_uniform(viewprojection_matrix, viewprojpos);
             cmdlist.draw();
         }
 
-        gd_->submit(cmdlist);
+        renderer_->submit(cmdlist);
     }
 private:
     static constexpr uint32_t verts_per_char_ = 4;
@@ -133,7 +135,7 @@ private:
     uint32_t texid_{0}, vbufid_{0}, ibufid_{0}, programid_{0};
 
     // Resources used
-    Renderer* gd_;
+    Renderer* renderer_;
     Font* font_;
 
     // Buffers

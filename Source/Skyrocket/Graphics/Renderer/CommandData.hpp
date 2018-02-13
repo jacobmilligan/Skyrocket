@@ -26,6 +26,7 @@ enum class CommandType : uint8_t {
     unknown,
     init,
     set_viewport,
+    set_clear_color,
     create_vertex_buffer,
     create_index_buffer,
     create_program,
