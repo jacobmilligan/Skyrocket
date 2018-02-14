@@ -55,6 +55,7 @@ bool Renderer::destroy()
 
 CommandList Renderer::make_command_list()
 {
+    std::unique_lock<std::mutex> lock(cmdpool_mut_);
     auto cmdbuf = static_cast<CommandBuffer*>(cmdpool_.allocate(0));
 
     while (cmdbuf == nullptr) {
@@ -167,6 +168,8 @@ void Renderer::render_thread_proc()
             if (gdi_->begin_frame(&current_frame())) {
                 for (int c = 0; c < node.submission->current_list; ++c) {
                     process_command_list(&node.submission->lists[c]);
+
+                    std::unique_lock<std::mutex> lock(cmdpool_mut_);
                     cmdpool_.free(node.submission->lists[c].buffer);
                 }
                 gdi_->end_frame(&current_frame());

@@ -158,6 +158,6 @@ private:
 int main(int argc, const char** argv)
 {
     auto app = std::make_unique<TextApplication>();
-    app->start(sky::Renderer::ThreadSupport::single_threaded, sky::RendererBackend::OpenGL);
+    app->start(sky::Renderer::ThreadSupport::multi_threaded, sky::RendererBackend::OpenGL);
     return 0;
 }

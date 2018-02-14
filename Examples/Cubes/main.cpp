@@ -213,7 +213,7 @@ public:
         uint32_t cube_index = 0;
 
         for ( auto& c : cubes ) {
-//            c.angle += dist(rand_gen) * dt * 0.1;
+            c.angle += dist(rand_gen) * dt * 0.1;
 
             sky::MemoryBlock mb {
                 sizeof(sky::Matrix4f),
@@ -260,7 +260,7 @@ private:
 int main(int argc, char** argv)
 {
     auto app = std::make_unique<CubeApp>();
-    app->start(sky::Renderer::ThreadSupport::single_threaded, sky::RendererBackend::OpenGL);
+    app->start(sky::Renderer::ThreadSupport::multi_threaded, sky::RendererBackend::Metal);
 
     return 0;
 }

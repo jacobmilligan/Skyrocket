@@ -12,6 +12,7 @@
 #include "Skyrocket/Platform/macOS/CocoaWindow.h"
 #include "MetalView.h"
 
+#import <QuartzCore/QuartzCore.h>
 
 @implementation MetalView
 
@@ -45,10 +46,11 @@
                      b:(CGFloat)b
                      a:(CGFloat)a
 {
-    [super setBackingColor:r g:g b:b a:a];
-
     CGFloat bgColor[] = {r, g, b, a};
+
+    [CATransaction begin];
     _metalLayer.backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), bgColor);
+    [CATransaction commit];
 }
 
 @end

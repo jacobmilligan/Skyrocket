@@ -60,7 +60,7 @@ public:
 
     RendererBackend active_backend() const;
 private:
-    static constexpr size_t cmdpool_size_ = 64;
+    static constexpr size_t cmdpool_size_ = 12;
     static constexpr size_t framepool_size_ = 16;
     static constexpr size_t max_submissions_in_flight_ = GDI::max_frames_in_flight + 1;
 
@@ -105,6 +105,7 @@ private:
     std::condition_variable vsync_cv_;
 
     // Render thread properties/methods
+    std::mutex cmdpool_mut_;
     Semaphore cmdlist_sem_;
     ThreadSupport threadsupport_;
     std::condition_variable render_thread_cv_;

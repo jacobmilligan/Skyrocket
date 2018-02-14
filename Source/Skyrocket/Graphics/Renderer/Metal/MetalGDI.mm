@@ -142,6 +142,7 @@ bool MetalGDI::destroy()
 {
     if (pool_) {
         [pool_ drain];
+        pool_ = nil;
     }
 
     for (auto& p : programs_) {
