@@ -39,6 +39,10 @@ Path Path::executable_path()
 
 void Path::make_real()
 {
+    if (!exists()) {
+        return;
+    }
+
     auto ptr = realpath(path_, nullptr);
 
     if ( ptr == nullptr ) {

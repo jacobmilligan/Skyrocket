@@ -57,7 +57,7 @@ public:
     /// @brief Gets the absolute parent directory of the filename component, i.e. given
     /// `/usr/local/bin/ls` this function would return `bin`
     /// @return
-    const char* parent() const;
+    Path parent() const;
 
     /// @brief Gets the filename component of the path without the extension, i.e. given `File.txt`
     /// this function would return `File`

@@ -119,18 +119,18 @@ const char* Path::stem() const
     return temp;
 }
 
-const char* Path::parent() const
+Path Path::parent() const
 {
     static char temp[SKY_MAX_PATH];
 
     auto last_slash = last_slash_pos();
     if ( last_slash == -1 ) {
-        return path_;
+        return *this;
     }
 
     strncpy(temp, path_, static_cast<size_t>(last_slash));
     temp[last_slash] = '\0';
-    return temp;
+    return Path(temp);
 }
 
 bool Path::operator==(const Path& other) const
