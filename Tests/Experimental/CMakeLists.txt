@@ -1,2 +1,2 @@
-add_executable(Experimental Experimental.cpp)
-target_link_libraries(Experimental Skyrocket)
+add_executable(GLInstancing GLInstancing.cpp)
+target_link_libraries(GLInstancing Skyrocket)
