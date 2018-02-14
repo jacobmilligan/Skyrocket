@@ -31,7 +31,7 @@ void Application::start(const Renderer::ThreadSupport graphics_threading,
 {
     AssertGuard ag("Application is starting", name_);
     {
-        platform.launch(name_, &Application::on_update);
+        platform.launch(name_);
 
         auto graphics_init_success = renderer.init(graphics_threading, &primary_view, renderer_backend);
 

@@ -142,6 +142,7 @@ std::unique_ptr<GDI> GDI::create(const RendererBackend backend, GDI* copy) noexc
 void GDI::submit(sky::CommandBuffer* cmdbuf)
 {
     CommandType* typeptr = nullptr;
+    state_.reset();
 
     while (cmdbuf->cursor() <= cmdbuf->size()) {
 

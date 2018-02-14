@@ -38,9 +38,9 @@ enum class UniformType {
 };
 
 enum RenderPipelineState {
-    culling_none = 0x0,
-    culling_backface,
-    culling_frontface
+    culling_none = 0x1,
+    culling_backface = 0x2,
+    culling_frontface = 0x4
 };
 
 struct PixelFormat {

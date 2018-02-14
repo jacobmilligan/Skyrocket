@@ -402,6 +402,12 @@ SKY_FORCE_INLINE Vector3<T> operator*(const Vector3<T>& vec, const T& scalar)
     );
 }
 
+template<typename T>
+SKY_FORCE_INLINE Vector3<T> operator*(const T& scalar, const Vector3<T>& vec)
+{
+    return vec * scalar;
+}
+
 /// @brief Unary operator- overload (negation)
 /// @tparam T Data type of the Vector3's elements
 /// @param vec The vector to negate

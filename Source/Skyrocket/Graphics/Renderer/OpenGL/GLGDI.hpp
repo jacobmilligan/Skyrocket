@@ -68,6 +68,7 @@ private:
     struct GLPixelFormat {
         GLenum internal_format;
         GLenum data_format;
+        size_t bytes;
     };
 
     static constexpr GLPixelFormat gl_pixel_formats_[] = {

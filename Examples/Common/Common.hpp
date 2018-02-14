@@ -24,7 +24,7 @@ struct ResourceInfo {
 
 void get_resource_info(const sky::RendererBackend backend, ResourceInfo* info)
 {
-    info->root_directory = sky::Path::executable_path().relative_path("../../../../Examples/Resources");
+    info->root_directory = sky::Path::executable_path().parent().parent().parent().parent().parent().relative_path("Examples").relative_path("Resources");
     if ( sky::target_platform == sky::OS::macos ) {
         info->root_directory = sky::Path("/Users/Jacob/Dev/Repos/Skyrocket/Examples/Resources");
     }

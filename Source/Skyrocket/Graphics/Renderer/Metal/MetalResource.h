@@ -39,6 +39,7 @@ public:
 
     void init(id <MTLDevice> device, void* data, const uint32_t length, const sky::BufferUsage usage)
     {
+        length_ = length;
         usage_ = usage;
         if ( data == nullptr ) {
             buf_[current_] = [device newBufferWithLength:length
@@ -50,7 +51,7 @@ public:
         }
     }
 
-    void update(id <MTLDevice> device, void* data, const uint32_t size)
+    void update(id <MTLDevice> device, void* data, const uint32_t size, const uint32_t offset = 0)
     {
         switch (usage_) {
             case BufferUsage::none:break;
@@ -59,9 +60,10 @@ public:
             {
                 SKY_OBJC_RELEASE(buf_[current_]);
                 buf_[current_] = [device newBufferWithBytes:data
-                                                     length:size
+                                                     length:length_
                                                     options:MTLResourceCPUCacheModeDefaultCache];
-                memcpy([buf_[current_] contents], data, size);
+                auto contents = static_cast<uint8_t*>([buf_[current_] contents]);
+                memcpy(contents + offset, data, size);
             } break;
 
             case BufferUsage::dynamic:
@@ -70,10 +72,11 @@ public:
 
                 if (!buf_[current_]) {
                     buf_[current_] = [device newBufferWithBytes:data
-                                                         length:size
+                                                         length:length_
                                                         options:MTLResourceCPUCacheModeDefaultCache];
                 } else {
-                    memcpy([buf_[current_] contents], data, size);
+                    auto contents = static_cast<uint8_t*>([buf_[current_] contents]);
+                    memcpy(contents + offset, data, size);
                 }
             } break;
         }
@@ -86,6 +89,7 @@ public:
 
 private:
     id<MTLBuffer> buf_[Size]{};
+    uint32_t length_;
     uint16_t current_;
     BufferUsage usage_;
 
@@ -93,6 +97,12 @@ private:
     {
         current_ = static_cast<uint16_t>((current_ + 1) % Size);
     }
+};
+
+template <uint16_t Size>
+struct MetalInstanceBuffer {
+    uint32_t stride;
+    MetalBuffer<Size> buffer;
 };
 
 class MetalProgram {

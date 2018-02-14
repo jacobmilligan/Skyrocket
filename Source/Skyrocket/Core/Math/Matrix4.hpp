@@ -324,34 +324,28 @@ struct Matrix4 : Matrix {
     {
         Matrix4<T> result;
 
-        Vector3<T> f(target - eye); // towards center
-        f.normalize();
+        auto center = (depth == ClipSpaceDepth::zero_to_one) ? eye - target : target - eye;
+        auto sign = (depth == ClipSpaceDepth::zero_to_one) ? static_cast<T>(1) : static_cast<T>(-1);
 
-        auto s = (depth == ClipSpaceDepth::zero_to_one) ? f.cross(up) : up.cross(f);
-        s.normalize();
-
-        auto u = (depth == ClipSpaceDepth::zero_to_one) ? s.cross(f) : f.cross(s); // pointing up
-
-        auto sign = (depth == ClipSpaceDepth::zero_to_one) ? -1 : 1;
+        auto zaxis = center.get_normalized();
+        auto xaxis = (sign * up).cross(zaxis).get_normalized();
+        auto yaxis = (sign * zaxis).cross(xaxis); // pointing up
 
         // Up
-        result.entries[0] = (depth == ClipSpaceDepth::zero_to_one) ? static_cast<T>(1) : s.x;
-        result.entries[1] = u.x;
-        result.entries[2] = sign * f.x;
-        result.entries[4] = s.y;
-        result.entries[5] = u.y;
-        result.entries[6] = sign * f.y;
-        result.entries[8] = s.z;
-        result.entries[9] = u.z;
-
-
-        // Negative target for rhs
-        result.entries[10] = sign * f.z;
+        result.entries[0] = xaxis.x; // xaxis.x
+        result.entries[1] = yaxis.x; // xaxis.y
+        result.entries[2] = zaxis.x; // xaxis.z
+        result.entries[4] = xaxis.y; // yaxis.x
+        result.entries[5] = yaxis.y; // yaxis.y
+        result.entries[6] = zaxis.y; // yaxis.z
+        result.entries[8] = xaxis.z; // zaxis.x
+        result.entries[9] = yaxis.z; // zaxis.y
+        result.entries[10] = zaxis.z; // zaxis.z
 
         // Calculate translations - always in 4th column
-        result.entries[12] = -s.dot(eye); // -position.x
-        result.entries[13] = -u.dot(eye); // -position.y
-        result.entries[14] = -sign * f.dot(eye); // z for rhs instead of -z
+        result.entries[12] = -xaxis.dot(eye); // -position.x
+        result.entries[13] = -yaxis.dot(eye); // -position.y
+        result.entries[14] = -zaxis.dot(eye); // z for rhs instead of -z
 
         return result;
     }

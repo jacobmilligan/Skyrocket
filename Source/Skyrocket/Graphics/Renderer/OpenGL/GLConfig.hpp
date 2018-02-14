@@ -43,7 +43,7 @@ inline const char* gl_get_enum_name(GLenum glenum)
     return "Unknown GLenum value";
 }
 
-#define SKY_GL_CHECK_ERROR(fn) \
+#define SKY_GL_CHECK(fn) \
     SKY_BEGIN_MACRO_BLOCK \
         fn; \
         GLenum err = glGetError(); \

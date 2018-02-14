@@ -25,12 +25,12 @@ bool GLShader<T>::create(const char* source)
         return false;
     }
 
-    SKY_GL_CHECK_ERROR(glShaderSource(id, 1, &source, NULL));
+    SKY_GL_CHECK(glShaderSource(id, 1, &source, NULL));
 
-    SKY_GL_CHECK_ERROR(glCompileShader(id));
+    SKY_GL_CHECK(glCompileShader(id));
 
     GLint success;
-    SKY_GL_CHECK_ERROR(glGetShaderiv(id, GL_COMPILE_STATUS, &success));
+    SKY_GL_CHECK(glGetShaderiv(id, GL_COMPILE_STATUS, &success));
     if (!success) {
         const size_t log_size = 512;
         GLchar info_log[log_size];
@@ -46,7 +46,7 @@ template <GLShaderType T>
 void GLShader<T>::destroy()
 {
     if (id != 0) {
-        SKY_GL_CHECK_ERROR(glDeleteShader(id));
+        SKY_GL_CHECK(glDeleteShader(id));
         id = 0;
     }
 }

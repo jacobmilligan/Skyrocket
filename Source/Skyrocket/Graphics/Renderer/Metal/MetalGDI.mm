@@ -217,9 +217,9 @@ bool MetalGDI::begin_frame(FrameInfo* frame_info)
     }
 
     [render_encoder_ setRenderPipelineState:render_pipeline_];
-
     [render_encoder_ setDepthStencilState:depth_stencil_state_];
     [render_encoder_ setCullMode:MTLCullModeBack];
+    [render_encoder_ setFrontFacingWinding:MTLWindingCounterClockwise];
 
     return true;
 }
@@ -546,6 +546,50 @@ bool MetalGDI::draw_instanced(const uint32_t instance)
                           instanceCount:instance];
     }
 
+    return true;
+}
+
+bool MetalGDI::create_instance_buffer(uint32_t inst_id, uint32_t stride, uint32_t size)
+{
+    auto buf = instance_buffers_.create(inst_id);
+
+    if ( buf == nullptr ) {
+        SKY_ERROR("Instance", "Could not create a new instance buffer with id %" PRIu32, inst_id);
+        return false;
+    }
+
+    buf->stride = stride;
+    buf->buffer.init(device_, nullptr, stride * size, BufferUsage::dynamic);
+
+    return true;
+}
+
+bool MetalGDI::update_instance_buffer(uint32_t inst_id, uint8_t* data, uint32_t index)
+{
+    auto buf = instance_buffers_.get(inst_id);
+
+    if ( buf == nullptr ) {
+        SKY_ERROR("Instance", "Invalid instance buffer specified with ID of %" PRIu32, inst_id);
+        return false;
+    }
+
+    buf->buffer.update(device_, data, buf->stride, index * buf->stride);
+
+    return true;
+}
+
+bool MetalGDI::set_instance_buffer(uint32_t inst_id, uint32_t index)
+{
+    auto buf = instance_buffers_.get(inst_id);
+
+    if ( buf == nullptr ) {
+        SKY_ERROR("Instance", "Invalid instance buffer specified with ID of %" PRIu32, inst_id);
+        return false;
+    }
+
+    [render_encoder_ setVertexBuffer:buf->buffer.raw_buffer()
+                              offset:0
+                             atIndex:index];
     return true;
 }
 

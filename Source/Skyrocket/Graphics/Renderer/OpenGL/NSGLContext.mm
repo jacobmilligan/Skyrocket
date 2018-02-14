@@ -21,7 +21,7 @@
 namespace sky {
 
 
-void GLContext::create(Viewport* view)
+void GLContext::create()
 {
 //    auto version = glGetString(GL_VERSION);
 //    printf("OpenGL version: %s\n", version);

@@ -24,7 +24,7 @@ struct alignas(16) Vertex {
 
     Vertex(const float x, const float y, const float z, const float w,
            const float r, const float g, const float b, const float a,
-           const float s, const float t)
+           const float s, const float t) noexcept
     {
         position[0] = x;
         position[1] = y;

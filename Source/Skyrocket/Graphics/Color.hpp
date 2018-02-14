@@ -22,7 +22,7 @@ struct Color {
     /// @param cb The blue component
     /// @param ca The alpha component
     Color(const uint8_t cr, const uint8_t cg, const uint8_t cb,
-          const uint8_t ca)
+          const uint8_t ca) noexcept
         :
         r(cr), g(cg), b(cb), a(ca)
     {}
@@ -32,7 +32,7 @@ struct Color {
     /// @param cr The red component
     /// @param cg The green component
     /// @param cb The blue component
-    Color(const uint8_t cr, const uint8_t cg, const uint8_t cb)
+    Color(const uint8_t cr, const uint8_t cg, const uint8_t cb) noexcept
         :
         r(cr), g(cg), b(cb), a(255)
     {}
@@ -45,7 +45,7 @@ struct Color {
 
     /// @brief Copy constructor
     /// @param other The other color
-    Color(const Color& other)
+    Color(const Color& other) noexcept
     {
         r = other.r;
         g = other.g;

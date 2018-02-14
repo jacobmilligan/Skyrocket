@@ -29,7 +29,7 @@ public:
         destroy();
     }
 
-    void create(Viewport* view);
+    void create();
     void destroy();
     void make_current();
     void set_size(uint32_t width, uint32_t height);

@@ -72,7 +72,7 @@ public:
     void on_startup(int argc, const char** argv) override
     {
         common::get_resource_info(renderer.active_backend(), &resinfo_);
-        renderer.set_vsync_enabled(false);
+        renderer.set_vsync_enabled(true);
         auto cmdlist = renderer.make_command_list();
 
         auto vert_path = common::get_vertex_shader(resinfo_, "basic_texture_vert");
@@ -194,8 +194,8 @@ public:
         cmdlist.set_state(sky::RenderPipelineState::culling_backface);
         cmdlist.set_program(program_);
 
-        uint32_t modelpos = (renderer.active_backend() == sky::RendererBackend::Metal) ? 1 : 1;
-        uint32_t viewpos = (renderer.active_backend() == sky::RendererBackend::Metal) ? 1 : 0;
+        uint32_t modelpos = (renderer.active_backend() == sky::RendererBackend::Metal) ? 1 : 3;
+        uint32_t viewpos = (renderer.active_backend() == sky::RendererBackend::Metal) ? 2 : 0;
 
         cmdlist.set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(vertices_.size()));
         cmdlist.set_instance_buffer(model_ubuf_, modelpos);
@@ -213,7 +213,7 @@ public:
         uint32_t cube_index = 0;
 
         for ( auto& c : cubes ) {
-            c.angle += dist(rand_gen) * dt * 0.1;
+//            c.angle += dist(rand_gen) * dt * 0.1;
 
             sky::MemoryBlock mb {
                 sizeof(sky::Matrix4f),

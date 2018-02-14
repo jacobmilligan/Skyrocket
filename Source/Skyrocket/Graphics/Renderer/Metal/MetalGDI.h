@@ -80,6 +80,9 @@ protected:
     bool draw_instanced(uint32_t instance) override;
 
     bool set_state(uint32_t flags) override;
+    bool create_instance_buffer(uint32_t inst_id, uint32_t stride, uint32_t size) override;
+    bool update_instance_buffer(uint32_t inst_id, uint8_t* data, uint32_t index) override;
+    bool set_instance_buffer(uint32_t inst_id, uint32_t index) override;
 private:
     static constexpr uint8_t lib_max_ = 8;
 
@@ -128,6 +131,7 @@ private:
     HandleTable<MetalBuffer<max_frames_in_flight>, vertex_buffer_max> vertex_buffers_;
     HandleTable<MetalBuffer<max_frames_in_flight>, index_buffer_max> index_buffers_;
     HandleTable<MetalBuffer<max_frames_in_flight>, uniform_buffer_max> uniform_buffers_;
+    HandleTable<MetalInstanceBuffer<max_frames_in_flight>, instance_buffer_max> instance_buffers_;
     HandleTable<MetalProgram, shader_max> programs_;
     HandleTable<id<MTLTexture>, texture_max> textures_;
 
