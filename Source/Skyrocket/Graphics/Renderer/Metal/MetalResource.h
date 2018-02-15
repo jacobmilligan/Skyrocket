@@ -82,7 +82,7 @@ public:
         if (usage_ == BufferUsage::staticbuf) {
             memset(contents, 0, length_);
         }
-        
+
         memcpy(contents + offset, data, size);
         [buf_[current_] didModifyRange:NSMakeRange(offset, offset + size)];
     }

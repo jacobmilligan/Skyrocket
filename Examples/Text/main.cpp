@@ -51,7 +51,7 @@ public:
     {
         common::get_resource_info(renderer.active_backend(), &resinfo_);
 
-        renderer.set_vsync_enabled(false);
+        renderer.set_vsync_enabled(true);
         cam_.setup(primary_view.size(), 0.1f, 1000.0f);
         cam_.set_position({0.0f, 0.0f});
 
