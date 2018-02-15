@@ -15,9 +15,7 @@ namespace sky {
 
 Renderer::Renderer()
     : cmdpool_(sizeof(CommandBuffer), cmdpool_size_),
-      cmdqueue_allocator_(sizeof(MPSCQueue<CommandQueueNode>::Node), max_submissions_in_flight_),
-      cmdqueue_(cmdqueue_allocator_),
-      cmdlist_sem_(max_submissions_in_flight_ - 1),
+      cmdlist_sem_(max_submissions_in_flight_),
       vsync_on_(false)
 {}
 
@@ -104,9 +102,6 @@ void Renderer::commit_frame()
         current_frame().gdi_end();
 
     } else {
-        // Multi-threaded or single-threaded with vsync on:
-        cmdlist_sem_.wait();
-
         // Commands must be queued even for single-threaded as vsync on certain platforms uses a
         // separate thread
         cmdqueue_.push({ submission, &current_frame() });
@@ -114,9 +109,10 @@ void Renderer::commit_frame()
         swap_submit_buffers();
 
         // Notify render thread without vsyncs help if off
-        if (!vsync_on_) {
-            render_thread_notify();
-        }
+        render_thread_notify();
+
+        // Multi-threaded or single-threaded with vsync on:
+        cmdlist_sem_.wait();
     }
 
     submission_[current_submit_].reset();
@@ -153,7 +149,7 @@ void Renderer::render_thread_proc()
     CommandQueueNode node {nullptr, nullptr};
 
     while (render_thread_active_) {
-        if (cmdqueue_allocator_.blocks_initialized() <= 0) {
+        if (cmdqueue_.size_approx() <= 0) {
             std::unique_lock<std::mutex> lock(render_thread_mutex_);
             render_thread_cv_.wait(lock, [&]() {
                 return render_thread_notified_;
@@ -164,6 +160,11 @@ void Renderer::render_thread_proc()
 
         while (cmdqueue_.pop(node)) {
             node.frame->gdi_begin();
+
+            if (vsync_on_) {
+                std::unique_lock<std::mutex> lock(vsync_mutex_);
+                vsync_cv_.wait(lock);
+            }
 
             if (gdi_->begin_frame(&current_frame())) {
                 for (int c = 0; c < node.submission->current_list; ++c) {

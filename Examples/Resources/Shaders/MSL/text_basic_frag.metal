@@ -12,7 +12,7 @@ struct Vertex {
 fragment half4 text_basic_frag(Vertex in [[stage_in]],
                                texture2d<half> texture [[texture(0)]])
 {
-    constexpr sampler s(filter::linear);
+    constexpr sampler s;
     const half tex_sample = texture.sample(s, in.tex_coords).r;
     
 //    return tex_sample;

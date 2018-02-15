@@ -44,10 +44,10 @@ public:
 
     inline uint32_t frames_queued() const
     {
-        return cmdqueue_allocator_.blocks_initialized();
+        return cmdqueue_.size_approx();
     }
 
-    inline const FrameInfo& get_frame_info(const size_t offset) const
+    inline const FrameInfo& get_frame_info(const uint32_t offset) const
     {
         SKY_ASSERT(offset < 16, "Offset is less than the number of available frames for inspection");
         auto frame = (current_frame_ - offset) & (framepool_size_ - 1);
@@ -60,12 +60,12 @@ public:
 
     RendererBackend active_backend() const;
 private:
-    static constexpr size_t cmdpool_size_ = 12;
-    static constexpr size_t framepool_size_ = 16;
-    static constexpr size_t max_submissions_in_flight_ = GDI::max_frames_in_flight + 1;
+    static constexpr uint32_t cmdpool_size_ = 64;
+    static constexpr uint32_t framepool_size_ = 16;
+    static constexpr uint32_t max_submissions_in_flight_ = GDI::max_frames_in_flight + 1;
 
     struct Submission {
-        size_t current_list{0};
+        uint32_t current_list{0};
         CommandList lists[cmdpool_size_]{};
 
         void reset()
@@ -90,15 +90,14 @@ private:
     Viewport* viewport_;
 
     Submission submission_[max_submissions_in_flight_];
-    size_t current_submit_{0};
+    uint32_t current_submit_{0};
     FixedPoolAllocator cmdpool_;
 
-    FixedPoolAllocator cmdqueue_allocator_;
-    MPSCQueue<CommandQueueNode> cmdqueue_;
+    MPSCQueue<CommandQueueNode, max_submissions_in_flight_ > cmdqueue_;
 
     // Frame properties
     uint64_t num_frames_{0};
-    size_t current_frame_{0};
+    uint32_t current_frame_{0};
     FrameInfo frame_pool_[framepool_size_];
 
     std::mutex vsync_mutex_;

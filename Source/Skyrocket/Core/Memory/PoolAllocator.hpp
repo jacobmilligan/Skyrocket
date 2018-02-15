@@ -82,6 +82,7 @@ public:
 
         uint8_t* block = next_;
         next_ = reinterpret_cast<uint8_t**>(next_)[0];
+        memset(block, 0, block_size_);
         return block;
     }
 
@@ -118,9 +119,9 @@ public:
         blocks_initialized_ = 0;
 
         uint8_t* ptr = &memory_[0];
-        uint8_t* end = &memory_[block_size_ * max_blocks_];
-        while ( ptr < end ) {
-            reinterpret_cast<uint8_t**>(ptr)[0] = ptr + block_size_;
+        uint8_t* last = &memory_[block_size_ * max_blocks_];
+        while ( ptr < last ) {
+            new (ptr) uint8_t*(ptr + block_size_);
 
             ptr += block_size_;
         }

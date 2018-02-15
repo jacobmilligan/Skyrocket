@@ -51,6 +51,7 @@
     [CATransaction begin];
     _metalLayer.backgroundColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), bgColor);
     [CATransaction commit];
+    [CATransaction flush];
 }
 
 @end

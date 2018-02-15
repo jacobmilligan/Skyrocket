@@ -203,7 +203,10 @@ bool OpenGLGDI::begin_frame(FrameInfo* frame_info)
 bool OpenGLGDI::end_frame(FrameInfo* frame_info)
 {
     SKY_GL_CHECK(glBindVertexArray(0));
+    frame_info->cpu_end();
+    frame_info->gpu_start();
     context_.swap_buffers();
+    frame_info->gpu_end();
     return true;
 }
 

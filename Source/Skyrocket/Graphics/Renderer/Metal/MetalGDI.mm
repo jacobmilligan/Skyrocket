@@ -467,7 +467,8 @@ bool MetalGDI::create_texture_region(const uint32_t tex_id, const UIntRect& regi
     auto bytes_per_pixel = PixelFormat::bytes_per_pixel(pixel_format);
     auto tex = textures_.get(tex_id);
     auto bpr = bytes_per_pixel * region.width;
-    MTLRegion mtl_region = MTLRegionMake2D(region.position.x, region.position.y, region.width, region.height);
+    MTLRegion mtl_region = MTLRegionMake2D(region.position.x, region.position.y,
+                                           region.width, region.height);
     [*tex replaceRegion:mtl_region
             mipmapLevel:0
               withBytes:data
@@ -518,8 +519,7 @@ bool MetalGDI::draw()
         [render_encoder_ drawIndexedPrimitives:MTLPrimitiveTypeTriangle
                                     indexCount:state_.index_count
                                      indexType:MTLIndexTypeUInt32
-                                   indexBuffer:
-                                       index_buffers_.get(state_.index_buffer)->raw_buffer()
+                                   indexBuffer:index_buffers_.get(state_.index_buffer)->raw_buffer()
                              indexBufferOffset:state_.index_offset];
     } else {
         [render_encoder_ drawPrimitives:MTLPrimitiveTypeTriangle

@@ -103,7 +103,7 @@ public:
 
         if (needs_updating_) {
             cmdlist.update_vertex_buffer(vbufid_, MemoryBlock {
-                static_cast<uint32_t>(max_characters * sizeof(Vertex)), vertices_
+                static_cast<uint32_t>(num_vertices_ * sizeof(Vertex)), vertices_
             });
             needs_updating_ = false;
         }
@@ -114,7 +114,7 @@ public:
             cmdlist.set_program(programid_);
             cmdlist.set_texture(texid_, 0);
             cmdlist.set_vertex_buffer(vbufid_, 0, num_vertices_);
-            cmdlist.set_index_buffer(ibufid_, 0, static_cast<uint32_t>(string_size_ * 6));
+            cmdlist.set_index_buffer(ibufid_, 0, static_cast<uint32_t>(string_size_ * indices_per_char_));
             cmdlist.set_uniform(viewprojection_matrix, viewprojpos);
             cmdlist.draw();
         }

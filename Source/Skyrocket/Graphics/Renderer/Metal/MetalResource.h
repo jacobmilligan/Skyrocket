@@ -39,47 +39,52 @@ public:
 
     void init(id <MTLDevice> device, void* data, const uint32_t length, const sky::BufferUsage usage)
     {
+        options_ = MTLResourceCPUCacheModeDefaultCache;
         length_ = length;
         usage_ = usage;
+
+        switch (usage_) {
+            case BufferUsage::staticbuf:
+            {
+                options_ = MTLResourceStorageModeShared;
+            } break;
+            case BufferUsage::dynamic:
+            {
+                options_ = MTLResourceCPUCacheModeWriteCombined | MTLResourceStorageModeManaged;
+            } break;
+            default:
+                break;
+        }
+
         if ( data == nullptr ) {
-            buf_[current_] = [device newBufferWithLength:length
-                                                 options:MTLResourceCPUCacheModeDefaultCache];
+            buf_[current_] = [device newBufferWithLength:length_
+                                                 options:options_];
         } else {
             buf_[current_] = [device newBufferWithBytes:data
-                                                 length:length
-                                                options:MTLResourceCPUCacheModeDefaultCache];
+                                                 length:length_
+                                                options:options_];
         }
     }
 
     void update(id <MTLDevice> device, void* data, const uint32_t size, const uint32_t offset = 0)
     {
-        switch (usage_) {
-            case BufferUsage::none:break;
-
-            case BufferUsage::staticbuf:
-            {
-                SKY_OBJC_RELEASE(buf_[current_]);
-                buf_[current_] = [device newBufferWithBytes:data
-                                                     length:length_
-                                                    options:MTLResourceCPUCacheModeDefaultCache];
-                auto contents = static_cast<uint8_t*>([buf_[current_] contents]);
-                memcpy(contents + offset, data, size);
-            } break;
-
-            case BufferUsage::dynamic:
-            {
-                switch_buffers();
-
-                if (!buf_[current_]) {
-                    buf_[current_] = [device newBufferWithBytes:data
-                                                         length:length_
-                                                        options:MTLResourceCPUCacheModeDefaultCache];
-                } else {
-                    auto contents = static_cast<uint8_t*>([buf_[current_] contents]);
-                    memcpy(contents + offset, data, size);
-                }
-            } break;
+        if (usage_ == BufferUsage::dynamic) {
+            switch_buffers();
         }
+
+        if (!buf_[current_]) {
+            buf_[current_] = [device newBufferWithLength:length_
+                                                 options:options_];
+        }
+
+        auto contents = static_cast<uint8_t*>([buf_[current_] contents]);
+
+        if (usage_ == BufferUsage::staticbuf) {
+            memset(contents, 0, length_);
+        }
+        
+        memcpy(contents + offset, data, size);
+        [buf_[current_] didModifyRange:NSMakeRange(offset, offset + size)];
     }
 
     inline id<MTLBuffer>& raw_buffer()
@@ -92,6 +97,7 @@ private:
     uint32_t length_;
     uint16_t current_;
     BufferUsage usage_;
+    MTLResourceOptions options_;
 
     inline void switch_buffers()
     {

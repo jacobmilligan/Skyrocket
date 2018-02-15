@@ -19,7 +19,7 @@
 namespace sky {
 
 
-template <typename T>
+template <typename T, uint32_t Size>
 class MPSCQueue {
 public:
     struct Node {
@@ -27,10 +27,9 @@ public:
         T value;
     };
 
-    explicit MPSCQueue(Allocator& allocator)
-        : allocator_(&allocator)
+    MPSCQueue()
     {
-        auto stub = static_cast<Node*>(allocator_->allocate(sizeof(Node), 0));
+        auto stub = new Node;
         stub->next.store(nullptr);
 
         stub_.store(stub, std::memory_order_relaxed);
@@ -40,7 +39,9 @@ public:
 
     void push(const T& value)
     {
-        auto node = static_cast<Node*>(allocator_->allocate(sizeof(Node), 0));
+        auto next = ++next_;
+        std::atomic_thread_fence(std::memory_order_release);
+        auto node = &buffer_[next];
         node->next.store(nullptr, std::memory_order_relaxed);
         node->value = value;
 
@@ -50,22 +51,34 @@ public:
 
     bool pop(T& out)
     {
-        auto headcpy = head_.load(std::memory_order_relaxed);
-        auto next = headcpy->next.load(std::memory_order_acquire);
+        auto next = next_.load(std::memory_order_acquire);
+        if (next == 0) {
+            return false;
+        }
+        next_.store(next - 1, std::memory_order_release);
 
-        if (next == nullptr) {
+        auto headcpy = head_.load(std::memory_order_relaxed);
+        auto nextnode = headcpy->next.load(std::memory_order_acquire);
+
+        if (nextnode == nullptr) {
             return false;
         }
 
-        out = next->value;
-        head_.store(next, std::memory_order_release);
-        allocator_->free(headcpy);
+        out = nextnode->value;
+        head_.store(nextnode, std::memory_order_release);
         return true;
+    }
+
+    uint32_t size_approx() const
+    {
+        return next_.load(std::memory_order_relaxed);
     }
 private:
     using cacheline_pad_t = char[64];
 
-    Allocator* allocator_;
+    Node buffer_[Size];
+    cacheline_pad_t pad0{};
+    std::atomic<uint32_t> next_{};
     cacheline_pad_t pad1{};
     std::atomic<Node*> stub_;
     cacheline_pad_t pad2{};

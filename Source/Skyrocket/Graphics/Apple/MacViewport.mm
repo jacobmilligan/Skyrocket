@@ -29,10 +29,6 @@ void Renderer::set_vsync_enabled(bool enabled)
 {
     vsync_on_ = enabled;
     auto render_proc = &Renderer::vsync_notify;
-    if (threadsupport_ == ThreadSupport::multi_threaded) {
-        render_proc = &Renderer::render_thread_notify;
-    }
-
     [viewport_->get_native_handle()->view setVsyncEnabled:enabled
                                              graphicsDriver:this
                                               frameCallback:render_proc];
