@@ -41,8 +41,7 @@ void __sky_assert_handler(const char* function, const char* file, const int line
 
 }  // namespace detail
 
-
-#if SKY_DEBUG
+#if SKY_DEBUG == 1
 /// @brief Writes a formatted string to stderr if the assertion expr is false
 /// @param expr The boolean expression to evaluate
 /// @param msgformat The message format string to display if the assertion

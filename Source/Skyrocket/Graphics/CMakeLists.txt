@@ -11,7 +11,7 @@ set(lib_name SkyrocketGraphics)
 ###########################################
 
 skyrocket_configure_graphics_api(graphics_api)
-list(APPEND dependencies "${graphics_api}")
+list(APPEND dependencies "${graphics_api}" Shadecc)
 
 foreach(api ${skyrocket_graphics_api})
     MESSAGE("-- Skyrocket.Graphics: ${api} support detected")
