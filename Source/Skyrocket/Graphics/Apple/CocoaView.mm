@@ -12,18 +12,8 @@
 #include "Skyrocket/Graphics/Apple/CocoaView.h"
 #include "Skyrocket/Graphics/Renderer/Renderer.hpp"
 
-#import <CoreVideo/CoreVideo.h>
-
-#if SKY_GRAPHICS_API_OPENGL == 1
-
-#include <OpenGL/gl3.h>
-
-#import <Cocoa/Cocoa.h>
-
-#endif
-
 @implementation CocoaView {
-    sky::Renderer* _graphicsDriver;
+    sky::Renderer* _renderer;
     sky::render_proc_t _frameCallback;
 }
 
@@ -37,11 +27,11 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink, const CVTimeSt
 }
 
 -(void)setVsyncEnabled:(BOOL)enabled
-        graphicsDriver:(sky::Renderer*)graphicsDriver
+              renderer:(sky::Renderer*)renderer
          frameCallback:(sky::render_proc_t)frameCallback
 {
     if (enabled) {
-        _graphicsDriver = graphicsDriver;
+        _renderer = renderer;
         _frameCallback = frameCallback;
         CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink);
         CVDisplayLinkSetOutputCallback(_displayLink, &displayLinkCallback, self);
@@ -61,7 +51,7 @@ static CVReturn displayLinkCallback(CVDisplayLinkRef displayLink, const CVTimeSt
 }
 
 -(CVReturn)getFrameForTime:(const CVTimeStamp*)outputTime {
-    (_graphicsDriver->*_frameCallback)();
+    (_renderer->*_frameCallback)();
 
     return kCVReturnSuccess;
 }

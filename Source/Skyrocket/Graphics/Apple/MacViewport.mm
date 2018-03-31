@@ -30,8 +30,8 @@ void Renderer::set_vsync_enabled(bool enabled)
     vsync_on_ = enabled;
     auto render_proc = &Renderer::vsync_notify;
     [viewport_->get_native_handle()->view setVsyncEnabled:enabled
-                                             graphicsDriver:this
-                                              frameCallback:render_proc];
+                                                 renderer:this
+                                            frameCallback:render_proc];
 }
 
 
@@ -39,7 +39,7 @@ Viewport::Viewport() = default;
 
 Viewport::~Viewport()
 {
-    [handle_->view setVsyncEnabled:NO graphicsDriver:nullptr frameCallback:nullptr];
+    [handle_->view setVsyncEnabled:NO renderer:nullptr frameCallback:nullptr];
     close();
 }
 

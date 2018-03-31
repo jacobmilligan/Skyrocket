@@ -27,7 +27,7 @@ using render_proc_t = void (Renderer::*)();
 }
 
 -(void)setVsyncEnabled:(BOOL)enabled
-        graphicsDriver:(sky::Renderer*)graphicsDriver
+              renderer:(sky::Renderer*)renderer
          frameCallback:(sky::render_proc_t)frameCallback;
 
 -(void)setBackingColor:(CGFloat)r
