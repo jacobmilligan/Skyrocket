@@ -1,6 +1,6 @@
 # Skyrocket Framework
 
-Skyrocket is a cross-platform graphics and media library for game development.
+Skyrocket is a cross-platform 3D game engine written in C++14.
 
 ### Supported platforms:
 * macOS (10.11+)
