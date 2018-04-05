@@ -12,6 +12,7 @@
 #pragma once
 
 
+#include <Shadecc/Source/Shadecc/Shadecc.hpp>
 #include "Skyrocket/Graphics/Renderer/GDI.hpp"
 #include "Skyrocket/Graphics/Renderer/OpenGL/GLContext.hpp"
 #include "Skyrocket/Core/Containers/HandleTable.hpp"
@@ -20,6 +21,8 @@
 namespace sky {
 
 struct GLUniformSlot {
+    GLint location;
+    char name[64];
     UniformType type;
     size_t size;
     void* data;
@@ -46,10 +49,10 @@ protected:
     bool draw() override;
     bool draw_instanced(uint32_t instance) override;
 
-    bool create_program(uint32_t program_id, const Path& vs_path, const Path& frag_path) override;
+    bool create_program(uint32_t program_id, const shadecc::ShaderSource& vs_src, const shadecc::ShaderSource& fs_src) override;
     bool set_program(uint32_t program_id) override;
 
-    bool create_uniform(uint32_t u_id, UniformType type, uint32_t size) override;
+    bool create_uniform(uint32_t u_id, const char* name, uint32_t size, UniformType type) override;
     bool set_uniform(uint32_t u_id, uint32_t index) override;
     bool update_uniform(uint32_t u_id, const MemoryBlock& data, uint32_t offset) override;
 
@@ -107,6 +110,9 @@ private:
     HandleTable<GLuint, texture_max> textures_;
 
     void set_uniform_data(GLint location, GLUniformSlot& slot);
+
+    /// Checks what uniform objects are currently active and whether they belong to the current
+    /// program, updating
     bool check_uniform_slots();
 };
 

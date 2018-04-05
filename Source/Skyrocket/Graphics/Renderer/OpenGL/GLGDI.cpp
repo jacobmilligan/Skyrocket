@@ -314,16 +314,14 @@ bool OpenGLGDI::set_index_buffer(uint32_t ibuf_id)
 }
 
 bool
-OpenGLGDI::create_program(uint32_t program_id, const Path& vs_path, const Path& frag_path)
+OpenGLGDI::create_program(uint32_t program_id, const shadecc::ShaderSource& vs_src, const shadecc::ShaderSource& fs_src)
 {
     auto glprog = programs_.create(program_id);
     if (glprog == nullptr) {
         return false;
     }
 
-    auto vs_source = fs::slurp_file(vs_path);
-    auto frag_source = fs::slurp_file(frag_path);
-    return glprog->create(vs_source.c_str(), frag_source.c_str());
+    return glprog->create(vs_src.glsl_src, fs_src.glsl_src);
 }
 
 bool OpenGLGDI::set_program(uint32_t program_id)
@@ -343,16 +341,25 @@ bool OpenGLGDI::set_program(uint32_t program_id)
     return true;
 }
 
-bool OpenGLGDI::create_uniform(uint32_t u_id, UniformType type, uint32_t size)
+bool OpenGLGDI::create_uniform(uint32_t u_id, const char* name, uint32_t size, UniformType type)
 {
     auto buf = uniform_buffers_.create(u_id);
     if (buf == nullptr) {
         return false;
     }
 
+    auto namelen = strlen(name);
+    buf->location = -1;
     buf->size = size;
     buf->type = type;
     buf->data = malloc(size);
+    memcpy(buf->name, name, namelen);
+
+    for (auto& c : buf->name) {
+        if (c == '.') {
+            c = '_';
+        }
+    }
 
     return true;
 }
@@ -360,7 +367,24 @@ bool OpenGLGDI::create_uniform(uint32_t u_id, UniformType type, uint32_t size)
 bool OpenGLGDI::set_uniform(uint32_t u_id, uint32_t index)
 {
     // handled by `GDI::submit`
-    return GDI::set_uniform(u_id, index);
+    auto uniform = uniform_buffers_.get(u_id);
+    if (uniform == nullptr) {
+        return false;
+    }
+
+    if (uniform->location < 0) {
+        auto prog = programs_.get(state_.program);
+        SKY_GL_CHECK(uniform->location = glGetUniformLocation(prog->id, uniform->name));
+        if (uniform->location < 0) {
+            SKY_ERROR("Renderer", "No uniform with the name `%s` was found in the set program",
+                      uniform->name);
+            return false;
+        }
+    }
+
+    state_.uniform_slots[uniform->location] = u_id;
+
+    return true;
 }
 
 bool OpenGLGDI::update_uniform(uint32_t u_id, const MemoryBlock& data, uint32_t offset)
@@ -550,18 +574,25 @@ bool OpenGLGDI::check_uniform_slots()
         return false;
     }
 
+    // Check all available uniforms in the current program to see which ones are occupying a
+    // uniform slot in the render state, i.e. are currently bound.
     for (auto& info : prog->uniforms) {
-        auto handle = state_.uniform_slots[info.index];
+        // We shouldn't need to check textures
+        if (info.type == UniformType::tex2d) {
+            continue;
+        }
+
+        auto handle = state_.uniform_slots[info.location];
         auto uniform = uniform_buffers_.get(handle);
         if (handle == 0 || uniform == nullptr) {
-            if (info.type == UniformType::tex2d) {
-                continue;
-            }
+            // Uniform isn't bound
             SKY_ERROR("OpenGL", "Uniform data with name '%s' at slot %d is missing for program "
                 "with id %d", info.name, info.location, state_.program);
             continue;
         }
 
+        // The uniform is bound and needs its data updated
+        // TODO(Jacob): This should really occur in `update_uniform`
         set_uniform_data(info.location, *uniform);
     }
 

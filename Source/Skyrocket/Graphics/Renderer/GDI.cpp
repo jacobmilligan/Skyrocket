@@ -141,6 +141,8 @@ std::unique_ptr<GDI> GDI::create(const RendererBackend backend, GDI* copy) noexc
 
 void GDI::submit(sky::CommandBuffer* cmdbuf)
 {
+    AssertGuard ag("Submitting a command buffer", "");
+
     CommandType* typeptr = nullptr;
     state_.reset();
 
@@ -215,13 +217,7 @@ void GDI::submit(sky::CommandBuffer* cmdbuf)
             case CommandType::create_program:
             {
                 auto* data = cmdbuf->read_command<CreateProgramData>();
-
-                auto prog_id = data->prog_id;
-
-                Path vs(data->vs);
-                Path frag(data->frag);
-
-                create_program(prog_id, vs, frag);
+                create_program(data->prog_id, data->vs, data->fs);
             } break;
 
             case CommandType::set_program:
@@ -234,14 +230,13 @@ void GDI::submit(sky::CommandBuffer* cmdbuf)
             case CommandType::create_uniform:
             {
                 auto data = cmdbuf->read_command<CreateUniformData>();
-                create_uniform(data->uniform_id, data->uniform_type, data->size);
+                create_uniform(data->uniform_id, data->name, data->size, data->uniform_type);
             } break;
 
             case CommandType::set_uniform:
             {
                 auto data = cmdbuf->read_command<SetUniformData>();
                 // Set uniform slot
-                state_.uniform_slots[data->uniform_index] = data->uniform_id;
                 set_uniform(data->uniform_id, data->uniform_index);
             } break;
 
@@ -372,7 +367,7 @@ bool GDI::set_index_buffer(const uint32_t /*ibuf_id*/)
     return true;
 }
 
-bool GDI::create_program(const uint32_t /*program_id*/, const Path& /*vs_path*/, const Path& /*frag_path*/)
+bool GDI::create_program(uint32_t /*program_id*/, const shadecc::ShaderSource& /*vs_path*/, const shadecc::ShaderSource& /*frag_path*/)
 {
     // no op
     return true;
@@ -384,13 +379,13 @@ bool GDI::set_program(const uint32_t)
     return true;
 }
 
-bool GDI::create_uniform(uint32_t, UniformType type, uint32_t)
+bool GDI::create_uniform(uint32_t, const char* name, uint32_t, UniformType type)
 {
     // no op
     return true;
 }
 
-bool GDI::set_uniform(const uint32_t  /*u_id*/, const uint32_t  /*index*/)
+bool GDI::set_uniform(uint32_t, uint32_t)
 {
     // no op
     return true;

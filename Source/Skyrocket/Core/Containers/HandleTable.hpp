@@ -156,11 +156,7 @@ public:
     /// @return Pointer to the element
     T* get(const uint32_t id)
     {
-        if ( !contains(id) ) {
-            SKY_ERROR("HandleTable", "Trying to get invalid id (%" PRIu32 ")", id);
-            return nullptr;
-        }
-
+        SKY_ASSERT(contains(id), "(%" PRIu32 ") is a valid ID", id);
         return &handles_[indicies_[id]].data;
     }
 

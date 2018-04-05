@@ -31,24 +31,15 @@ void GLProgram::get_uniform_info(const uint32_t index, GLUniformInfo* info)
     info->program = id;
     info->index = index;
 
-    // Get name and location
     SKY_GL_CHECK(glGetActiveUniformName(id, index, GLUniformInfo::max_name,
-                                              &info->name_len, info->name));
+                                        &info->name_len, info->name));
+    // Get name and location
     SKY_GL_CHECK(info->location = glGetUniformLocation(id, info->name));
 
     GLint type;
     SKY_GL_CHECK(glGetActiveUniformsiv(id, 1, &index, GL_UNIFORM_SIZE, &info->size));
     SKY_GL_CHECK(glGetActiveUniformsiv(id, 1, &index, GL_UNIFORM_TYPE, &type));
     info->type = gl_translate_uniform_type(type);
-
-    SKY_GL_CHECK(glGetActiveUniformsiv(id, 1, &index, GL_UNIFORM_BLOCK_INDEX,
-                                             &info->block_index));
-    SKY_GL_CHECK(glGetActiveUniformsiv(id, 1, &index, GL_UNIFORM_OFFSET,
-                                             &info->block_offset));
-    SKY_GL_CHECK(glGetActiveUniformsiv(id, 1, &index, GL_UNIFORM_ARRAY_STRIDE,
-                                             &info->array_stride));
-    SKY_GL_CHECK(glGetActiveUniformsiv(id, 1, &index, GL_UNIFORM_MATRIX_STRIDE,
-                                             &info->matrix_stride));
 }
 
 bool GLProgram::create(const char* vertex_source, const char* fragment_source)
@@ -66,8 +57,8 @@ bool GLProgram::create(const char* vertex_source, const char* fragment_source)
         return false;
     }
 
-    SKY_GL_CHECK(glAttachShader(id, vertex.id));
     SKY_GL_CHECK(glAttachShader(id, fragment.id));
+    SKY_GL_CHECK(glAttachShader(id, vertex.id));
     SKY_GL_CHECK(glLinkProgram(id));
 
     GLint success;
@@ -102,7 +93,7 @@ bool GLProgram::create(const char* vertex_source, const char* fragment_source)
             SKY_GL_CHECK(glGetActiveAttrib(id, attr, GLUniformInfo::max_name,
                                                  &info.name_len, &info.size, &type, info.name));
             SKY_GL_CHECK(info.location = glGetAttribLocation(id, info.name));
-            if (strncmp(info.name, "sky_instance__", 14) == 0) {
+            if (strncmp(info.name, instance_prefix_, instance_prefix_len_) == 0) {
                 info.type = gl_translate_uniform_type(type);
                 instances.push_back(info);
             }

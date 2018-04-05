@@ -93,7 +93,7 @@ private:
     uint32_t current_submit_{0};
     FixedPoolAllocator cmdpool_;
 
-    MPSCQueue<CommandQueueNode, max_submissions_in_flight_ > cmdqueue_;
+    MPSCQueue<CommandQueueNode, max_submissions_in_flight_> cmdqueue_;
 
     // Frame properties
     uint64_t num_frames_{0};

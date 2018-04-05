@@ -48,13 +48,7 @@ struct GLUniformInfo {
     GLint location;
     UniformType type;
     GLint size;
-
     GLint name_len;
-    GLint block_index;
-    GLint block_offset;
-    GLint array_stride;
-    GLint matrix_stride;
-
     GLchar name[max_name];
 };
 
@@ -105,6 +99,9 @@ struct GLProgram {
     void destroy();
 
 private:
+    static constexpr const char* instance_prefix_ = "SHADECC_INSTANCE_";
+    static const size_t instance_prefix_len_ = strlen(instance_prefix_); // NOLINT
+
     void get_uniform_info(uint32_t index, GLUniformInfo* info);
 };
 

@@ -16,6 +16,8 @@
 #include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Platform/Filesystem.hpp"
 
+#include <Shadecc/Source/Shadecc/Shadecc.hpp>
+
 namespace sky {
 
 
@@ -78,12 +80,13 @@ struct SetIndexBufferData {
 
 struct CreateProgramData {
     uint32_t prog_id{0};
-    char vs[SKY_MAX_PATH]{};
-    char frag[SKY_MAX_PATH]{};
+    const shadecc::ShaderSource& vs;
+    const shadecc::ShaderSource& fs;
 };
 
 struct CreateUniformData {
     uint32_t uniform_id;
+    char name[64];
     UniformType uniform_type;
     uint32_t size;
 };

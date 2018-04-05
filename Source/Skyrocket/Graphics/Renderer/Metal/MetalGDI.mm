@@ -10,6 +10,7 @@
 //
 
 #import <Skyrocket/Core/Math.hpp>
+#import <Shadecc/Source/Shadecc/Shadecc.hpp>
 #include "Skyrocket/Core/Hash.hpp"
 #include "Skyrocket/Graphics/Renderer/Metal/MetalGDI.h"
 #include "Skyrocket/Graphics/Renderer/Metal/MetalView.h"
@@ -334,16 +335,15 @@ bool MetalGDI::set_index_buffer(const uint32_t ibuf_id)
     return GDI::set_index_buffer(ibuf_id);
 }
 
-bool MetalGDI::create_program(const uint32_t program_id, const Path& vs_path, const Path& frag_path)
+bool MetalGDI::create_program(uint32_t program_id, const shadecc::ShaderSource& vs_src,
+                              const shadecc::ShaderSource& fs_src)
 {
     NSError* err = nil;
     id<MTLLibrary> lib = nil;
 
-    auto make_function = [&](const Path& path) -> id<MTLFunction> {
+    auto make_function = [&](const shadecc::ShaderSource& src) -> id<MTLFunction> {
         id<MTLFunction> func = nil;
-        auto src = fs::slurp_file(path);
-
-        lib = [device_ newLibraryWithSource:[NSString stringWithUTF8String:src.c_str()]
+        lib = [device_ newLibraryWithSource:[NSString stringWithUTF8String:src.msl_src]
                                     options:nil
                                       error:&err];
         if ( lib == nil ) {
@@ -352,26 +352,23 @@ bool MetalGDI::create_program(const uint32_t program_id, const Path& vs_path, co
             return nil;
         }
 
-        auto stem = path.stem();
-        NSString* func_name = [NSString stringWithUTF8String:stem];
+        auto name = "main0";
+        NSString* func_name = [NSString stringWithUTF8String:name];
         func = [lib newFunctionWithName:func_name];
 
         if (func == nil) {
-            auto filename = path.filename();
-            SKY_ERROR("Metal", "Couldn't create function from file '%s' with name `%s`. "
+            SKY_ERROR("Metal", "Couldn't create function from source with name `%s`. "
                 "The file only contains the following functions: %s",
-                      filename, stem, [[[lib functionNames] description] UTF8String]);
+                      name, [[[lib functionNames] description] UTF8String]);
         }
 
         return func;
     };
 
-    id<MTLFunction> vs = make_function(vs_path);
-    id<MTLFunction> frag = make_function(frag_path);
+    id<MTLFunction> vs = make_function(vs_src);
+    id<MTLFunction> frag = make_function(fs_src);
 
-    if (vs == nil || frag == nil) {
-        return false;
-    }
+    SKY_ASSERT(vs != nil && frag != nil, "VS and FS libraries compile succesfully");
 
     // Create program
     MetalProgram program(program_id, vs, frag);
@@ -383,6 +380,8 @@ bool MetalGDI::create_program(const uint32_t program_id, const Path& vs_path, co
 
 bool MetalGDI::set_program(const uint32_t program_id)
 {
+    AssertGuard ag("Setting a program", std::to_string(program_id).c_str());
+
     NSError* err = nil;
     MetalProgram* program = nullptr;
     if (program_id == 0) {
@@ -403,7 +402,7 @@ bool MetalGDI::set_program(const uint32_t program_id)
     return true;
 }
 
-bool MetalGDI::create_uniform(uint32_t u_id, UniformType type, uint32_t size)
+bool MetalGDI::create_uniform(uint32_t u_id, const char* name, uint32_t size, UniformType type)
 {
     auto ubuf = uniform_buffers_.create(u_id);
 
@@ -417,7 +416,7 @@ bool MetalGDI::create_uniform(uint32_t u_id, UniformType type, uint32_t size)
     return true;
 }
 
-bool MetalGDI::set_uniform(const uint32_t u_id, const uint32_t index)
+bool MetalGDI::set_uniform(uint32_t u_id, uint32_t index)
 {
     auto ubuf = uniform_buffers_.get(u_id);
 

@@ -39,9 +39,7 @@ public:
 
     void push(const T& value)
     {
-        auto next = ++next_;
-        std::atomic_thread_fence(std::memory_order_release);
-        auto node = &buffer_[next];
+        auto node = &buffer_[++next_];
         node->next.store(nullptr, std::memory_order_relaxed);
         node->value = value;
 

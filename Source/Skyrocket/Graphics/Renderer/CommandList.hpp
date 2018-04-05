@@ -13,6 +13,8 @@
 
 #include "Skyrocket/Graphics/Renderer/CommandData.hpp"
 
+#include <Shadecc/Shadecc.hpp>
+
 #include <cstdint>
 #include <array>
 
@@ -178,12 +180,12 @@ public:
     /// @param type The type of structure or data associated with the uniform
     /// @param count The number of instances of `type` associated with the uniform
     /// @return Handle id to the shader uniform resource
-    uint32_t create_uniform(UniformType type, uint32_t size);
+    uint32_t create_uniform(const char* name, const uint32_t size, const UniformType type);
 
     /// @brief Sets the uniform associated with the given ID as the current one
     /// @param u_id
     /// @param index Index to assign to the uniform as referenced in the shader
-    void set_uniform(uint32_t u_id, uint32_t index);
+    void set_uniform(const uint32_t u_id, const uint32_t index);
 
     /// @brief Sends a command to update the data associated with a shader uniform
     /// @param u_id
@@ -197,9 +199,10 @@ public:
     void update_instance_buffer(uint32_t id, uint8_t* data, uint32_t index);
 
     /// @brief Sends a command to create a new shader
-    /// @param vs_path
+    /// @param vs_src
     /// @return Handle ID to the shader
-    uint32_t create_program(const Path& vs_path, const Path& frag_path);
+    uint32_t create_program(const shadecc::ShaderSource& vs_src,
+                            const shadecc::ShaderSource& fs_src);
 
     /// @brief Sets the vertex and fragment shaders as the current ones
     /// @param vertex_id

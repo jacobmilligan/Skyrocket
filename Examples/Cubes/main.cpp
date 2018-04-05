@@ -28,6 +28,9 @@
 #include <Jobrocket/Source/Jobrocket/JobGroup.hpp>
 #include <Common.hpp>
 
+#include <BasicTextureVS.hpp>
+#include <BasicTextureFS.hpp>
+
 
 struct Cube {
     sky::Vector3f pos;
@@ -75,10 +78,10 @@ public:
         renderer.set_vsync_enabled(true);
         auto cmdlist = renderer.make_command_list();
 
-        auto vert_path = common::get_vertex_shader(resinfo_, "basic_texture_vert");
-        auto frag_path = common::get_fragment_shader(resinfo_, "basic_texture_frag");
-        program_ = cmdlist.create_program(vert_path, frag_path);
-        cmdlist.set_program(program_);
+//        auto vert_path = common::get_vertex_shader(resinfo_, "basic_texture_vs");
+//        auto frag_path = common::get_fragment_shader(resinfo_, "basic_texture_fs");
+        program_ = cmdlist.create_program(BasicTextureVS::source, BasicTextureFS::source);
+//        cmdlist.set_program(program_);
 
         auto xpos = 0;
         auto ypos = 0;
@@ -151,7 +154,7 @@ public:
         cam_.setup(90.0f, aspect, 0.1f, 20000.0f);
 
         model_ubuf_ = cmdlist.create_instance_buffer(sizeof(sky::Matrix4f), num_cubes_);
-        view_proj_ubuf_ = cmdlist.create_uniform(sky::UniformType::mat4, num_cubes_);
+        view_proj_ubuf_ = cmdlist.create_uniform("Params.viewproj", num_cubes_, sky::UniformType::mat4);
 
         // Main loop
         sky::Timespan dt;
@@ -226,8 +229,8 @@ public:
         }
 
         cmdlist.draw_instanced(cube_index);
-        renderer.submit(cmdlist);
 
+        renderer.submit(cmdlist);
         renderer.commit_frame();
     }
 
@@ -260,7 +263,7 @@ private:
 int main(int argc, char** argv)
 {
     auto app = std::make_unique<CubeApp>();
-    app->start(sky::Renderer::ThreadSupport::multi_threaded, sky::RendererBackend::OpenGL);
+    app->start(sky::Renderer::ThreadSupport::single_threaded, sky::RendererBackend::OpenGL);
 
     return 0;
 }

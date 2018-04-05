@@ -40,17 +40,7 @@ id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice>
         return rps->second;
     }
 
-    if ( vs_ == nil ) {
-        SKY_ERROR("Render Pipeline",
-                  "Cannot get new render pipeline state: Vertex function is nil");
-        return nil;
-    }
-
-    if ( frag_ == nil ) {
-        SKY_ERROR("Render Pipeline",
-                  "Cannot get new render pipeline state: Fragment function is nil");
-        return nil;
-    }
+    SKY_ASSERT(vs_ != nil && frag_ != nil, "VS and FS functions are not nil")
 
     NSError* err = nil;
 
@@ -69,14 +59,9 @@ id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice>
     id<MTLRenderPipelineState> new_rps = [device newRenderPipelineStateWithDescriptor:pipeline_descriptor
                                                                                 error:&err];
 
-
-
-    if ( new_rps == nil ) {
-        SKY_ERROR("Render Pipeline",
-                  "Couldn't initialize main render pipeline state: NSError: %s",
-                  [[err localizedDescription] UTF8String]);
-        return nil;
-    }
+    SKY_ASSERT(new_rps != nil,
+               "New render pipeline state failed to initialize with error: %s",
+               [[err localizedDescription] UTF8String]);
 
     render_pipeline_states_.insert({hash, new_rps});
     return new_rps;

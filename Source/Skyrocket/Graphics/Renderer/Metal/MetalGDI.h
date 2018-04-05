@@ -22,6 +22,7 @@
 #import <AppKit/AppKit.h>
 #import <Metal/Metal.h>
 #import <QuartzCore/CAMetalLayer.h>
+    #import <Shadecc/Source/Shadecc/Shadecc.hpp>
 
 @class MetalView;
 
@@ -56,11 +57,11 @@ protected:
 
     bool set_index_buffer(uint32_t ibuf_id) override;
 
-    bool create_program(uint32_t shader_id, const Path& vs_path, const Path& frag_path) override;
+    bool create_program(uint32_t shader_id, const shadecc::ShaderSource& vs_src, const shadecc::ShaderSource& fs_src) override;
 
     bool set_program(uint32_t program_id) override;
 
-    bool create_uniform(uint32_t u_id, UniformType type, uint32_t size) override;
+    bool create_uniform(uint32_t u_id, const char* name, uint32_t size, UniformType type) override;
 
     bool set_uniform(uint32_t u_id, uint32_t index) override;
 

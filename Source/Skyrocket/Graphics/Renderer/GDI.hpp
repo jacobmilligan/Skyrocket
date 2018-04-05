@@ -15,6 +15,8 @@
 #include "Skyrocket/Core/Geometry/Rectangle.hpp"
 #include "Skyrocket/Graphics/Renderer/Definitions.hpp"
 
+#include <Shadecc/Shadecc.hpp>
+
 namespace sky {
 
 class Path;
@@ -76,8 +78,8 @@ struct RenderState {
 //        uint32_t handle;
 //        uint32_t index;
 //    }
-    uint32_t uniform_slots[1024];
-    uint32_t instance_slots[1024];
+    uint32_t uniform_slots[1024]{};
+    uint32_t instance_slots[1024]{};
 };
 
 /// Graphics Device Interface - an interface for executing calls to the currently
@@ -191,11 +193,12 @@ protected:
     /// @param program_id
     /// @param name
     /// @return
-    virtual bool create_program(uint32_t program_id, const Path& vs_path, const Path& frag_path);
+    virtual bool create_program(uint32_t program_id, const shadecc::ShaderSource& vs_src,
+                                const shadecc::ShaderSource& fs_src);
 
     virtual bool set_program(uint32_t program_id);
 
-    virtual bool create_uniform(uint32_t u_id, UniformType type, uint32_t size);
+    virtual bool create_uniform(uint32_t u_id, const char* name, uint32_t size, UniformType type);
 
     virtual bool set_uniform(uint32_t u_id, uint32_t index);
 

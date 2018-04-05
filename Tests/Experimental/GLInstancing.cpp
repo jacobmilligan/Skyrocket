@@ -171,7 +171,7 @@ public:
     {
         auto cmdlist = renderer.make_command_list();
         {
-            ubuf_ = cmdlist.create_uniform(sky::UniformType::mat4, sizeof(sky::Matrix4f));
+            ubuf_ = cmdlist.create_uniform(nullptr, sizeof(sky::Matrix4f), sky::UniformType::mat4);
             program_ = cmdlist.create_program(shader_path.relative_path("basic_instancing.vert"),
                                    shader_path.relative_path("basic_instancing.frag"));
             vbuf_ = cmdlist.create_vertex_buffer(sky::MemoryBlock {

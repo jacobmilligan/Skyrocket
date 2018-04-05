@@ -15,7 +15,7 @@ namespace sky {
 
 Renderer::Renderer()
     : cmdpool_(sizeof(CommandBuffer), cmdpool_size_),
-      cmdlist_sem_(max_submissions_in_flight_),
+      cmdlist_sem_(max_submissions_in_flight_ - 1),
       vsync_on_(false)
 {}
 
@@ -156,7 +156,6 @@ void Renderer::render_thread_proc()
             });
             render_thread_notified_ = false;
         }
-
 
         while (cmdqueue_.pop(node)) {
             node.frame->gdi_begin();

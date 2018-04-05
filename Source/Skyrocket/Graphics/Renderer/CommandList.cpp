@@ -68,13 +68,15 @@ void CommandList::set_index_buffer(const uint32_t ibuf_id, const uint32_t offset
     });
 }
 
-uint32_t CommandList::create_uniform(const UniformType type, const uint32_t size)
+uint32_t CommandList::create_uniform(const char* name, const uint32_t size, const UniformType type)
 {
-    auto handle = make_handle();
-    buffer->write_command(CommandType::create_uniform, CreateUniformData {
-        handle, type, size
-    });
-    return handle;
+    CreateUniformData data{};
+    data.uniform_id = make_handle();
+    data.size = size;
+    data.uniform_type = type;
+    memcpy(data.name, name, strlen(name));
+    buffer->write_command(CommandType::create_uniform, data);
+    return data.uniform_id;
 }
 
 void CommandList::set_uniform(const uint32_t u_id, const uint32_t index)
@@ -92,16 +94,16 @@ void CommandList::update_uniform(const uint32_t u_id, const MemoryBlock& data,
     });
 }
 
-uint32_t CommandList::create_program(const Path& vs_path, const Path& frag_path)
+uint32_t CommandList::create_program(const shadecc::ShaderSource& vs_src,
+                                     const shadecc::ShaderSource& fs_src)
 {
-    CreateProgramData data{};
-    data.prog_id = make_handle();
-    strcpy(data.vs, vs_path.str());
-    strcpy(data.frag, frag_path.str());
+    auto handle = make_handle();
 
-    buffer->write_command(CommandType::create_program, data);
+    buffer->write_command(CommandType::create_program, CreateProgramData {
+        handle, vs_src, fs_src
+    });
 
-    return data.prog_id;
+    return handle;
 }
 
 bool CommandList::set_program(const uint32_t program_id)

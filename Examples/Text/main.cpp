@@ -42,7 +42,7 @@ public:
 
         tb_.set_program(program_);
 
-        viewproj_ = cmdlist.create_uniform(sky::UniformType::mat4, sizeof(sky::Matrix4f));
+        viewproj_ = cmdlist.create_uniform(nullptr, sizeof(sky::Matrix4f), sky::UniformType::mat4);
 
         renderer.submit(cmdlist);
     }
