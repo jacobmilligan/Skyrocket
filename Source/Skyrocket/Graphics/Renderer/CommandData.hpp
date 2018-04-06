@@ -16,7 +16,7 @@
 #include "Skyrocket/Graphics/Viewport.hpp"
 #include "Skyrocket/Platform/Filesystem.hpp"
 
-#include <Shadecc/Source/Shadecc/Shadecc.hpp>
+#include <Shadecc.hpp>
 
 namespace sky {
 

@@ -10,12 +10,14 @@
 //
 
 #import <Skyrocket/Core/Math.hpp>
-#import <Shadecc/Source/Shadecc/Shadecc.hpp>
+
 #include "Skyrocket/Core/Hash.hpp"
 #include "Skyrocket/Graphics/Renderer/Metal/MetalGDI.h"
 #include "Skyrocket/Graphics/Renderer/Metal/MetalView.h"
 #include "Skyrocket/Graphics/Apple/MacViewport.h"
 #include "Skyrocket/Platform/Filesystem.hpp"
+
+#import <Shadecc.hpp>
 
 //TODO(Jacob): Textures
 

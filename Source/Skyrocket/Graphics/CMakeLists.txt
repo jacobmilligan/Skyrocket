@@ -11,7 +11,7 @@ set(lib_name SkyrocketGraphics)
 ###########################################
 
 skyrocket_configure_graphics_api(graphics_api)
-list(APPEND dependencies "${graphics_api}" Shadecc)
+list(APPEND dependencies "${graphics_api}")
 
 foreach(api ${skyrocket_graphics_api})
     MESSAGE("-- Skyrocket.Graphics: ${api} support detected")
@@ -68,5 +68,6 @@ target_link_libraries(${lib_name}
 target_link_libraries(${lib_name} "${dependencies}")
 
 target_include_directories(${lib_name} PUBLIC ${skyrocket_root_directory}/Deps/stb_image)
+target_include_directories(${lib_name} PUBLIC ${skyrocket_root_directory}/Deps/Shadecc/shadecc/include)
 
 

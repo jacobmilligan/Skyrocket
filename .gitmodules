@@ -1,9 +1,6 @@
 [submodule "Deps/Jobrocket"]
 	path = Deps/Jobrocket
 	url = https://github.com/jacobmilligan/Jobrocket.git
-[submodule "Tests/Static/glm"]
-	path = Tests/Static/glm
-	url = https://github.com/g-truc/glm
 [submodule "Deps/Shadecc"]
 	path = Deps/Shadecc
 	url = https://github.com/jacobmilligan/Shadecc.git

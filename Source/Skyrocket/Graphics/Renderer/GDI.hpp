@@ -15,7 +15,7 @@
 #include "Skyrocket/Core/Geometry/Rectangle.hpp"
 #include "Skyrocket/Graphics/Renderer/Definitions.hpp"
 
-#include <Shadecc/Shadecc.hpp>
+#include <Shadecc.hpp>
 
 namespace sky {
 

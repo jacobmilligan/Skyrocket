@@ -12,7 +12,6 @@
 #pragma once
 
 
-#include <Shadecc/Source/Shadecc/Shadecc.hpp>
 #include "Skyrocket/Graphics/Renderer/GDI.hpp"
 #include "Skyrocket/Graphics/Renderer/OpenGL/GLContext.hpp"
 #include "Skyrocket/Core/Containers/HandleTable.hpp"

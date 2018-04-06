@@ -13,8 +13,6 @@
 
 #include "Skyrocket/Graphics/Renderer/CommandData.hpp"
 
-#include <Shadecc/Shadecc.hpp>
-
 #include <cstdint>
 #include <array>
 

@@ -22,7 +22,6 @@
 #import <AppKit/AppKit.h>
 #import <Metal/Metal.h>
 #import <QuartzCore/CAMetalLayer.h>
-    #import <Shadecc/Source/Shadecc/Shadecc.hpp>
 
 @class MetalView;
 
