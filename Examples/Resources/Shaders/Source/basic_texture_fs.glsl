@@ -1,4 +1,6 @@
-#stage fs
+#pragma shadecc_stage frag
+#pragma shadecc_name "BasicTextureFS"
+
 #version 330 core
 
 in vec4 frag_color;

@@ -99,9 +99,6 @@ struct GLProgram {
     void destroy();
 
 private:
-    static constexpr const char* instance_prefix_ = "SHADECC_INSTANCE_";
-    static const size_t instance_prefix_len_ = strlen(instance_prefix_); // NOLINT
-
     void get_uniform_info(uint32_t index, GLUniformInfo* info);
 };
 

@@ -22,6 +22,7 @@ namespace sky {
 struct GLUniformSlot {
     GLint location;
     char name[64];
+    char block[64];
     UniformType type;
     size_t size;
     void* data;
@@ -108,7 +109,7 @@ private:
     HandleTable<GLProgram, shader_max> programs_;
     HandleTable<GLuint, texture_max> textures_;
 
-    void set_uniform_data(GLint location, GLUniformSlot& slot);
+    void set_uniform_data(const GLUniformInfo& info, const GLUniformSlot& slot);
 
     /// Checks what uniform objects are currently active and whether they belong to the current
     /// program, updating

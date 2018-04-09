@@ -31,62 +31,66 @@ constexpr OpenGLGDI::GLPixelFormat OpenGLGDI::gl_pixel_formats_[];
 #endif
 
 
-void set_uniform_data_vec1(GLint location, GLUniformSlot& slot)
+void set_uniform_data_vec1(const GLUniformInfo& info, const GLUniformSlot& slot)
 {
     auto vec = static_cast<float*>(slot.data);
-    SKY_GL_CHECK(glUniform1f(location, *vec));
+    SKY_GL_CHECK(glUniform1f(info.location, *vec));
 }
 
-void set_uniform_data_vec2(GLint location, GLUniformSlot& slot)
+void set_uniform_data_vec2(const GLUniformInfo& info, const GLUniformSlot& slot)
 {
     auto vec = static_cast<Vector2f*>(slot.data);
-    SKY_GL_CHECK(glUniform2f(location, vec->x, vec->y));
+    SKY_GL_CHECK(glUniform2f(info.location, vec->x, vec->y));
 }
 
-void set_uniform_data_vec3(GLint location, GLUniformSlot& slot)
+void set_uniform_data_vec3(const GLUniformInfo& info, const GLUniformSlot& slot)
 {
     auto vec = static_cast<Vector3f*>(slot.data);
-    SKY_GL_CHECK(glUniform3f(location, vec->x, vec->y, vec->z));
+    SKY_GL_CHECK(glUniform3f(info.location, vec->x, vec->y, vec->z));
 }
 
-void set_uniform_data_vec4(GLint location, GLUniformSlot& slot)
+void set_uniform_data_vec4(const GLUniformInfo& info, const GLUniformSlot& slot)
 {
     auto vec = static_cast<Vector4f*>(slot.data);
-    SKY_GL_CHECK(glUniform4f(location, vec->x, vec->y, vec->z, vec->w));
+    SKY_GL_CHECK(glUniform4f(info.location, vec->x, vec->y, vec->z, vec->w));
 }
 
-void set_uniform_data_mat2(GLint location, GLUniformSlot& slot)
+void set_uniform_data_mat2(const GLUniformInfo& info, const GLUniformSlot& slot)
 {
     SKY_ERROR("OpenGL", "Uniform data for 2x2 matrices is unimplemented");
 }
 
-void set_uniform_data_mat3(GLint location, GLUniformSlot& slot)
+void set_uniform_data_mat3(const GLUniformInfo& info, const GLUniformSlot& slot)
 {
     SKY_ERROR("OpenGL", "Uniform data for 3x3 matrices is unimplemented");
 }
 
-void set_uniform_data_mat4(GLint location, GLUniformSlot& slot)
+void set_uniform_data_mat4(const GLUniformInfo& info, const GLUniformSlot& slot)
 {
     auto mat = static_cast<Matrix4f*>(slot.data);
-    SKY_GL_CHECK(glUniformMatrix4fv(location, 1, GL_FALSE, mat->entries));
+    if (info.type != UniformType::mat4) {
+        SKY_GL_CHECK(glUniform4fv(info.location, 4, mat->entries));
+        return;
+    }
+    SKY_GL_CHECK(glUniformMatrix4fv(info.location, 1, GL_FALSE, mat->entries));
 }
 
-void set_uniform_data_tex1d(GLint location, GLUniformSlot& slot)
+void set_uniform_data_tex1d(const GLUniformInfo& info, const GLUniformSlot& slot)
 {
     SKY_ERROR("OpenGL", "Uniform data for tex1d is unimplemented");
 }
 
-void set_uniform_data_tex2d(GLint location, GLUniformSlot& slot)
+void set_uniform_data_tex2d(const GLUniformInfo& info, const GLUniformSlot& slot)
 {
     SKY_ERROR("OpenGL", "Uniform data for tex2d is unimplemented");
 }
 
-void set_uniform_data_tex3d(GLint location, GLUniformSlot& slot)
+void set_uniform_data_tex3d(const GLUniformInfo& info, const GLUniformSlot& slot)
 {
     SKY_ERROR("OpenGL", "Uniform data for tex3d is unimplemented");
 }
 
-void set_uniform_data_cubemap(GLint location, GLUniformSlot& slot)
+void set_uniform_data_cubemap(const GLUniformInfo& info, const GLUniformSlot& slot)
 {
     SKY_ERROR("OpenGL", "Uniform data for cubemaps is unimplemented");
 }
@@ -94,9 +98,9 @@ void set_uniform_data_cubemap(GLint location, GLUniformSlot& slot)
 
 OpenGLGDI::~OpenGLGDI() = default;
 
-void OpenGLGDI::set_uniform_data(GLint location, GLUniformSlot& slot)
+void OpenGLGDI::set_uniform_data(const GLUniformInfo& info, const GLUniformSlot& slot)
 {
-    using set_uniform_data_func_t = void (*)(GLint, GLUniformSlot&);
+    using set_uniform_data_func_t = void (*)(const GLUniformInfo&, const GLUniformSlot&);
 
     static constexpr set_uniform_data_func_t func_table[] = {
         &set_uniform_data_vec1, // vec1
@@ -118,7 +122,7 @@ void OpenGLGDI::set_uniform_data(GLint location, GLUniformSlot& slot)
         "error: the translation table for UniformType in `set_uniform_data` is missing entries. "
         "Please update to sync with the UniformType enum");
 
-    return func_table[static_cast<size_t>(slot.type)](location, slot);
+    return func_table[static_cast<size_t>(slot.type)](info, slot);
 }
 
 bool OpenGLGDI::init(Viewport* viewport)
@@ -353,14 +357,29 @@ bool OpenGLGDI::create_uniform(uint32_t u_id, const char* name, uint32_t size, U
     buf->size = size;
     buf->type = type;
     buf->data = malloc(size);
-    memcpy(buf->name, name, namelen);
 
-    for (auto& c : buf->name) {
-        if (c == '.') {
-            c = '_';
-        }
+    // Keep normal name for samplers as they're not declared in uniform blocks
+    if (type == UniformType::tex2d || type == UniformType::tex1d || type == UniformType::tex3d) {
+        strcpy(buf->name, name);
+        return true;
     }
 
+    size_t block_len = 0;
+    size_t member_start = 0;
+    for (int c = 0; c < namelen; ++c) {
+        if (name[c] == '.') {
+            strncpy(buf->block, name, block_len);
+            member_start = block_len + 1;
+        }
+
+        ++block_len;
+    }
+
+    SKY_ASSERT(member_start != 0, "Invalid format for uniform. "
+                                  "Must be specified as <uniform_block_name>.<uniform_name>, "
+                                  "i.e: `Params.model`")
+
+    strcpy(buf->name, name + member_start);
     return true;
 }
 
@@ -374,7 +393,7 @@ bool OpenGLGDI::set_uniform(uint32_t u_id, uint32_t index)
 
     if (uniform->location < 0) {
         auto prog = programs_.get(state_.program);
-        SKY_GL_CHECK(uniform->location = glGetUniformLocation(prog->id, uniform->name));
+        SKY_GL_CHECK(uniform->location = glGetUniformLocation(prog->id, uniform->block));
         if (uniform->location < 0) {
             SKY_ERROR("Renderer", "No uniform with the name `%s` was found in the set program",
                       uniform->name);
@@ -593,7 +612,7 @@ bool OpenGLGDI::check_uniform_slots()
 
         // The uniform is bound and needs its data updated
         // TODO(Jacob): This should really occur in `update_uniform`
-        set_uniform_data(info.location, *uniform);
+        set_uniform_data(info, *uniform);
     }
 
     return true;
