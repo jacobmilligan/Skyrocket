@@ -93,6 +93,11 @@ bool GLProgram::create(const char* vertex_source, const char* fragment_source)
             SKY_GL_CHECK(glGetActiveAttrib(id, attr, GLUniformInfo::max_name,
                                                  &info.name_len, &info.size, &type, info.name));
             SKY_GL_CHECK(info.location = glGetAttribLocation(id, info.name));
+
+            if (strncmp(info.name, instance_prefix_, instance_prefix_len_) == 0) {
+                info.type = gl_translate_uniform_type(type);
+                instances.push_back(info);
+            }
         }
     }
 

@@ -39,4 +39,3 @@ target_link_libraries(${PROJECT_NAME} ${skyrocket_libraries})
 
 # Dependencies
 add_subdirectory(Deps/Jobrocket)
-add_subdirectory(Deps/Shadecc)

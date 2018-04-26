@@ -197,8 +197,8 @@ public:
         cmdlist.set_state(sky::RenderPipelineState::culling_backface);
         cmdlist.set_program(program_);
 
-        uint32_t modelpos = (renderer.active_backend() == sky::RendererBackend::Metal) ? 1 : 3;
-        uint32_t viewpos = (renderer.active_backend() == sky::RendererBackend::Metal) ? 2 : 0;
+        uint32_t modelpos = 3;
+        uint32_t viewpos = 0;
 
         cmdlist.set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(vertices_.size()));
         cmdlist.set_instance_buffer(model_ubuf_, modelpos);

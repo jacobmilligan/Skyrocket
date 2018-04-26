@@ -1,7 +1,10 @@
 file(GLOB shaders "${CMAKE_CURRENT_SOURCE_DIR}/Shaders/Source/*.glsl")
 
+add_custom_command(OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/Shaders/Build
+        COMMAND shadecc -i ${CMAKE_CURRENT_SOURCE_DIR}/Shaders/Source -o ${CMAKE_CURRENT_SOURCE_DIR}/Shaders/Build
+        DEPENDS ${shaders})
+
 add_custom_target(
-        BuildShaders
-        COMMAND python3 ../../../Deps/Shadecc/shadecc/__init__.py -i Source -o Build
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Shaders
+        BuildShaders ALL
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/Shaders/Build
 )
