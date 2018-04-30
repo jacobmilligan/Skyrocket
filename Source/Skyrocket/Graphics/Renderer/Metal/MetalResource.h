@@ -126,6 +126,8 @@ private:
     id<MTLFunction> vs_{nil};
     id<MTLFunction> frag_{nil};
     std::unordered_map<uint32_t, id<MTLRenderPipelineState>> render_pipeline_states_;
+
+    MTLVertexFormat get_vertex_format(MTLVertexAttribute* attr);
 };
 
 

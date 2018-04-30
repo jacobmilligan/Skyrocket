@@ -30,6 +30,92 @@ void MetalProgram::destroy()
     }
 }
 
+MTLVertexFormat MetalProgram::get_vertex_format(MTLVertexAttribute* attr)
+{
+    static constexpr MTLVertexFormat formats[] = {
+        MTLVertexFormatInvalid, // MTLDataTypeNone
+        MTLVertexFormatInvalid, // MTLDataTypeStruct
+        MTLVertexFormatInvalid, // MTLDataTypeArray
+
+        MTLVertexFormatFloat,   // MTLDataTypeFloat
+        MTLVertexFormatFloat2,  // MTLDataTypeFloat2
+        MTLVertexFormatFloat3,  // MTLDataTypeFloat3
+        MTLVertexFormatFloat4,  // MTLDataTypeFloat4
+
+        MTLVertexFormatInvalid, // MTLDataTypeFloat2x2
+        MTLVertexFormatInvalid, // MTLDataTypeFloat2x3
+        MTLVertexFormatInvalid, // MTLDataTypeFloat2x4
+
+        MTLVertexFormatInvalid, // MTLDataTypeFloat3x2
+        MTLVertexFormatInvalid, // MTLDataTypeFloat3x3
+        MTLVertexFormatInvalid, // MTLDataTypeFloat3x4
+
+        MTLVertexFormatInvalid, // MTLDataTypeFloat4x2
+        MTLVertexFormatInvalid, // MTLDataTypeFloat4x3
+        MTLVertexFormatInvalid, // MTLDataTypeFloat4x4
+
+        MTLVertexFormatHalf2,   // MTLDataTypeHalf
+        MTLVertexFormatHalf2,   // MTLDataTypeHalf2
+        MTLVertexFormatHalf3,   // MTLDataTypeHalf3
+        MTLVertexFormatHalf4,   // MTLDataTypeHalf4
+
+        MTLVertexFormatInvalid, // MTLDataTypeHalf2x2
+        MTLVertexFormatInvalid, // MTLDataTypeHalf2x3
+        MTLVertexFormatInvalid, // MTLDataTypeHalf2x4
+
+        MTLVertexFormatInvalid, // MTLDataTypeHalf3x2
+        MTLVertexFormatInvalid, // MTLDataTypeHalf3x3
+        MTLVertexFormatInvalid, // MTLDataTypeHalf3x4
+
+        MTLVertexFormatInvalid, // MTLDataTypeHalf4x2
+        MTLVertexFormatInvalid, // MTLDataTypeHalf4x3
+        MTLVertexFormatInvalid, // MTLDataTypeHalf4x4
+
+        MTLVertexFormatInt,     // MTLDataTypeInt
+        MTLVertexFormatInt2,    // MTLDataTypeInt2
+        MTLVertexFormatInt3,    // MTLDataTypeInt3
+        MTLVertexFormatInt4,    // MTLDataTypeInt4
+
+        MTLVertexFormatUInt,    // MTLDataTypeUInt
+        MTLVertexFormatUInt2,   // MTLDataTypeUInt2
+        MTLVertexFormatUInt3,   // MTLDataTypeUInt3
+        MTLVertexFormatUInt4,   // MTLDataTypeUInt4
+
+        MTLVertexFormatShort2,  // MTLDataTypeShort
+        MTLVertexFormatShort2,  // MTLDataTypeShort2
+        MTLVertexFormatShort3,  // MTLDataTypeShort3
+        MTLVertexFormatShort4,  // MTLDataTypeShort4
+
+        MTLVertexFormatUShort2, // MTLDataTypeUShort
+        MTLVertexFormatUShort2, // MTLDataTypeUShort2
+        MTLVertexFormatUShort3, // MTLDataTypeUShort3
+        MTLVertexFormatUShort4, // MTLDataTypeUShort4
+
+        MTLVertexFormatChar2,   // MTLDataTypeChar
+        MTLVertexFormatChar2,   // MTLDataTypeChar2
+        MTLVertexFormatChar3,   // MTLDataTypeChar3
+        MTLVertexFormatChar4,   // MTLDataTypeChar4
+
+        MTLVertexFormatUChar2,  // MTLDataTypeUChar
+        MTLVertexFormatUChar2,  // MTLDataTypeUChar2
+        MTLVertexFormatUChar3,  // MTLDataTypeUChar3
+        MTLVertexFormatUChar4,  // MTLDataTypeUChar4
+
+        MTLVertexFormatInvalid, // MTLDataTypeBool
+        MTLVertexFormatInvalid, // MTLDataTypeBool2
+        MTLVertexFormatInvalid, // MTLDataTypeBool3
+        MTLVertexFormatInvalid, // MTLDataTypeBool4
+    };
+
+    static constexpr size_t format_tablesize = sizeof(formats) / sizeof(MTLVertexFormat);
+
+    static_assert(format_tablesize == MTLDataTypeBool4 + 1,
+                  "Skyrocket: Metal error: the translation table for MTLVertexFormat "
+                  "is missing entries. Please update to sync with the MTLVertexFormat enum.");
+
+    return formats[attr.attributeType];
+}
+
 id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice> device)
 {
     auto flags = program_id_ + default_state_flags;
@@ -43,8 +129,21 @@ id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice>
     SKY_ASSERT(vs_ != nil && frag_ != nil, "VS and FS functions are not nil")
 
     NSError* err = nil;
-
     MTLRenderPipelineDescriptor* pipeline_descriptor = [[MTLRenderPipelineDescriptor new] autorelease];
+
+    if (vs_.vertexAttributes.count > 0) {
+        auto vertexDescriptor = [MTLVertexDescriptor vertexDescriptor];
+        uint32_t i = 0;
+        for (MTLVertexAttribute* attr in vs_.vertexAttributes) {
+            if (!attr.active) {
+                continue;
+            }
+
+            vertexDescriptor.attributes[i].format = get_vertex_format(attr);
+            vertexDescriptor.attributes[i].bufferIndex =
+        }
+    }
+
     pipeline_descriptor.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm;
     pipeline_descriptor.vertexFunction = vs_;
     pipeline_descriptor.fragmentFunction = frag_;

@@ -263,7 +263,7 @@ private:
 int main(int argc, char** argv)
 {
     auto app = std::make_unique<CubeApp>();
-    app->start(sky::Renderer::ThreadSupport::single_threaded, sky::RendererBackend::OpenGL);
+    app->start(sky::Renderer::ThreadSupport::single_threaded, sky::RendererBackend::Metal);
 
     return 0;
 }
