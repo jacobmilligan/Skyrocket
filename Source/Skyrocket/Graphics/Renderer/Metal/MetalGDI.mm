@@ -124,7 +124,9 @@ fragment float4 default_fragment(Vertex in [[stage_in]])
         id<MTLFunction> vs = [lib newFunctionWithName:@"default_vertex"];
         id<MTLFunction> frag = [lib newFunctionWithName:@"default_fragment"];
 
-        default_program_ = MetalProgram(0, vs, frag);
+        shadecc::ShaderSource src_obj = {};
+        default_program_ = MetalProgram(0);
+        default_program_.create_from_functions(device_, vs, frag, false, false);
 
         //--------------------------------
         //  Load main render pipeline
@@ -340,40 +342,9 @@ bool MetalGDI::set_index_buffer(const uint32_t ibuf_id)
 bool MetalGDI::create_program(uint32_t program_id, const shadecc::ShaderSource& vs_src,
                               const shadecc::ShaderSource& fs_src)
 {
-    NSError* err = nil;
-    id<MTLLibrary> lib = nil;
-
-    auto make_function = [&](const shadecc::ShaderSource& src) -> id<MTLFunction> {
-        id<MTLFunction> func = nil;
-        lib = [device_ newLibraryWithSource:[NSString stringWithUTF8String:src.msl_src]
-                                    options:nil
-                                      error:&err];
-        if ( lib == nil ) {
-            SKY_ERROR("Shader", "Couldn't load metal shader library (see NSError: %s)",
-                      [[err localizedDescription] UTF8String]);
-            return nil;
-        }
-
-        auto name = "main0";
-        NSString* func_name = [NSString stringWithUTF8String:name];
-        func = [lib newFunctionWithName:func_name];
-
-        if (func == nil) {
-            SKY_ERROR("Metal", "Couldn't create function from source with name `%s`. "
-                "The file only contains the following functions: %s",
-                      name, [[[lib functionNames] description] UTF8String]);
-        }
-
-        return func;
-    };
-
-    id<MTLFunction> vs = make_function(vs_src);
-    id<MTLFunction> frag = make_function(fs_src);
-
-    SKY_ASSERT(vs != nil && frag != nil, "VS and FS libraries compile succesfully");
-
     // Create program
-    MetalProgram program(program_id, vs, frag);
+    MetalProgram program(program_id);
+    program.create_from_source(device_, vs_src, fs_src);
     programs_.create(program_id, program);
 
     return true;
@@ -391,6 +362,7 @@ bool MetalGDI::set_program(const uint32_t program_id)
     } else {
         program = programs_.get(program_id);
     }
+
     render_pipeline_ = program->get_render_pipeline_state(device_);
     [render_encoder_ setRenderPipelineState:render_pipeline_];
 

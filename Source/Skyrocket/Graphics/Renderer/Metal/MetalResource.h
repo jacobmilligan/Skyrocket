@@ -13,10 +13,11 @@
 
 #include "Skyrocket/Graphics/Renderer/Definitions.hpp"
 
+#import <Metal/Metal.h>
+#import <Shadecc.hpp>
+
 #include <cstdint>
 #include <unordered_map>
-
-#import <Metal/Metal.h>
 
 namespace sky {
 
@@ -114,7 +115,11 @@ struct MetalInstanceBuffer {
 class MetalProgram {
 public:
     MetalProgram() = default;
-    MetalProgram(uint32_t program_id, id<MTLFunction> vs, id<MTLFunction> frag);
+    explicit MetalProgram(uint32_t program_id);
+    void create_from_functions(id<MTLDevice> device, id<MTLFunction> vs, id<MTLFunction> fs,
+                               bool vs_is_instanced, bool fs_is_instanced);
+    void create_from_source(id<MTLDevice> device, const shadecc::ShaderSource& vs,
+                            const shadecc::ShaderSource& fs);
 
     void destroy();
 
@@ -123,12 +128,16 @@ private:
     static constexpr uint32_t default_state_flags = MTLPixelFormatBGRA8Unorm;
 
     uint32_t program_id_{0};
+    bool vs_is_instanced_;
+    bool fs_is_instanced_;
     id<MTLFunction> vs_{nil};
-    id<MTLFunction> frag_{nil};
+    id<MTLFunction> fs_{nil};
     std::unordered_map<uint32_t, id<MTLRenderPipelineState>> render_pipeline_states_;
 
     MTLVertexFormat get_vertex_format(MTLVertexAttribute* attr);
 };
+
+id<MTLFunction> make_mtl_function(id<MTLDevice> device, const shadecc::ShaderSource& src);
 
 
 } // namespace sky

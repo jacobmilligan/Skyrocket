@@ -68,6 +68,6 @@ target_link_libraries(${lib_name}
 target_link_libraries(${lib_name} "${dependencies}")
 
 target_include_directories(${lib_name} PUBLIC ${skyrocket_root_directory}/Deps/stb_image)
-target_include_directories(${lib_name} PUBLIC ${skyrocket_root_directory}/Deps/Shadecc)
+target_include_directories(${lib_name} PUBLIC ${skyrocket_root_directory}/Deps/Shadecc/shadecc/include)
 
 

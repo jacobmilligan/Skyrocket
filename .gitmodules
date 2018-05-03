@@ -1,3 +1,6 @@
 [submodule "Deps/Jobrocket"]
 	path = Deps/Jobrocket
 	url = https://github.com/jacobmilligan/Jobrocket.git
+[submodule "Deps/Shadecc"]
+	path = Deps/Shadecc
+	url = https://github.com/jacobmilligan/Shadecc.git
