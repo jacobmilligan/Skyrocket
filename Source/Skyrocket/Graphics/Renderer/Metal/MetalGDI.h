@@ -67,11 +67,11 @@ protected:
     bool update_uniform(uint32_t u_id, const MemoryBlock& data, uint32_t offset) override;
 
     bool create_texture(uint32_t t_id, uint32_t width,
-                        uint32_t height, PixelFormat::Enum pixel_format,
+                        uint32_t height, PixelFormat pixel_format,
                         bool mipmapped) override;
 
     bool create_texture_region(uint32_t tex_id, const UIntRect& region,
-                               PixelFormat::Enum pixel_format, uint8_t* data) override;
+                               PixelFormat pixel_format, uint8_t* data) override;
 
     bool set_texture(uint32_t t_id, uint32_t index) override;
 
@@ -105,7 +105,7 @@ private:
 
     static constexpr size_t mtl_pixelfmt_tablesize = sizeof(mtl_pixel_formats_) / sizeof(MTLPixelFormat);
 
-    static_assert(mtl_pixelfmt_tablesize == static_cast<size_t>(PixelFormat::Enum::unknown) + 1,
+    static_assert(mtl_pixelfmt_tablesize == static_cast<size_t>(PixelFormat::unknown) + 1,
                   "Skyrocket: Metal error: the translation table for PixelFormat "
                       "is missing entries. Please update to sync with the PixelFormat enum.");
 
@@ -135,7 +135,11 @@ private:
     HandleTable<MetalProgram, shader_max> programs_;
     HandleTable<id<MTLTexture>, texture_max> textures_;
 
+    std::unordered_map<uint64_t, id<MTLSamplerState>> sampler_states_;
+
     uint32_t buffer_index_{0};
+
+    id<MTLSamplerState> get_sampler_state(const uint64_t sampler_flags);
 };
 
 

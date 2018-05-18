@@ -112,8 +112,8 @@ bool CommandList::set_program(const uint32_t program_id)
     return true;
 }
 
-uint32_t CommandList::create_texture(const uint32_t width, const uint32_t height,
-                                       const PixelFormat::Enum pixel_format, const bool mipmapped)
+uint32_t CommandList::create_texture(uint32_t width, uint32_t height,
+                                     PixelFormat pixel_format, bool mipmapped)
 {
     auto handle = make_handle();
     buffer->write_command(CommandType::create_texture, CreateTextureData {
@@ -122,8 +122,8 @@ uint32_t CommandList::create_texture(const uint32_t width, const uint32_t height
     return handle;
 }
 
-void CommandList::create_texture_region(const uint32_t texture, const UIntRect& region,
-                                          const PixelFormat::Enum pixel_format, uint8_t* data)
+void CommandList::create_texture_region(uint32_t texture, const UIntRect& region,
+                                        PixelFormat pixel_format, uint8_t* data)
 {
     buffer->write_command(CommandType::create_texture_region, CreateTextureRegionData {
         texture, region, pixel_format, data
@@ -138,9 +138,9 @@ bool CommandList::set_texture(const uint32_t texture, const uint32_t index)
     return true;
 }
 
-void CommandList::set_state(const uint32_t state_flags)
+void CommandList::set_state(const RenderPipelineState state_flags)
 {
-    buffer->write_command(CommandType::set_state, state_flags);
+    buffer->write_command(CommandType::set_state, flag_type(state_flags));
 }
 
 void CommandList::draw()

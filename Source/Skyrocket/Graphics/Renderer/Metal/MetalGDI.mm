@@ -421,11 +421,23 @@ bool MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data, cons
     return true;
 }
 
-bool MetalGDI::create_texture(const uint32_t t_id, const uint32_t width,
-                                 const uint32_t height, const PixelFormat::Enum pixel_format,
-                                 const bool mipmapped)
+id<MTLSamplerState> MetalGDI::get_sampler_state(const uint64_t sampler_flags)
 {
-    auto mtl_format = mtl_pixel_formats_[pixel_format];
+    auto sampler = sampler_states_.find(sampler_flags);
+    if (sampler != sampler_states_.end()) {
+        return sampler->second;
+    }
+
+    auto ss_descriptor = [[MTLSamplerDescriptor new] autorelease];
+//    ss_descriptor.minFilter
+//    sampler_states_.insert(std::make_pair(sampler_flags, ));
+}
+
+bool MetalGDI::create_texture(uint32_t t_id, uint32_t width,
+                              uint32_t height, PixelFormat pixel_format,
+                              bool mipmapped)
+{
+    auto mtl_format = mtl_pixel_formats_[flag_type(pixel_format)];
     auto* descriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:mtl_format
                                                                           width:width
                                                                          height:height
@@ -434,12 +446,12 @@ bool MetalGDI::create_texture(const uint32_t t_id, const uint32_t width,
     return true;
 }
 
-bool MetalGDI::create_texture_region(const uint32_t tex_id, const UIntRect& region,
-                                        const PixelFormat::Enum pixel_format, uint8_t* data)
+bool MetalGDI::create_texture_region(uint32_t tex_id, const UIntRect& region,
+                                     PixelFormat pixel_format, uint8_t* data)
 {
-    auto bytes_per_pixel = PixelFormat::bytes_per_pixel(pixel_format);
+    auto bpp = pf_bytes_per_pixel(pixel_format);
     auto tex = textures_.get(tex_id);
-    auto bpr = bytes_per_pixel * region.width;
+    auto bpr = bpp * region.width;
     MTLRegion mtl_region = MTLRegionMake2D(region.position.x, region.position.y,
                                            region.width, region.height);
     [*tex replaceRegion:mtl_region
@@ -464,20 +476,20 @@ bool MetalGDI::set_texture(const uint32_t t_id, const uint32_t index)
 
 bool MetalGDI::set_state(const uint32_t flags)
 {
-    if ( ( 0 | RenderPipelineState::culling_none
-        | RenderPipelineState::culling_backface
-        | RenderPipelineState::culling_frontface)
+    if ( ( 0 | flag_type(RenderPipelineState::culling_none)
+        | flag_type(RenderPipelineState::culling_backface)
+        | flag_type(RenderPipelineState::culling_frontface) )
         & flags ) {
 
-        if ( RenderPipelineState::culling_none & flags ) {
+        if ( flag_type(RenderPipelineState::culling_none) & flags ) {
             [render_encoder_ setCullMode:MTLCullModeNone];
         }
 
-        if ( RenderPipelineState::culling_backface & flags ) {
+        if ( flag_type(RenderPipelineState::culling_backface) & flags ) {
             [render_encoder_ setCullMode:MTLCullModeBack];
         }
 
-        if ( RenderPipelineState::culling_frontface & flags ) {
+        if ( flag_type(RenderPipelineState::culling_frontface) & flags ) {
             [render_encoder_ setCullMode:MTLCullModeFront];
         }
 

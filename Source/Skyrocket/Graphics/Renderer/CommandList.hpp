@@ -209,14 +209,14 @@ public:
     bool set_program(uint32_t program_id);
 
     uint32_t create_texture(uint32_t width, uint32_t height,
-                            PixelFormat::Enum pixel_format, bool mipmapped = false);
+                            PixelFormat pixel_format, bool mipmapped = false);
 
     void create_texture_region(uint32_t texture, const UIntRect& region,
-                               PixelFormat::Enum pixel_format, uint8_t* data);
+                               PixelFormat pixel_format, uint8_t* data);
 
     bool set_texture(uint32_t texture, uint32_t index);
 
-    void set_state(uint32_t state_flags);
+    void set_state(const RenderPipelineState state_flags);
 
     /// @brief Sends a command to draw triangle primitives
     void draw();

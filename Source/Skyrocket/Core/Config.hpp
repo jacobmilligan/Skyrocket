@@ -232,4 +232,22 @@ const auto target_compiler = Compiler::unknown;
     } while (false)
 
 
+#define SKY_ENUM_FLAG_OPERATOR(T, U, X) inline T operator X(T lhs, T rhs) \
+    { \
+        return static_cast<T>(static_cast<U>(lhs) X static_cast<U>(rhs)); \
+    }
+
+#define SKY_FLAGS(T, U) enum class T : U; \
+    inline U flag_type(T cls) \
+    { \
+        return static_cast<U>(cls); \
+    } \
+    inline T operator~(T cls) \
+    { \
+        return static_cast<T>(~static_cast<U>(cls)); \
+    } \
+    SKY_ENUM_FLAG_OPERATOR(T, U, |) \
+    SKY_ENUM_FLAG_OPERATOR(T, U, ^) \
+    SKY_ENUM_FLAG_OPERATOR(T, U, &) \
+    enum class T : U
 }

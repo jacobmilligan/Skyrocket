@@ -211,11 +211,11 @@ protected:
     virtual bool update_instance_buffer(uint32_t inst_id, uint8_t* data, uint32_t index);
 
     virtual bool create_texture(uint32_t t_id, uint32_t width,
-                                uint32_t height, PixelFormat::Enum pixel_format,
+                                uint32_t height, PixelFormat pixel_format,
                                 bool mipmapped);
 
     virtual bool create_texture_region(uint32_t tex_id, const UIntRect& region,
-                                       PixelFormat::Enum pixel_format, uint8_t* data);
+                                       PixelFormat pixel_format, uint8_t* data);
 
     virtual bool set_texture(uint32_t t_id, uint32_t index);
 

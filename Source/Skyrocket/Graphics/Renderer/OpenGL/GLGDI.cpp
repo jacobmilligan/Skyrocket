@@ -489,7 +489,7 @@ bool OpenGLGDI::set_instance_buffer(uint32_t inst_id, uint32_t index)
 }
 
 bool OpenGLGDI::create_texture(uint32_t t_id, uint32_t width, uint32_t height,
-                               PixelFormat::Enum pixel_format, bool mipmapped)
+                               PixelFormat pixel_format, bool mipmapped)
 {
     auto tex = textures_.create(t_id);
     if (tex == nullptr) {
@@ -509,7 +509,7 @@ bool OpenGLGDI::create_texture(uint32_t t_id, uint32_t width, uint32_t height,
     SKY_GL_CHECK(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0));
 
     // Generate blank texture to be filled with `create_texture_region`
-    auto pxlfmt = gl_pixel_formats_[pixel_format];
+    auto pxlfmt = gl_pixel_formats_[flag_type(pixel_format)];
     SKY_GL_CHECK(glTexImage2D(GL_TEXTURE_2D, 0, pxlfmt.internal_format, width, height, 0,
                                     pxlfmt.data_format, GL_UNSIGNED_BYTE, nullptr));
 
@@ -518,15 +518,15 @@ bool OpenGLGDI::create_texture(uint32_t t_id, uint32_t width, uint32_t height,
 }
 
 bool OpenGLGDI::create_texture_region(uint32_t tex_id, const UIntRect& region,
-                                      PixelFormat::Enum pixel_format, uint8_t* data)
+                                      PixelFormat pixel_format, uint8_t* data)
 {
     auto tex = textures_.get(tex_id);
     if (tex == nullptr) {
         return false;
     }
 
-    auto gl_pxlfmt = gl_pixel_formats_[pixel_format];
-    auto bpp = PixelFormat::bytes_per_pixel(pixel_format);
+    auto gl_pxlfmt = gl_pixel_formats_[flag_type(pixel_format)];
+    auto bpp = pf_bytes_per_pixel(pixel_format);
 
     // Adjust unpack alignment for 8 and 16 bit pixel formats
     SKY_GL_CHECK(glPixelStorei(GL_UNPACK_ALIGNMENT, bpp));
@@ -555,21 +555,21 @@ bool OpenGLGDI::set_texture(uint32_t t_id, uint32_t index)
 
 bool OpenGLGDI::set_state(uint32_t flags)
 {
-    if ( ( 0 | RenderPipelineState::culling_none
-        | RenderPipelineState::culling_backface
-        | RenderPipelineState::culling_frontface)
+    if ( ( 0 | flag_type(RenderPipelineState::culling_none)
+        | flag_type(RenderPipelineState::culling_backface)
+        | flag_type(RenderPipelineState::culling_frontface))
         & flags ) {
 
-        if ( RenderPipelineState::culling_none & flags ) {
+        if ( flag_type(RenderPipelineState::culling_none)& flags ) {
             SKY_GL_CHECK(glDisable(GL_CULL_FACE));
         }
 
-        if ( RenderPipelineState::culling_backface & flags ) {
+        if ( flag_type(RenderPipelineState::culling_backface) & flags ) {
             SKY_GL_CHECK(glEnable(GL_CULL_FACE));
             SKY_GL_CHECK(glCullFace(GL_BACK));
         }
 
-        if ( RenderPipelineState::culling_frontface & flags ) {
+        if ( flag_type(RenderPipelineState::culling_frontface) & flags ) {
             SKY_GL_CHECK(glEnable(GL_CULL_FACE));
             SKY_GL_CHECK(glCullFace(GL_FRONT));
         }

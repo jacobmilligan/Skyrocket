@@ -61,9 +61,9 @@ protected:
     bool set_instance_buffer(uint32_t inst_id, uint32_t index) override;
 
     bool create_texture(uint32_t t_id, uint32_t width, uint32_t height,
-                                PixelFormat::Enum pixel_format, bool mipmapped) override;
+                        PixelFormat pixel_format, bool mipmapped) override;
     bool create_texture_region(uint32_t tex_id, const UIntRect& region,
-                                       PixelFormat::Enum pixel_format, uint8_t* data) override;
+                               PixelFormat pixel_format, uint8_t* data) override;
     bool set_texture(uint32_t t_id, uint32_t index) override;
 
     bool set_state(uint32_t flags) override;
@@ -93,7 +93,7 @@ private:
 
     static constexpr size_t gl_pixelfmt_tablesize = sizeof(gl_pixel_formats_) / sizeof(GLPixelFormat);
 
-    static_assert(gl_pixelfmt_tablesize == static_cast<size_t>(PixelFormat::Enum::unknown) + 1,
+    static_assert(gl_pixelfmt_tablesize == static_cast<size_t>(PixelFormat::unknown) + 1,
                   "Skyrocket: OpenGL error: the translation table for PixelFormat "
                       "is missing entries. Please update to sync with the PixelFormat enum.");
 

@@ -397,16 +397,16 @@ bool GDI::update_uniform(const uint32_t  /*u_id*/, const MemoryBlock&  /*data*/,
     return true;
 }
 
-bool GDI::create_texture(const uint32_t  /*t_id*/, const uint32_t /*width*/,
-                         const uint32_t  /*height*/, const PixelFormat::Enum /*pixel_format*/,
-                         const bool  /*mipmapped*/)
+bool GDI::create_texture(uint32_t  /*t_id*/, uint32_t /*width*/,
+                         uint32_t  /*height*/, PixelFormat /*pixel_format*/,
+                         bool  /*mipmapped*/)
 {
     // no op
     return true;
 }
 
-bool GDI::create_texture_region(const uint32_t /*tex_id*/, const UIntRect& /*region*/,
-                                const PixelFormat::Enum /*pixel_format*/, uint8_t* /*data*/)
+bool GDI::create_texture_region(uint32_t /*tex_id*/, const UIntRect& /*region*/,
+                                PixelFormat /*pixel_format*/, uint8_t* /*data*/)
 {
     // no op
     return true;

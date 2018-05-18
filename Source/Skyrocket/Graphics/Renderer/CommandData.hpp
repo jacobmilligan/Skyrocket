@@ -123,14 +123,14 @@ struct CreateTextureData {
     uint32_t tid;
     uint32_t width;
     uint32_t height;
-    PixelFormat::Enum format;
+    PixelFormat format;
     bool mipmapped;
 };
 
 struct CreateTextureRegionData {
     uint32_t tex_id{0};
     UIntRect rect;
-    PixelFormat::Enum format{PixelFormat::unknown};
+    PixelFormat format{PixelFormat::unknown};
     uint8_t* data{nullptr};
 };
 

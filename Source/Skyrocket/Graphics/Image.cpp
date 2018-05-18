@@ -37,16 +37,16 @@ void Image::load_from_file(const Path& path)
 
     switch (channels_in_file) {
         case 1:
-            pixel_format = PixelFormat::Enum::r8;
+            pixel_format = PixelFormat::r8;
             break;
         case 2:
-            pixel_format = PixelFormat::Enum::rg8;
+            pixel_format = PixelFormat::rg8;
             break;
         case 3:
-            pixel_format = PixelFormat::Enum::rgb8;
+            pixel_format = PixelFormat::rgb8;
             break;
         case 4:
-            pixel_format = PixelFormat::Enum::rgba8;
+            pixel_format = PixelFormat::rgba8;
             break;
         default:break;
     }

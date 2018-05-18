@@ -14,27 +14,27 @@
 namespace sky {
 
 
-uint32_t PixelFormat::bytes_per_pixel(const Enum& format)
+uint32_t pf_bytes_per_pixel(const PixelFormat& format)
 {
     switch (format) {
-        case Enum::r8:
-        case Enum::stencil:
+        case PixelFormat::r8:
+        case PixelFormat::stencil:
             return 1;
-        case Enum::r16:
-        case Enum::rg8:
-        case Enum::depth:
+        case PixelFormat::r16:
+        case PixelFormat::rg8:
+        case PixelFormat::depth:
             return 2;
-        case Enum::r32:
-        case Enum::rg16:
-        case Enum::bgra8:
-        case Enum::rgba8:
+        case PixelFormat::r32:
+        case PixelFormat::rg16:
+        case PixelFormat::bgra8:
+        case PixelFormat::rgba8:
             return 4;
-        case Enum::rg32:
-        case Enum::rgba16:
+        case PixelFormat::rg32:
+        case PixelFormat::rgba16:
             return 8;
-        case Enum::rgb8:
+        case PixelFormat::rgb8:
             return 3;
-        case Enum::rgba32:
+        case PixelFormat::rgba32:
             return 16;
         default:
             return 0;

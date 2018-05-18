@@ -13,6 +13,9 @@
 
 #include <cstdint>
 
+#include <Skyrocket/Core/Config.hpp>
+
+class SKY_ENUM_FLAG_OPERATOR;
 namespace sky {
 
 
@@ -37,32 +40,54 @@ enum class UniformType {
     unknown
 };
 
-enum RenderPipelineState {
-    culling_none = 0x1,
-    culling_backface = 0x2,
-    culling_frontface = 0x4
+SKY_FLAGS(RenderPipelineState, uint32_t) {
+    culling_none        = (1 << 0),
+    culling_backface    = (1 << 1),
+    culling_frontface   = (1 << 2)
 };
 
-struct PixelFormat {
-    enum Enum {
-        r8,
-        r16,
-        r32,
-        rg8,
-        rg16,
-        rg32,
-        rgb8,
-        bgra8,
-        rgba8,
-        rgba16,
-        rgba32,
-        depth,
-        stencil,
-        unknown
-    };
-
-    static uint32_t bytes_per_pixel(const Enum& format);
+enum class SamplerState {
+    mip_none                    = (1 << 0),
+    mip_nearest                 = (1 << 1),
+    mip_linear                  = (1 << 2),
+    mip_nearest_nearest         = (1 << 3),
+    mip_nearest_linear          = (1 << 4),
+    mip_linear_nearest          = (1 << 5),
+    mip_linear_linear           = (1 << 6),
+    tex_wrap_clamp_to_edge      = (1 << 7),
+    tex_wrap_repeat             = (1 << 8),
+    tex_wrap_mirrored_repeat    = (1 << 9)
 };
+
+enum class MinMagFilter {
+    nearest,
+    linear
+};
+
+enum class WrapMode {
+    clamp_to_edge,
+    repeat,
+    mirrored_repeat
+};
+
+SKY_FLAGS(PixelFormat, uint32_t) {
+    r8,
+    r16,
+    r32,
+    rg8,
+    rg16,
+    rg32,
+    rgb8,
+    bgra8,
+    rgba8,
+    rgba16,
+    rgba32,
+    depth,
+    stencil,
+    unknown
+};
+
+uint32_t pf_bytes_per_pixel(const PixelFormat& format);
 
 
 }  // namespace sky
