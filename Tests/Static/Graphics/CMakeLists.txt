@@ -1,0 +1,1 @@
+skyrocket_add_test(DefinitionsTest DefinitionsTest.cpp)

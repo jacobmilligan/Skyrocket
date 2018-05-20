@@ -141,7 +141,7 @@ std::unique_ptr<GDI> GDI::create(const RendererBackend backend, GDI* copy) noexc
 
 void GDI::submit(sky::CommandBuffer* cmdbuf)
 {
-    AssertGuard ag("Submitting a command buffer", "");
+    SKY_ASSERT_GUARD(ag, "Submitting a command buffer", nullptr);
 
     CommandType* typeptr = nullptr;
     state_.reset();

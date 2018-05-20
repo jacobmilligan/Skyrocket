@@ -11,7 +11,39 @@
 
 #include "Skyrocket/Graphics/Renderer/Definitions.hpp"
 
+#if SKY_DEBUG == 1
+
+#include <string>
+
+#endif
+
 namespace sky {
+
+SamplerStateDescriptor SamplerStateDescriptor::decode_flags(const uint32_t flags)
+{
+    SKY_ASSERT_GUARD(ag, "Decoding SamplerState flag", std::to_string(flags).c_str());
+
+    const auto mip = flags & sampler_state_mip_mask;
+    const auto minmag = flags & sampler_state_min_mag_mask;
+    const auto texwrap = flags & sampler_state_texture_wrap_mask;
+
+    SKY_ASSERT(mip != sampler_state_mip_mask,
+               "Exactly one mipmap filter flag was specified");
+    SKY_ASSERT(minmag != sampler_state_min_mag_mask,
+               "Exactly one min/mag filter flag was specified");
+    SKY_ASSERT(texwrap != sampler_state_texture_wrap_mask,
+               "Exactly one texture wrap mode flag was specified");
+
+    SKY_ASSERT(mip != 0, "A valid mipmap filter flag was specified");
+    SKY_ASSERT(minmag != 0, "A valid min/mag filter flag was specified");
+    SKY_ASSERT(texwrap != 0, "A valid texture wrap mode flag was specified");
+
+    return SamplerStateDescriptor {
+        static_cast<SamplerStateFlags>(mip),
+        static_cast<SamplerStateFlags>(minmag),
+        static_cast<SamplerStateFlags>(texwrap)
+    };
+}
 
 
 uint32_t pf_bytes_per_pixel(const PixelFormat& format)
@@ -40,6 +72,5 @@ uint32_t pf_bytes_per_pixel(const PixelFormat& format)
             return 0;
     }
 }
-
 
 } // namespace sky

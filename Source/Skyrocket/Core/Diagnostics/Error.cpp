@@ -55,10 +55,6 @@ void __sky_print_error(const char* func, const char* file, const int line,
     fprintf(stderr, "\nAt: %s:%d in: %s\n", file, line, func);
 }
 
-
-} // namespace detail
-
-
 #if SKY_DEBUG == 1
 
 AssertGuard::AssertGuard(const char* action, const char* data)
@@ -74,6 +70,7 @@ AssertGuard::~AssertGuard()
 }
 
 
+
 #else
 
 AssertGuard::AssertGuard(const char* action, const char* data) {}
@@ -82,4 +79,5 @@ AssertGuard::~AssertGuard() {}
 #endif
 
 
+} // namespace detail
 } // namespace sky

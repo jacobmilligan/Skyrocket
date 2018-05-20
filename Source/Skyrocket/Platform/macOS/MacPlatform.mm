@@ -24,7 +24,7 @@ namespace sky {
 
 void Platform::native_init()
 {
-    AssertGuard assert_guard("Initializing platform", app_title_);
+    SKY_ASSERT_GUARD(ag, "Initializing platform", app_title_);
 
 //    SKY_ASSERT(app_ != nullptr, "Application is not null");
 

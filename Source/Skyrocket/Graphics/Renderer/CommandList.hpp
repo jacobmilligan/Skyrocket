@@ -216,7 +216,7 @@ public:
 
     bool set_texture(uint32_t texture, uint32_t index);
 
-    void set_state(const RenderPipelineState state_flags);
+    void set_state(PipelineStateFlags state_flags);
 
     /// @brief Sends a command to draw triangle primitives
     void draw();

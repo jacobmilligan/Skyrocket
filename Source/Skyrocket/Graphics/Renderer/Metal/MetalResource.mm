@@ -141,6 +141,7 @@ MTLVertexFormat MetalProgram::get_vertex_format(MTLVertexAttribute* attr)
 
 id<MTLRenderPipelineState> MetalProgram::get_render_pipeline_state(id<MTLDevice> device)
 {
+    // TODO(Jacob): make this hash actually do something
     auto flags = program_id_ + default_state_flags;
     auto hash = hash::murmur3_32(&flags, sizeof(uint32_t), 0);
     auto rps = render_pipeline_states_.find(hash);

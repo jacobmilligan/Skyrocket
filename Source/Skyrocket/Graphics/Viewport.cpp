@@ -23,7 +23,7 @@ void Viewport::open(const Renderer& renderer, const char* caption, const uint16_
     width_ = width;
     height_ = height;
 
-    AssertGuard assert_guard("Creating window with caption", caption);
+    SKY_ASSERT_GUARD(ag, "Creating window with caption", caption);
 
     //SKY_ASSERT(Platform::is_initialized(), "Platform is uninitialized");
 

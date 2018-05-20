@@ -138,7 +138,7 @@ bool CommandList::set_texture(const uint32_t texture, const uint32_t index)
     return true;
 }
 
-void CommandList::set_state(const RenderPipelineState state_flags)
+void CommandList::set_state(const PipelineStateFlags state_flags)
 {
     buffer->write_command(CommandType::set_state, flag_type(state_flags));
 }

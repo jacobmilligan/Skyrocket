@@ -29,7 +29,7 @@ void Platform::launch(const char* app_title)
 
 void Platform::poll_events()
 {
-    AssertGuard guard("Polling events", nullptr);
+    SKY_ASSERT_GUARD(guard, "Polling events", nullptr);
     SKY_ASSERT(initialized_, "Platform is initialized before polling events");
 
     events_.reset_keyboard_state();

@@ -9,15 +9,10 @@
 //  Copyright (c) 2016 Jacob Milligan. All rights reserved.
 //
 
-#import <Skyrocket/Core/Math.hpp>
-
-#include "Skyrocket/Core/Hash.hpp"
+#include "Skyrocket/Core/Math.hpp"
 #include "Skyrocket/Graphics/Renderer/Metal/MetalGDI.h"
 #include "Skyrocket/Graphics/Renderer/Metal/MetalView.h"
 #include "Skyrocket/Graphics/Apple/MacViewport.h"
-#include "Skyrocket/Platform/Filesystem.hpp"
-
-#import <Shadecc.hpp>
 
 //TODO(Jacob): Textures
 
@@ -353,7 +348,7 @@ bool MetalGDI::create_program(uint32_t program_id, const shadecc::ShaderSource& 
 
 bool MetalGDI::set_program(const uint32_t program_id)
 {
-    AssertGuard ag("Setting a program", std::to_string(program_id).c_str());
+    SKY_ASSERT_GUARD(ag, "Setting a program", std::to_string(program_id).c_str());
 
     NSError* err = nil;
     MetalProgram* program = nullptr;
@@ -476,20 +471,20 @@ bool MetalGDI::set_texture(const uint32_t t_id, const uint32_t index)
 
 bool MetalGDI::set_state(const uint32_t flags)
 {
-    if ( ( 0 | flag_type(RenderPipelineState::culling_none)
-        | flag_type(RenderPipelineState::culling_backface)
-        | flag_type(RenderPipelineState::culling_frontface) )
+    if ( ( 0 | flag_type(PipelineStateFlags::culling_none)
+        | flag_type(PipelineStateFlags::culling_backface)
+        | flag_type(PipelineStateFlags::culling_frontface) )
         & flags ) {
 
-        if ( flag_type(RenderPipelineState::culling_none) & flags ) {
+        if ( flag_type(PipelineStateFlags::culling_none) & flags ) {
             [render_encoder_ setCullMode:MTLCullModeNone];
         }
 
-        if ( flag_type(RenderPipelineState::culling_backface) & flags ) {
+        if ( flag_type(PipelineStateFlags::culling_backface) & flags ) {
             [render_encoder_ setCullMode:MTLCullModeBack];
         }
 
-        if ( flag_type(RenderPipelineState::culling_frontface) & flags ) {
+        if ( flag_type(PipelineStateFlags::culling_frontface) & flags ) {
             [render_encoder_ setCullMode:MTLCullModeFront];
         }
 

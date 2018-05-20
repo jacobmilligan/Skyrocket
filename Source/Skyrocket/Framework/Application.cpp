@@ -29,7 +29,7 @@ Application::~Application() = default;
 void Application::start(const Renderer::ThreadSupport graphics_threading,
                         const RendererBackend renderer_backend)
 {
-    AssertGuard ag("Application is starting", name_);
+    SKY_ASSERT_GUARD(ag, "Application is starting", name_);
     {
         platform.launch(name_);
 

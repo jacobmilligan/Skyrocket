@@ -130,7 +130,7 @@ bool OpenGLGDI::init(Viewport* viewport)
     Matrix::depth = ClipSpaceDepth::negative_one_to_one;
 
     {
-        AssertGuard ag("Creating OpenGL context", nullptr);
+        SKY_ASSERT_GUARD(ag, "Creating OpenGL context", nullptr);
         viewport_ = viewport;
         context_.create();
 
@@ -555,21 +555,21 @@ bool OpenGLGDI::set_texture(uint32_t t_id, uint32_t index)
 
 bool OpenGLGDI::set_state(uint32_t flags)
 {
-    if ( ( 0 | flag_type(RenderPipelineState::culling_none)
-        | flag_type(RenderPipelineState::culling_backface)
-        | flag_type(RenderPipelineState::culling_frontface))
+    if ( ( 0 | flag_type(PipelineStateFlags::culling_none)
+        | flag_type(PipelineStateFlags::culling_backface)
+        | flag_type(PipelineStateFlags::culling_frontface))
         & flags ) {
 
-        if ( flag_type(RenderPipelineState::culling_none)& flags ) {
+        if ( flag_type(PipelineStateFlags::culling_none) & flags ) {
             SKY_GL_CHECK(glDisable(GL_CULL_FACE));
         }
 
-        if ( flag_type(RenderPipelineState::culling_backface) & flags ) {
+        if ( flag_type(PipelineStateFlags::culling_backface) & flags ) {
             SKY_GL_CHECK(glEnable(GL_CULL_FACE));
             SKY_GL_CHECK(glCullFace(GL_BACK));
         }
 
-        if ( flag_type(RenderPipelineState::culling_frontface) & flags ) {
+        if ( flag_type(PipelineStateFlags::culling_frontface) & flags ) {
             SKY_GL_CHECK(glEnable(GL_CULL_FACE));
             SKY_GL_CHECK(glCullFace(GL_FRONT));
         }

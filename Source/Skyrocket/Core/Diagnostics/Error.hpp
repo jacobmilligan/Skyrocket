@@ -39,6 +39,20 @@ void __sky_print_error(const char* func, const char* file, const int line,
 void __sky_assert_handler(const char* function, const char* file, const int line,
                           const char* expr, const char* msgformat, ...) SKY_PRINTFLIKE(5, 6);
 
+/// @brief Creates a scoped context for a set of assertions. AssertGuards are stored in a
+/// stack which gets unwound if any assert occurs. This allows for nesting assertion scopes
+/// to find the path an assertion took before failing in a similar manner to exceptions.
+class AssertGuard {
+public:
+    /// @brief Creates a new assertion scope
+    /// @param action The action associated with the set of assertions
+    /// @param data Any data to print alongside the context when unwound
+    AssertGuard(const char* action, const char* data);
+
+    /// @brief Pops the assert guard off the context stack
+    ~AssertGuard();
+};
+
 }  // namespace detail
 
 #if SKY_DEBUG == 1
@@ -64,19 +78,11 @@ void __sky_assert_handler(const char* function, const char* file, const int line
 #define SKY_ERROR(type, msg, ...) sky::detail::__sky_print_error(SKY_FUNCTION_NAME, \
         __FILE__, __LINE__, type, msg, ##__VA_ARGS__);
 
-/// @brief Creates a scoped context for a set of assertions. AssertGuards are stored in a
-/// stack which gets unwound if any assert occurs. This allows for nesting assertion scopes
-/// to find the path an assertion took before failing in a similar manner to exceptions.
-class AssertGuard {
-public:
-    /// @brief Creates a new assertion scope
-    /// @param action The action associated with the set of assertions
-    /// @param data Any data to print alongside the context when unwound
-    AssertGuard(const char* action, const char* data);
-
-    /// @brief Pops the assert guard off the context stack
-    ~AssertGuard();
-};
+#if SKY_DEBUG == 1
+    #define SKY_ASSERT_GUARD(name, action, data) detail::AssertGuard name(action, data)
+#else
+    #define SKY_ASSERT_GUARD(name, action, data)
+#endif
 
 
 } // namespace sky
