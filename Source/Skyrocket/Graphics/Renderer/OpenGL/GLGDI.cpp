@@ -31,41 +31,41 @@ constexpr OpenGLGDI::GLPixelFormat OpenGLGDI::gl_pixel_formats_[];
 #endif
 
 
-void set_uniform_data_vec1(const GLUniformInfo& info, const GLUniformSlot& slot)
+void set_uniform_data_vec1(const GLUniformInfo& info, const UniformBufferData& slot)
 {
     auto vec = static_cast<float*>(slot.data);
     SKY_GL_CHECK(glUniform1f(info.location, *vec));
 }
 
-void set_uniform_data_vec2(const GLUniformInfo& info, const GLUniformSlot& slot)
+void set_uniform_data_vec2(const GLUniformInfo& info, const UniformBufferData& slot)
 {
     auto vec = static_cast<Vector2f*>(slot.data);
     SKY_GL_CHECK(glUniform2f(info.location, vec->x, vec->y));
 }
 
-void set_uniform_data_vec3(const GLUniformInfo& info, const GLUniformSlot& slot)
+void set_uniform_data_vec3(const GLUniformInfo& info, const UniformBufferData& slot)
 {
     auto vec = static_cast<Vector3f*>(slot.data);
     SKY_GL_CHECK(glUniform3f(info.location, vec->x, vec->y, vec->z));
 }
 
-void set_uniform_data_vec4(const GLUniformInfo& info, const GLUniformSlot& slot)
+void set_uniform_data_vec4(const GLUniformInfo& info, const UniformBufferData& slot)
 {
     auto vec = static_cast<Vector4f*>(slot.data);
     SKY_GL_CHECK(glUniform4f(info.location, vec->x, vec->y, vec->z, vec->w));
 }
 
-void set_uniform_data_mat2(const GLUniformInfo& info, const GLUniformSlot& slot)
+void set_uniform_data_mat2(const GLUniformInfo& info, const UniformBufferData& slot)
 {
     SKY_ERROR("OpenGL", "Uniform data for 2x2 matrices is unimplemented");
 }
 
-void set_uniform_data_mat3(const GLUniformInfo& info, const GLUniformSlot& slot)
+void set_uniform_data_mat3(const GLUniformInfo& info, const UniformBufferData& slot)
 {
     SKY_ERROR("OpenGL", "Uniform data for 3x3 matrices is unimplemented");
 }
 
-void set_uniform_data_mat4(const GLUniformInfo& info, const GLUniformSlot& slot)
+void set_uniform_data_mat4(const GLUniformInfo& info, const UniformBufferData& slot)
 {
     auto mat = static_cast<Matrix4f*>(slot.data);
     if (info.type != UniformType::mat4) {
@@ -75,22 +75,22 @@ void set_uniform_data_mat4(const GLUniformInfo& info, const GLUniformSlot& slot)
     SKY_GL_CHECK(glUniformMatrix4fv(info.location, 1, GL_FALSE, mat->entries));
 }
 
-void set_uniform_data_tex1d(const GLUniformInfo& info, const GLUniformSlot& slot)
+void set_uniform_data_tex1d(const GLUniformInfo& info, const UniformBufferData& slot)
 {
     SKY_ERROR("OpenGL", "Uniform data for tex1d is unimplemented");
 }
 
-void set_uniform_data_tex2d(const GLUniformInfo& info, const GLUniformSlot& slot)
+void set_uniform_data_tex2d(const GLUniformInfo& info, const UniformBufferData& slot)
 {
     SKY_ERROR("OpenGL", "Uniform data for tex2d is unimplemented");
 }
 
-void set_uniform_data_tex3d(const GLUniformInfo& info, const GLUniformSlot& slot)
+void set_uniform_data_tex3d(const GLUniformInfo& info, const UniformBufferData& slot)
 {
     SKY_ERROR("OpenGL", "Uniform data for tex3d is unimplemented");
 }
 
-void set_uniform_data_cubemap(const GLUniformInfo& info, const GLUniformSlot& slot)
+void set_uniform_data_cubemap(const GLUniformInfo& info, const UniformBufferData& slot)
 {
     SKY_ERROR("OpenGL", "Uniform data for cubemaps is unimplemented");
 }
@@ -98,9 +98,9 @@ void set_uniform_data_cubemap(const GLUniformInfo& info, const GLUniformSlot& sl
 
 OpenGLGDI::~OpenGLGDI() = default;
 
-void OpenGLGDI::set_uniform_data(const GLUniformInfo& info, const GLUniformSlot& slot)
+void OpenGLGDI::set_uniform_data(const GLUniformInfo& info, const UniformBufferData& slot)
 {
-    using set_uniform_data_func_t = void (*)(const GLUniformInfo&, const GLUniformSlot&);
+    using set_uniform_data_func_t = void (*)(const GLUniformInfo&, const UniformBufferData&);
 
     static constexpr set_uniform_data_func_t func_table[] = {
         &set_uniform_data_vec1, // vec1
@@ -352,34 +352,7 @@ bool OpenGLGDI::create_uniform(uint32_t u_id, const char* name, uint32_t size, U
         return false;
     }
 
-    auto namelen = strlen(name);
-    buf->location = -1;
-    buf->size = size;
-    buf->type = type;
-    buf->data = malloc(size);
-
-    // Keep normal name for samplers as they're not declared in uniform blocks
-    if (type == UniformType::tex2d || type == UniformType::tex1d || type == UniformType::tex3d) {
-        strcpy(buf->name, name);
-        return true;
-    }
-
-    size_t block_len = 0;
-    size_t member_start = 0;
-    for (int c = 0; c < namelen; ++c) {
-        if (name[c] == '.') {
-            strncpy(buf->block, name, block_len);
-            member_start = block_len + 1;
-        }
-
-        ++block_len;
-    }
-
-    SKY_ASSERT(member_start != 0, "Invalid format for uniform. "
-                                  "Must be specified as <uniform_block_name>.<uniform_name>, "
-                                  "i.e: `Params.model`")
-
-    strcpy(buf->name, name + member_start);
+    fill_uniform_buffer_data(buf, name, size, type);
     return true;
 }
 

@@ -139,6 +139,41 @@ std::unique_ptr<GDI> GDI::create(const RendererBackend backend, GDI* copy) noexc
     return std::move(gdi);
 }
 
+void GDI::fill_uniform_buffer_data(UniformBufferData* data, const char* name,
+                                   const size_t size, const sky::UniformType type)
+{
+    SKY_ASSERT_GUARD(ag, "Filling uniform data", name);
+
+    auto namelen = strlen(name);
+    data->location = -1;
+    data->size = size;
+    data->type = type;
+    data->data = malloc(size);
+
+    // Keep normal name for samplers as they're not declared in uniform blocks
+    if (type == UniformType::tex2d || type == UniformType::tex1d || type == UniformType::tex3d) {
+        strcpy(data->name, name);
+        return;
+    }
+
+    size_t block_len = 0;
+    size_t member_start = 0;
+    for (int c = 0; c < namelen; ++c) {
+        if (name[c] == '.') {
+            strncpy(data->block, name, block_len);
+            member_start = block_len + 1;
+        }
+
+        ++block_len;
+    }
+
+    SKY_ASSERT(member_start != 0, "Invalid format for uniform. "
+                                  "Must be specified as <uniform_block_name>.<uniform_name>, "
+                                  "i.e: `Params.model`")
+
+    strcpy(data->name, name + member_start);
+}
+
 void GDI::submit(sky::CommandBuffer* cmdbuf)
 {
     SKY_ASSERT_GUARD(ag, "Submitting a command buffer", nullptr);

@@ -47,40 +47,27 @@ SKY_FLAGS(PipelineStateFlags, uint32_t) {
     culling_frontface   = (1 << 2)
 };
 
-/// SamplerStateFlags are used to determine how a sampler is used. The bits in the sampler states
-/// flags are arranged like so:
-/// - bits 0-2: mip map filter
-/// - bits 3-4: min/mag filter
-/// - bits 5-9: texture wrap/address mode
-SKY_FLAGS(SamplerStateFlags, uint32_t) {
-    mip_none                                = (1 << 0),
-    mip_nearest                             = (1 << 1),
-    mip_linear                              = (1 << 2),
-    min_mag_nearest                         = (1 << 3),
-    min_mag_linear                          = (1 << 4),
-    texture_wrap_clamp_to_zero              = (1 << 5),
-    texture_wrap_clamp_to_edge              = (1 << 6),
-    texture_wrap_mirrored_clamp_to_edge     = (1 << 7),
-    texture_wrap_repeat                     = (1 << 8),
-    texture_wrap_mirrored_repeat            = (1 << 9),
+enum class MipMapFilter : uint_least32_t {
+    none,
+    linear,
+    nearest,
     unknown
 };
 
-static constexpr auto sampler_state_mip_mask =
-    static_cast<uint32_t>(SamplerStateFlags::mip_linear)
-        | static_cast<uint32_t>(SamplerStateFlags::mip_nearest)
-        | static_cast<uint32_t>(SamplerStateFlags::mip_none);
+enum class MinMagFilter : uint_least32_t {
+    linear,
+    nearest,
+    unknown
+};
 
-static constexpr auto sampler_state_min_mag_mask =
-    static_cast<uint32_t>(SamplerStateFlags::min_mag_nearest)
-        | static_cast<uint32_t>(SamplerStateFlags::min_mag_linear);
-
-static constexpr auto sampler_state_texture_wrap_mask =
-    static_cast<uint32_t>(SamplerStateFlags::texture_wrap_clamp_to_edge)
-        | static_cast<uint32_t>(SamplerStateFlags::texture_wrap_clamp_to_zero)
-        | static_cast<uint32_t>(SamplerStateFlags::texture_wrap_mirrored_clamp_to_edge)
-        | static_cast<uint32_t>(SamplerStateFlags::texture_wrap_mirrored_repeat)
-        | static_cast<uint32_t>(SamplerStateFlags::texture_wrap_repeat);
+enum class TextureWrapMode : uint_least32_t {
+    clamp_to_zero,
+    clamp_to_edge,
+    mirrored_clamp_to_edge,
+    repeat,
+    mirrored_repeat,
+    unknown
+};
 
 SKY_FLAGS(PixelFormat, uint32_t) {
     r8,
@@ -100,14 +87,12 @@ SKY_FLAGS(PixelFormat, uint32_t) {
 };
 
 struct SamplerStateDescriptor {
-    SamplerStateFlags mip_map_filter;
-    SamplerStateFlags min_mag_filer;
-    SamplerStateFlags texture_wrap_mode;
+    MipMapFilter mip_map_filter;
+    MinMagFilter min_filter;
+    MinMagFilter mag_filter;
+    TextureWrapMode texture_wrap_mode;
 
-    /// Takes an integer containing flags and decodes it into a SamplerStateDescriptor
-    /// @param flags
-    /// @return
-    static SamplerStateDescriptor decode_flags(const uint32_t flags);
+    uint32_t get_hash() const;
 };
 
 uint32_t pf_bytes_per_pixel(const PixelFormat& format);

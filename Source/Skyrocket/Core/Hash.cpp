@@ -59,11 +59,6 @@ SKY_FORCE_INLINE uint32_t fmix32 (uint32_t h)
     return h;
 }
 
-SKY_FORCE_INLINE uint32_t get_block32(const uint32_t * p, int i)
-{
-    return p[i];
-}
-
 uint32_t murmur3_32(const void* key, uint32_t len, uint32_t seed)
 {
     static const uint32_t c1 = 0xcc9e2d51;
@@ -77,7 +72,7 @@ uint32_t murmur3_32(const void* key, uint32_t len, uint32_t seed)
 
     uint32_t k1 = 0;
     for ( int i = -nblocks; i != 0; ++i ) {
-        k1 = get_block32(blocks, i);
+        k1 = blocks[i];
 
         k1 *= c1;
         k1 = ROTL32(k1,15);

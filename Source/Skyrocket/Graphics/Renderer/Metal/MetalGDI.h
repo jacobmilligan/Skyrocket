@@ -17,6 +17,7 @@
 
 #include "Skyrocket/Core/Containers/HandleTable.hpp"
 #include "Skyrocket/Graphics/Renderer/GDI.hpp"
+#include "Skyrocket/Graphics/Renderer/Definitions.hpp"
 #include "Skyrocket/Graphics/Renderer/Metal/MetalResource.h"
 
 #import <AppKit/AppKit.h>
@@ -102,12 +103,44 @@ private:
         MTLPixelFormatStencil8, // stencil
         MTLPixelFormatInvalid // unknown
     };
-
-    static constexpr size_t mtl_pixelfmt_tablesize = sizeof(mtl_pixel_formats_) / sizeof(MTLPixelFormat);
-
-    static_assert(mtl_pixelfmt_tablesize == static_cast<size_t>(PixelFormat::unknown) + 1,
+    static constexpr size_t mtl_pixelfmt_tablesize_ = sizeof(mtl_pixel_formats_) / sizeof(MTLPixelFormat);
+    static_assert(mtl_pixelfmt_tablesize_ == static_cast<size_t>(PixelFormat::unknown) + 1,
                   "Skyrocket: Metal error: the translation table for PixelFormat "
                       "is missing entries. Please update to sync with the PixelFormat enum.");
+
+    static constexpr MTLSamplerMipFilter mtl_mipmap_filter_[] = {
+        MTLSamplerMipFilterNotMipmapped, // none
+        MTLSamplerMipFilterLinear, // linear
+        MTLSamplerMipFilterNearest, // nearest
+        MTLSamplerMipFilterNotMipmapped // unknown
+    };
+    static constexpr size_t mtl_mipmap_tablesize_ = sizeof(mtl_mipmap_filter_) / sizeof(MTLSamplerMipFilter);
+    static_assert(mtl_mipmap_tablesize_ == static_cast<size_t>(MipMapFilter::unknown) + 1,
+                  "Skyrocket: Metal error: the translation table for MipMapFilter "
+                  "is missing entries. Please update to sync with the MipMapFilter enum.");
+
+    static constexpr MTLSamplerMinMagFilter mtl_minmag_filter_[] = {
+        MTLSamplerMinMagFilterLinear, // linear
+        MTLSamplerMinMagFilterNearest, // nearest
+        static_cast<MTLSamplerMinMagFilter>(MTLSamplerMinMagFilterNearest + 1) // unknown
+    };
+    static constexpr size_t mtl_minmag_tablesize_ = sizeof(mtl_minmag_filter_) / sizeof(MTLSamplerMinMagFilter);
+    static_assert(mtl_minmag_tablesize_ == static_cast<size_t>(MinMagFilter::unknown) + 1,
+                  "Skyrocket: Metal error: the translation table for MinMagFilter "
+                  "is missing entries. Please update to sync with the MinMagFilter enum.");
+
+    static constexpr MTLSamplerAddressMode mtl_texwrap_mode_[] = {
+        MTLSamplerAddressModeClampToZero, // linear
+        MTLSamplerAddressModeClampToEdge, // nearest
+        MTLSamplerAddressModeMirrorClampToEdge,
+        MTLSamplerAddressModeRepeat,
+        MTLSamplerAddressModeMirrorRepeat,
+        static_cast<MTLSamplerAddressMode>(MTLSamplerAddressModeClampToZero + 1) // unknown
+    };
+    static constexpr size_t mtl_texwrap_mode_tablesize_ = sizeof(mtl_texwrap_mode_) / sizeof(MTLSamplerAddressMode);
+    static_assert(mtl_texwrap_mode_tablesize_ == static_cast<size_t>(TextureWrapMode::unknown) + 1,
+                  "Skyrocket: Metal error: the translation table for TextureWrapMode "
+                  "is missing entries. Please update to sync with the TextureWrapMode enum.");
 
     NSAutoreleasePool* pool_;
     id<MTLDevice> device_;
@@ -139,7 +172,7 @@ private:
 
     uint32_t buffer_index_{0};
 
-    id<MTLSamplerState> get_sampler_state(const uint64_t sampler_flags);
+    id<MTLSamplerState> get_sampler_state(const SamplerStateDescriptor ss_descriptor);
 };
 
 

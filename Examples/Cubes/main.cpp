@@ -194,7 +194,7 @@ public:
 
         auto cmdlist = renderer.make_command_list();
 
-        cmdlist.set_state(sky::RenderPipelineState::culling_backface);
+        cmdlist.set_state(sky::PipelineStateFlags::culling_backface);
         cmdlist.set_program(program_);
 
         uint32_t modelpos = 3;
@@ -202,7 +202,7 @@ public:
 
         cmdlist.set_vertex_buffer(vbuf_id_, 0, static_cast<uint32_t>(vertices_.size()));
         cmdlist.set_instance_buffer(model_ubuf_, modelpos);
-        cmdlist.set_uniform(view_proj_ubuf_, viewpos);
+        cmdlist.set_uniform(view_proj_ubuf_, 1);
         cmdlist.set_texture(texture_, 0);
 
         cam_.move(cam_movement * cam_speed_ * static_cast<float>(dt));

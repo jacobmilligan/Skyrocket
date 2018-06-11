@@ -57,7 +57,7 @@ public:
                 break;
         }
 
-        if ( data == nullptr ) {
+        if (data == nullptr) {
             buf_[current_] = [device newBufferWithLength:length_
                                                  options:options_];
         } else {

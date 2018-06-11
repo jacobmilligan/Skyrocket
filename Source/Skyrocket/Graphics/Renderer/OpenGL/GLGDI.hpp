@@ -19,15 +19,6 @@
 
 namespace sky {
 
-struct GLUniformSlot {
-    GLint location;
-    char name[64];
-    char block[64];
-    UniformType type;
-    size_t size;
-    void* data;
-};
-
 class OpenGLGDI : public GDI {
 public:
     ~OpenGLGDI() override;
@@ -104,12 +95,12 @@ private:
 
     HandleTable<GLuint, vertex_buffer_max> vertex_buffers_;
     HandleTable<GLuint, index_buffer_max> index_buffers_;
-    HandleTable<GLUniformSlot, uniform_buffer_max> uniform_buffers_;
+    HandleTable<UniformBufferData, uniform_buffer_max> uniform_buffers_;
     HandleTable<GLInstanceBuffer, instance_buffer_max> instance_buffers_;
     HandleTable<GLProgram, shader_max> programs_;
     HandleTable<GLuint, texture_max> textures_;
 
-    void set_uniform_data(const GLUniformInfo& info, const GLUniformSlot& slot);
+    void set_uniform_data(const GLUniformInfo& info, const UniformBufferData& slot);
 
     /// Checks what uniform objects are currently active and whether they belong to the current
     /// program, updating

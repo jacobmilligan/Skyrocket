@@ -74,12 +74,21 @@ struct RenderState {
     uint32_t index_offset{0};
     uint32_t program{0};
 
-//    struct UniformSlot {
+//    struct UniformBufferData {
 //        uint32_t handle;
 //        uint32_t index;
 //    }
     uint32_t uniform_slots[1024]{};
     uint32_t instance_slots[1024]{};
+};
+
+struct UniformBufferData {
+    int32_t location;
+    char name[64];
+    char block[64];
+    UniformType type;
+    size_t size;
+    void* data;
 };
 
 /// Graphics Device Interface - an interface for executing calls to the currently
@@ -154,6 +163,9 @@ public:
     }
 protected:
     RenderState state_;
+
+    void fill_uniform_buffer_data(UniformBufferData* data, const char* name, size_t size,
+                                  UniformType type);
 
     /// @brief Creates a new vertex buffer
     /// @param vbuf_id The id handle of the buffer to create

@@ -32,6 +32,9 @@ std::unique_ptr<GDI> gdi_create_metal()
 #if SKY_COMPILER_MSVC != 1
 
 constexpr MTLPixelFormat MetalGDI::mtl_pixel_formats_[];
+constexpr MTLSamplerMipFilter MetalGDI::mtl_mipmap_filter_[];
+constexpr MTLSamplerMinMagFilter MetalGDI::mtl_minmag_filter_[];
+constexpr MTLSamplerAddressMode MetalGDI::mtl_texwrap_mode_[];
 
 #endif
 
@@ -270,7 +273,7 @@ void MetalGDI::set_clear_color(const Color& color)
 }
 
 bool MetalGDI::create_vertex_buffer(const uint32_t vbuf_id, const MemoryBlock& initial_data,
-                                       const BufferUsage usage)
+                                    const BufferUsage usage)
 {
     auto vbuf = vertex_buffers_.create(vbuf_id);
 
@@ -381,7 +384,6 @@ bool MetalGDI::create_uniform(uint32_t u_id, const char* name, uint32_t size, Un
     }
 
     ubuf->init(device_, nullptr, size, BufferUsage::none);
-
     return true;
 }
 
@@ -416,16 +418,35 @@ bool MetalGDI::update_uniform(const uint32_t u_id, const MemoryBlock& data, cons
     return true;
 }
 
-id<MTLSamplerState> MetalGDI::get_sampler_state(const uint64_t sampler_flags)
+id<MTLSamplerState> MetalGDI::get_sampler_state(const SamplerStateDescriptor ss_descriptor)
 {
-    auto sampler = sampler_states_.find(sampler_flags);
+    auto hash = ss_descriptor.get_hash();
+    auto sampler = sampler_states_.find(hash);
     if (sampler != sampler_states_.end()) {
         return sampler->second;
     }
 
-    auto ss_descriptor = [[MTLSamplerDescriptor new] autorelease];
-//    ss_descriptor.minFilter
-//    sampler_states_.insert(std::make_pair(sampler_flags, ));
+    auto mtl_descriptor = [[MTLSamplerDescriptor new] autorelease];
+
+    auto wrap_mode = mtl_texwrap_mode_[static_cast<uint32_t>(ss_descriptor.texture_wrap_mode)];
+    auto min_filter = mtl_minmag_filter_[static_cast<uint32_t>(ss_descriptor.min_filter)];
+    auto mag_filter = mtl_minmag_filter_[static_cast<uint32_t>(ss_descriptor.mag_filter)];
+    auto mip_filter = mtl_mipmap_filter_[static_cast<uint32_t>(ss_descriptor.mip_map_filter)];
+
+    mtl_descriptor.sAddressMode = wrap_mode;
+    mtl_descriptor.tAddressMode = wrap_mode;
+    mtl_descriptor.rAddressMode = wrap_mode;
+    mtl_descriptor.minFilter = min_filter;
+    mtl_descriptor.magFilter = mag_filter;
+    mtl_descriptor.mipFilter = mip_filter;
+//    mtl_descriptor.lodMinClamp;
+//    mtl_descriptor.lodMaxClamp;
+//    mtl_descriptor.normalizedCoordinates;
+//    mtl_descriptor.maxAnisotropy;
+
+    auto sampler_state = [device_ newSamplerStateWithDescriptor:mtl_descriptor];
+    sampler_states_.insert(std::make_pair(hash, sampler_state));
+    return sampler_state;
 }
 
 bool MetalGDI::create_texture(uint32_t t_id, uint32_t width,
@@ -464,7 +485,17 @@ bool MetalGDI::set_texture(const uint32_t t_id, const uint32_t index)
         return false;
     }
 
+    // TODO(Jacob): Add sampler states to the frontend as a user-specified thing
+    SamplerStateDescriptor descriptor{};
+    descriptor.mip_map_filter = MipMapFilter::none;
+    descriptor.min_filter = MinMagFilter::linear;
+    descriptor.mag_filter = MinMagFilter::linear;
+    descriptor.texture_wrap_mode = TextureWrapMode::repeat;
+
+    auto sampler_state = get_sampler_state(descriptor);
+
     [render_encoder_ setFragmentTexture:*tex atIndex:index];
+    [render_encoder_ setFragmentSamplerState:sampler_state atIndex:index];
 
     return true;
 }
@@ -569,8 +600,8 @@ bool MetalGDI::set_instance_buffer(uint32_t inst_id, uint32_t index)
     }
 
     [render_encoder_ setVertexBuffer:buf->buffer.raw_buffer()
-                              offset:0
-                             atIndex:index];
+                              offset:sizeof(float) * 10
+                             atIndex:0];
     return true;
 }
 
